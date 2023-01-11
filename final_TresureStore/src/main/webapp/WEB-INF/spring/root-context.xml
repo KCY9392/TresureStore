@@ -5,10 +5,12 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
-	<context:component-scan base-package="com.kh.tresure">
+	
+	<!-- 이건 클래스에 Service와 repository를 생성하면 그때 주석 풀어주세요! -->
+<!-- 	<context:component-scan base-package="com.kh.tresure">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>   
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>   
-	</context:component-scan>
+	</context:component-scan> -->
 	
 	<!--  DB연결 1단계 작성 -->
 	<bean class="org.apache.commons.dbcp.BasicDataSource" id="dataSource" destroy-method="close">
