@@ -13,9 +13,9 @@
 	<annotation-driven />
 	
 	<!-- 이건 클래스에 controller를 생성하면 그때 주석 풀어주세요! -->
-<!-- 	<context:component-scan base-package="com.kh.tresure" >
+ 	<context:component-scan base-package="com.kh.tresure" >
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-	</context:component-scan> -->
+	</context:component-scan>
 	
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
@@ -26,9 +26,5 @@
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
-	
-	<context:component-scan base-package="com.kh.tresure" />
-	
-	
 	
 </beans:beans>
