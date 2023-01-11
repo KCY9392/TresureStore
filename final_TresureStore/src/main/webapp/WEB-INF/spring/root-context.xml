@@ -1,8 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
+	<context:component-scan base-package="com.kh.tresure">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>   
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>   
+	</context:component-scan>
+	
+	<!--  DB연결 1단계 작성 -->
+	<bean class="org.apache.commons.dbcp.BasicDataSource" id="dataSource" destroy-method="close">
+		<!-- 어느 데베랑 연결할 것인가 -->
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+		<property name="username" value="TRESURE"/>
+		<property name="password" value="TRESURE"/>
+	</bean>
+	
+	<!--  DB연결 2단계 작성 -->
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
+		<!--  mybatis 설정파일 위치를 지정 (src/main/resources)-->
+		<property name="configLocation" value="classpath:mybatis-config.xml"/>
+		<!-- 연결을 위한 도구 -->
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<!--  DB 연결 3단계 작성 -->
+	<bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSession">
+		<!--  sql 명령어 실행을 위한 도구에 대한참조 -->
+		<constructor-arg ref="sqlSessionFactory"/>
+	</bean>
+	
+	
+	
 		
 </beans>
