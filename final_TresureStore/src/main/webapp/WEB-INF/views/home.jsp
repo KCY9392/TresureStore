@@ -1,4 +1,5 @@
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ page session="false" %>
 <html>
 <head>
@@ -9,6 +10,6 @@
 	Hello world!  
 </h1>
 
-<P>  The time on the server is ${serverTime}. </P>
+<a href="${pageContext.request.contextPath}/loginJoinForm">로그인하러가기</a>
 </body>
 </html>
