@@ -24,13 +24,23 @@ public class MemberController {
 //	}
 	
 	
-	// 통합로그인 창으로 이동하는 컨트롤러
+	// 통합로그인 창으로 이동하는 메소드
 	@RequestMapping(value = "/loginJoinForm", method = RequestMethod.GET)
 	public String enrollForm() {
 		
 		logger.info(">> 회원가입 폼으로 이동");
 		
 		return "member/memberLoginForm";
+	}
+	
+	
+	// 본인인증 창으로 이동하는 메소드
+	@RequestMapping(value="/loginJoin/identification", method = RequestMethod.GET)
+	public String identificationForm() {
+		
+		logger.info(">> 본인인증 폼으로 이동");
+		
+		return "member/identificationForm";
 	}
 
 }

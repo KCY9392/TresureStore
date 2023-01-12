@@ -14,7 +14,7 @@
 	.wrap .middle-top{
 		background : black;
 		width:100%;
-		height : 600px;
+		height : 500px;
 	}
 	.image-area{
 		display: flex;
@@ -28,7 +28,25 @@
 	}
 	.middle-bottom .loginType{
 		text-align : center;
-
+	}
+	.loginType {
+		margin-top : 40px;
+	}
+	.myAuthentication-button{
+		border: none;
+  		border-radius: 6px;
+		width : 300px;
+		background : black;
+		color : white;
+		cursor : pointer;
+		height : 45px;
+		font-size : 1.2em;
+		font-weight: 500;
+	}
+	
+	.loginType .back{
+		text-decoration: underline;
+		color : blue;
 	}
 
 
@@ -40,18 +58,31 @@
 	<div class="wrap">
 		<div class="middle-top">
 			<div class="image-area">
-				<img alt="보물지도" src="${pageContext.request.contextPath}/resources/images/common/loginMainImage.png"/>
+				<img alt="보물지도" src="${pageContext.request.contextPath}/resources/images/common/loginMainImage.png" width="400px"/>
 			</div>
 			
 		</div>
 		<div class="middle-bottom">
-			<div class="loginType"> 카카오 로그인</div>
-			<div class="loginType"> 본인인증 로그인</div>
-			<div class="loginType"><a href="${pageContext.request.contextPath}">되돌아가기</a></div>
+			<div class="loginType">
+				<a href="${pageContext.request.contextPath}/loginJoin/kakaoLogin">
+					<img src="${pageContext.request.contextPath}/resources/images/common/kakaoLoginLogo.png" />
+				</a>
+			</div>
+			<div class="loginType">
+				<button class="myAuthentication-button" type="button"  onclick="gogoIdentificationForm();">본인인증 로그인</button>
+			</div>
+			<div class="loginType">
+				<a class="back" href="${pageContext.request.contextPath}">되돌아가기</a>
+			</div>
 			
 		</div>
 	</div>
 
-	
+	<script>
+		// 본인인증 폼으로
+		function gogoIdentificationForm(){
+			location.href='${pageContext.request.contextPath}/loginJoin/identification';
+		}
+	</script>
 </body>
 </html>
