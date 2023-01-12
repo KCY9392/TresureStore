@@ -1,0 +1,40 @@
+@charset "UTF-8";
+
+/* footer start */
+.footer{
+    background-color : white;
+    padding-top: 50px;
+}
+.footer-head{
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+    box-sizing: border-box;
+    background-color: rgb(253, 253, 231);
+}
+table{
+    margin: auto;
+    text-align: center;
+    overflow : hidden;
+}
+table tr th{
+    padding: 30px;
+    font-size: 20px;
+}
+table tr td{
+    padding: 10px;
+    color: gray;
+}
+.footer-body{
+    box-sizing: border-box;
+    width: 100%;
+}
+.font1{
+    text-align:center;
+    font-weight:bold;
+}
+.font2{
+    text-align: center;
+    font-size: 13px;
+    color: grey;
+}
+/* footer end */
