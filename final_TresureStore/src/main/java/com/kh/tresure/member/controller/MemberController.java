@@ -24,9 +24,10 @@ public class MemberController {
 	private Logger logger = LoggerFactory.getLogger(MemberController.class);
 	private MessageController messageController;
 	
-	
+	// 기본생성자
 	public MemberController() {}
 	
+	@Autowired
 	public MemberController(MessageController messageController){
 		this.messageController = messageController;
 	}
@@ -65,7 +66,7 @@ public class MemberController {
 
 		// 메세지 보내기 실행
 		logger.info(phone);
-		new messageController.sendOne(phone);
+		messageController.sendOne(phone);
 		
 		model.addAttribute("userName", userName);
 		model.addAttribute("birth", birth);
