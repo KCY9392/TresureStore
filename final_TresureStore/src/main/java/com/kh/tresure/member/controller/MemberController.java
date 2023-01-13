@@ -65,7 +65,6 @@ public class MemberController {
 		logger.info(">> 인증번호 입력하기 폼으로 이동");
 
 		// 메세지 보내기 실행
-		logger.info(phone);
 		messageController.sendOne(phone);
 		
 		model.addAttribute("userName", userName);
@@ -80,7 +79,6 @@ public class MemberController {
 	// Member user = Member.builder().userName("관리자").birth("000101").phone("01012345678").build();
 	// model.addAttribute("user", user);
 	
-	//
 	
 	
 
