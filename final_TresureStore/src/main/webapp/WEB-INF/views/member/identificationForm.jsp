@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인창</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <style>
     	@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap');
 		body{
@@ -171,55 +170,55 @@
 		}
 
     </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="/tresure/resources/css/font.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+	<script type="text/javascript" src="/tresure/resources/js/header.js"></script>
 </head>
 <body>
-    <div class="empty-area">
-       헤더바
-    </div>
+<jsp:include page="../header.jsp"/>
 
+	<div class="main-section">
+	        <br><br><br><br><br>
+	    <div class="main-area">
+	        <br>
+	        <h1 class="bottom-margin" align="center">나의 정보 입력하기</h1>
+	        <br>
+	        <section class="login-form">
+	            
+	            <form action="${pageContext.request.contextPath}/loginJoin/authenticationNumber" method="post">
+	                <div class="int-area">
+	                    <input class="inputType1" type="text" name="userName" id="userName" autocomplete="off"  required/>
+	                    <label for="userName">이름</label>
+	                </div>
+	                <div class="int-area">
+	                    <input class="inputType2" ype="text" name="birth" id="birth" autocomplete="off" maxlength="6" autocomplete="off" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" required/>
+	                    <label for="birth">생년월일</label>
+	                    &nbsp; &nbsp;-&nbsp; &nbsp;
+	                    <input class="inputType3" type="text" name="birth2" id="birth2" maxlength="1" autocomplete="off" oninput="this.value = this.value.replace(/[^1-4.]/g, '').replace(/(\..*)\./g, '$1');" required/>
+	                    &nbsp;●●●●●●
+	                </div>
+	                <div class="int-area">
+	                    <input class="inputType1" type="text" name="phone" id="phone" autocomplete="off" maxlength="11" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" required/>
+	                    <label for="phone">핸드폰 번호</label>
+	                </div>
+	                <div class="int-area">
+	                    <select id="communication" style="cursor: pointer;" required>
+	                        <option value="" hidden="">통신사</option>
+	                        <option value="SKT">SKT</option>
+	                        <option value="KT">KT</option>
+	                        <option value="LG U+">LG U+</option>
+	                        <option value="SKT 알뜰폰">SKT 알뜰폰</option>
+	                        <option value="KT 알뜰폰">KT 알뜰폰</option>
+	                        <option value="LG U+ 알뜰폰">LG U+ 알뜰폰</option>
+	                    </select>
+	                    <label for="communication" id="cc2" >통신사</label>
+	                </div>
 	
-        
-    <div class="main-area">
-        <br>
-        <h1 class="bottom-margin" align="center">나의 정보 입력하기</h1>
-        <br>
-        <section class="login-form">
-            
-            <form action="${pageContext.request.contextPath}/loginJoin/authenticationNumber" method="post">
-                <div class="int-area">
-                    <input class="inputType1" type="text" name="userName" id="userName" autocomplete="off"  required/>
-                    <label for="userName">이름</label>
-                </div>
-                <div class="int-area">
-                    <input class="inputType2" ype="text" name="birth" id="birth" autocomplete="off" maxlength="6" autocomplete="off" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" required/>
-                    <label for="birth">생년월일</label>
-                    &nbsp; &nbsp;-&nbsp; &nbsp;
-                    <input class="inputType3" type="text" name="birth2" id="birth2" maxlength="1" autocomplete="off" oninput="this.value = this.value.replace(/[^1-4.]/g, '').replace(/(\..*)\./g, '$1');" required/>
-                    &nbsp;●●●●●●
-                </div>
-                <div class="int-area">
-                    <input class="inputType1" type="text" name="phone" id="phone" autocomplete="off" maxlength="11" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" required/>
-                    <label for="phone">핸드폰 번호</label>
-                </div>
-                <div class="int-area">
-                    <select id="communication" style="cursor: pointer;" required>
-                        <option value="" hidden="">통신사</option>
-                        <option value="SKT">SKT</option>
-                        <option value="KT">KT</option>
-                        <option value="LG U+">LG U+</option>
-                        <option value="SKT 알뜰폰">SKT 알뜰폰</option>
-                        <option value="KT 알뜰폰">KT 알뜰폰</option>
-                        <option value="LG U+ 알뜰폰">LG U+ 알뜰폰</option>
-                    </select>
-                    <label for="communication" id="cc2" >통신사</label>
-                </div>
-
-                <div class="info-allows">
-                    <input type="checkbox" id="info-allow" required>
-                    <label for="info-allow" style="cursor: pointer;">개인정보 동의</label>
-                    <br>
-                    <textarea rows="10" cols="50" style="resize: none;" readonly>
+	                <div class="info-allows">
+	                    <input type="checkbox" id="info-allow" required>
+	                    <label for="info-allow" style="cursor: pointer;">개인정보 동의</label>
+	                    <br>
+	                    <textarea rows="10" cols="50" style="resize: none;" readonly>
 개인정보보호법에 따라 보물상점에 회원가입 신청하시는 분께 수집하는 개인정보의 항목, 개인정보의 수집 및 이용목적, 개인정보의 보유 및 이용기간, 동의 거부권 및 동의 거부 시 불이익에 관한 사항을 안내 드리오니 자세히 읽은 후 동의하여 주시기 바랍니다.
 
 1. 수집하는 개인정보
@@ -283,21 +282,20 @@ eXpert 서비스 및 eXpert 센터 가입 등록정보 : 신청일로부터 6개
 
 4. 개인정보 수집 및 이용 동의를 거부할 권리
 이용자는 개인정보의 수집 및 이용 동의를 거부할 권리가 있습니다. 회원가입 시 수집하는 최소한의 개인정보, 즉, 필수 항목에 대한 수집 및 이용 동의를 거부하실 경우, 회원가입이 어려울 수 있습니다.
-                    </textarea>
-
-                </div>
-
-                <div class="btn-area">
-                    <button id="loginBtn" type="submit">본인인증 하기</button>
-                </div>
-            </form>
-    
-        </section>
-    </div>
-
-    <div class="empty-area">
-        푸터바
-    </div>
+	                    </textarea>
+	
+	                </div>
+	
+	                <div class="btn-area">
+	                    <button id="loginBtn" type="submit">본인인증 하기</button>
+	                </div>
+	            </form>
+	    
+	        </section>
+	    </div>
+	<br><br>
+	</div>
+<jsp:include page="../footer.jsp" />
 
 
     <script>

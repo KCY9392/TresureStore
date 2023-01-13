@@ -80,6 +80,7 @@ public class MemberController {
 	// Member user = Member.builder().userName("관리자").birth("000101").phone("01012345678").build();
 	// model.addAttribute("user", user);
 	
+	//
 	
 	
 

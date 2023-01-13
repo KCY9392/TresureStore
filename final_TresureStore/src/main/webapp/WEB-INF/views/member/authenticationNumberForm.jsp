@@ -7,9 +7,8 @@
 <title>인증번호 입력</title>
 </head>
 <body>
-	${userName }, ${birth }, ${phone }
-	<br>
-	${user.userName }, ${user.birth }, ${user.phone }
-	<h1>zz</h1>
+	<jsp:include page="../header.jsp"/>
+	
+	<jsp:include page="../footer.jsp" />
 </body>
 </html>
