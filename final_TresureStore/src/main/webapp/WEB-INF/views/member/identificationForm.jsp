@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인창</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <style>
     	@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap');
 		body{
@@ -173,10 +174,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </head>
 <body>
-
     <div class="empty-area">
-        헤더바
+       헤더바
     </div>
+
+	
         
     <div class="main-area">
         <br>
@@ -184,7 +186,7 @@
         <br>
         <section class="login-form">
             
-            <form action="">
+            <form action="${pageContext.request.contextPath}/loginJoin/authenticationNumber" method="post">
                 <div class="int-area">
                     <input class="inputType1" type="text" name="userName" id="userName" autocomplete="off"  required/>
                     <label for="userName">이름</label>
