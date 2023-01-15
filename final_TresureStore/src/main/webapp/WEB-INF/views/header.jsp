@@ -98,7 +98,7 @@
 								height="35px"><br>뷰티</a></li>
 						<li class="catebox"><a href=""><img
 								src="/tresure/resources/images/icon/교환권.png" width="40px"
-								height="35px"><br>교환권</a></li>
+								height="35px"><br>교환권dd</a></li>
 					</ul>
 				</div>
 			</div>
