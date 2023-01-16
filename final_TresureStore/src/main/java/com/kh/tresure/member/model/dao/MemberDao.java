@@ -21,4 +21,10 @@ public class MemberDao {
 		return sqlSession.insert("memberMapper.insertMember", member);
 	}
 
+	// 로그인하게 객체 가져오는 메소드
+	public Member loginAndMemberEnroll(SqlSession sqlSession, Member member) {
+		
+		return sqlSession.selectOne("memberMapper.loginAndMemberEnroll", member);
+	}
+
 }

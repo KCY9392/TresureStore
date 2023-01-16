@@ -82,20 +82,23 @@ public class MemberController {
 	
 	// 인증번호 입력하고 회원가입 및 로그인하기
 	@RequestMapping(value="/loginJoin/loginStrart", method = RequestMethod.POST)
-	public String loginAndMemberEnroll(Member member,
+	public String loginAndMemberEnroll(Member member,	
 		   							   @RequestParam(value="inputNumber") String inputNumber,	// 사용자가 입력한 인증번호
 		   							   @RequestParam(value="randomNum") String randomNum,		// 생성된 인증번호
-		   							   Model model) {
+		   							   Model model,
+		   							   HttpSession session) {
 		
 		if(inputNumber.equals(randomNum)) {
 			// 인증번호와 같은경우
-			memberService.loginAndMemberEnroll(member);
+			Member loginUser = memberService.loginAndMemberEnroll(member);
+			session.setAttribute("loginUser", loginUser);
 			
 		} else {
 			// 인증번호와 다를경우
+			
 		}
 		
-		return "redirect:/home";
+		return "redirect:/";
 	}
 	
 	
@@ -104,6 +107,8 @@ public class MemberController {
 	public String pp(HttpServletRequest request) {
 		
 		Member loginUser = Member.builder().userNo(99999).userName("관리자").phone("01012345678").count(0).status("Y").build();
+		
+		logger.info(">> 관리자로 로그인");
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("loginUser", loginUser);
@@ -115,6 +120,8 @@ public class MemberController {
 	// 로그아웃 하는 메소드
 	@RequestMapping(value="/logout")
 	public String memberLogOut(HttpServletRequest request) {
+		
+		logger.info(">> 로그아웃");
 		
 		HttpSession session = request.getSession();
 		session.removeAttribute("loginUser");

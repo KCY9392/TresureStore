@@ -33,15 +33,11 @@ public class MemberServiceImpl implements MemberService {
 		int result = memberDao.selectExistenceStatus(sqlSession, member);
 		
 		if(result == 0) {	// 회원이 없으면 회원가입이 자동 진행
-			
 			int result2 = memberDao.insertMember(sqlSession, member);
-			
 		} 
 		
-		
-		
-		Member loginUser = null;
-		
+		// 로그인하게 객체 가져오기
+		Member loginUser = memberDao.loginAndMemberEnroll(sqlSession, member);
 		
 		return loginUser;
 	}

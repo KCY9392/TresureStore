@@ -17,10 +17,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="STATUS" property="status"></result>
 </resultMap>
 
-<select id="selectExistenceStatus" parameterType="Member" resultType="int">
+<select id="selectExistenceStatus" parameterType="member" resultType="int">
 	SELECT COUNT(*)
 	FROM MEMBER
-	WHERE STATUS = 'Y' AND PHONE = #{member.phone}
+	WHERE STATUS = 'Y' AND PHONE = #{phone}
+</select>
+
+<insert id="insertMember" parameterType="member">
+	INSERT INTO MEMBER (USER_NO, USER_NAME, PHONE, BIRTH) 
+	VALUES (SEQ_MNO.NEXTVAL ,#{userName}, #{phone}, #{birth})
+</insert>
+
+<select id="loginAndMemberEnroll" parameterType="member" resultMap="memberResultSet">
+	SELECT *
+	FROM MEMBER
+	WHERE STATUS = 'Y' AND PHONE = #{phone}
 </select>
 
 
