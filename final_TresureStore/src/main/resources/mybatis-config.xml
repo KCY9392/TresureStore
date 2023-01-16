@@ -11,11 +11,13 @@
 	<!-- 별칭 등록 -->
 	<typeAliases>
 		<typeAlias type="com.kh.tresure.member.model.vo.Member" alias="member"/>
+		<typeAlias type="com.kh.tresure.chat.model.vo.ChatRoom" alias="chatRoom"/>
 	</typeAliases>
 	
 	<!-- 메퍼 파일 등록 -->
 	<mappers>
 		<mapper resource="/mappers/member-mapper.xml"/>
+		<mapper resource="/mappers/chatting-mapper.xml"/>
 	</mappers>
 
 </configuration>

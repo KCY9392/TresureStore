@@ -4,27 +4,32 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>treasureChatRoomList</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<title>treasure ChatRoomList</title>
 
 <style>
+
 	  /*전체 div*/
-	    .content{
-	        box-sizing: border-box;
-	        width: 100%;
-	    }
-	    .innerOuter{
+	  .main-section{
+	      box-sizing: border-box;
+	      width: 100%;
+	  }
+	   .innerOuter{
 	      padding : 5% 10%;
-	    }
+	  }
 	  /*보물톡 text*/
 	  .innerOuter span{
-	        font-weight: bold;
-	        font-size: 40px;
+	      font-weight: bold;
+	      font-size: 40px;
 	  }
 	  /*차단목록 a태그*/
 	  .innerOuter a {
-	        text-decoration: none;
-	        color:gold;
-	        float: right;
+	      text-decoration: none;
+	      color:gold;
+	      float: right;
 	      
 	  }
 	  thead{
@@ -42,8 +47,8 @@
 	  <jsp:include page="../common/header.jsp"/>
 	  <jsp:include page="../common/sideBar.jsp"/>
 	    <br><br>
+	        <div class="main-section">
 	      <div class="p-3 m-0 border-0 bd-example">
-	        <div class="content">
 	          <br><br>
 	            <div class="innerOuter">
 	              <img src="https://cdn-icons-png.flaticon.com/128/5545/5545823.png" width="40" >&nbsp;<span>보물톡</span>

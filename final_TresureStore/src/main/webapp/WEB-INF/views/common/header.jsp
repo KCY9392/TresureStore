@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/tresure/resources/css/header.css">
+<link rel="stylesheet" href="/tresure/resources/css/font.css">
 <title>Insert title here</title>
 </head>
 <body>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="chattingMapper">
+
+<!-- type은 mybatis-config에서 member 라는 별칭을 정해두었음 -->
+<resultMap type="chatRoom" id="chatResultSet" >
+	  <id column="CHAT_ROOM_NO" property="chatRoomNo"/>
+	  <result column="USER_NO" property="userNo"/>
+	  <result column="SELL_NO" property="sellNo"/>
+	  <result column="STATUS" property="status"/>
+</resultMap>
+
+ 	 <!-- 채팅방 목록 조회 -->
+ 	 <!-- 임의 조회를 위해 *로 넣어둠 -->
+     <select id="selectChatRoomList" resultMap="chatResultSet">
+     	SELECT * FROM CHAT_ROOM
+     </select>
+
+   
+</mapper>
