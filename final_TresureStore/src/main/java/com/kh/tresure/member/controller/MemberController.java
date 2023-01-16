@@ -1,5 +1,8 @@
 package com.kh.tresure.member.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,15 +26,16 @@ public class MemberController {
 	
 	private Logger logger = LoggerFactory.getLogger(MemberController.class);
 	private MessageController messageController;
+	private MemberService memberService;
 	
 	// 기본생성자
 	public MemberController() {}
 	
 	@Autowired
-	public MemberController(MessageController messageController){
+	public MemberController(MessageController messageController, MemberService memberService){
 		this.messageController = messageController;
+		this.memberService = memberService;
 	}
-	
 	
 	
 	// 통합로그인 창으로 이동하는 메소드
@@ -65,20 +69,58 @@ public class MemberController {
 		logger.info(">> 인증번호 입력하기 폼으로 이동");
 
 		// 메세지 보내기 실행
-		messageController.sendOne(phone);
+		int randomNum = messageController.sendOne(phone);
 		
 		model.addAttribute("userName", userName);
 		model.addAttribute("birth", birth);
 		model.addAttribute("phone", phone);
+		model.addAttribute("randomNum",randomNum);
 		
 		return "member/authenticationNumberForm";
 	}
 	
-
-	// 빌더 사용법이니 작성만 해둠 (백도어형식으로 관리자 만들거나 카카오로그인 되면 지우겠음)
-	// Member user = Member.builder().userName("관리자").birth("000101").phone("01012345678").build();
-	// model.addAttribute("user", user);
 	
+	// 인증번호 입력하고 회원가입 및 로그인하기
+	@RequestMapping(value="/loginJoin/loginStrart", method = RequestMethod.POST)
+	public String loginAndMemberEnroll(Member member,
+		   							   @RequestParam(value="inputNumber") String inputNumber,	// 사용자가 입력한 인증번호
+		   							   @RequestParam(value="randomNum") String randomNum,		// 생성된 인증번호
+		   							   Model model) {
+		
+		if(inputNumber.equals(randomNum)) {
+			// 인증번호와 같은경우
+			memberService.loginAndMemberEnroll(member);
+			
+		} else {
+			// 인증번호와 다를경우
+		}
+		
+		return "redirect:/home";
+	}
+	
+	
+	// 임의적으로 관리자로 로그인하는 컨트롤러생성(이거 문자가 무제한이아니라서 임의적으로 넣어둔 거 - 삭제예정)
+	@RequestMapping(value="/loginJoin/pp")
+	public String pp(HttpServletRequest request) {
+		
+		Member loginUser = Member.builder().userNo(99999).userName("관리자").phone("01012345678").count(0).status("Y").build();
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("loginUser", loginUser);
+		
+		return "redirect:/";
+	}
+	
+	
+	// 로그아웃 하는 메소드
+	@RequestMapping(value="/logout")
+	public String memberLogOut(HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		session.removeAttribute("loginUser");
+		
+		return "redirect:/";
+	}
 	
 	
 

@@ -18,8 +18,8 @@
 	</style>
 </head>
 <body>
-	<jsp:include page="header.jsp"/>
-	<jsp:include page="sideBar.jsp"/>
+	<jsp:include page="./common/header.jsp"/>
+	<jsp:include page="./common/sideBar.jsp"/>
 
 	<div class="main-section">
 		<div id="displayHeader">
@@ -238,8 +238,8 @@
 		</div>
 	</div>
 	
-	<jsp:include page="theBoGi.jsp" />
+	<jsp:include page="./common/theBoGi.jsp" />
 
-	<jsp:include page="footer.jsp" />
+	<jsp:include page="./common/footer.jsp" />
 </body>
 </html>

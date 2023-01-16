@@ -111,7 +111,7 @@
 
 </head>
 <body>
-	<jsp:include page="../header.jsp"/>
+	<jsp:include page="../common/header.jsp"/>
 	<div class="main-section">
 		<br><br><br><br><br>
 	    <div class="main-area">
@@ -119,19 +119,21 @@
 	    	<h1 class="bottom-margin" align="center">인증 번호 입력</h1>
 			<form class="number-form" action="${pageContext.request.contextPath}/loginJoin/loginStrart" method="post">
 	        	<div class="int-area">
-                    <input class="inputType1" type="text" id="InputNumber" autocomplete="InputNumber" required>
-                    <label for="InputNumber">인증번호 입력</label>
+                    <input class="inputType1" type="text" id="inputNumber" name="inputNumber" autocomplete="inputNumber" required>
+                    <label for="inputNumber">인증번호 입력</label>
                     <input type="hidden" id="userName" name="userName" value="${userName }" >
 	        		<input type="hidden" id="birth" name="birth" value="${birth }" >
 	        		<input type="hidden" id="phone" name="phone" value="${phone }" >
+	        		<input type="hidden" id="randomNum" name="randomNum" value="${randomNum }">
+	        		${userName }, ${birth }, ${phone }, ${randomNum }
 	            </div>
     
-                <button type="button" class="submitButton">인증 받기</button>
+                <button type="submit" class="submitButton">인증 받기</button>
 	       </form> 
 
 		</div>
 		<br><br><br>
 	</div>
-	<jsp:include page="../footer.jsp" />
+	<jsp:include page="../common/footer.jsp" />
 </body>
 </html>

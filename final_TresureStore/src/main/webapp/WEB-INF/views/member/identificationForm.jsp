@@ -175,7 +175,7 @@
 	<script type="text/javascript" src="/tresure/resources/js/header.js"></script>
 </head>
 <body>
-<jsp:include page="../header.jsp"/>
+<jsp:include page="../common/header.jsp"/>
 
 	<div class="main-section">
 	        <br><br><br><br><br>
@@ -295,7 +295,7 @@ eXpert 서비스 및 eXpert 센터 가입 등록정보 : 신청일로부터 6개
 	    </div>
 	<br><br>
 	</div>
-<jsp:include page="../footer.jsp" />
+<jsp:include page="../common/footer.jsp" />
 
 
     <script>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="memberMapper">
+
+<!-- type은 mybatis-config에서 member 라는 별칭을 정해두었음 -->
+<resultMap type="member" id="memberResultSet">
+   	<id column="USER_NO" property="userNo"></id>
+	<result column="USER_NAME" property="userName"></result>
+	<result column="PHONE" property="phone"></result>
+	<result column="BIRTH" property="birth"></result>
+	<result column="KA_ID" property="kakao_id"></result>
+	<result column="COUNT" property="count"></result>
+	<result column="CREATE_DATE" property="createDate"></result>
+	<result column="STATUS" property="status"></result>
+</resultMap>
+
+<select id="selectExistenceStatus" parameterType="Member" resultType="int">
+	SELECT COUNT(*)
+	FROM MEMBER
+	WHERE STATUS = 'Y' AND PHONE = #{member.phone}
+</select>
+
+
+   
+</mapper>

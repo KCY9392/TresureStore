@@ -8,12 +8,14 @@
 		<setting name="jdbcTypeForNull" value="NULL" />
 	</settings>
 	
+	<!-- 별칭 등록 -->
 	<typeAliases>
-	
+		<typeAlias type="com.kh.tresure.member.model.vo.Member" alias="member"/>
 	</typeAliases>
 	
+	<!-- 메퍼 파일 등록 -->
 	<mappers>
-	
+		<mapper resource="/mappers/member-mapper.xml"/>
 	</mappers>
 
 </configuration>

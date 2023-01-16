@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,9 +35,20 @@
 					</div>
 
 					<div class="etIgxm">
-						<a href="/tresure/loginJoinForm" class="items">
-							<p>로그인/회원가입</p>
-						</a>
+						<!-- 로그인 안했을 시 -->
+						<c:if test="${loginUser == NULL }">
+							<a href="/tresure/loginJoinForm" class="items">
+								<p>로그인/회원가입</p>
+							</a>
+						</c:if>
+						<!-- 로그인 했을 시 -->
+						<c:if test="${loginUser != NULL }">
+							<a href="/tresure/logout" class="items">
+								<p>로그아웃</p>
+							</a>
+						</c:if>
+							
+						
 					</div>
 
 				</div>

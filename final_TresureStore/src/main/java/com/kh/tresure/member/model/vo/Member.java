@@ -16,7 +16,7 @@ public class Member {
 	private String userName;
 	private String phone;
 	private String birth;
-	private String kakao_id;
+	private String kakao_Id;
 	private int count;
 	private Date createDate;
 	private String status;

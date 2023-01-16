@@ -39,8 +39,8 @@
 
 </head>
 <body>
-	  <jsp:include page="../header.jsp"/>
-	  <jsp:include page="../sideBar.jsp"/>
+	  <jsp:include page="../common/header.jsp"/>
+	  <jsp:include page="../common/sideBar.jsp"/>
 	    <br><br>
 	      <div class="p-3 m-0 border-0 bd-example">
 	        <div class="content">
@@ -82,7 +82,7 @@
 	              </div>
 	            </div>
 	        </div>
-	     <jsp:include page="../footer.jsp"/>
+	     <jsp:include page="../common/footer.jsp"/>
 
 </body>
 </html>
