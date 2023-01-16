@@ -54,7 +54,7 @@
 					</div>
 					<div class="sun_wrap_li">
 						<ul class="sun_wrap_ul">
-							<li><a href=""><img
+							<li><a href="${pageContext.request.contextPath}/chat/chatRoomList"><img
 									src="/tresure/resources/images/icon/번개.png" alt="채팅 이미지">채팅하기</a></li>
 							<li><a href=""><img
 									src="/tresure/resources/images/icon/원.png" alt="판매등록 이미지">판매하기</a></li>
