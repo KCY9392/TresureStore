@@ -75,7 +75,7 @@
 					</div>
 					<div class="sun_wrap_li">
 						<ul id="sun_wrap_ul">
-							<li><a href="${pageContext.request.contextPath}/chat/chatRoomList"><img
+							<li><a href="${pageContext.request.contextPath}/chat/chatRoomList" onclick="chatGo()"><img
 									src="/tresure/resources/images/icon/번개.png" alt="채팅 이미지">채팅하기</a></li>
 							<li><a href="${pageContext.request.contextPath }/sell/sellInsert"><img
 									src="/tresure/resources/images/icon/원.png" alt="판매등록 이미지">판매하기</a></li>
@@ -125,5 +125,20 @@
 			</div>
 		</div>
 	</div>
+	
+	<script>
+	//채팅하기 버튼 관련_로그인/비로그인 
+		function chatGo(){
+		
+    		let loginSuccess = "${loginUser}";
+    		
+    		if (loginSuccess == ""){
+    			alert("채팅하기는 로그인 후 사용하실 수 있습니다.");
+    			location.href="${pageContext.request.contextPath}/loginJoinForm";
+    		} else {
+    			location.href="${pageContext.request.contextPath}/chat/chatRoomList"
+    		}
+    	}
+	</script>
 </body>
 </html>

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.kh.tresure.chat.model.service.ChatService;
 import com.kh.tresure.chat.model.vo.ChatRoom;
+import com.kh.tresure.member.model.vo.Member;
 
 @Controller
 public class ChatController {
@@ -32,9 +33,9 @@ public class ChatController {
 	
 	//채팅방 목록 조회
 	@RequestMapping(value = "chat/chatRoomList", method = RequestMethod.GET)
-	public String selectChatRoomList(Model model) {
+	public String selectChatRoomList(Model model, Member loginUser) {
 		
-		List<ChatRoom> crList = chatService.selectChatRoomList();
+		List<ChatRoom> crList = chatService.selectChatRoomList(loginUser);
 		
 		model.addAttribute("chatRoomList", crList);
 		
@@ -44,7 +45,7 @@ public class ChatController {
 	}
 	
 	
-	//채팅방 목록 조회
+	//채팅방 상세조회
 	@RequestMapping(value = "chat/chatRoom", method = RequestMethod.GET)
 	public String enterChatRoom(Model model) {
 		
@@ -53,4 +54,13 @@ public class ChatController {
 		return "chat/chatRoom";
 	}
 	
+	
+	//채팅방 차단목록 이동
+	@RequestMapping(value = "chat/chatBlockList", method = RequestMethod.GET)
+	public String enterChatBlockList(Model model) {
+		
+		logger.info(">> 차단목록으로 이동");
+		
+		return "chat/chatBlockList";
+	}
 }

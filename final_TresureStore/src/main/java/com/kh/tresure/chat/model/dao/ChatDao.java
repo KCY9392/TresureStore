@@ -6,12 +6,13 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.kh.tresure.chat.model.vo.ChatRoom;
+import com.kh.tresure.member.model.vo.Member;
 
 @Repository
 public class ChatDao {
 
 	//채팅방 리스트 가져오기
-	public List<ChatRoom> selectChatRoomList(SqlSession sqlSession) {
+	public List<ChatRoom> selectChatRoomList(SqlSession sqlSession, Member loginUser) {
 
 		return sqlSession.selectList("chattingMapper.selectChatRoomList");
 	

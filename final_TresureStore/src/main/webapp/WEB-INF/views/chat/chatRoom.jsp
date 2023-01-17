@@ -153,6 +153,7 @@
       	background-color:gold;
       	border:none;
       	float:left;
+      	
       }
       /*대화 입력창*/
       #inputChatting{
@@ -170,6 +171,11 @@
    	  	float:left;
    	  	height:100%;
    		width:20%;
+   	  }
+   	  .chatting_bottom_bar > i{
+   	  	width:50%;
+   	  	border :solid 1px white;
+   	  	
    	  }
    
       
@@ -244,7 +250,7 @@
 
 				<!-- 채팅창 맨 아래 바 -->
                 <div class="chatting_bottom_bar">
-                	<div class="chat_plus"><i class="fa-light fa-circle-plus"></i></div>
+                	<div class="chat_plus"></div>
 					<textarea id="inputChatting" ></textarea>
 					<button id="send" class="btn btn-outline-warning">보내기</button>
                 </div>

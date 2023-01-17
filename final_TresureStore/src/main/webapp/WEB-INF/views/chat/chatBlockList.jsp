@@ -4,18 +4,22 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<!-- 부트스트랩 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Jquery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <!-- 헤더 js -->
 <script type="text/javascript" src="/tresure/resources/js/header.js"></script>
 <title>TreasureStore chatBlockList</title>
 <style>
-   /*전체 div*/
-    .main-section{
-        box-sizing: border-box;
-        width: 90%;
-        margin: auto;
-	  }
+   /*전체 공통 div*/
+  .main-section{
+      box-sizing: border-box;
+      width: 65%;
+      margin: auto;
+  }
    /*차단목록 text*/
    .innerOuter span{
         font-weight: bold;
@@ -29,7 +33,7 @@
    }
    thead{
         color: rgb(248, 212, 12);
-        text-align:right;
+        text-align:center;
    }
    tbody{
         text-align: center;
@@ -47,7 +51,7 @@
           <br><br>
             <div class="innerOuter" style="padding : 5% 10%;">
               <img src="https://cdn-icons-png.flaticon.com/128/5545/5545823.png" width="30" height="30">&nbsp;<span>차단목록</span>
-                  <a href="#" >보물톡</a>
+                  <a href="${pageContext.request.contextPath}/chat/chatRoomList" >보물톡</a>
                   <br><br>
                 <table class="table">
                   <thead>

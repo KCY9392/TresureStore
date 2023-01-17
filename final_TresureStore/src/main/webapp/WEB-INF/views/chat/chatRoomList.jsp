@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -58,38 +59,42 @@
 	          <br><br>
 	            <div class="innerOuter">
 	              <img src="https://cdn-icons-png.flaticon.com/128/5545/5545823.png" width="40" >&nbsp;<span>보물톡</span>
-	                  <a href="#" >차단목록</a>
+	                  <a href="${pageContext.request.contextPath}/chat/chatBlockList" >차단목록</a>
 	                  <br><br>
-	                <table class="table">
-	                  <thead>
-	                    <tr>
-	                   	  <th></th>
-	                      <th colspan="">상점명</th>
-	                      <th colspan="">채팅 시간</th>
-	                      <th></th>
-	                    </tr>
-	                  </thead>
-	                  <tbody class="table-group-divider">
-	                    <tr>
-	                      <th>1</th>
-	                      <td class="storeName"><img src="https://cdn-icons-png.flaticon.com/128/9317/9317793.png" width="20">&nbsp;&nbsp;상점 920526호 점</td>
-	                      <td>2023.1.11 20:55</td>
-	                      <td><button type="button" class="btn btn-outline-warning btn-sm">나가기</button></td>
-	                    </tr>
-	                    <tr>
-	                      <th>2</th>
-	                      <td class="storeName"><img src="https://cdn-icons-png.flaticon.com/128/9317/9317793.png" width="20">&nbsp;&nbsp;상점 920526호 점</td>
-	                      <td>2023.1.11 20:55</td>
-	                      <td><button type="button" class="btn btn-outline-warning btn-sm">나가기</button></td>
-	                    </tr>
-	                    <tr>
-	                      <th>3</th>
-	                      <td class="storeName"><img src="https://cdn-icons-png.flaticon.com/128/9317/9317793.png" width="20">&nbsp;&nbsp;상점 920526호 점</td>
-	                      <td>2023.1.11 20:55</td>
-	                      <td><button type="button" class="btn btn-outline-warning btn-sm">나가기</button></td>
-	                    </tr>
-	                  </tbody>
-	                </table>
+	                  
+	                 
+	                  	
+	                  	<c:choose>
+		               		<%--조회한 채팅 목록이 없을 때	 --%>
+		               		<c:when test="${empty chatRoomList}">
+		               			<div style= "text-align: center;">새로운 채팅을 시작해주세요</div>
+		               		</c:when>
+		               
+               				<c:otherwise>
+				                <table class="table">
+				                  <thead>
+				                    <tr>
+				                   	  <th></th>
+				                      <th >상점명</th>
+				                      <th >채팅 시간</th>
+				                      <th></th>
+				                    </tr>
+				                  </thead>
+				                  <tbody class="table-group-divider">
+			               			<%--조회한 채팅 목록이 있을 때	 --%>
+	               					<c:forEach var="chatRoom" items="${chatRoomList }">
+					                    <tr>
+					                      <td>${chatRoom.chatRoomNo }</td>
+					                      <td class="storeName"><img src="https://cdn-icons-png.flaticon.com/128/9317/9317793.png" width="20">&nbsp;&nbsp;상점 ${chatRoom.userNo }호 점 </td>
+					                      <td>2023.1.11 20:55</td>
+					                      <td><button type="button" class="btn btn-outline-warning btn-sm">나가기</button></td>
+					                    </tr>
+			               			</c:forEach>
+	                 			 </tbody>
+	                		   </table>
+		               		</c:otherwise>
+	                    </c:choose>
+	                    
 	              </div>
 	            </div>
 	        </div>

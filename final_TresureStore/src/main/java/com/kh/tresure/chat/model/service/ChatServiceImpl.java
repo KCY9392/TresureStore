@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.tresure.chat.model.dao.ChatDao;
 import com.kh.tresure.chat.model.vo.ChatRoom;
+import com.kh.tresure.member.model.vo.Member;
 
 @Service
 public class ChatServiceImpl implements ChatService{
@@ -23,9 +24,9 @@ public class ChatServiceImpl implements ChatService{
 	
 	@Override
 	//채팅 목록 조회
-	public List<ChatRoom> selectChatRoomList(){
+	public List<ChatRoom> selectChatRoomList(Member loginUser){
 		
-		return chatDao.selectChatRoomList(sqlSession);
+		return chatDao.selectChatRoomList(sqlSession, loginUser);
 	}
 	
 }

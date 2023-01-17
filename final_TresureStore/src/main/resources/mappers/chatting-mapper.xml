@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="chattingMapper">
 
-<!-- type은 mybatis-config에서 member 라는 별칭을 정해두었음 -->
+<!-- type은 mybatis-config에서 chatRoom 라는 별칭을 정해두었음 -->
 <resultMap type="chatRoom" id="chatResultSet" >
 	  <id column="CHAT_ROOM_NO" property="chatRoomNo"/>
 	  <result column="USER_NO" property="userNo"/>
@@ -16,7 +16,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  	 <!-- 채팅방 목록 조회 -->
  	 <!-- 임의 조회를 위해 *로 넣어둠 -->
      <select id="selectChatRoomList" resultMap="chatResultSet">
-     	SELECT * FROM CHAT_ROOM
+     	SELECT * 
+     	FROM CHAT_ROOM
+     	JOIN MEMBER USING (USER_NO)
      </select>
 
    
