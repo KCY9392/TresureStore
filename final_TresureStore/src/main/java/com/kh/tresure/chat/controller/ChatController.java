@@ -43,4 +43,14 @@ public class ChatController {
 		return "chat/chatRoomList";
 	}
 	
+	
+	//채팅방 목록 조회
+	@RequestMapping(value = "chat/chatRoom", method = RequestMethod.GET)
+	public String enterChatRoom(Model model) {
+		
+		logger.info(">> 채팅방으로 이동");
+		
+		return "chat/chatRoom";
+	}
+	
 }
