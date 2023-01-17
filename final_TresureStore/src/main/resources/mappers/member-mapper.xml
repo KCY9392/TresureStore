@@ -11,7 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="USER_NAME" property="userName"></result>
 	<result column="PHONE" property="phone"></result>
 	<result column="BIRTH" property="birth"></result>
-	<result column="KA_ID" property="kakao_Id"></result>
+	<result column="EMAIL" property="email"></result>
 	<result column="COUNT" property="count"></result>
 	<result column="CREATE_DATE" property="createDate"></result>
 	<result column="STATUS" property="status"></result>
@@ -27,8 +27,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<when test="phone != null">
 			PHONE = #{phone}
 		</when>
-		<when test="kakao_Id != null">
-			KA_ID = #{kakao_Id}
+		<when test="email != null">
+			EMAIL = #{email}
 		</when>
 	</choose>
 </select>
@@ -39,9 +39,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	INSERT INTO MEMBER (USER_NO, USER_NAME, PHONE, BIRTH) 
 	VALUES (SEQ_MNO.NEXTVAL ,#{userName}, #{phone}, #{birth})
 	</if>
-	<if test="kakao_Id != null">
-	INSERT INTO MEMBER (USER_NO, USER_NAME, KA_ID , BIRTH) 
-	VALUES (SEQ_MNO.NEXTVAL ,#{userName}, #{kakao_Id}, #{birth})
+	<if test="email != null">
+	INSERT INTO MEMBER (USER_NO, USER_NAME, EMAIL , BIRTH) 
+	VALUES (SEQ_MNO.NEXTVAL ,#{userName}, #{email}, #{birth})
 	</if>
 </insert>
 
@@ -54,8 +54,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<if test="phone != null">
 			PHONE = #{phone}
 	</if>
-	<if test="kakao_Id != null">
-			KA_ID = #{kakao_Id}
+	<if test="email != null">
+			EMAIL = #{email}
 	</if>
 </select>
 
