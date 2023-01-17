@@ -16,7 +16,7 @@
 	<div class="sellInsert-div">
 		<form id="sellInsertForm" action="">
 			<div class="main-section">
-				<div class="sellInsert1">
+				<div class="sellInsert1">           
 					<main class="sellInsert2">
 						<section class="sellInsert3">
 							<h2 class="sellInsert4">

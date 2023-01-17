@@ -23,7 +23,7 @@
 						<div class="search2">
 							<input type="text" id="search" class="search3"
 								placeholder="상품명, @상점명 입력">
-							<button class="exx" id="exit">
+							<button onclick="test()" class="exx" id="exit">
 								<img
 									src="/tresure/resources/images/icon/x.png"
 									width="10" height="12" alt="검색어 삭제 버튼 아이콘">

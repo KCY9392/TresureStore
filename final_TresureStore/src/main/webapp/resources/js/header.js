@@ -13,13 +13,10 @@ $(function () {
 });
 
 
-var input = document.getElementById("search");
-$(function () {
-    $('#exit').click(function () {
-        input.value = null;
-        $("#exit").hide();
-    });
-});
+function test() {
+    $('#search').val('');
+    $('#exit').hide();
+}
 
 
 $(function() {

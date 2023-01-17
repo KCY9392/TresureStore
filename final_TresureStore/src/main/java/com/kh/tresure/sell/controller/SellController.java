@@ -29,11 +29,10 @@ public class SellController {
 		this.sellService = sellService;
 	}
 	
-	// 상품등록 페이지
-	@RequestMapping(value = "sell/sellInsert", method = RequestMethod.GET)
-	public String insertSell(Model model) {
-		
-		
-		return "sell/sellInsert";
-	}
+	// 상품 등록 페이지
+		@RequestMapping(value="sellInserForm", method=RequestMethod.GET)
+		public String registForm(Model model) {
+			model.addAttribute("display", "/sell/sellForm.jsp");
+			return "/index";
+		}
 }
