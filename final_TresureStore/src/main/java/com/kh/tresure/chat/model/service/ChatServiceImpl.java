@@ -12,13 +12,14 @@ import com.kh.tresure.chat.model.vo.ChatRoom;
 @Service
 public class ChatServiceImpl implements ChatService{
 
-	
-	@Autowired
 	private ChatDao chatDao;
-	
-	@Autowired
 	private SqlSession sqlSession;
 	
+	@Autowired
+	public ChatServiceImpl(ChatDao chatDao, SqlSession sqlSession) {
+		this.chatDao = chatDao;
+		this.sqlSession = sqlSession;
+	}
 	
 	@Override
 	//채팅 목록 조회
