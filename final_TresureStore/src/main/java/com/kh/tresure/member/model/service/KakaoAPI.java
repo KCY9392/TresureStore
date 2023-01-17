@@ -139,7 +139,7 @@ public class KakaoAPI {
             if(email != null) {
 	            member = Member.builder()
 								.userName(nickname)
-								.kakao_Id(email)
+								.email(email)
 								.birth(birth).build();
 	            return member;
             }
