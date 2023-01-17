@@ -64,7 +64,7 @@
 		</div>
 		<div class="middle-bottom">
 			<div class="loginType">
-				<a href="${pageContext.request.contextPath}/loginJoin/kakaoLogin">
+				<a href="https://kauth.kakao.com/oauth/authorize?client_id=2f3c85098b01f4c1919eb4761e43a541&redirect_uri=http://localhost:8888/tresure/loginJoin/kakao&response_type=code">
 					<img src="${pageContext.request.contextPath}/resources/images/common/kakaoLoginLogo.png" />
 				</a>
 			</div>

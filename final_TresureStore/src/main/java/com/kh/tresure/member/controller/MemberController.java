@@ -1,5 +1,8 @@
 package com.kh.tresure.member.controller;
 
+import java.io.IOException;
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kh.tresure.member.model.service.KakaoAPI;
 import com.kh.tresure.member.model.service.MemberService;
 import com.kh.tresure.member.model.vo.Member;
 
@@ -26,15 +30,17 @@ public class MemberController {
 	
 	private Logger logger = LoggerFactory.getLogger(MemberController.class);
 	private MessageController messageController;
+	private KakaoAPI kakao;
 	private MemberService memberService;
 	
 	// 기본생성자
 	public MemberController() {}
 	
 	@Autowired
-	public MemberController(MessageController messageController, MemberService memberService){
+	public MemberController(MessageController messageController, MemberService memberService, KakaoAPI kakao){
 		this.messageController = messageController;
 		this.memberService = memberService;
+		this.kakao = kakao;
 	}
 	
 	
@@ -130,5 +136,71 @@ public class MemberController {
 	}
 	
 	
+	
+	
+	
+
+	/**
+	 * kakao 로그인 
+	 * @param code
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value="/loginJoin/kakao")
+	public String login(@RequestParam("code") String code, HttpSession session) {
+		
+		//받은 code로 access_token 가져오기
+		String access_Token = kakao.getAccessToken(code); 
+	    
+	    //access_token으로 user정보 가져오기 (닉네임, 이메일계정)
+	    Member member = kakao.getUserInfo(access_Token);
+	    logger.info("login Controller : " + member.toString());
+	    
+	    //클라이언트의 이메일이 존재할 때(즉, 카카오 로그인 성공)
+	    if (member != null) {
+	    	
+	    	// email과 nickname으로 회원체크, 회원가입/로그인 성공 후 member객체 반환
+	    	member = memberService.loginAndMemberEnroll(member);
+	    	
+	    	session.setAttribute("loginUser", member);
+	    	session.setAttribute("access_Token", access_Token);
+	    	
+	    }else { //로그인 실패
+	    	
+	    }
+        
+		return "home";
+	}
+	
+	/**
+	 * kakao 이 서비스에서만 로그아웃
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value="/logout/kakao")
+	public String logout(HttpSession session) throws IOException{
+		String access_Token = (String)session.getAttribute("access_Token");
+		 if(access_Token != null && !"".equals(access_Token)){
+	            kakao.kakaoLogout(access_Token);
+	            session.removeAttribute("access_Token");
+	            session.removeAttribute("userId");
+	        }else{
+	            System.out.println("access_Token is null");
+	            return "redirect:/";
+	        }
+	    return "home";
+	}
+
+	/**
+	 * kakao 계정과 함께 로그아웃(연결끊기)
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value="/kakaounlink")
+	public String unlink(HttpSession session) {
+		kakao.unlink((String)session.getAttribute("access_token"));
+		session.invalidate();
+		return "redirect:/";
+	}
 
 }

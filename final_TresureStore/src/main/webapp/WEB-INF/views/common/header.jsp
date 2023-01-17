@@ -36,16 +36,24 @@
 					</div>
 
 					<div class="etIgxm">
-						<!-- 로그인 안했을 시 -->
-						<c:if test="${loginUser == NULL }">
-							<a href="/tresure/loginJoinForm" class="items">
-								<p>로그인/회원가입</p>
+					  <!-- 본인인증 방법 로그인 O && 카카오로그인 X -->
+						<c:if test="${loginUser.phone != null && access_Token == null}">
+							<a href="/tresure/logout" class="items">
+								${loginUser.userName}님 환영합니다^ㅁ^ <br> 로그아웃
 							</a>
 						</c:if>
-						<!-- 로그인 했을 시 -->
-						<c:if test="${loginUser != NULL }">
-							<a href="/tresure/logout" class="items">
-								<p>로그아웃</p>
+						
+					  <!-- 본인인증 로그인 X && 카카오로그인 O -->	
+					  	<c:if test="${loginUser.phone == null && access_Token != null}">
+					  		<a href="https://kauth.kakao.com/oauth/logout?client_id=2f3c85098b01f4c1919eb4761e43a541&logout_redirect_uri=http://localhost:8888/tresure/logout/kakao" class="items">
+					  			${loginUser.userName}님 환영합니다^ㅁ^ <br> 로그아웃
+					  		</a>
+					    </c:if>
+					    
+					  <!-- 본인인증 로그인 X && 카카오로그인 X -->
+						<c:if test="${loginUser.phone == null && access_Token == null}">
+							<a href="/tresure/loginJoinForm" class="items">
+								<p>로그인/회원가입</p>
 							</a>
 						</c:if>
 							
@@ -111,7 +119,7 @@
 								height="35px"><br>뷰티</a></li>
 						<li class="catebox"><a href=""><img
 								src="/tresure/resources/images/icon/교환권.png" width="40px"
-								height="35px"><br>교환권dd</a></li>
+								height="35px"><br>교환권</a></li>
 					</ul>
 				</div>
 			</div>

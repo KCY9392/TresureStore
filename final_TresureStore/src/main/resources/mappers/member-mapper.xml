@@ -11,29 +11,53 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="USER_NAME" property="userName"></result>
 	<result column="PHONE" property="phone"></result>
 	<result column="BIRTH" property="birth"></result>
-	<result column="KA_ID" property="kakao_id"></result>
+	<result column="KA_ID" property="kakao_Id"></result>
 	<result column="COUNT" property="count"></result>
 	<result column="CREATE_DATE" property="createDate"></result>
 	<result column="STATUS" property="status"></result>
 </resultMap>
 
+<!-- 입력한 정보로 가입한 회원여부 확인 -->
 <select id="selectExistenceStatus" parameterType="member" resultType="int">
 	SELECT COUNT(*)
 	FROM MEMBER
-	WHERE STATUS = 'Y' AND PHONE = #{phone}
+	WHERE STATUS = 'Y' 
+	AND
+	<choose>
+		<when test="phone != null">
+			PHONE = #{phone}
+		</when>
+		<when test="kakao_Id != null">
+			KA_ID = #{kakao_Id}
+		</when>
+	</choose>
 </select>
 
+<!-- 회원가입 -->
 <insert id="insertMember" parameterType="member">
+	<if test="phone != null">
 	INSERT INTO MEMBER (USER_NO, USER_NAME, PHONE, BIRTH) 
 	VALUES (SEQ_MNO.NEXTVAL ,#{userName}, #{phone}, #{birth})
+	</if>
+	<if test="kakao_Id != null">
+	INSERT INTO MEMBER (USER_NO, USER_NAME, KA_ID , BIRTH) 
+	VALUES (SEQ_MNO.NEXTVAL ,#{userName}, #{kakao_Id}, #{birth})
+	</if>
 </insert>
 
+<!-- 로그인한 회원객체 select -->
 <select id="loginAndMemberEnroll" parameterType="member" resultMap="memberResultSet">
 	SELECT *
 	FROM MEMBER
-	WHERE STATUS = 'Y' AND PHONE = #{phone}
+	WHERE STATUS = 'Y' 
+	AND 
+	<if test="phone != null">
+			PHONE = #{phone}
+	</if>
+	<if test="kakao_Id != null">
+			KA_ID = #{kakao_Id}
+	</if>
 </select>
-
 
    
 </mapper>
