@@ -21,7 +21,7 @@ a {
     background-color: pink;
     position: sticky;
     top:0;
-    z-index:99;
+    z-index: 1;
     
 }
 .header1 {
@@ -125,7 +125,6 @@ a {
     margin:0 auto;
     text-align:center;
 }
-
 .sun_wrap_div{
     float: left;
     position: relative;
@@ -134,14 +133,15 @@ a {
 .sun_wrap_li{
     float:right;
 }
-ul {
-    list-style: none;
+#sun_wrap_ul {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 64px;
+    margin: 16px 0px;
+    list-style: none;
 }
-ul > li {
+#sun_wrap_ul > li {
     padding: 0 14px;
 }
 .catename {
@@ -150,7 +150,6 @@ ul > li {
     font-size: 20px;
     top: 0;
 }
-
 .sun_wrap_li > ul img {
     margin-right: 10px;
     width: 23px;
@@ -178,7 +177,10 @@ ul > li {
     border-top: 1px solid lightgray;
 }
 .inner-menu {
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 64px;
     flex-wrap: wrap;
     align-items:flex-end;
     height: 174px;
@@ -190,6 +192,7 @@ ul > li {
     flex: 1 1 0%;
     align-items: flex-start;
     min-width: 15%;
+    padding: 0 14px
 }
 .inner-menu > li > a {
     text-align: center;

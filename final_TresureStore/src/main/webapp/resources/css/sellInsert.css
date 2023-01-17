@@ -1,0 +1,341 @@
+@charset "UTF-8";
+
+
+.sellInsert-div {
+	width: 100%;
+	padding-top: 5rem;
+}
+.sellInsert2 {
+	text-align: center;
+}
+.sellInsert3 {
+	display: inline-block;
+	width: 1024px;
+}
+
+.sellInsert4 {
+    height: 100px;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid black;
+    margin: 0px;
+}
+.sellInsert4 > span {
+    color: rgb(255, 80, 88);
+    font-size: 1rem;
+    margin-left: 2rem
+}
+#listBody {
+    list-style: none;
+    margin: 0px;
+    padding-top: 0.5rem;
+    padding-left: 0px;
+}
+.list {
+    width: 100%;
+    display: flex;
+    padding: 2rem 0px;
+    border-bottom: 1px solid rgb(220, 219, 228);
+	text-align: start;
+}
+
+/* 가격 */
+.price_sub {
+    width: 10.5rem;
+    font-size: 25px;
+    padding-top: 14px;
+}
+.price_sub > span {
+    color: rgb(10, 88, 202);
+}
+.price_con {
+    flex: 1 1 0%;
+}
+.priceBox > input {
+	height: 3rem;
+	padding: 0px 1rem;
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgb(195, 194, 204);
+	/* border-image: initial; */
+}
+.priceInput {
+    width: 240px;
+    margin-right: 1rem;
+}
+
+/* 상품이미지 */
+.image_sub {
+    width: 10.5rem;
+    font-size: 25px;
+}
+.image_sub > span {
+    color: rgb(10, 88, 202);
+}
+.image_sub > .small {
+    color: rgb(155, 153, 169);
+    margin-left: 0.25rem;
+}
+.image_con {
+    flex: 1 1 0%;
+}
+.sellInsertImages {
+	display: flex;
+	flex-wrap: wrap;
+	overflow-x: hidden;
+	padding-left: 0px;
+}
+/* .sellInsertImages li:nth-last-child(-n+4):nth-child(4n+1), .sellInsertImages li:nth-last-child(-n+4):nth-child(4n+1) ~ li {
+    margin-bottom: 0px;
+} */
+.imageList {
+	width: 202px;
+	height: 202px;
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	color: rgb(155, 153, 169);
+	font-size: 1rem;
+	margin-right: 1rem;
+	margin-bottom: 1rem;
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgb(230, 229, 239);
+	border-image: initial;
+	background: rgb(250, 250, 253);
+}
+.imageList::before {
+	content: "";
+	background-size: cover;
+	width: 2rem;
+	height: 2rem;
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj4KICAgIDxwYXRoIGZpbGw9IiNEQ0RCRTQiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTI4LjQ3MSAzMkgzLjUzYy0uOTcxIDAtMS44OTQtLjQyMi0yLjUyOS0xLjE1N2wtLjAyNi0uMDNBNCA0IDAgMCAxIDAgMjguMTk4VjguNjA3QTQgNCAwIDAgMSAuOTc0IDUuOTlMMSA1Ljk2YTMuMzQzIDMuMzQzIDAgMCAxIDIuNTI5LTEuMTU2aDIuNTM0YTIgMiAwIDAgMCAxLjUzNy0uNzJMMTAuNC43MkEyIDIgMCAwIDEgMTEuOTM3IDBoOC4xMjZBMiAyIDAgMCAxIDIxLjYuNzJsMi44IDMuMzYzYTIgMiAwIDAgMCAxLjUzNy43MmgyLjUzNGMuOTcxIDAgMS44OTQuNDIzIDIuNTI5IDEuMTU3bC4wMjYuMDNBNCA0IDAgMCAxIDMyIDguNjA2djE5LjU5MWE0IDQgMCAwIDEtLjk3NCAyLjYxN2wtLjAyNi4wM0EzLjM0MyAzLjM0MyAwIDAgMSAyOC40NzEgMzJ6TTE2IDkuNmE4IDggMCAxIDEgMCAxNiA4IDggMCAwIDEgMC0xNnptMCAxMi44YzIuNjQ3IDAgNC44LTIuMTUzIDQuOC00LjhzLTIuMTUzLTQuOC00LjgtNC44YTQuODA1IDQuODA1IDAgMCAwLTQuOCA0LjhjMCAyLjY0NyAyLjE1MyA0LjggNC44IDQuOHoiLz4KPC9zdmc+Cg==");
+	margin-bottom: 1rem;
+	background-position: center center;
+	background-repeat: no-repeat;
+}
+.imageList input {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	opacity: 0;
+	cursor: pointer;
+	font-size: 0px;
+}
+.registUserImages {
+	width: 202px;
+	height: 202px;
+	border: 1px solid rgb(230, 229, 239);
+	margin-right: 1rem;
+	margin-bottom: 1rem;
+	list-style-type: none;
+	position: relative;
+	display: flex;
+	cursor: pointer;
+}
+.registUserImages img {
+	width: 100%;
+	height: 100%;
+}
+.image_cancleBtn {
+	width: 1.5rem;
+	height: 1.5rem;
+	background-size: 12px 12px;
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgdmlld0JveD0iMCAwIDEyIDEyIj4KICAgIDxwYXRoIGZpbGw9IiNGRkYiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTYuODQ4IDZsMy43NzYtMy43NzZhLjYuNiAwIDEgMC0uODQ4LS44NDhMNiA1LjE1IDIuMjI0IDEuMzc2YS42LjYgMCAwIDAtLjg0OC44NDhMNS4xNTIgNiAxLjM3NiA5Ljc3NWEuNi42IDAgMSAwIC44NDguODQ5TDYgNi44NDhsMy43NzYgMy43NzZhLjU5OC41OTggMCAwIDAgMS4wMjQtLjQyNS42LjYgMCAwIDAtLjE3Ni0uNDI0TDYuODQ4IDZ6IiBvcGFjaXR5PSIuNjQiLz4KPC9zdmc+Cg==");
+	background-color: rgba(30, 29, 41, 0.32);
+	position: absolute;
+	top: 0.5rem;
+	right: 0.5rem;
+	background-position: center center;
+	background-repeat: no-repeat;
+	border-radius: 50%;
+}
+.imageRepresentive {
+	position: absolute;
+	height: 1.5rem;
+	display: flex;
+	align-items: center;
+	top: 0.5rem;
+	left: 0.5rem;
+	background-color: rgba(30, 29, 41, 0.32);
+	color: rgb(255, 255, 255);
+	font-size: 12px;
+	padding: 0px 0.5rem;
+	border-radius: 12px;
+}
+.add_description {
+	margin-top: 1.5rem;
+    color: black;
+    line-height: 1.5;
+    font-size: 17px;
+	text-align: start;
+}
+
+/* 제목 */
+.title_insert {
+	width: 10.5rem;
+	font-size: 25px;
+	padding-top: 14px;
+}
+.title_insert > span {
+	color: rgb(10, 88, 202);
+}
+.title_insert2 > .title_insert3 {
+	display: flex;
+	width: 100%;
+	align-items: center;
+	flex-flow: row wrap;
+}
+.title_insert2 > .title_insert3 input {
+	width: 700px; /* 원래 100% */
+	height: 50px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgb(195, 194, 204);
+	border-image: initial;
+}
+.title_insertBox {
+	flex: 1 1 0%;
+}
+.titleInput {
+	height: 3em;
+	padding: 0px 1rem;
+}
+
+.titleSize {
+	margin-left: 1.5rem;
+	font-size: 1rem;
+	width: 5rem;
+	text-align: right;
+	color: gray;
+}
+.subjectCancle {
+	position: absolute;
+	background-size: 20px 20px;
+	left: 75%;
+	width: 2rem;
+	height: 2rem;
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgdmlld0JveD0iMCAwIDIwIDIwIj4KICAgIDxwYXRoIGZpbGw9IiNDM0MyQ0MiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTEwIDBDNC40ODYgMCAwIDQuNDg2IDAgMTBzNC40ODYgMTAgMTAgMTAgMTAtNC40ODYgMTAtMTBTMTUuNTE0IDAgMTAgMG0zLjcwNyA2LjI5M2EuOTk5Ljk5OSAwIDAgMC0xLjQxNCAwTDEwIDguNTg2IDcuNzA3IDYuMjkzYTEgMSAwIDEgMC0xLjQxNCAxLjQxNEw4LjU4NiAxMGwtMi4yOTMgMi4yOTNhMSAxIDAgMSAwIDEuNDE0IDEuNDE0TDEwIDExLjQxNGwyLjI5MyAyLjI5M2EuOTk3Ljk5NyAwIDAgMCAxLjQxNCAwIC45OTkuOTk5IDAgMCAwIDAtMS40MTRMMTEuNDE0IDEwbDIuMjkzLTIuMjkzYS45OTkuOTk5IDAgMCAwIDAtMS40MTQiLz4KPC9zdmc+Cg==");
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-color: transparent;
+	align-self: center;
+	border: 0;
+}
+.subjectDiv {
+	margin-top: 1.5rem;
+}
+
+.category_sub {
+	width: 10.5rem;
+    font-size: 25px;
+    padding-top: 14px;
+
+}
+#category_sub {
+	height: 3rem;
+    padding: 0px 1rem;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(195, 194, 204);
+    /* border-image: initial; */
+}
+
+/* 설명 */
+.content_sub {
+    width: 10.5rem;
+    font-size: 25px;
+    padding-top: 18px;
+}
+.content_con {
+    flex: 1 1 0%;
+	
+}
+.content_con > .content {
+    width: 95%;
+	padding: 10px;
+    line-height: 1.35;
+}
+.content_con > .text {
+    display: flex;
+    flex-direction: row;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+}
+.content_con > .text > a {
+    color: rgb(155, 153, 169);
+}
+.content_con > .text > a > img {
+    margin-right: 0.5rem;
+}
+.content_con > .text > .limit {
+    text-align: right;
+	font-size: 1rem;
+	color: gray;
+}
+.content > textarea {
+    padding: 1rem;
+    resize: none;
+    line-height: 1.35;
+}
+
+/* insertBtm */
+.insertBtm {
+	width: 100vw;
+	margin-left: calc(-50vw + 50%);
+	height: 5.5rem;
+	box-shadow: rgb(234, 233, 241) 0px -1px 0px 0px;
+	position: sticky;
+	left: 0px;
+	bottom: 0px;
+	background: rgb(250, 250, 253);
+}
+.insertBtmArea {
+	display: flex;
+	height: 100%;
+	justify-content: flex-end;
+	align-items: center;
+	width: 1024px;
+	margin: auto;
+}
+
+.insertBtn {
+    height: 3.5rem;
+    width: 10rem;
+    color: black;
+    font-size: 20px;
+    font-weight: 700;
+    border-radius: 25px;
+    background: rgb(253, 253, 231);
+    position: relative;
+	outline: none;
+	border: none;
+}
+.insertBtn:hover {
+    background: gold;
+}
+.insertBtn::before {
+    content: "등록하기";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.foot {
+	background: rgb(250, 250, 253);
+	height: 50px;
+}
