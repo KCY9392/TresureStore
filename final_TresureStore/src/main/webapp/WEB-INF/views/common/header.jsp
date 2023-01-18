@@ -14,7 +14,7 @@
 		<div class="header1">
 			<div class="header2">
 				<div class="header3">
-					<a href="" class="logo"> <img
+					<a href="${pageContext.request.contextPath}" class="logo"> <img
 						src="/tresure/resources/images/icon/icon.png" width="136" height="60"
 						alt="보물상점 로고">
 					</a>
