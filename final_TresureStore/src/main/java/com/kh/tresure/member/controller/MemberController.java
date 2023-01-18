@@ -14,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.kh.tresure.member.model.service.KakaoAPI;
 import com.kh.tresure.member.model.service.MemberService;
 import com.kh.tresure.member.model.vo.Member;
@@ -187,9 +186,8 @@ public class MemberController {
 	            session.removeAttribute("userId");
 	        }else{
 	            System.out.println("access_Token is null");
-	            return "redirect:/";
 	        }
-	    return "home";
+		 return "redirect:/";
 	}
 
 	/**
@@ -203,5 +201,32 @@ public class MemberController {
 		session.invalidate();
 		return "redirect:/";
 	}
+	
+	
+	/**
+	 * 마이페이지
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "member/myPage", method = RequestMethod.GET)
+	public String myPage(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		
+		if(session.getAttribute("loginUser")==null) {
+			session.setAttribute("alertMsg", "로그인 후 이용가능");
+			return "redirect:/";
+		}else {
+			logger.info(">> 마이페이지 폼으로 이동");
+			return "member/myPage";
+		}
+		
+		
+	}
+	
+	
+	
+	
+	
+	
 
 }

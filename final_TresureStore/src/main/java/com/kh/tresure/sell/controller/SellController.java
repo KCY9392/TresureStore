@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.tresure.chat.model.vo.ChatRoom;
 import com.kh.tresure.sell.model.service.SellService;
@@ -35,4 +36,21 @@ public class SellController {
 			model.addAttribute("display", "/sell/sellForm.jsp");
 			return "/index";
 		}
+		
+		/**
+		 * 상품판매수 조회
+		 * @param mv
+		 * @return
+		 */
+		@RequestMapping(value = "/myPage", method = RequestMethod.GET)
+		public ModelAndView myPageSellCount(ModelAndView mv) {
+			
+			int rsell = sellService.sellListCount();
+			
+			mv.addObject("rsell", rsell);
+			System.out.println(mv);
+			
+			return mv;
+		}
+			
 }

@@ -7,6 +7,14 @@
 	<link rel="stylesheet" href="/tresure/resources/css/font.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 	<script type="text/javascript" src="/tresure/resources/js/header.js"></script>
+	 <!-- alertify -->
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+<!-- alertify css -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+   <!-- Default theme -->
+   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+   <!-- Semantic UI theme -->
+   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
 	
 	<style>
 		.main-section{
@@ -20,6 +28,13 @@
 <body>
 	<jsp:include page="./common/header.jsp"/>
 	<jsp:include page="./common/sideBar.jsp"/>
+	
+	 	 <c:if test="${not empty alertMsg }">
+	<script>
+		alertify.alert("경고",'${alertMsg}');// 변수를 문자열로
+	</script>
+	<c:remove var="alertMsg" scope="session"/>
+	</c:if>
 
 	<div class="main-section">
 		<div id="displayHeader">

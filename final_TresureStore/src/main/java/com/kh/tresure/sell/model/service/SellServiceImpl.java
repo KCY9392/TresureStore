@@ -24,4 +24,12 @@ public class SellServiceImpl implements SellService  {
 		this.sqlSession = sqlSession;
 	}
 	
+	/**
+	 * 상품판매수 조회
+	 */
+	@Override
+	public int sellListCount() {
+		return sellDao.sellListCount(sqlSession);
+	}
+	
 }

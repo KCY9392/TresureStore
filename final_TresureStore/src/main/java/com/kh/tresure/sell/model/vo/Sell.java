@@ -18,6 +18,7 @@ public class Sell {
 	private int categoryNo;
 	private String sellTitle;		
 	private String sellContent;
+	private String imgSrc;
 	private int count;
 	private int price;
 	private String sellStatus;

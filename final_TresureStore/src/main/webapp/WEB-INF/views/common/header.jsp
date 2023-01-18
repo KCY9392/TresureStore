@@ -81,7 +81,7 @@
 									src="/tresure/resources/images/icon/원.png" alt="판매등록 이미지">판매하기</a></li>
 							<li><a href=""><img
 									src="/tresure/resources/images/icon/사기조회.png" alt="사기조회 이미지">사기조회</a></li>
-							<li><a href=""><img
+							<li><a href="${pageContext.request.contextPath}/member/myPage"><img
 									src="/tresure/resources/images/icon/내상점.png" alt="내상점 이미지">내상점</a></li>
 						</ul>
 					</div>
