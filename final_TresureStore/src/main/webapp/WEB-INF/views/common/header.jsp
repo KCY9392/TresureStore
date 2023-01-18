@@ -126,19 +126,5 @@
 		</div>
 	</div>
 	
-	<script>
-	//채팅하기 버튼 관련_로그인/비로그인 
-		function chatGo(){
-		
-    		let loginSuccess = "${loginUser}";
-    		
-    		if (loginSuccess == ""){
-    			alert("채팅하기는 로그인 후 사용하실 수 있습니다.");
-    			location.href="${pageContext.request.contextPath}/loginJoinForm";
-    		} else {
-    			location.href="${pageContext.request.contextPath}/chat/chatRoomList"
-    		}
-    	}
-	</script>
 </body>
 </html>

@@ -12,9 +12,9 @@ import com.kh.tresure.member.model.vo.Member;
 public class ChatDao {
 
 	//채팅방 리스트 가져오기
-	public List<ChatRoom> selectChatRoomList(SqlSession sqlSession, Member loginUser) {
+	public List<ChatRoom> selectChatRoomList(SqlSession sqlSession, int userNo) {
 
-		return sqlSession.selectList("chattingMapper.selectChatRoomList");
+		return sqlSession.selectList("chattingMapper.selectChatRoomList", userNo);
 	
 	}
 	

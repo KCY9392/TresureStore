@@ -97,6 +97,7 @@
         border:none;
        	position:absoulte;
   		transform: translateY(20%);
+  		cursor: pointer 
       }
       /* 신고차단 a태그 */
       .chatting_top_bar a{

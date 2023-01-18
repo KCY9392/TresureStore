@@ -2,6 +2,9 @@ package com.kh.tresure.chat.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,15 +36,30 @@ public class ChatController {
 	
 	//채팅방 목록 조회
 	@RequestMapping(value = "chat/chatRoomList", method = RequestMethod.GET)
-	public String selectChatRoomList(Model model, Member loginUser) {
+	public String selectChatRoomList( Model model, HttpServletRequest request) {
 		
-		List<ChatRoom> crList = chatService.selectChatRoomList(loginUser);
+		HttpSession session = request.getSession();
+		if(session.getAttribute("loginUser")== null) {
+			
+			session.setAttribute("alertMsg", "로그인 후 이용 가능합니다.");
+			
+			return "redirect:/";
+		}else {
+			int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
+			
+			logger.info(userNo+ ">> 유저 정보 조회");
+			
+			List<ChatRoom> crList = chatService.selectChatRoomList(userNo);
+			
+			model.addAttribute("chatRoomList", crList);
+			
+			logger.info(crList+ ">> 채팅방 리스트 조회");
+			
+			logger.info(">> 채팅방 리스트로 이동");
+			
+			return "chat/chatRoomList";
+		}
 		
-		model.addAttribute("chatRoomList", crList);
-		
-		logger.info(">> 채팅방 리스트로 이동");
-		
-		return "chat/chatRoomList";
 	}
 	
 	
