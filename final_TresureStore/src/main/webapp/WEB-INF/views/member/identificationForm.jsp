@@ -10,7 +10,7 @@
     <style>
     	@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap');
 		body{
-		    margin: 0;
+		    margin: 0px;
 		    padding: 0px;
 		    box-sizing: border-box;
 		    background-color: lightgray;
@@ -27,7 +27,7 @@
 		
 		.main-area{
 		    width: 40%;
-		    height: 950px;
+		    height: 1050px;
 		    margin: auto;
 		    background-color: rgb(255, 255, 255);
 		    box-shadow: -1px 2px 10px -3px black;
@@ -35,14 +35,13 @@
 		}
 		.login-form{
 		    position: relative;
-		    z-index: 2;
 		    font-family: 'Noto Sans KR', sans-serif;
 		    background-color: rgb(255, 255, 255);
 		    background-size: cover;
 		    display: flex;
 		    justify-content: center;
 		    align-items: inherit;
-		    height: 81vh;
+		    height: 60vh;
 		}
 		.login-form h1 {
 		    font-size: 32px;
@@ -60,6 +59,7 @@
 		    margin-top: 0;
 		}
 		
+		/* 이름, 이메일 */
 		.int-area .inputType1{
 		
 		    width: 100%;
@@ -197,6 +197,7 @@
 	                    <input class="inputType3" type="text" name="birth2" id="birth2" maxlength="1" autocomplete="off" oninput="this.value = this.value.replace(/[^1-4.]/g, '').replace(/(\..*)\./g, '$1');" required/>
 	                    &nbsp;●●●●●●
 	                </div>
+
 	                <div class="int-area">
 	                    <input class="inputType1" type="text" name="phone" id="phone" autocomplete="off" maxlength="11" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" required/>
 	                    <label for="phone">핸드폰 번호</label>
@@ -213,6 +214,7 @@
 	                    </select>
 	                    <label for="communication" id="cc2" >통신사</label>
 	                </div>
+	                
 	
 	                <div class="info-allows">
 	                    <input type="checkbox" id="info-allow" required>
@@ -287,7 +289,7 @@ eXpert 서비스 및 eXpert 센터 가입 등록정보 : 신청일로부터 6개
 	                </div>
 	
 	                <div class="btn-area">
-	                    <button id="loginBtn" type="submit">본인인증 하기</button>
+	                    <button id="loginBtn" type="submit" >본인인증 하기</button>
 	                </div>
 	            </form>
 	    
@@ -302,34 +304,66 @@ eXpert 서비스 및 eXpert 센터 가입 등록정보 : 신청일로부터 6개
         let userName = document.querySelector('#userName');
         let birth = document.querySelector('#birth');
         let phone = document.querySelector("#phone");
+        let birth2 = document.querySelector('#birth2');
+        const regBirth = /^([0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[1,2][0-9]|3[0,1]))$/;
+        const regPhone = /^(01[016789]{1})[0-9]{3,4}[0-9]{4}$/;
+        const regUserName = /^[가-힣]{2,5}$/;
+       
         
 
         $(loginBtn).on('click', function(){
-            if($(userName).val() == "") {
+        	// 이름 비었을 경우 
+            if($(userName).val() == "" || !regUserName.test($(userName).val())) {
                 $(userName).next('label').addClass('warning');
                 setTimeout(function(){
                     $('label').removeClass('warning');
                 }, 1000);
-
-            } else if($(birth).val() == ""){
+                $(userName).focus();
+                
+                return false;
+      
+                // 생년월일 비었거나 제대로된 생년월일 입력을 제대로 안했을 경우
+            } else if($(birth).val() == "" || !regBirth.test($(birth).val())){
                 $(birth).next('label').addClass('warning');
                 setTimeout(function(){
                     $('label').removeClass('warning');
                 }, 1000);
-            } else if($(phone).val() == ""){
+                $(birth).focus();
+	                
+                return false;
+                
+            } else if($(birth2).val() == ""){
+            	
+            	$(birth).next('label').addClass('warning');
+                setTimeout(function(){
+                    $('label').removeClass('warning');
+                }, 1000);
+                $(birth2).focus();
+	                
+                return false;
+                
+                
+                // 핸드폰번호가 비어있으면서 생년월일 뒷번호가 있을 때  와 핸드폰번호 제대로 입력 안했을 때
+            } else if( ($(phone).val() == "" && $(birth2).val() != "") || !regPhone.test($(phone).val()) ){
                 $(phone).next('label').addClass('warning');
                 setTimeout(function(){
                     $('label').removeClass('warning');
                 }, 1000);
+                $(phone).focus();
+                
+                return false;
             }
-            let regExp = '/^\d{6}$/';
+            
+            return true;
 
         })
 
         $('#communication').change(function(){
             $('#cc2').html($('#communication').val())
         })
-
+		
+        
+        
         
     </script>
     

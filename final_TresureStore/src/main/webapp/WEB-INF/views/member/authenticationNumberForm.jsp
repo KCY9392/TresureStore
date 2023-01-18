@@ -17,7 +17,7 @@
 	}
 	.main-area{
 	    width: 40%;
-	    height: 300px;
+	    height: 370px;
 	    margin: auto;
 	    background-color: rgb(255, 255, 255);
 	    box-shadow: -1px 2px 10px -3px black;
@@ -30,7 +30,6 @@
 	}
     .number-form{
         position: relative;
-        z-index: 2;
         font-family: 'Noto Sans KR', sans-serif;
         background-color: rgb(255, 255, 255);
         display: flex;
@@ -106,6 +105,14 @@
         background-color: rgb(54, 54, 54);
         cursor: pointer;
     }
+    #timer{
+		margin : auto;
+        width: 50%;
+        height: 30px;
+        color: lightBlue;
+        margin-top: 20px;
+        font-weight: 700;
+    }
 
 </style>
 
@@ -125,15 +132,55 @@
 	        		<input type="hidden" id="birth" name="birth" value="${birth }" >
 	        		<input type="hidden" id="phone" name="phone" value="${phone }" >
 	        		<input type="hidden" id="randomNum" name="randomNum" value="${randomNum }">
-	        		${userName }, ${birth }, ${phone }, ${randomNum }
 	            </div>
+	            <div align="center" id="timer"></div>
     
-                <button type="submit" class="submitButton">인증 받기</button>
+                <button type="submit" class="submitButton" id="submitButton" >로그인 하기</button>
 	       </form> 
 
 		</div>
 		<br><br><br>
 	</div>
 	<jsp:include page="../common/footer.jsp" />
+	
+	<script>
+	
+		let inputNumber = document.querySelector('#inputNumber');
+		let time = 180;
+		let min = '';
+		let sec = '';
+		
+		let x = setInterval(function(){
+				
+				min = parseInt(time/60);
+				sec = time % 60;
+				
+				document.getElementById('timer').innerHTML = min + "분" + sec + "초";
+				time--;
+			
+				if(time < 0){
+					clearInterval(x);
+					document.getElementById('timer').innerHTML = "시간초과";
+				}
+		}, 1000);		
+	
+		
+		$(submitButton).on('click', function(){
+			
+			if( $(inputNumber).val() != ${randomNum }){
+				alert("인증번호가 맞지 않습니다.");
+				$(inputNumber).focus();
+				return false;
+			}
+			
+			return true;
+		})
+		
+		setTimeout(function() {
+		  window.history.back();
+		}, 1000 * 60 * 3);
+		
+		
+	</script>
 </body>
 </html>

@@ -111,7 +111,7 @@ public class MemberController {
 	@RequestMapping(value="/loginJoin/pp")
 	public String pp(HttpServletRequest request) {
 		
-		Member loginUser = Member.builder().userNo(99999).userName("관리자").phone("01012345678").count(0).status("Y").build();
+		Member loginUser = Member.builder().userNo(10).userName("관리자").phone("01012345678").count(0).status("Y").build();
 		
 		logger.info(">> 관리자로 로그인");
 		
