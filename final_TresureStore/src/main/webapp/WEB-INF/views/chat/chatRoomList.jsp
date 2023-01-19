@@ -134,7 +134,7 @@
 
                                             hiddenField.setAttribute('type', 'hidden');
                                             hiddenField.setAttribute('name', "userNo");
-                                            hiddenField.setAttribute('value', $ {loginUser.userNo});
+                                            hiddenField.setAttribute('value', ${loginUser.userNo});
                                             form.appendChild(hiddenField);
 
                                             document.body.appendChild(form);

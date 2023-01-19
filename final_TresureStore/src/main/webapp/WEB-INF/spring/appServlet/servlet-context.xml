@@ -4,7 +4,9 @@
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
+		http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
@@ -15,7 +17,6 @@
 	<annotation-driven />
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	
-	<!-- 이건 클래스에 controller를 생성하면 그때 주석 풀어주세요! -->
  	<context:component-scan base-package="com.kh.tresure" >
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
@@ -29,5 +30,20 @@
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
+	
+	<!-- webSocket 요청시 핸들러 클래스와 연결하기. -->
+	<beans:bean id="WebSocketHandler" class="com.kh.tresure.chat.model.service.ChatWebsocketHandler"/>
+	
+	<websocket:handlers>
+		<!-- 웹소켓 요청(주소)를 처리한 bean 지정 -->
+		<websocket:mapping handler="WebSocketHandler" path="/chat" />
+	    
+		<websocket:handshake-interceptors>
+			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
+		</websocket:handshake-interceptors>
+	    
+		<!-- SockJS 라이브러리를 이용해서 만들어진 웹소켓 객체임을 의미 -->
+		<websocket:sockjs />
+	</websocket:handlers>
 	
 </beans:beans>

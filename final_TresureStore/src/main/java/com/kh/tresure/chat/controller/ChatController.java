@@ -1,5 +1,6 @@
 package com.kh.tresure.chat.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,8 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.tresure.chat.model.service.ChatService;
 import com.kh.tresure.chat.model.vo.ChatRoom;
@@ -19,7 +22,7 @@ import com.kh.tresure.member.model.vo.Member;
 
 @Controller
 public class ChatController {
-
+	private HttpSession session;
 	private Logger logger = LoggerFactory.getLogger(ChatController.class);
 	private ChatService chatService;
 	
@@ -38,7 +41,7 @@ public class ChatController {
 	@RequestMapping(value = "chat/chatRoomList", method = RequestMethod.GET)
 	public String selectChatRoomList( Model model, HttpServletRequest request) {
 		
-		HttpSession session = request.getSession();
+		session = request.getSession();
 		if(session.getAttribute("loginUser")== null) {
 			
 			session.setAttribute("alertMsg", "로그인 후 이용 가능합니다.");
@@ -63,13 +66,33 @@ public class ChatController {
 	}
 	
 	
-	//채팅방 상세조회
-	@RequestMapping(value = "chat/chatRoom", method = RequestMethod.GET)
-	public String enterChatRoom(Model model) {
+	//채팅방 상세조회(아직 미완성 : 정승필 하는중)
+	@RequestMapping(value = "chat/chatRoom/{chatRoomNo}", method = RequestMethod.POST)
+	public String enterChatRoom(Model model,
+								@PathVariable int chatRoomNo,
+								@RequestParam String userNo) {
+		
+		HashMap<Object,Object> AllList = new HashMap<>();
 		
 		logger.info(">> 채팅방으로 이동");
 		
-		return "chat/chatRoom";
+		AllList =  chatService.chattingRoomEnter(chatRoomNo, userNo);
+		 
+
+		
+		
+		if(AllList.size() > 0) {
+			
+			model.addAttribute("AllList", AllList);
+			return "chat/chatRoom";
+			
+		} else {
+			
+			session.setAttribute("alertMsg", "채팅방 입장에 실패하였습니다.");
+			return "redirect:/";
+		}
+		
+		
 	}
 	
 	

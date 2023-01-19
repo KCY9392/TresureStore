@@ -23,7 +23,8 @@
         box-sizing: border-box;
        	height: 1000px;
         width: 70%;
-        margin: auto;
+        margin-left: 20%;
+        margin-right: auto;
         padding:1%;
         position: relative;/*기준*/
        
@@ -31,7 +32,7 @@
       /*왼,오 박스 공통 css*/
       .leftBox, .rightBox {
         border: 1px solid darkturquoise;
-        width: 40%;
+        width: 50%;
         height: 70%;
         float : left;
         padding : 2%;
@@ -192,7 +193,7 @@
           <br><br>
           	<!-- 채팅 왼쪽창(상품상세) -->
             <div class="leftBox">
-                <div class="sell_pic" img src="" width="">상품 사진 </div>
+                <div class="sell_pic"> <img src="${AllList.get('product').imgSrc }" width="100%" height="100%"/> </div>
 
                 <div class="sell_detail">
                     <div id="sell_category"> 카테고리 </div>
