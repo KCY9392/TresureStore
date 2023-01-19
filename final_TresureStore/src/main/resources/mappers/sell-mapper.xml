@@ -22,12 +22,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="UPDATE_DATE" property="updateDate"></result>
 	<result column="STATUS" property="status"></result>
 
-
+	<result column="HEART_NUM" property="heartNum"></result>
 
 
 </resultMap>
 
-	
+	<select id="sellListselect" resultMap="sellResultSet">
+		SELECT 
+	    	SELL_NO, CATEGORY_NO, SELL_TITLE, IMAGE_SRC, PRICE, HEART_NUM
+		FROM SELL 
+		WHERE STATUS = 'Y' AND SELL_STATUS = 'I' AND ROWNUM <![CDATA[ <= ]]> 40
+	</select>
 
 
 
