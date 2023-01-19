@@ -2,6 +2,7 @@ package com.kh.tresure.member.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,6 +19,7 @@ import com.kh.tresure.member.model.service.KakaoAPI;
 import com.kh.tresure.member.model.service.MemberService;
 import com.kh.tresure.member.model.vo.Member;
 import com.kh.tresure.mypage.model.service.MyPageService;
+import com.kh.tresure.sell.model.vo.Sell;
 
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.model.Message;
@@ -227,10 +229,15 @@ public class MemberController {
 			
 			//상점 오픈일
 			int marketOpen = mypageService.marketOpen(loginUser.getUserNo());
+			
+			
+			List<Sell> sellList = mypageService.mypageSellList(loginUser.getUserNo());
+			
 			m.addAttribute("sellCount", sellCount);
 			m.addAttribute("folloewCount", followCount);
 			m.addAttribute("reportCount", reportCount);
 			m.addAttribute("marketOpen", marketOpen);
+			m.addAttribute("sellList", sellList);
 			
 			return "member/myPage";
 		}

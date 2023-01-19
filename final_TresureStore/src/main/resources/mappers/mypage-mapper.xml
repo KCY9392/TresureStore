@@ -14,6 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="USER_NO" property="userNo"></result>
 	<result column="CREATE_DATE" property="createDate"></result>
 	<result column="STATUS" property="status"></result>
+	<result column="SELL_TITLE" property="sellTitle"></result>
 	
 
 
@@ -55,6 +56,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE USER_NO = #{userNo}
 
 	
+	</select>
+	
+	<select id="listProduct" parameterType="int" resultMap="mypageResultSet">
+		
+		SELECT
+		SELL_TITLE
+		FROM SELL
+		JOIN MEMBER USING(USER_NO)
+		WHERE USER_NO = #{uno}
+		
+		
 	</select>
 	
 	

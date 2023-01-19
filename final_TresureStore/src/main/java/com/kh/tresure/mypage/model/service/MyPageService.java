@@ -1,5 +1,10 @@
 package com.kh.tresure.mypage.model.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.kh.tresure.sell.model.vo.Sell;
+
 public interface MyPageService{
 	
 	/**
@@ -24,5 +29,11 @@ public interface MyPageService{
 	 */
 	
 	public int marketOpen(int userNo);
+	
+	/**
+	 * 마이페이지 상품 목록
+	 */
+	
+	public List<Sell> mypageSellList(int userNo);
 
 }

@@ -1,10 +1,14 @@
 package com.kh.tresure.mypage.model.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.tresure.mypage.model.dao.MyPageDao;
+import com.kh.tresure.sell.model.vo.Sell;
 
 
 @Service
@@ -52,9 +56,21 @@ public class MyPageImpl implements MyPageService{
 		return mypageDao.reportCount(sqlSession, userNo);
 	}
 	
+	/**
+	 * 상점오픈일
+	 */
+	
 	@Override
 	public int marketOpen(int userNo) {
 		return mypageDao.marketOpen(sqlSession, userNo);
+	}
+	
+	/**
+	 * 마이페이지 상품 목록
+	 */
+	@Override
+	public List<Sell> mypageSellList(int userNo){
+		return mypageDao.mypageSellList(sqlSession, userNo);
 	}
 	
 	

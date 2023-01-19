@@ -14,6 +14,8 @@
 		<typeAlias type="com.kh.tresure.chat.model.vo.ChatRoom" alias="chatRoom"/>
 		<typeAlias type="com.kh.tresure.sell.model.vo.Sell" alias="sell"/>
 		<typeAlias type="com.kh.tresure.mypage.model.vo.MyPage" alias="mypage"/>
+		<typeAlias type="com.kh.tresure.heart.model.vo.MyPage" alias="heart"/>
+		
 	</typeAliases>
 	
 	<!-- 메퍼 파일 등록 -->

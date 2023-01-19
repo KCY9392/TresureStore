@@ -22,6 +22,6 @@ public class MyPage {
 	private Date createDate;
 	private String status;
 	
-	private int sellCount;
+	private String sellTitle;
 
 }

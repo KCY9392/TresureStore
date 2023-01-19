@@ -33,6 +33,44 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM SELL 
 		WHERE STATUS = 'Y' AND SELL_STATUS = 'I' AND ROWNUM <![CDATA[ <= ]]> 40
 	</select>
+	
+	
+	<select id="mypageSellList" resultMap="sellResultSet" parameterType="Integer">
+	
+	SELECT 
+             SELL_NO, CATEGORY_NO, SELL_TITLE, IMAGE_SRC, PRICE, HEART_NUM
+            FROM SELL 
+            JOIN MEMBER USING(USER_NO)
+            WHERE USER_NO=#{userNo}
+		
+	</select>
+	
+	<!-- 채팅방에 보이는 판매제품정보 --> 
+	<select id="selectSellProduct" parameterType="int" resultMap="sellResultSet">
+		SELECT CR.CHATROOM_NO,
+		       S.SELL_NO AS "SELL_NO",
+		       S.USER_NO AS "USER_NO",
+		       CATEGORY_NAME,
+		       SELL_TITLE,
+		       SELL_CONTENT,
+		       IMAGE_SRC,
+		       S.COUNT,
+		       PRICE,
+		       S.CREATE_DATE AS "CREATE_DATE",
+		       HEART_NUM,
+		       AVG
+		FROM CHAT_ROOM CR
+		JOIN SELL S ON (S.SELL_NO = CR.SELL_NO)
+        JOIN CATEGORY C ON (S.CATEGORY_NO = C.CATEGORY_NO)
+		JOIN MEMBER M ON (S.USER_NO = M.USER_NO)
+		JOIN (SELECT AVG(REV_SCORE) AS "AVG",
+		       S.USER_NO
+		FROM REVIEW R
+		JOIN SELL S ON(R.SELL_NO = S.SELL_NO)
+		GROUP BY S.USER_NO) PP ON (PP.USER_NO = S.USER_NO)
+		WHERE CHATROOM_NO = ${chatRoomNo} AND S.STATUS = 'Y' AND M.STATUS = 'Y'
+	</select>
+	
 
 
 

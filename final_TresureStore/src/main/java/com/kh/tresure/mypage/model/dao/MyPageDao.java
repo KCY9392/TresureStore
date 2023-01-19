@@ -1,7 +1,12 @@
 package com.kh.tresure.mypage.model.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
+
+import com.kh.tresure.sell.model.vo.Sell;
 
 @Repository
 public class MyPageDao {
@@ -35,6 +40,14 @@ public class MyPageDao {
 	
 	public int marketOpen(SqlSession sqlSession, int userNo) {
 		return sqlSession.selectOne("mypageMapper.marketOpen", userNo);
+	}
+	
+	/**
+	 * 마이페이지 상품 목록
+	 */
+	
+	public List<Sell> mypageSellList(SqlSession sqlSession, int userNo){
+		return (List)sqlSession.selectList("sellMapper.mypageSellList", userNo);
 	}
 
 
