@@ -27,14 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 </resultMap>
 
-	<select id="sellListCount" resultType="Integer">
-		SELECT 
-	COUNT(SELL_NO)
-	FROM SELL
-	JOIN MEMBER USING(USER_NO)
-	WHERE USER_NO = 9999;
-	</select>
-
+	
 
 
 

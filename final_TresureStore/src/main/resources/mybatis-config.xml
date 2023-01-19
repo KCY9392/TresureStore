@@ -13,6 +13,7 @@
 		<typeAlias type="com.kh.tresure.member.model.vo.Member" alias="member"/>
 		<typeAlias type="com.kh.tresure.chat.model.vo.ChatRoom" alias="chatRoom"/>
 		<typeAlias type="com.kh.tresure.sell.model.vo.Sell" alias="sell"/>
+		<typeAlias type="com.kh.tresure.mypage.model.vo.MyPage" alias="mypage"/>
 	</typeAliases>
 	
 	<!-- 메퍼 파일 등록 -->
@@ -20,6 +21,8 @@
 		<mapper resource="/mappers/member-mapper.xml"/>
 		<mapper resource="/mappers/chatting-mapper.xml"/>
 		<mapper resource="/mappers/sell-mapper.xml"/>
+		<mapper resource="/mappers/mypage-mapper.xml"/>
+		
 	</mappers>
 
 </configuration>

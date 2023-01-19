@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kh.tresure.member.model.service.KakaoAPI;
 import com.kh.tresure.member.model.service.MemberService;
 import com.kh.tresure.member.model.vo.Member;
+import com.kh.tresure.mypage.model.service.MyPageService;
 
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.model.Message;
@@ -31,15 +32,17 @@ public class MemberController {
 	private MessageController messageController;
 	private KakaoAPI kakao;
 	private MemberService memberService;
+	private MyPageService mypageService;
 	
 	// 기본생성자
 	public MemberController() {}
 	
 	@Autowired
-	public MemberController(MessageController messageController, MemberService memberService, KakaoAPI kakao){
+	public MemberController(MessageController messageController, MemberService memberService, KakaoAPI kakao, MyPageService mypageService){
 		this.messageController = messageController;
 		this.memberService = memberService;
 		this.kakao = kakao;
+		this.mypageService=mypageService;
 	}
 	
 	
@@ -203,24 +206,34 @@ public class MemberController {
 	}
 	
 	
-	/**
-	 * 마이페이지
-	 * 
-	 * @return
-	 */
-	@RequestMapping(value = "member/myPage", method = RequestMethod.GET)
-	public String myPage(HttpServletRequest request) {
+	@RequestMapping(value = "/member/myPage", method = RequestMethod.GET)
+	public String myPage(HttpServletRequest request,Model m) {
 		HttpSession session = request.getSession();
 		
-		if(session.getAttribute("loginUser")==null) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");	
+		if(loginUser==null) {
 			session.setAttribute("alertMsg", "로그인 후 이용가능");
 			return "redirect:/";
 		}else {
 			logger.info(">> 마이페이지 폼으로 이동");
+			
+			//상품판매 조회
+			int sellCount = mypageService.sellCount(loginUser.getUserNo());
+			//팔로워 수 조회
+			int followCount = mypageService.followCount(loginUser.getUserNo());
+			//신고 수 조회
+			int reportCount = mypageService.reportCount(loginUser.getUserNo());
+			
+			//상점 오픈일
+			int marketOpen = mypageService.marketOpen(loginUser.getUserNo());
+			m.addAttribute("sellCount", sellCount);
+			m.addAttribute("folloewCount", followCount);
+			m.addAttribute("reportCount", reportCount);
+			m.addAttribute("marketOpen", marketOpen);
+			
 			return "member/myPage";
 		}
-		
-		
 	}
 	
 	

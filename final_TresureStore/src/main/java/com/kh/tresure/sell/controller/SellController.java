@@ -37,20 +37,6 @@ public class SellController {
 			return "/index";
 		}
 		
-		/**
-		 * 상품판매수 조회
-		 * @param mv
-		 * @return
-		 */
-		@RequestMapping(value = "/myPage", method = RequestMethod.GET)
-		public ModelAndView myPageSellCount(ModelAndView mv) {
-			
-			int rsell = sellService.sellListCount();
-			
-			mv.addObject("rsell", rsell);
-			System.out.println(mv);
-			
-			return mv;
-		}
+		
 			
 }

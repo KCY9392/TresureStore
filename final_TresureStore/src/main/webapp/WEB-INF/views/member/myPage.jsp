@@ -11,12 +11,12 @@
 
  <style>
  .main-section{
-    display: flex;
+   
     -webkit-box-pack: center;
     justify-content: center;
     background: rgb(255, 255, 255);
     padding-top: 50px;
-    padding-left: 250px;
+    padding-left: 400px;
     padding-right: 70px;
     /* margin-right: 150px; */
    
@@ -25,13 +25,13 @@
     
     .content2{
     display: flex;
-    width: 100%;
+    
   
     
 }
 
 .profile{
-    width: 30%;
+   
 }
 .profile-image{
     border: grey solid 1px;
@@ -51,7 +51,7 @@
 
 
 .info{
-    width: 70%;
+    
 }
 .info-table{
    
@@ -147,7 +147,7 @@
     align-items: center;
     flex-shrink: 0;
     flex-direction: row-reverse;
-    margin-right: 200px;
+    
 
 
 }
@@ -159,7 +159,7 @@ display: flex;
 align-items: center;
 flex-shrink: 0;
 flex-direction: row-reverse;
-margin-right: 200px;
+
 
 
 }
@@ -214,28 +214,72 @@ margin-right: 200px;
 
         }
         .market-product{
-            border: 1px solid black;
+            flex: 1 1 0%;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    display: flex;
+    border-top: 1px solid rgb(238, 238, 238);
+    border-right: 1px solid rgb(238, 238, 238);
+    border-bottom: 1px solid rgb(33, 33, 33);
+    background: rgb(250, 250, 250);
+    color: rgb(136, 136, 136);
             
         }
         .market-review{
-            border: 1px solid black;
-        }
+            flex: 1 1 0%;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    display: flex;
+    border-top: 1px solid rgb(238, 238, 238);
+    border-right: 1px solid rgb(238, 238, 238);
+    border-bottom: 1px solid rgb(33, 33, 33);
+    background: rgb(250, 250, 250);
+    color: rgb(136, 136, 136);
+}
+        
         .market-heart{
-            border: 1px solid black;
+           flex: 1 1 0%;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    display: flex;
+    border-top: 1px solid rgb(238, 238, 238);
+    border-right: 1px solid rgb(238, 238, 238);
+    border-bottom: 1px solid rgb(33, 33, 33);
+    background: rgb(250, 250, 250);
+    color: rgb(136, 136, 136);
         }
         .market-tracsac{
-            border: 1px solid black;
+          flex: 1 1 0%;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    display: flex;
+    border-top: 1px solid rgb(238, 238, 238);
+    border-right: 1px solid rgb(238, 238, 238);
+    border-bottom: 1px solid rgb(33, 33, 33);
+    background: rgb(250, 250, 250);
+    color: rgb(136, 136, 136);
         }
         .list-form{
             border: 1px solid black;
-            /* width: 758px; */
-           height: 200px;
+            width: 758px;
+          
             /* padding-left: 200px; */
-            margin: 0px 210px
-
-
-
         }
+        .list-a{
+        display: flex;
+    height: 50px;
+    text-align:center;
+    }
+            
+   
         
  </style>
 </head>
@@ -245,7 +289,7 @@ margin-right: 200px;
 	 	 
 	 
 	 	 
-	 	  <div class="main-section">
+	<div class="main-section">
         
     
        
@@ -269,22 +313,22 @@ margin-right: 200px;
                 <div class="info-list">
                     <div class="market-open">
                         <img src="/tresure/resources/images/icon/상점오픈.png" width="14" height="13" alt="상점오픈일 아이콘">
-                        상점오픈일<div class="market-opendate">일 전</div>
+                        상점오픈일<div class="market-opendate">일<span>${marketOpen }</span> 전</div>
                     </div>
 
                     <div class="follower">
                         <img src="/tresure/resources/images/icon/팔로워.png" width="14" height="13" alt="팔로워 아이콘">
-                        팔로워<div class="market-follower"><span>${rfollower }</span> 명</div>
+                        팔로워<div class="market-follower"><span>${folloewCount }</span> 명</div>
                     </div>
 
                     <div class="sell-product">
                         <img src="/tresure/resources/images/icon/판매수.png" width="14" height="13" alt="상품판매 아이콘">
-                        상품판매<div class="market-sell"> <span>${rsell }</span> 회</div>
+                        상품판매<div class="market-sell"> <span>${sellCount }</span> 회</div>
                     </div>
 
                     <div class="report">
                         <img src="/tresure/resources/images/icon/신고수.png" width="14" height="13" alt="신고 아이콘">
-                        신고<div class="market-report"> 회</div>
+                        신고<div class="market-report"> <span>${reportCount }</span>회</div>
                     </div>
                     <br>
                     <br>
@@ -310,31 +354,34 @@ margin-right: 200px;
             </div>
 
         </div>
+       
         
-    </div>  
-    
+    </div> 
+    <div class="list-form">
+    	<div class="list-content">
+    		<div class="list-a">
+    			<a class="market-product" href="#" id="product" onchange="search()";>상품<span class="rproduct"></span></a>
+				<a class="market-review" href="#" id="review"onchange="search()";>상점후기<span class="rrview"></span></a>
+				<a class="market-heart" href="#" id="heart"onchange="search()";>찜<span class="rheart"></span></a>
+				<a class="market-tracsac" href="#">거래내역<span class="rtransac"></span></a>
+    		</div>
+    	
+    	</div>
+        
+  
+
+   
+    </div> 
+     
 
    
     
 
 </div>
 
-<div class="list-content">
-        
-    <ul class="navi-list">
-        
-        <li><a class="market-product" href="#" id="product" onchange="search()";>상품<span class="rproduct"></span></a></li>
-        
-        <li><a class="market-review" href="#" id="review"onchange="search()";>상점후기<span class="rrview"></span></a></li>
-        <li><a class="market-heart" href="#" id="heart"onchange="search()";>찜<span class="rheart"></span></a></li>
-        <li><a class="market-tracsac" href="#">거래내역<span class="rtransac"></span></a></li>
-    </ul>
+    
 
-    <div class="list-form">
-    
-    
-    </div>
-    </div>
+
     
      <jsp:include page="../common/footer.jsp"/>
 	 	 	

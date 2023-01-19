@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="mypageMapper">
+
+<!-- type은 mybatis-config에서 sell 라는 별칭을 정해두었음 -->
+	<resultMap type="mypage" id="mypageResultSet" >
+
+	<result column="SELL_NO" property="sellNo"></result>
+	<result column="REPORT_NO" property="reportNo"></result>
+	<result column="FW_ID" property="fwId"></result>
+	<result column="USER_NO" property="userNo"></result>
+	<result column="CREATE_DATE" property="createDate"></result>
+	<result column="STATUS" property="status"></result>
+	
+
+
+
+
+</resultMap>
+
+<select id="sellCount" resultType="Integer" parameterType="Integer">
+		SELECT 
+	COUNT(SELL_NO)
+	FROM SELL
+	JOIN MEMBER USING(USER_NO)
+	WHERE USER_NO = #{userNo}
+	</select>
+	
+	<select id="followCount" resultType="Integer" parameterType="Integer">
+	SELECT
+	COUNT(FW_ID)
+	FROM FOLLOW
+	JOIN MEMBER ON USER_NO = FW_ID
+	WHERE USER_NO = #{userNo}
+	
+	</select>
+	
+	<select id="reportCount" resultType="Integer" parameterType="Integer">
+	SELECT
+	COUNT(REPORT_NO)
+	FROM REPORT
+	JOIN MEMBER ON USER_NO = REPORT_NO
+	WHERE USER_NO = #{userNo}
+
+	
+	</select>
+	
+	<select id="marketOpen" resultType="Integer" parameterType="Integer">
+	SELECT
+	ROUND(TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDD')) - CREATE_DATE)
+	FROM MEMBER
+	WHERE USER_NO = #{userNo}
+
+	
+	</select>
+	
+	
+
+</mapper>
