@@ -6,7 +6,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.kh.tresure.chat.model.vo.ChatRoom;
-import com.kh.tresure.member.model.vo.Member;
 
 @Repository
 public class ChatDao {

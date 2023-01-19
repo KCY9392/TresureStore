@@ -1,7 +1,7 @@
 package com.kh.tresure.chat.model.vo;
 
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +19,7 @@ public class ChatMessage {
 	private int chatRoomNo;
 	private int userNo;
 	private String chatContent;
-	private Date createDate;
+	private Timestamp createDate;
 	private String readStatus;
 	
 }

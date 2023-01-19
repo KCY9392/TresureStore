@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -83,6 +84,7 @@
 					                    <tr>
 					                   	  <th></th>
 					                      <th >상점명</th>
+					                      <th >판매명</th>
 					                      <th >채팅 시간</th>
 					                      <th></th>
 					                    </tr>
@@ -93,7 +95,15 @@
 						                    <tr>
 						                      <td>${chatRoom.chatRoomNo }</td>
 						                      <td class="storeName"><img src="https://cdn-icons-png.flaticon.com/128/9317/9317793.png" width="20">&nbsp;&nbsp;상점 ${chatRoom.userNo }호 점 </td>
-						                      <td>${chatRoom.createDate }</td>
+						                      <td>${chatRoom.sellTitle}</td>
+						                      <c:choose>
+							                      	<c:when test="${empty chatRoom.chatDate }">
+							                      		<td>${chatRoom.createDate }</td>
+							                      	</c:when>
+							                      	<c:otherwise>
+							                      		<td>${chatRoom.chatDate }</td>
+							                      	</c:otherwise>
+						                      </c:choose>
 						                      <td><button type="button" class="btn btn-outline-warning btn-sm">나가기</button></td>
 						                    </tr>
 				               			</c:forEach>

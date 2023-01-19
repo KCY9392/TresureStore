@@ -15,6 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  <result column="CREATE_DATE" property="createDate"/>
 	  <result column="CREATE_DATE_2" property="chatDate"/>
 	  <result column="AVG" property="avg"/>
+	  <result column="SELL_TITLE" property="sellTitle"/>
 	  
 </resultMap>
 
@@ -26,6 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	        CM.CREATE_DATE AS "CREATE_DATE_2",
 	        C.CREATE_DATE AS "CREATE_DATE",
 	        S.SELL_NO AS "SELL_NO",
+	       	SUBSTR(S.SELL_TITLE, 1, 10)AS "SELL_TITLE",
 	        AVG
 	FROM CHAT_ROOM C
 	LEFT JOIN MEMBER M ON(C.USER_NO = M.USER_NO)

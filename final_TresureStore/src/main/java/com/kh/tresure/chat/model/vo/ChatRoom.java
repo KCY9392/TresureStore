@@ -1,6 +1,9 @@
 package com.kh.tresure.chat.model.vo;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +16,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class ChatRoom {
 
+	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
 	private int chatRoomNo; //채팅방 번호
 	private int userNo; //판매한 유저번호
 	private int sellNo; // 판매상품 번호
@@ -20,7 +24,7 @@ public class ChatRoom {
 	private Date createDate; //채팅방 만든 시간
 	
 	private int purchaseNo; //구매한 유저번호
-	private Date chatDate; //대화한 시간
+	private Timestamp chatDate; //대화한 시간
 	private int avg; //전체 거래 평점의 평균값
-
+	private String sellTitle; //상품제목
 }
