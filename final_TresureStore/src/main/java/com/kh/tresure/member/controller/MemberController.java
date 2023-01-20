@@ -210,7 +210,7 @@ public class MemberController {
 	}
 	
 	
-	@RequestMapping(value = "/member/myPage", method = RequestMethod.GET)
+	@RequestMapping(value = "member/myPage", method = RequestMethod.GET)
 	public String myPage(HttpServletRequest request,Model m) {
 		HttpSession session = request.getSession();
 		
@@ -245,8 +245,11 @@ public class MemberController {
 			m.addAttribute("sellList", sellList);
 			m.addAttribute("heartList", heartList);
 			
+			System.out.println();
+			
 			return "member/myPage";
 		}
+		
 	}
 	
 	

@@ -13,6 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <result column="IMAGE_SRC" property="imgSrc"/>
 <result column="PRICE" property="price"/>
 <result column="CREATE_DATE" property="createDate"/>
+<result column="HEART_NO" property="heartNo"/>
 
 
 
@@ -23,6 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  SELECT
 	H.USER_NO ,
 	H.SELL_NO ,
+	H.HEART_NO,
 	S.SELL_TITLE,
 	S.IMAGE_SRC,
 	S.PRICE,
@@ -38,6 +40,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 </select>
+
+<delete id="deleteHeart">
+ DELETE HEART
+ WHERE HEEART_NO = #{heartNo}  AND
+ 	   USER_NO = #{userNo}
+</delete>
 
 
 

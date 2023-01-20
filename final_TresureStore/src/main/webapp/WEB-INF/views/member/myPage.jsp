@@ -319,19 +319,18 @@ flex-direction: row-reverse;
         <div class="profile">
             
             <div class="profile-image">
-            <c:forEach var="chatRoom" items="${chatRoomList }">
-		<c:if test="${chatRoom.avg > 4.5}"> 
-			<img src="/tresure/resources/images/icon/grade3.png" width="20px" /> &nbsp;&nbsp;상점${chatRoom.userNo }호 점 
-		</c:if> 
-		<c:if test="${ 4 <= chatRoom.avg && chatRoom.avg < 4.5 }"> 
-			<img src="/tresure/resources/images/icon/grade2.png" width="20px" /> &nbsp;&nbsp;상점${chatRoom.userNo }호 점 
-		</c:if> 
-		<c:if test="${ 3.5 <= chatRoom.avg && chatRoom.avg < 4 }"> 
-			<img src="/tresure/resources/images/icon/grade1.png" width="20px" /> &nbsp;&nbsp;상점${chatRoom.userNo }호 점 
-		</c:if>
-		<c:if test="${ 0 < chatRoom.avg  && chatRoom.avg < 3.5 }">
-			<img src="/tresure/resources/images/icon/grade0.png" width="20px" /> &nbsp;&nbsp;상점${chatRoom.userNo }호 점
-		</c:if>  	                      
+           <c:if test="${s.avg > 4.5}"> 
+                                 <img src="/tresure/resources/images/icon/grade3.png"/>
+                              </c:if> 
+                              <c:if test="${ 4 <= s.avg && s.avg < 4.5 }"> 
+                                 <img src="/tresure/resources/images/icon/grade2.png"/> 
+                              </c:if> 
+                              <c:if test="${ 3.5 <= s.avg && s.avg < 4 }"> 
+                                 <img src="/tresure/resources/images/icon/grade1.png" /> 
+                              </c:if>
+                              <c:if test="${ s.avg == null  || s.avg < 3.5 }">
+                                 <img src="/tresure/resources/images/icon/grade0.png"/>
+                              </c:if>                      
 	</c:forEach>
 
 
@@ -449,12 +448,12 @@ flex-direction: row-reverse;
          <br>
          <br>
          
-         
+        
         <c:forEach items="${heartList}" var="h" begin="0" end="${fn:length(heartList)}" step="1" varStatus="status">
         
         <div class="list-box">
          <div class="checkBox">
-          <input type="checkbox" name="chBox" class="chBox" data-userNum="${h.userNo}" />
+          <input type="checkbox" name="chBox" class="chBox" data-heartNum="${h.heartNo}" />
          </div>
         
          <div class="thumb" >
@@ -473,6 +472,7 @@ flex-direction: row-reverse;
         </div> 
         
         </c:forEach>
+     
        </div>
         
   
@@ -525,6 +525,44 @@ flex-direction: row-reverse;
      $("#allCheck").prop("checked", false);
     });
    </script>
+   
+   <script>
+   $(".selectDelete_btn").click(function(){
+    var confirm_val = confirm("정말 삭제하시겠습니까?");
+    
+    if(confirm_val) {
+     var checkArr = [];
+     
+     
+     
+     $("input[class='chBox']:checked").each(function(){
+      checkArr.push($(this).attr("data-heartNum"));
+     });
+     console.log(checkArr);
+     $.ajax({
+      url : '${pageContext.request.contextPath}/deleteHeart',
+      type : 'post',
+      data : { chbox : checkArr },
+      success : function(){
+       console.log("성공");
+       location.href = "${pageContext.request.contextPath}/member/myPage";
+      },
+      error:function(){
+			console.log("실패")
+		}
+    
+    	  
+      
+     });
+    } 
+   });
+  </script>
+   
+   
+   
+ 
+   
+   
 
     
 

@@ -119,5 +119,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	   WHERE CHATROOM_NO = ${chatRoomNo} AND S.STATUS = 'Y' AND M.STATUS = 'Y'
 	</select>
 	
+	<!-- 마이페이지 판매목록 -->
+	<select id="mypageSellList" resultMap="sellResultSet" parameterType="Integer">
+	
+	SELECT 
+             SELL_NO, CATEGORY_NO, SELL_TITLE, IMAGE_SRC, PRICE, HEART_NUM
+            FROM SELL 
+            JOIN MEMBER USING(USER_NO)
+            WHERE USER_NO=#{userNo}
+		
+	</select>
+	
 
 </mapper>
