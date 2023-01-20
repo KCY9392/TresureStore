@@ -41,5 +41,15 @@ public class SellDao {
 		
 		return sqlSession.selectOne("sellMapper.getSellNo", userNo);
 	}
-	
+
+	/**
+	* 채팅방안에 판매게시글 가져오기
+	* @param sqlSession
+	* @param chatRoomNo
+	* @return
+	*/
+	public static Sell selectSellProduct(SqlSession sqlSession, int chatRoomNo) {
+      
+      return sqlSession.selectOne("sellMapper.selectSellProduct", chatRoomNo);
+	}
 }
