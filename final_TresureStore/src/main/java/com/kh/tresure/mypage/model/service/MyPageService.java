@@ -3,6 +3,7 @@ package com.kh.tresure.mypage.model.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.kh.tresure.heart.model.vo.Heart;
 import com.kh.tresure.sell.model.vo.Sell;
 
 public interface MyPageService{
@@ -35,5 +36,10 @@ public interface MyPageService{
 	 */
 	
 	public List<Sell> mypageSellList(int userNo);
+	
+	/**
+	 * 마이페이지 찜 상품 목록
+	 */
+	public List<Heart> mypageHeartList(int userNo);
 
 }

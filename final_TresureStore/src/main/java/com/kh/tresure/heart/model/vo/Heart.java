@@ -2,7 +2,7 @@ package com.kh.tresure.heart.model.vo;
 
 import java.util.Date;
 
-import com.kh.tresure.member.model.vo.Member;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,6 +18,14 @@ public class Heart {
 	private int userNo;
 	private int sellNo;
 	private Date createDate;
+	
+	//찜한 상품 제목, 가격, 사진
+	private String sellTitle;
+	private int price;
+	private String imgSrc;
+	
+	
+	
 	
 	
 	

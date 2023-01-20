@@ -4,3 +4,42 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="heartMapper">
+
+<!-- type은 mybatis-config에서 heart 라는 별칭을 정해두었음 -->
+<resultMap type="heart" id="heartResultSet" >
+<id column="USER_NO" property="userNo"/>
+<id column="SELL_NO" property="sellNo"/>
+<result column="SELL_TITLE" property="sellTitle"/>
+<result column="IMAGE_SRC" property="imgSrc"/>
+<result column="PRICE" property="price"/>
+<result column="CREATE_DATE" property="createDate"/>
+
+
+
+
+</resultMap>
+
+<select id="mypageHeartList"  parameterType="int" resultMap="heartResultSet">
+	  SELECT
+	H.USER_NO ,
+	H.SELL_NO ,
+	S.SELL_TITLE,
+	S.IMAGE_SRC,
+	S.PRICE,
+	S.CREATE_DATE
+	
+	
+	FROM HEART H
+	JOIN MEMBER M ON M.USER_NO = H.USER_NO
+	JOIN SELL S ON S.SELL_NO= H.SELL_NO
+	WHERE M.USER_NO = #{userNo}
+
+
+
+
+</select>
+
+
+
+
+</mapper>

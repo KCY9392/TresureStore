@@ -15,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.kh.tresure.heart.model.vo.Heart;
 import com.kh.tresure.member.model.service.KakaoAPI;
 import com.kh.tresure.member.model.service.MemberService;
 import com.kh.tresure.member.model.vo.Member;
@@ -231,13 +233,17 @@ public class MemberController {
 			int marketOpen = mypageService.marketOpen(loginUser.getUserNo());
 			
 			
-			List<Sell> sellList = mypageService.mypageSellList(loginUser.getUserNo());
 			
+			//판매상품 리스트
+			List<Sell> sellList = mypageService.mypageSellList(loginUser.getUserNo());
+			//찜 상품 리스트
+			List<Heart> heartList = mypageService.mypageHeartList(loginUser.getUserNo());
 			m.addAttribute("sellCount", sellCount);
 			m.addAttribute("folloewCount", followCount);
 			m.addAttribute("reportCount", reportCount);
 			m.addAttribute("marketOpen", marketOpen);
 			m.addAttribute("sellList", sellList);
+			m.addAttribute("heartList", heartList);
 			
 			return "member/myPage";
 		}

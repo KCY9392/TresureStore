@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.tresure.heart.model.vo.Heart;
 import com.kh.tresure.mypage.model.dao.MyPageDao;
 import com.kh.tresure.sell.model.vo.Sell;
 
@@ -71,6 +72,14 @@ public class MyPageImpl implements MyPageService{
 	@Override
 	public List<Sell> mypageSellList(int userNo){
 		return mypageDao.mypageSellList(sqlSession, userNo);
+	}
+	
+	/**
+	 * 마이페이지 찜 목록
+	 */
+	@Override
+	public List<Heart> mypageHeartList(int userNo){
+		return mypageDao.mypageHeartList(sqlSession, userNo);
 	}
 	
 	

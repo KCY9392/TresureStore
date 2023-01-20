@@ -450,21 +450,21 @@ flex-direction: row-reverse;
          <br>
          
          
-        <c:forEach items="${heartList}" var="h">
+        <c:forEach items="${heartList}" var="h" begin="0" end="${fn:length(heartList)}" step="1" varStatus="status">
         
         <div class="list-box">
          <div class="checkBox">
-          <input type="checkbox" name="chBox" class="chBox" data-="${h.userNo}" />
+          <input type="checkbox" name="chBox" class="chBox" data-userNum="${h.userNo}" />
          </div>
         
-         <div class="thumb">
-          <img src="${heartList.imgSrc}" />
+         <div class="thumb" >
+          <img src="${h.imgSrc}"  width="30px" height="30px"/>
          </div>
          <div class="gdsInfo">
           <p>
            <span>${h.sellTitle}</span><br/>
-           <span>${h.price }</span>
-           <span>${h.createDate }Àü</span><br/>
+           <span>${h.price }</span><br/>
+           <span>${h.createDate }</span><br/>
           
           </p>
           
@@ -507,6 +507,24 @@ flex-direction: row-reverse;
       <script>
       	
       </script>
+      
+      
+       <script>
+        $("#allCheck").click(function(){
+         var chk = $("#allCheck").prop("checked");
+         if(chk) {
+          $(".chBox").prop("checked", true);
+         } else {
+          $(".chBox").prop("checked", false);
+         }
+        });
+        </script>
+
+<script>
+    $(".chBox").click(function(){
+     $("#allCheck").prop("checked", false);
+    });
+   </script>
 
     
 

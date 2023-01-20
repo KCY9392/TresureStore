@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.kh.tresure.heart.model.vo.Heart;
 import com.kh.tresure.sell.model.vo.Sell;
 
 @Repository
@@ -49,6 +50,12 @@ public class MyPageDao {
 	public List<Sell> mypageSellList(SqlSession sqlSession, int userNo){
 		return (List)sqlSession.selectList("sellMapper.mypageSellList", userNo);
 	}
-
+	
+	/**
+	 * 마이페이지 찜 상품 목록
+	 */
+	public List<Heart> mypageHeartList(SqlSession sqlSession, int userNo){
+		return (List)sqlSession.selectList("heartMapper.mypageHeartList", userNo);
+	}
 
 }
