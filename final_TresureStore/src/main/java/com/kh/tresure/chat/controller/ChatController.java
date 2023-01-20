@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.kh.tresure.chat.model.service.ChatService;
 import com.kh.tresure.chat.model.vo.ChatRoom;
 import com.kh.tresure.member.model.vo.Member;
 
 @Controller
+@SessionAttributes({"chatRoomNo", "loginUser"})
 public class ChatController {
 	private HttpSession session;
 	private Logger logger = LoggerFactory.getLogger(ChatController.class);
@@ -77,9 +79,6 @@ public class ChatController {
 		logger.info(">> 채팅방으로 이동");
 		
 		AllList =  chatService.chattingRoomEnter(chatRoomNo, userNo);
-		 
-
-		
 		
 		if(AllList.size() > 0) {
 			
