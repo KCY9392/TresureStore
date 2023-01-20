@@ -13,9 +13,8 @@
 		<typeAlias type="com.kh.tresure.member.model.vo.Member" alias="member"/>
 		<typeAlias type="com.kh.tresure.chat.model.vo.ChatRoom" alias="chatRoom"/>
 		<typeAlias type="com.kh.tresure.sell.model.vo.Sell" alias="sell"/>
+		<typeAlias type="com.kh.tresure.sell.model.vo.SellImg" alias="sellImg"/>
 		<typeAlias type="com.kh.tresure.mypage.model.vo.MyPage" alias="mypage"/>
-		<typeAlias type="com.kh.tresure.heart.model.vo.Heart" alias="heart"/>
-		
 	</typeAliases>
 	
 	<!-- 메퍼 파일 등록 -->
@@ -24,7 +23,6 @@
 		<mapper resource="/mappers/chatting-mapper.xml"/>
 		<mapper resource="/mappers/sell-mapper.xml"/>
 		<mapper resource="/mappers/mypage-mapper.xml"/>
-			<mapper resource="/mappers/heart-mapper.xml"/>
 		
 	</mappers>
 

@@ -77,7 +77,7 @@
 						<ul id="sun_wrap_ul">
 							<li><a href="${pageContext.request.contextPath}/chat/chatRoomList" onclick="chatGo()"><img
 									src="/tresure/resources/images/icon/번개.png" alt="채팅 이미지">채팅하기</a></li>
-							<li><a href="${pageContext.request.contextPath }/sell/sellInsert"><img
+							<li><a href="${pageContext.request.contextPath }/sell/sellInsertForm"><img
 									src="/tresure/resources/images/icon/원.png" alt="판매등록 이미지">판매하기</a></li>
 							<li><a href=""><img
 									src="/tresure/resources/images/icon/사기조회.png" alt="사기조회 이미지">사기조회</a></li>

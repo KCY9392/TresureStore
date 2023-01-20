@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script type="text/javascript" src="/tresure/resources/js/header.js"></script>
+<script type="text/javascript" src="/tresure/resources/js/sellInsert.js"></script>
 <link rel="stylesheet" href="/tresure/resources/css/sellInsert.css">
 <title>Insert title here</title>
 </head>
@@ -14,7 +15,7 @@
 	<jsp:include page="../common/sideBar.jsp"/>
 
 	<div class="sellInsert-div">
-		<form id="sellInsertForm" action="">
+		<form id="sellInsertForm" action="${pageContext.request.contextPath}/sell/sellInsert" enctype="multipart/form-data" method = "post">
 			<div class="main-section">
 				<div class="sellInsert1">           
 					<main class="sellInsert2">
@@ -30,11 +31,10 @@
 									</div>
 									<div class="image_con">
 										<ul class="sellInsertImages" id="imageList">
-											<li class="imageList">이미지 등록 <input type="file"
-												multiple="" id="inputImage">
-											</li>
+ 											<li class="imageList">이미지 등록 <input type="file"
+ 												 id="inputImage" name="upfile">${s.originName }
+ 											</li>
 										</ul>
-
 										<div class="add_description">
 											<b>* 상품 이미지는 640x640에 최적화 되어 있습니다.</b><br> - 이미지는 상품등록 시
 											정사각형으로 짤려서 등록됩니다.<br> - 이미지를 클릭 할 경우 원본이미지를 확인할 수 있습니다.<br>
@@ -56,7 +56,7 @@
 											<div class="title_insertBox">
 												<input type="text" placeholder="상품 제목을 입력해주세요."
 													class="titleInput" id="product_subject"
-													name="title_subject">
+													name="sellTitle">
 											</div>
 											<div class="titleSize">
 												<span>최대 40글자
@@ -74,17 +74,17 @@
 										카테고리<span>*</span>
 									</div>
 									<div class="category_sub">
-										<select name="" id="category_sub">
+										<select name="categoryNo" id="category_sub">
 											<option value="">카테고리</option>
-											<option value="">디지털기기</option>
-											<option value="">생활가전</option>
-											<option value="">유아용품</option>
-											<option value="">패션</option>
-											<option value="">도서</option>
-											<option value="">반려동물용품</option>
-											<option value="">스포츠</option>
-											<option value="">뷰티</option>
-											<option value="">교환권</option>
+											<option value="10">디지털기기</option>
+											<option value="20">생활가전</option>
+											<option value="30">유아용품</option>
+											<option value="40">패션</option>
+											<option value="50">도서</option>
+											<option value="60">반려동물용품</option>
+											<option value="70">스포츠</option>
+											<option value="80">뷰티</option>
+											<option value="90">교환권</option>
 										</select>
 									</div>
 								</li>
@@ -96,7 +96,7 @@
 									<div class="price_con">
 										<div class="priceBox">
 											<input type="text" placeholder="숫자만 입력해주세요."
-												class="priceInput" id="product_price" name="sell_price">원
+												class="priceInput" id="product_price" name="price">원
 										</div>
 
 									</div>
@@ -110,7 +110,7 @@
 									</div>
 									<div class="content_con">
 										<textarea style="resize: none;" rows="10" class="content"
-											id="product_content" name="sell_content"></textarea>
+											id="product_content" name="sellContent"></textarea>
 										<div class="text">
 											<div class="limit">최대 2000자</div>
 										</div>
@@ -135,6 +135,8 @@
 	<div class="foot"></div>
 	
 	<jsp:include page="../common/footer.jsp"/>
+
+
 	
 </body>
 </html>

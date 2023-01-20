@@ -15,17 +15,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="SELL_TITLE" property="sellTitle"></result>
 	<result column="SELL_CONTENT" property="sellContent"></result>
 	<result column="IMAGE_SRC" property="imgSrc"></result>
+	<result column="ORIGIN_NAME" property="originName"></result>
+	<result column="CHANGE_NAME" property="changeName"></result>
 	<result column="COUNT" property="count"></result>
 	<result column="PRICE" property="price"></result>
 	<result column="SELL_STATUS" property="sellStatus"></result>
 	<result column="CREATE_DATE" property="createDate"></result>
 	<result column="UPDATE_DATE" property="updateDate"></result>
 	<result column="STATUS" property="status"></result>
+	<result column="CHATROOM_NO" property="chatRoomNo"></result>
+	<result column="CATEGORY_NAME" property="categoryName"></result>
+	<result column="AVG" property="avg"></result>
 
 	<result column="HEART_NUM" property="heartNum"></result>
-
+	
+	<collection property="imgList" resultMap="sellImgResultSet"/>
 
 </resultMap>
+
+<resultMap type="sellImg" id="sellImgResultSet">
+	<id column="SFILE_No" property="sfileNo"></id>
+	<result column="SELL_NO"></result>
+	<result column="ORIGIN_NAME" property="originName"/>
+	<result column="CHANGE_NAME" property="changeName"/>
+	<result column="FILE_TYPE" property="fileType"/>
+	<result column="STATUS" property="status"/>
+	<result column="UPLOAD_DATE" property="upLoadDate"/>
+	<result column="FILE_PATH" property="filePath"/>
+</resultMap>
+
 
 	<select id="sellListselect" resultMap="sellResultSet">
 		SELECT 
@@ -33,45 +51,48 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM SELL 
 		WHERE STATUS = 'Y' AND SELL_STATUS = 'I' AND ROWNUM <![CDATA[ <= ]]> 40
 	</select>
+
+	<!-- 상품등록 -->
+	<insert id="insertSell" parameterType="sell" >
+		INSERT INTO SELL(
+			SELL_NO,
+			USER_NO,
+			IMAGE_SRC, 
+			CATEGORY_NO,
+			SELL_TITLE,
+			SELL_CONTENT,
+			PRICE
+		) VALUES (
+			SEQ_SNO.NEXTVAL,
+			10,
+			#{imgSrc},
+			#{categoryNo},
+			#{sellTitle},
+			#{sellContent},
+			#{price}
+		)
+	</insert>
+	<insert id="insertSellImgList" parameterType="list">
+		INSERT INTO SFILE
+		SELECT SEQ_SFNO.NEXTVAL AS SFILE_NO, C.* FROM 
+		(
+			<foreach collection="list" item="img" separator="UNION ALL">
+				SELECT #{img.sellNo} as SELL_NO,
+					   #{img.originName} as ORIGIN_NAME,
+					   #{img.changeName} as CHANGE_NAME,
+					   #{img.upLoadDate} as UPLOAD_DATE,
+					   #{img.filePath} as FILE_PATH,
+					   #{img.fileType} as FILE_TYPE,
+					   #{img.status} as STATUS 
+				FROM DUAL
+			</foreach>	
+		) C
+	</insert>
 	
-	
-	<select id="mypageSellList" resultMap="sellResultSet" parameterType="Integer">
-	
-	SELECT 
-             SELL_NO, CATEGORY_NO, SELL_TITLE, IMAGE_SRC, PRICE, HEART_NUM
-            FROM SELL 
-            JOIN MEMBER USING(USER_NO)
-            WHERE USER_NO=#{userNo}
-		
+	<select id="getSellNo" parameterType="string" resultType="integer">
+		select sell_no from (select sell_No from sell where user_no = '10' order by create_date desc) where rownum = 1
 	</select>
 	
-	<!-- 채팅방에 보이는 판매제품정보 --> 
-	<select id="selectSellProduct" parameterType="int" resultMap="sellResultSet">
-		SELECT CR.CHATROOM_NO,
-		       S.SELL_NO AS "SELL_NO",
-		       S.USER_NO AS "USER_NO",
-		       CATEGORY_NAME,
-		       SELL_TITLE,
-		       SELL_CONTENT,
-		       IMAGE_SRC,
-		       S.COUNT,
-		       PRICE,
-		       S.CREATE_DATE AS "CREATE_DATE",
-		       HEART_NUM,
-		       AVG
-		FROM CHAT_ROOM CR
-		JOIN SELL S ON (S.SELL_NO = CR.SELL_NO)
-        JOIN CATEGORY C ON (S.CATEGORY_NO = C.CATEGORY_NO)
-		JOIN MEMBER M ON (S.USER_NO = M.USER_NO)
-		JOIN (SELECT AVG(REV_SCORE) AS "AVG",
-		       S.USER_NO
-		FROM REVIEW R
-		JOIN SELL S ON(R.SELL_NO = S.SELL_NO)
-		GROUP BY S.USER_NO) PP ON (PP.USER_NO = S.USER_NO)
-		WHERE CHATROOM_NO = ${chatRoomNo} AND S.STATUS = 'Y' AND M.STATUS = 'Y'
-	</select>
 	
-
-
 
 </mapper>

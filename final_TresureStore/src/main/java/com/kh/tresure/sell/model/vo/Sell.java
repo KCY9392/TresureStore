@@ -1,6 +1,7 @@
 package com.kh.tresure.sell.model.vo;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 import com.kh.tresure.common.Time;
 
@@ -29,8 +30,20 @@ public class Sell {
 	private String status;
 	private String heartNum;
 	
+	// 채팅방 상세보기
+	private int chatRoomNo;
+	private String categoryName;
+	private double avg;
+
+	
 	private String timeago;
 	
+	private String originName;
+	private String changeName;
+	
+	private ArrayList<SellImg> imgList;
+	
+		
 	public String getTimeago() {
 		return timeago;
 	}
