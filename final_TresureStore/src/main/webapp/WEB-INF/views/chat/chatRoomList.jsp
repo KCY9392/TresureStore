@@ -66,7 +66,7 @@
         <div class="p-3 m-0 border-0 bd-example ">
             <br><br>
             <div class="innerOuter">
-                <img src="https://cdn-icons-png.flaticon.com/128/5545/5545823.png" width="40">&nbsp;<span>보물톡</span>
+                <img src="/tresure/resources/images/icon/mainLogo.png" width="40">&nbsp;<span>보물톡</span>
                 <a class="block-list" href="${pageContext.request.contextPath}/chat/chatBlockList">차단목록</a>
 
                 <c:choose>
@@ -103,7 +103,7 @@
                                             <c:if test="${ 3.5 <= chatRoom.avg && chatRoom.avg < 4 }">
                                                 <img src="/tresure/resources/images/icon/grade1.png" width="20px" /> &nbsp;&nbsp;상점${chatRoom.userNo }호 점
                                             </c:if>
-                                            <c:if test="${ 0 < chatRoom.avg  && chatRoom.avg < 3.5 }">
+                                            <c:if test="${ null == chatRoom.avg || chatRoom.avg < 3.5 }">
                                                 <img src="/tresure/resources/images/icon/grade0.png" width="20px" /> &nbsp;&nbsp;상점${chatRoom.userNo }호 점
                                             </c:if>
 
@@ -119,7 +119,7 @@
                                                 </td>
                                             </c:otherwise>
                                         </c:choose>
-                                        <td><button type="button" class="btn btn-outline-warning btn-sm">나가기</button></td>
+                                        <td><button type="button" id="chatExit${chatRoom.chatRoomNo }" class="btn btn-outline-warning btn-sm">나가기</button></td>
                                     </tr>
 
                                     <script>

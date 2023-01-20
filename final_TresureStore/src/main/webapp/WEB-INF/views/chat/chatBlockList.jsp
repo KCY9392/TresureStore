@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -50,35 +51,50 @@
       	<div class="p-3 m-0 border-0 bd-example">
           <br><br>
             <div class="innerOuter" style="padding : 5% 10%;">
-              <img src="https://cdn-icons-png.flaticon.com/128/5545/5545823.png" width="30" height="30">&nbsp;<span>차단목록</span>
+              <img src="/tresure/resources/images/icon/mainLogo.png" width="30" height="30">&nbsp;<span>차단목록</span>
                   <a href="${pageContext.request.contextPath}/chat/chatRoomList" >보물톡</a>
-                  <br><br>
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th></th>
-                      <th>상점명</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody class="table-group-divider">
-                    <tr>
-                      <th>1</th>
-                      <td>상점 708708호 점</td>                      
-                      <td><button type="button" class="btn btn-outline-warning btn-sm">해제</button></td>
-                    </tr>
-                    <tr>
-                      <th>2</th>
-                      <td>상점 708708호 점</td>                     
-                      <td><button type="button" class="btn btn-outline-warning btn-sm">해제</button></td>
-                    </tr>
-                    <tr>
-                      <th>3</th>
-                      <td>상점 708708호 점</td>                     
-                      <td><button type="button" class="btn btn-outline-warning btn-sm">해제</button></td>
-                    </tr>
-                  </tbody>
-                </table>
+                  
+                  <c:choose>
+	                    <%-- 차단 목록이 없을 때	 --%>
+	                    <c:when test="${empty blockList}">
+	                        <div style="text-align: center;">차단한 상점이 없습니다. </div>
+	                    </c:when>
+	                    
+	                    <c:otherwise>
+		                <table class="table">
+		                  <thead>
+		                    <tr>
+		                      <th></th>
+		                      <th>상점명</th>
+		                      <th></th>
+		                    </tr>
+		                  </thead>
+		                  <tbody class="table-group-divider">
+			                  <c:forEach var="block" items="${blockList }">
+			                    <tr>
+			                      <td></td>
+			                      <td>
+	                                  <c:if test="${block.avg > 4.5}">
+	                                      <img src="/tresure/resources/images/icon/grade3.png" width="20px" /> &nbsp;&nbsp;상점${chatRoom.userNo }호 점
+	                                  </c:if>
+	                                  <c:if test="${ 4 <= block.avg && block.avg < 4.5 }">
+	                                      <img src="/tresure/resources/images/icon/grade2.png" width="20px" /> &nbsp;&nbsp;상점${chatRoom.userNo }호 점
+	                                  </c:if>
+	                                  <c:if test="${ 3.5 <= block.avg && block.avg < 4 }">
+	                                      <img src="/tresure/resources/images/icon/grade1.png" width="20px" /> &nbsp;&nbsp;상점${chatRoom.userNo }호 점
+	                                  </c:if>
+	                                  <c:if test="${ 0 < block.avg  && block.avg < 3.5 }">
+	                                      <img src="/tresure/resources/images/icon/grade0.png" width="20px" /> &nbsp;&nbsp;상점${chatRoom.userNo }호 점
+	                                  </c:if>
+	                              </td>                      
+			                      <td><button type="button" class="btn btn-outline-warning btn-sm">해제</button></td>
+			                    </tr>
+			                  </c:forEach>
+		                  </tbody>
+		                </table>
+              	 	</c:otherwise>
+              </c:choose>
+                
               </div>
             </div>
         </div>

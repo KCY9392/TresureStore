@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class Block {
 
+	private int blockNo;
 	private int blockerNo;	// 차단한 사람
 	private int blockedNo;	// 차단당한 사람
 }
