@@ -11,14 +11,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.kh.tresure.chat.model.service.ChatService;
+import com.kh.tresure.chat.model.vo.Block;
 import com.kh.tresure.chat.model.vo.ChatRoom;
+import com.kh.tresure.chat.model.vo.ChatRoomJoin;
 import com.kh.tresure.member.model.vo.Member;
 
 @Controller
@@ -97,10 +101,28 @@ public class ChatController {
 	
 	//채팅방 차단목록 이동
 	@RequestMapping(value = "chat/chatBlockList", method = RequestMethod.GET)
-	public String enterChatBlockList(Model model) {
+	public String selectBlockList(Model model) {
+		
+		int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
+		
+		List<Block> blockList = chatService.selectBlockList(userNo);
+		
+		model.addAttribute("chatRoomList", blockList);
 		
 		logger.info(">> 차단목록으로 이동");
 		
 		return "chat/chatBlockList";
 	}
+	
+	//채팅방 나가기
+	@RequestMapping(value = "chat/chatRoom/{chatRoomNo}", method = RequestMethod.GET)
+	@ResponseBody //@ResponseBody :데이터 자체를 반환
+	public int exitChatRoom(@ModelAttribute("loginUser") Member loginUser,
+							@PathVariable int chatRoomNo,
+							ChatRoomJoin join) {
+		
+		return chatService.exitChatRoom(join);
+		 
+	}
+
 }

@@ -12,6 +12,8 @@
 	<typeAliases>
 		<typeAlias type="com.kh.tresure.member.model.vo.Member" alias="member"/>
 		<typeAlias type="com.kh.tresure.chat.model.vo.ChatRoom" alias="chatRoom"/>
+		<typeAlias type="com.kh.tresure.chat.model.vo.ChatMessage" alias="chatMessage"/>
+		<typeAlias type="com.kh.tresure.chat.model.vo.Block" alias="block"/>
 		<typeAlias type="com.kh.tresure.sell.model.vo.Sell" alias="sell"/>
 		<typeAlias type="com.kh.tresure.sell.model.vo.SellImg" alias="sellImg"/>
 		<typeAlias type="com.kh.tresure.mypage.model.vo.MyPage" alias="mypage"/>
