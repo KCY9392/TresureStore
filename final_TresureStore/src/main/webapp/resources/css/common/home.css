@@ -1,0 +1,53 @@
+@charset "UTF-8";
+
+.main-section{
+		    width: 1100px;
+		    padding-top: 80px;
+		    margin: auto;
+		}
+		
+		.slist-items{
+			margin:auto;
+			height:90%;
+		}
+		
+		.main-Title{
+			font-size:30px;
+			
+		}
+		
+		.row {
+		    margin-right: 0 !important;
+		    margin-left: 40 !important;
+		    display: inline-flex;
+		    flex-wrap: wrap;
+		}
+		
+		#displayHeader{
+			margin-left: 60px;
+		}
+		
+		#displayHeader hr{
+			width: 1000px;color: rgb(238, 238, 240);margin-left: 0px;
+		}
+		
+		.col-3{
+			cursor: pointer;
+			height: 320px;
+			width: 220px !important;
+			padding: 0px 20px !important;
+		}
+		
+		#itemSolid{
+			border: 1px solid rgb(238, 238, 238);
+		}
+		
+		.price-time{
+			margin-block-start: -0.33em; margin-block-end: 1.67em;
+			margin-top: 10px;
+    		font-size: 20px;
+		}
+		
+		.price-time p{
+/* 			white-space: nowrap;  */
+		}
