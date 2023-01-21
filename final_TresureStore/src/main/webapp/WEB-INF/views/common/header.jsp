@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="/tresure/resources/css/header.css">
+<link rel="stylesheet" href="/tresure/resources/css/common/header.css">
 <link rel="stylesheet" href="/tresure/resources/css/font.css">
 <title>Insert title here</title>
 </head>
@@ -15,26 +15,26 @@
 			<div class="header2">
 				<div class="header3">
 					<a href="${pageContext.request.contextPath}" class="logo"> <img
-						src="/tresure/resources/images/icon/icon.png" width="136" height="60"
+						src="/tresure/resources/images/icon/icon.png" width="136" height="80"
 						alt="보물상점 로고">
 					</a>
-
+					<form>
 					<div class="search1">
 						<div class="search2">
-							<input type="text" id="search" class="search3"
-								placeholder="상품명, @상점명 입력">
+							<input onclick="checkInput(this.form)" type="text" id="search" class="search3"
+								placeholder="상품명, @상점명 입력" name="search">
 							<button onclick="test()" class="exx" id="exit">
 								<img
 									src="/tresure/resources/images/icon/x.png"
 									width="10" height="12" alt="검색어 삭제 버튼 아이콘">
 							</button>
 							<a href="" class="searchicon"> <img
-								src="/tresure/resources/images/icon/search.png" width="20"
-								height="19" alt="검색 버튼 아이콘">
+								src="/tresure/resources/images/icon/search.png" width="85%"
+								height="92%" alt="검색 버튼 아이콘">
 							</a>
 						</div>
 					</div>
-
+					</form>
 					<div class="etIgxm">
 					  <!-- 본인인증 방법 로그인 O && 카카오로그인 X -->
 						<c:if test="${loginUser.phone != null && access_Token == null}">

@@ -5,10 +5,20 @@
 $(function () {
     $('#search').keyup(function () {
         if ($("#search").val() != "") {
+        	$("#search").css("background-color", "#FDF5E6");
             $("#exit").show();
         }else{
             $("#exit").hide();
         }
+    });
+    
+    $("#search").focus(function(){
+    	$(this).css("background-color", "#FDF5E6");
+        $(".search2").css("background-color", "#FDF5E6");
+    });
+    $("#search").blur(function(){
+    	$(this).css("background-color", "white");
+        $(".search2").css("background-color", "white");
     });
 });
 

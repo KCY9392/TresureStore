@@ -7,7 +7,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script type="text/javascript" src="/tresure/resources/js/header.js"></script>
 <script type="text/javascript" src="/tresure/resources/js/sellInsert.js"></script>
-<link rel="stylesheet" href="/tresure/resources/css/sellInsert.css">
+<link rel="stylesheet" href="/tresure/resources/css/sell/sellInsert.css">
 <title>Insert title here</title>
 </head>
 <body>

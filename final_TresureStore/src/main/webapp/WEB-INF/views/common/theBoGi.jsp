@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="/tresure/resources/css/theBoGi.css">
+<link rel="stylesheet" href="/tresure/resources/css/common/theBoGi.css">
 <title>Insert title here</title>
 </head>
 <body>

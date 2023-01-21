@@ -36,6 +36,13 @@ public class Sell {
 	private double avg;
 
 	
+	// 상품 상세조회 추가사항
+	private int report_Num;
+	private int follower_Num;
+	private int sell_Num;
+	private int follow_Is;
+	
+	
 	private String timeago;
 	
 	private String originName;

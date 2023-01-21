@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -119,4 +120,19 @@ public class SellServiceImpl implements SellService  {
 	}
 	
 	
+	/**
+	 * 상품 상세조회
+	 */
+	@Override
+	public Sell selectSellDetail(HashMap<String, Integer> map) {
+		return sellDao.selectSellDetail(map, sqlSession);
+	}
+	
+	/**
+	 * 상품 조회수 증가
+	 */
+	@Override
+	public int increaseCount(int sellNo) {
+		return sellDao.increaseCount(sellNo, sqlSession);
+	}
 }

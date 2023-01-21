@@ -1,5 +1,6 @@
 package com.kh.tresure.sell.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -52,4 +53,20 @@ public class SellDao {
       
       return sqlSession.selectOne("sellMapper.selectSellProduct", chatRoomNo);
 	}
+	
+	
+	/**
+	 * 상품 상세조회 */
+	public Sell selectSellDetail(HashMap<String, Integer> map, SqlSession sqlSession) {
+		return sqlSession.selectOne("sellMapper.selectSellDetail", map);
+	}
+
+	/**
+	 * 상품 조회수 증가 */
+	public int increaseCount(int sellNo, SqlSession sqlSession) {
+		return 0;
+	}
+
+	
+	
 }

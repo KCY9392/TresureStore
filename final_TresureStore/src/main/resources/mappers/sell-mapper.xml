@@ -23,11 +23,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="CREATE_DATE" property="createDate"></result>
 	<result column="UPDATE_DATE" property="updateDate"></result>
 	<result column="STATUS" property="status"></result>
+	<result column="HEART_NUM" property="heartNum"></result>
+	
+	
 	<result column="CHATROOM_NO" property="chatRoomNo"></result>
 	<result column="CATEGORY_NAME" property="categoryName"></result>
 	<result column="AVG" property="avg"></result>
 
-	<result column="HEART_NUM" property="heartNum"></result>
+	<result column="REPORT_NUM" property="report_Num"></result>
+	<result column="FOLLOWER_NUM" property="follower_Num"></result>
+	<result column="SELL_NUM" property="sell_Num"></result>
+	<result column="FOLLOW_IS" property="follow_Is"></result>
+	
 	
 	<collection property="imgList" resultMap="sellImgResultSet"/>
 
@@ -127,6 +134,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             FROM SELL 
             JOIN MEMBER USING(USER_NO)
             WHERE USER_NO=#{userNo}
+		
+	</select>
+	
+	<!-- 상품 상세조회 -->
+	<select id="selectSellDetail" parameterType="map" resultMap="sellResultSet">
+       SELECT SELL_TITLE,
+       CG.CATEGORY_NAME AS "CATEGORY_NAME",
+       PRICE,
+       HEART_NUM,
+       COUNT,
+       CREATE_DATE,
+       SELL_CONTENT,
+       IMAGE_SRC,
+       S.USER_NO AS "USER_NO",
+       (SELECT COUNT(*) FROM REPORT R JOIN SELL S ON (R.REPORTED_NO=S.USER_NO)) AS "REPORT_NUM",
+       (SELECT COUNT(*) FROM FOLLOW F WHERE F.FW_ID=S.USER_NO ) AS "FOLLOWER_NUM",
+       (SELECT COUNT(*) FROM SELL S2 WHERE S2.USER_NO = S.USER_NO AND S2.SELL_STATUS = 'I') AS "SELL_NUM",
+       <if test="#{userNo} != null">
+       (SELECT COUNT(*) FROM FOLLOW F WHERE F.FW_ID = S.USER_NO AND F.FI_ID = #{userNo}) AS "FOLLOW_IS",  
+        </if>
+        AVG
+       FROM SELL S
+       LEFT JOIN (SELECT AVG(REV_SCORE) AS "AVG", S.USER_NO FROM REVIEW RE JOIN SELL S ON (RE.SELL_NO=S.SELL_NO)
+             GROUP BY S.USER_NO) A ON (A.USER_NO=S.USER_NO)
+       LEFT JOIN CATEGORY CG USING(CATEGORY_NO)
+       WHERE SELL_NO = ${sellNo}
 		
 	</select>
 	

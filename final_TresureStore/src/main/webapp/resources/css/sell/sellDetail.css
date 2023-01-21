@@ -1,0 +1,303 @@
+@charset "UTF-8";
+
+
+        .main-section {
+            padding-top:80px;
+            height: 1500px;
+        }
+        .sellDetail-div2 {
+            display: flex;
+            justify-content: center;
+            background: rgb(255, 255, 255);
+
+        }
+        .sellDetail-div3 {
+            width: 1070px;
+        }
+        .sellDetail-div4 {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 30px 0px 20px;
+            border-bottom: 1px solid black;
+        }
+        .categy {
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+        }
+        .categy2 {
+            display: flex;
+            align-items: center;
+            height: 28px;
+            font-size: 20px;
+        }
+        .categy2 > img {
+            width : 15px; 
+            height : 15px;
+        }
+        .categy3 {
+            display: flex;
+            align-items: center;
+            font-size: 20px;
+        }
+        .categy3 > img {
+            width : 6px; 
+            height : 10px;
+            margin: 0px 10px;
+        }
+
+        .sellImg2 {
+            display: flex;
+            padding: 30px 0px;
+        }
+        .sellImg3 {
+            margin-right: 40px;
+            flex-shrink: 0;
+            width: 430px;
+            height: 1000px;
+        }
+
+        .sellDetailInfo{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            -webkit-box-pack: justify;
+            justify-content: space-between;
+        }
+
+        .sellTitleDiv{
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgb(238, 238, 238);
+            width: 100%;
+        }
+        .sellProductPrice{
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+        .sellProductTitle{
+            font-size: 24px;
+            margin-bottom: 25px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+        .sellProductPriceText{
+            font-size: 40px;
+            font-weight: 500;
+        }
+
+        .sellProductPriceText span{
+            font-size: 30px;
+            font-weight: 400;
+        }
+
+        .sellInfoText{
+            height: 30px;
+            margin-top: 15px;
+            margin-bottom: 25px;
+            display: flex;
+            -webkit-box-pack: justify;
+            justify-content: space-between;
+        }
+
+        .sellInfoTextBox2{
+            height: 100%;
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+        }
+        
+        .sellInfoTextBox{
+            margin-left: 10px;
+            margin-right: 12px;
+            margin-top:12px;
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            color: rgb(204, 204, 204);
+            font-size: 16px;
+            height: 100%;
+        }
+
+        .sellInfoTextBox img{
+            margin-right: 5px;
+            width: 28px;
+            height: 25px;
+        }
+
+        .sellInfoTextBox span{
+            font-size:20px;
+        }
+
+        
+        .sellIconImg-info{
+            border-style: none;
+            vertical-align: bottom;
+        }
+
+        .purchaseGobtnBox{
+            display: flex;  
+            -webkit-box-pack: justify;
+            justify-content: space-between;
+            height: 50px;
+        }
+
+
+        .chattingbtn-sellDetail{
+            width: 100%;
+            height: 100%;
+            font-weight: 600;
+            background: rgb(246, 128, 193);
+            border: 1px solid;
+            border-radius: 10px;
+            color: rgb(255, 255, 255);
+            font-size: 30px;
+            font-weight: 20px;
+        }
+
+        .sellProductDetailInfoBox span{
+            font-size: 30px;
+            font-weight: bolder;
+        }
+
+        .sellImg3_Box{
+            display: flex;
+            overflow: hidden;
+        }
+
+        .sellImg3_Box div{
+            margin-top: 3px;
+            width: 210px;
+            height: 210px;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        .sellerInfo{
+            margin-top: 30px;
+            border: 1px solid rgba(230, 227, 227, 0.772);
+            height: 270px;
+            width: 100%;
+        }
+
+        .sellGradeAndNameBox{
+            display: flex;
+            overflow: hidden;
+        }
+
+        .sellGradeAndNameBox div{
+            flex-shrink: 0;
+        }
+
+        .sellerGradeImg{
+            
+            border: 1px solid none;
+            width: 150px;
+            height: 55%;
+            margin-left: 10px ;
+            margin-top: 10px;
+            flex-shrink: 0;
+        }
+
+
+        .followBtn-sellDetail{
+            
+            margin: auto;
+            border: 1px solid rgb(241, 238, 238);
+            width: 90%;
+            height: 25%;
+        }
+
+        .followBtn-sell{
+            border: none;
+            background-color: white;
+        }
+
+        .followBtn-sell:hover{
+            cursor: pointer;
+            border: 3px solid rgb(241, 238, 238);
+        }
+
+        .sellerNameInfoBox{
+            width: 60%;
+            margin-top: 70px;
+        }
+
+        .sellerName{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 10%;
+            margin-left: 10px;
+        }
+
+        .sellerName>p:first-child{
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        .sellNumAndFollowerBox{
+            text-align: center;
+            color: rgb(177, 171, 171);
+        }
+        
+        .sellImgFirst{
+            height: 400px;
+            width: 100%;
+            display: flex;
+        }
+        
+        .sellInfoTextBoxReport {
+            margin-left: 210px;
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+        }
+        
+        -- 찜하기 버튼 --
+        a{
+            text-decoration:none; 
+            color:inherit; 
+            cursor: pointer;
+        }
+        
+        .right_area{
+            margin-left: 420px;
+        }
+
+        .right_area .icon{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: calc(100vw * (55 / 1920));
+            height: calc(100vw * (55 / 1920));
+
+            border-radius: 50%;
+            border: solid 2px #eaeaea;
+            background-color: #fff;
+        }
+
+        .icon.heart img{
+            width: calc(100vw * (28 / 1920));
+            height: calc(100vw * (28 / 1920));
+        }
+
+        .icon.heart.fas{
+        color:red
+        }
+        .heart{
+            transform-origin: center;
+        }
+        .heart.active img{
+            animation: animateHeart .3s linear forwards;
+        }
+
+        @keyframes animateHeart{
+            0%{transform:scale(.2);}
+            40%{transform:scale(1.2);}
+            100%{transform:scale(1);}
+        }

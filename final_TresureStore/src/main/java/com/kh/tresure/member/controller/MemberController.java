@@ -175,7 +175,7 @@ public class MemberController {
 	    	
 	    }
         
-		return "home";
+		return "redirect:/";
 	}
 	
 	/**

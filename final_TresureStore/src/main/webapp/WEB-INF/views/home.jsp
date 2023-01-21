@@ -5,7 +5,7 @@
 <html>
 <head>
 	<title>Home</title>
-	<link rel="stylesheet" href="/tresure/resources/css/font.css">
+	<link rel="stylesheet" href="/tresure/resources/css/common/font.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 	<script type="text/javascript" src="/tresure/resources/js/header.js"></script>
 	 <!-- alertify -->
@@ -19,10 +19,20 @@
 	
 	<style>
 		.main-section{
-		    width: 900px;
+		    width: 970px;
 		    padding-top: 80px;
 		    padding-right: 5%;
 		    margin: auto;
+		}
+		
+		.slist-items{
+			margin:auto;
+			height:90%;
+		}
+		
+		.main-Title{
+			font-size:30px;
+			
 		}
 	</style>
 </head>
@@ -39,43 +49,46 @@
 
 	<div class="main-section">
 		<div id="displayHeader">
-			<p class="displayName">오늘의 추천상품♡</p>
+			<p class="main-Title" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>오늘의 추천상품♡</b></p>
+			<hr style="width:930px; color:rgb(238, 238, 240);">
+			<br>
 		</div>
-
+		<div id="display-list" class="row" style="flex-wrap: wrap;">
 	  <c:forEach var="s" items="${sellList}" begin="0" end="${fn:length(sellList)}" step="1" varStatus="status">
-		  <c:if test="${status.index % 5 == 0}">	
-			<div id="display-list" class="row">
-	  	  </c:if>
-<%-- 				 <c:forEach var="j" begin="i" end="i+3" step="1"> --%>
-						<div class="item col-3" style="cursor: pointer">
-							<div class="item">
-								<div id="itemSolid">
+						<div class="item col-3" style="cursor: pointer; height: 300px;
+													    width: 200px !important;
+													    padding: 0px 20px !important;">
+							<div class="item" onclick="sellDetail(${s.sellNo})">
+								<div id="itemSolid" class="slist-items" style="border: 1px solid rgb(238, 238, 238)">
 									<c:if test="${s.imgSrc != null}">
-									<img src="${s.imgSrc}" width="10px" height="10px"
-										class="rounded float-start" alt="" style="margin-bottom: 30px;">
+									<img src="${s.imgSrc}" width="100%" height="150px;"
+										class="rounded float-start" alt="" style="">
 									</c:if>
 									<c:if test="${s.imgSrc == null}">
 									
 									</c:if>
 									<div class="price-time"
 										style="margin-block-start: -0.33em; margin-block-end: 1.67em;">
-										<h5>${s.sellTitle}</h5>
-										<p>♥ &nbsp;${s.heartNum}</p>
+										<h4 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">&nbsp;${s.sellTitle}</h4>
+										<p>&nbsp;♥ &nbsp;${s.heartNum}</p>
 									</div>
 									<div class="price-time">
-										<p class="displayPrice">${s.price}원</p>
-										<h5 class="displayTime">${s.getTimeago()}</h5>
+										<p class="displayPrice">&nbsp;${s.price}원</p>
+										<h5 class="displayTime">&nbsp;${s.getTimeago()}</h5>
 									</div>
 								</div>
 							</div>
 						</div>
-<%-- 				   </c:forEach> --%>
-			<c:if test="${status.index % 5 == 0}">
-			  	</div>
-			</c:if>
 		 </c:forEach> 
+		 </div>
 	
 	</div>
+	
+	<script>
+		function sellDetail(sellNo){
+			location.href = "${pageContext.request.contextPath}/sell/sellDetail/"+sellNo;
+		}
+	</script>
 	
 	<jsp:include page="./common/theBoGi.jsp" />
 

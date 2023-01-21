@@ -57,6 +57,7 @@ a {
     align-items: center;
     -webkit-box-flex: 1;
     flex-grow: 1;
+    margin-left: 70px;
 }
 
 .items {
@@ -76,11 +77,13 @@ a {
 /* search start */
 .search1 {
     border: 2px solid black;
-    width: 500px;
+    width: 550px;
     height: 40px;
     box-sizing: border-box;
     position: relative;
     display: block;
+    margin-left: 35px;
+    
 }
 .search2 {
     margin: 0px;
@@ -91,21 +94,24 @@ a {
     display: flex;
     -webkit-box-align: center;
     align-items: center;
-    padding: 0px 15px;
+    background-color: white;
 }
 .search3 {
     line-height: 1.15;
     padding: 0px;
     border: 0px;
-    background-color: rgb(253, 253, 231);
+    background-color: white;
     flex-grow: 1;
     direction: ltr;
     text-align: left;
     letter-spacing: -0.5px;
     outline: 0px;
+    margin-left: 20px;
 }
 .searchicon{
-    padding-top: 2%;
+	width: 30px;
+    height: 30px;
+    display:flex;
 }
 .exx {
     background-color: transparent;
@@ -169,7 +175,7 @@ a {
     width: 780px;
     padding-right: 118px;
     padding-left: 118px;
-    height: 250px;
+    height: 230px;
     z-index: 1;
     align-items: center;
     justify-content: center;
@@ -185,6 +191,8 @@ a {
     align-items:flex-end;
     height: 174px;
     padding: 0px;
+    margin-left: 100px;
+    margin-top: -30px;
 
 }
 .inner-menu > li {

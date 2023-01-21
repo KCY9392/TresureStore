@@ -5,9 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>인증번호 입력</title>
-	<link rel="stylesheet" href="/tresure/resources/css/font.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-	<script type="text/javascript" src="/tresure/resources/js/header.js"></script>
+	<script type="text/javascript" src="/tresure/resources/js/common/header.js"></script>
 	<style>
 	body{
 	    margin: 0;

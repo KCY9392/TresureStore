@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="/tresure/resources/css/sideBar.css">
+<link rel="stylesheet" href="/tresure/resources/css/common/sideBar.css">
 <title>Insert title here</title>
 </head>
 <body>
@@ -12,10 +12,12 @@
 		<!--찜 하트 수-->
 		<div class="favorites">
 			<div class="favoritesText">찜한상품</div>
+			
 			<div class="favoritesCount">
 				<p id="toFavorites" class="toFavorites">
 					<i class="fas fa-heart"><img
-						src="resources/resources/image/heart2.png" width="20">100</i>
+						src="https://cdn-icons-png.flaticon.com/512/833/833472.png" width="20">
+					<p>100</p></i>
 				</p>
 			</div>
 			<!-- favoritesCount -->
