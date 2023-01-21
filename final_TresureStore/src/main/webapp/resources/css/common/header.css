@@ -151,6 +151,14 @@ a {
 #sun_wrap_ul > li {
     padding: 0 14px;
 }
+
+#sun_wrap_ul a{
+	display: flex;
+	width:90px;
+	font-size: 21px;
+	margin-left: 30%;
+}
+
 .catename {
     margin: 0;
     padding: 0;

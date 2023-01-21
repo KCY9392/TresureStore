@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<% pageContext.setAttribute("replaceChar", "\n"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -56,21 +57,21 @@
                                 <div class="sellGradeAndNameBox">
                                     <div class="sellerGradeImg">
                                         <c:if test="${s.avg > 4.5}"> 
-											<img src="/tresure/resources/images/icon/grade3.png" width="100%" height="100%"/>
+											<img src="/tresure/resources/images/icon/grade_3.png" width="100%" height="100%"/>
 										</c:if> 
 										<c:if test="${ 4 <= s.avg && s.avg < 4.5 }"> 
-											<img src="/tresure/resources/images/icon/grade2.png" width="100%" height="100%"/> 
+											<img src="/tresure/resources/images/icon/grade_3.png" width="100%" height="100%"/> 
 										</c:if> 
 										<c:if test="${ 3.5 <= s.avg && s.avg < 4 }"> 
-											<img src="/tresure/resources/images/icon/grade1.png" width="100%" height="100%"/> 
+											<img src="/tresure/resources/images/icon/grade_3.png" width="100%" height="100%"/> 
 										</c:if>
 										<c:if test="${ s.avg == null  || s.avg < 3.5 }">
-											<img src="/tresure/resources/images/icon/grade0.png" width="100%" height="100%"/>
+											<img src="/tresure/resources/images/icon/grade_3.png" width="100%" height="100%"/>
 										</c:if>
                                     </div>
                                     <div class="sellerNameInfoBox">
                                         <div class="sellerName">
-                                                <p>상점 ${s.userNo}호점</p>&nbsp;<img src="https://m.bunjang.co.kr/pc-static/resource/0acf058f19649d793382.png" width="15px" height="15px" style="margin-left:15px;">&nbsp;<p>${s.report_Num}</p>
+                                                <p style="font-size:24px;">상점 ${s.userNo}호점</p>&nbsp;<img src="https://m.bunjang.co.kr/pc-static/resource/0acf058f19649d793382.png" width="15px" height="15px" style="margin-left:15px;">&nbsp;<p>${s.report_Num}</p>
                                         </div>
 
                                         <div class="sellNumAndFollowerBox">
@@ -158,7 +159,7 @@
                             <div class="sellProductDetailInfoBox">
                                 <br>
                                 <span>&nbsp;상품정보</span>
-								<p>${s.sellContent}</p>
+								<p>${fn:replace(s.sellContent, replaceChar, "<br/>")}</p>
                             </div>
                         </div>
 

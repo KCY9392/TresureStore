@@ -3,7 +3,6 @@
 
         .main-section {
             padding-top:80px;
-            height: 1500px;
         }
         .sellDetail-div2 {
             display: flex;
@@ -158,9 +157,22 @@
             font-weight: 20px;
         }
 
+		.sellProductDetailInfoBox{
+			margin-top:20px;
+/* 			margin-left: 20px; */
+			text-align: center;
+			border-top: 1px solid rgb(238, 238, 238);
+		}
+		
         .sellProductDetailInfoBox span{
             font-size: 30px;
             font-weight: bolder;
+        }
+        
+        .sellProductDetailInfoBox p{
+        	font-size: 20px;
+        	margin-left: 10px;
+    		margin-top: 50px;
         }
 
         .sellImg3_Box{
@@ -186,6 +198,7 @@
         .sellGradeAndNameBox{
             display: flex;
             overflow: hidden;
+            height: 180px;
         }
 
         .sellGradeAndNameBox div{
@@ -196,9 +209,9 @@
             
             border: 1px solid none;
             width: 150px;
-            height: 55%;
-            margin-left: 10px ;
-            margin-top: 10px;
+            height: 80%;
+            margin-left: 20px;
+    		margin-top: 20px;
             flex-shrink: 0;
         }
 
