@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.kh.tresure.chat.model.vo.Block;
+import com.kh.tresure.chat.model.vo.ChatMessage;
 import com.kh.tresure.chat.model.vo.ChatRoom;
 import com.kh.tresure.chat.model.vo.ChatRoomJoin;
 
@@ -30,6 +31,12 @@ public class ChatDao {
 	public List<Block> selectBlockList(SqlSession sqlSession, int userNo) {
 		
 		return sqlSession.selectList("chattingMapper.selectBlockList", userNo);
+	}
+	
+	// 메세지 입력하기
+	public int insertMessage(SqlSession sqlSession, ChatMessage message) {
+		
+		return sqlSession.insert("chattingMapper.insertMessage", message);
 	}
 	
 	

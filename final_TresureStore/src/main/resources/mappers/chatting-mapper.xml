@@ -19,13 +19,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </resultMap>
 
 
-<resultMap type="chatMessage" id="chatMessageResultSet" >
-      <id column="CHAT_NO" property="chatNo"/>
-      <result column="CHATROOM_NO" property="chatRoomNo"/>
-      <result column="USER_NO" property="userNo"/>
-      <result column="CHAT_CONTENT" property="chatContent"/>
-      <result column="CREATE_DATE" property="createDate"/>
-      <result column="READ_STATUS" property="readStatus"/>
+<!-- type은 mybatis-config에서 chatMessage 라는 별칭을 정해두었음 -->
+<resultMap type="chatMessage" id="chatMessageResultSet">
+	<id column="CHAT_NO" property="chatNo"></id>
+	<result column="CHATROOM_NO" property="chatRoomNo"/>
+	<result column="USER_NO" property="userNO"/>
+	<result column="CHAT_CONTENT" property="chatContent"/>
+	<result column="CREATE_DATE" property="createDate"/>
+	<result column="READ_STATUS" property="readStatus"/>
+	<result column="USER_NAME" property="userName"/>
 </resultMap>
 
 <resultMap type="block" id="blockResultSet" >
@@ -36,9 +38,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 
- <!-- 채팅방 목록 조회 -->
- <select id="selectChatRoomList" parameterType="int" resultMap="chatResultSet">
-    SELECT  C.CHATROOM_NO AS "CHAT_ROOM_NO",
+<!-- 채팅방 목록 조회 -->
+<select id="selectChatRoomList" parameterType="int" resultMap="chatResultSet">
+	SELECT  C.CHATROOM_NO AS "CHAT_ROOM_NO",
             S.USER_NO AS "USER_NO" ,
 	        M.USER_NO AS "USER_NO_2",
 	        CM.CREATE_DATE AS "CREATE_DATE_2",
@@ -61,19 +63,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	        GROUP BY S.USER_NO) PP ON (S.USER_NO = PP.USER_NO)
 	WHERE C.USER_NO = 10 AND C.STATUS = 'Y' AND M.STATUS = 'Y' AND S.STATUS = 'Y' 
 	ORDER BY CM.CREATE_DATE DESC
- </select>
+</select>
  
- <!-- 채팅방 나가기(삭제) -->
- <delete id="exitChatRoom" parameterType="int">
- 	DELETE 
+<!-- 채팅방 나가기(삭제) -->
+<delete id="exitChatRoom" parameterType="int">
+    DELETE 
  	FROM CHAT_ROOM_JOIN
 	WHERE USER_NO = #{userNo} AND CHAT_ROOM_NO = #{chatRoomNo}
- </delete>
+</delete>
 
- <select id="selectBlockList" resultMap="blockResultSet" >
+<select id="selectBlockList" resultMap="blockResultSet" >
  	SELECT * 
  	FROM BLOCK
- </select>
+</select>
+
+<!-- 채팅보내기 -->
+<insert id="insertMessage" parameterType="chatMessage">
+	INSERT INTO CHAT_MESSAGE (CHAT_NO, CHATROOM_NO, USER_NO, CHAT_CONTENT)
+	VALUES (SEQ_CMNO.NEXTVAL, #{chatRoomNo}, #{userNo}, #{chatContent})
+</insert>
 
 
 

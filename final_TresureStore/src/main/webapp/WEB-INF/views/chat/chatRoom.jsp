@@ -4,19 +4,22 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title> Welcome Treasure chatRoom </title>
+<title> 보물상점 채팅 </title>
+<!-- Jquery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <!-- 부트스트랩에서 제공하는 스타일 -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <!-- 부트스트랩에서 제공하고 있는 스크립트 -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 <!-- fontawesome icon -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" 
 		integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" 
 		crossorigin="anonymous" referrerpolicy="no-referrer" />
-<!-- Jquery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <!-- 헤더 js -->
 <script type="text/javascript" src="/tresure/resources/js/header.js"></script>
+<!-- sockjs  -->
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <style>
       /* ---전체 div --- */
       .main-section{
@@ -36,10 +39,6 @@
         height: 70%;
         float : left;
         padding : 2%;
-      }
-      /*왼쪽박스 테두리 삭제예정*/
-      .leftBox div{
-        border: 1px solid rgb(172, 206, 85);
       }
       /*오른쪽박스 테두리 삭제예정*/
       .rightBox div{
@@ -110,16 +109,24 @@
   		transform: translateX(50%);
       }
       
+      
       /* 채팅 대화창 */
-      .chatting_talk{
+      .display-chatting{
         height: 70%;
         list-style : none;
         height : 75%;
         overflow : auto; /*스크롤처럼*/
-        list-style : none;
         padding : 10px 10px;
         background-color: rgb(248, 246, 235);
+        z-index: 1;
+        positon: absoulte;
       }
+		.display-chatting{
+
+		list-style:none;
+
+		
+	}
       
        /* 구매자 판매자 모든 대화바 */
       .chat{
@@ -179,14 +186,16 @@
    	  	border :solid 1px white;
    	  	
    	  }
-   
+   	  li{
+   	  	list-style : none;
+   	  }
       
 </style>
 </head>
 <body>
 
 	<jsp:include page="../common/header.jsp"/>
-	<jsp:include page="../common/sideBar.jsp"/>
+	<%-- <jsp:include page="../common/sideBar.jsp"/> --%>
     <br><br>
       
         <div class="main-section">
@@ -194,24 +203,14 @@
           	<!-- 채팅 왼쪽창(상품상세) -->
             <div class="leftBox">
                 <div class="sell_pic"> <img src="${AllList.get('product').imgSrc }" width="100%" height="100%"/> </div>
-
                 <div class="sell_detail">
-                    <div id="sell_category"> 카테고리 </div>
-                    <div id="sell_title"> 상품 제목 </div> 
-                    <div id="sell_price"> 상품 가격 </div>
+                    <div id="sell_category">${AllList.get('product').categoryName }</div>
+                    <div id="sell_title">${AllList.get('product').sellTitle }</div> 
+                    <div id="sell_price">${AllList.get('product').price }</div>
                 </div>
 
                 <div class="sell_content"> 
-                  뉴발란스 327 220사이즈입니다. <br>
-                  상태 사진과 같고요~ <br>
-                  관심 있으시면 연락해주세요~<br>
-                  뉴발란스 327 220사이즈입니다. <br>
-                  상태 사진과 같고요~ <br>
-                  관심 있으시면 연락해주세요~<br>
-                  뉴발란스 327 220사이즈입니다. <br>
-                  상태 사진과 같고요~ <br>
-                  관심 있으시면 연락해주세요~<br>
-                  관심 있으시면 연락해주세요~<br>
+                  <span>${AllList.get('product').sellContent }</span>
                 </div>
            </div>
 			
@@ -220,46 +219,198 @@
             <div class="rightBox" >
             	<!-- 채팅창 맨 위에 바 -->
                 <div class="chatting_top_bar">
-                    <div class="sell_number"><img src="https://cdn-icons-png.flaticon.com/128/9317/9317793.png" width="30">&nbsp;상점 2889호점</div>
+                    <div class="sell_number">
+                    	<img src="https://cdn-icons-png.flaticon.com/128/9317/9317793.png" width="30"/>
+                    		&nbsp;상점 ${AllList.get('product').userNo }호점
+                    </div>
                     <a href="#">신고</a>
                     <a href="#">차단</a>
                     <button type="submit">계좌이체</button>
                 </div>
                 
                 
-				<!-- 채팅창 대화 -->
-                <div class="chatting_talk">
-                    <c:forEach items="${list }" var="msg">
-                      <fmt:formatDate var="chatDate" value="${msg.createDate }" pattern="yyyy년 MM월 dd일 HH:mm:ss"/>
-                      <%-- 1) 내가 보낸 메세지 --%>
-                      <c:if test="${msg.userNo == loginUser.userNo }">
+ 				<!-- 채팅창 대화 -->
+                <div class="display-chatting">
+                <ul class="zz">
+                     <c:forEach items="${list }" var="msg">
+                      <fmt:formatDate var="chatDate" value="${msg.createDate }" pattern="yyyy년 MM월 dd일 HH:mm:ss"/> 
+                      <!-- 1) 내가 보낸 메세지 -->
+                       <c:if test="${msg.userNo == loginUser.userNo }"> 
                         <li class="myChat">
+                            <p class="chat">${msg.message }ㅋ</p>
                             <span class="chatDate">${chatDate }</span>
-                            <p class="chat">${msg.message }</p>
                         </li>         
-                      </c:if>            
+                       </c:if>           
                       
-                      <%-- 2) 상대가 보낸 메세지 --%>
-                      <c:if test="${msg.userNo != loginUser.userNo }">
+                      <!-- 2) 상대가 보낸 메세지 -->
+                      <c:if test="${msg.userNo != loginUser.userNo }"> 
                         <li>
                             <p class="chat">${msg.message }</p>
                             <span class="chatDate">${chatDate }</span>
                         </li>
                       </c:if>            
                   </c:forEach>
+                  </ul>
                 </div>
                 
 
 				<!-- 채팅창 맨 아래 바 -->
                 <div class="chatting_bottom_bar">
                 	<div class="chat_plus"></div>
-					<textarea id="inputChatting" ></textarea>
-					<button id="send" class="btn btn-outline-warning">보내기</button>
+					<textarea id="inputChatting"></textarea>
+					<button id="send" class="btn btn-outline-warning" onkeypress="if(event.keyCode == 13 {massageEnterSend();})">보내기</button>
                 </div>
              
             </div>
         </div>
         <jsp:include page="../common/footer.jsp"/>
 
+		<script>
+			const userNo = "${loginUser.userNo}";
+			const userName = "${loginUser.userName}";
+			const phone = "${loginUser.phone}";
+			const birth = "${loginUser.birth}";
+			const email = "${loginUser.email}";
+			const chatRoomNo = "${chatRoomNo}";
+			const contextPath = "${pageContext.request.contextPath}";
+		
+			(function(){
+				const displayChatting = document.getElementsByClassName("display-chatting")[0];
+				
+				if(displayChatting != null){
+					displayChatting.scrollTop =displayChatting.scrollHeight; 
+				}
+			})();
+				
+			// /chat이라는 요청주소로 통신할 수 있는 webSocket 객체생성
+			let chatSocket = new SockJS(contextPath + "/chat");
+			
+			
+			function massageEnterSend(){
+				console.log( $('#inputChatting').val() );
+				sendMessage();
+			}
+			
+			document.getElementById("send").addEventListener("click", sendMessage);
+			
+			// 채팅을 보내는 함수
+			function sendMessage() {
+				// 채팅이 입력되는 textarea요소 가져오기
+				const inputChatting = document.getElementById("inputChatting");
+				
+				// 클라이언트가 채팅내용을 입력하지 않은상태로 보내기 버튼을 누른경우
+				if(inputChatting.value.trim().length == 0) {
+					alert("채팅내용을 입력하고 보내주세요!");
+					
+					inputChatting.value ="";
+					inputChatting.focus();
+				} else {
+					// 메세지 입력시 필요한 데이터를 js 객체로 생성
+					const chatMessage = {
+							"userNo" : userNo,
+							"userName" : userName,
+							"chatRoomNo" : chatRoomNo,
+							"chatContent" : inputChatting.value
+					};
+					
+					console.log(chatMessage);
+			        console.log(JSON.stringify(chatMessage));
+			        
+			        chatSocket.send(JSON.stringify(chatMessage));
+			        
+			        inputChatting.value = "";
+				}
+			}
+			
+			chatSocket.onmessage = function(e) {
+				// 전달 받은 메세지 JS객체로 변환
+				const chatMessage = JSON.parse(e.data);
+				
+				const li = document.createElement("li");
+			    const p = document.createElement("p");
+
+			    p.classList.add("chat");
+			    
+			    p.innerHTML = chatMessage.chatContent.replace(/\\n/gm , "<br>" );//줄바꿈 처리
+			    
+
+			    //span태그 추가
+			    const span = document.createElement("span");
+			    span.classList.add("chatDate");
+
+			    span.innerText = getCurrentTime();
+
+			    //내가쓴 채팅
+			    if (chatMessage.userNo == userNo) {
+			        li.append(span, p);
+			        li.classList.add("myChat"); 
+			    } else {
+			        li.innerHTML = "<b>" + chatMessage.userNo + "</b><br>";
+			        li.append(p, span);
+			    }
+			    
+			 	// 채팅창
+			    const displayChatting = document.getElementsByClassName("display-chatting")[0];
+
+			    // 채팅창에 채팅 추가
+			    displayChatting.append(li);
+
+			    // 채팅창을 제일밑으로 내리기
+			    displayChatting.scrollTop = displayChatting.scrollHeight;
+			    // scrollTop : 스크롤 이동
+			    // scrollHeight : 스크롤이되는 요소의 전체 높이.
+			};
+			
+			function getCurrentTime() {
+
+			    const now = new Date();
+
+			    const time = now.getFullYear() + "년 " +
+			        addZero(now.getMonth() + 1) + "월 " +
+			        addZero(now.getDate()) + "일 " +
+			        addZero(now.getHours()) + ":" +
+			        addZero(now.getMinutes()) + ":" +
+			        addZero(now.getSeconds()) + " ";
+
+			    return time;
+			}
+
+			// 10보다 작은수가 매개변수로 들어오는경우 앞에 0을 붙여서 반환해주는함수.
+			function addZero(number) {
+			    return number < 10 ? "0" + number : number;
+			}
+		</script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

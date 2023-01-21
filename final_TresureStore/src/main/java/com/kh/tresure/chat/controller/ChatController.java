@@ -83,6 +83,7 @@ public class ChatController {
 		logger.info(">> 채팅방으로 이동");
 		
 		AllList =  chatService.chattingRoomEnter(chatRoomNo, userNo);
+		model.addAttribute("chatRoomNo", chatRoomNo ); 
 		
 		if(AllList.size() > 0) {
 			

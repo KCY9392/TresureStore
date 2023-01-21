@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kh.tresure.chat.controller.ChatController;
 import com.kh.tresure.chat.model.dao.ChatDao;
 import com.kh.tresure.chat.model.vo.Block;
+import com.kh.tresure.chat.model.vo.ChatMessage;
 import com.kh.tresure.chat.model.vo.ChatRoom;
 import com.kh.tresure.chat.model.vo.ChatRoomJoin;
 import com.kh.tresure.member.model.vo.Member;
@@ -78,6 +79,12 @@ public class ChatServiceImpl implements ChatService{
 		
 		return chatDao.selectBlockList(sqlSession, userNo);
 		
+	}
+	
+	// 채팅방 메세지 보내기
+	public int insertMessage(ChatMessage Message) {
+		
+		return chatDao.insertMessage(sqlSession, Message);
 	}
 	
 	
