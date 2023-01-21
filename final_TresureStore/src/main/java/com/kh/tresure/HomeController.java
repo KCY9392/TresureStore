@@ -19,23 +19,23 @@ import com.kh.tresure.sell.model.vo.Sell;
 public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-//	private SellService sellService;
+	private SellService sellService;
 	
 	public HomeController() {}
 	
-//	@Autowired
-//	public HomeController(SellService sellService) {
-//		this.sellService = sellService;
-//	}
+	@Autowired
+	public HomeController(SellService sellService) {
+		this.sellService = sellService;
+	}
 
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 
-//		List<Sell> sList = sellService.sellListselect();
-//		logger.info("sList ? "+sList);
-//		
-//		model.addAttribute("sellList", sList);
+		List<Sell> sList = sellService.sellListselect();
+		logger.info("sList ? "+sList);
+		
+		model.addAttribute("sellList", sList);
 		
 		return "home";
 	}

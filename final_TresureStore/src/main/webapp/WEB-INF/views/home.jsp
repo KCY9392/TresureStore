@@ -21,7 +21,8 @@
 		.main-section{
 		    width: 970px;
 		    padding-top: 80px;
-		    padding-right: 5%;
+/* 		    padding-right: 5%; */
+			padding-left: 4%;
 		    margin: auto;
 		}
 		
@@ -50,7 +51,7 @@
 	<div class="main-section">
 		<div id="displayHeader">
 			<p class="main-Title" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>오늘의 추천상품♡</b></p>
-			<hr style="width:930px; color:rgb(238, 238, 240);">
+			<hr style="width:930px; color:rgb(238, 238, 240); margin-left: 15px;">
 			<br>
 		</div>
 		<div id="display-list" class="row" style="flex-wrap: wrap;">

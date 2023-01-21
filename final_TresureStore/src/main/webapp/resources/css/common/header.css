@@ -81,8 +81,8 @@ a {
     height: 40px;
     box-sizing: border-box;
     position: relative;
-    display: block;
     margin-left: 35px;
+    display: flex;
     
 }
 .search2 {
@@ -95,6 +95,7 @@ a {
     -webkit-box-align: center;
     align-items: center;
     background-color: white;
+    width: 100%;
 }
 .search3 {
     line-height: 1.15;
