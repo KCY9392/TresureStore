@@ -7,284 +7,240 @@
 <head>
 <meta charset="EUC-KR">
 <title>Insert title here</title>
+<link rel="stylesheet" href="/tresure/resources/css/common/font.css">
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
  <script type="text/javascript" src="/tresure/resources/js/header.js"></script>
 
  <style>
- .main-section{
-   
-    -webkit-box-pack: center;
-    justify-content: center;
-    background: rgb(255, 255, 255);
-    padding-top: 50px;
-    padding-left: 400px;
-    padding-right: 70px;
-    /* margin-right: 150px; */
-   
-
+ 
+ /* 위에 상점 ~호점 div */
+	 .content2{
+	 	display: flex;
+	    width: 900px;
+	    padding-left: 50px;
+	    margin-left: 90px;
+	    margin-top: 20px;
+	    padding-top: 40px;
+	    border:1px solid lightgray;
+	    border-radius: 15px;
+	    padding-bottom: 25px;
+	 }
+	 
+ 	.main-section22{
+	   width: 1100px;
+	   padding-top: 60px;
+	   margin: auto;
     }
     
     .content2{
-    display: flex;
-    
-  
-    
-}
+    	display: flex;
+	}
 
-.profile{
-   
-}
-.profile-image{
-    border: grey solid 1px;
-    width: 200px;
-    height: 200px;
-    margin-top: 20px;
-    margin-left: 40px;
-    margin-right: 20px;
-}
-.market-grade{
-    font-size: 11px;
-    margin-left: 112px;
-    
-    text-decoration: underline;
-
-}
+	
+/* 상점 정보 */
+	.profile-image{
+	    border: grey solid 1px;
+	    width: 200px;
+	    height: 200px;
+	    margin-top: 20px;
+	    margin-left: 40px;
+	    margin-right: 20px;
+	}
+	
+	.market-grade{
+	    font-size: 11px;
+	    margin-left: 112px;
+	    text-decoration: underline;
+	
+	}
 
 
-.info{
-    
-}
-.info-table{
-   
-    flex: 1 0 0%;
-    padding: 0px 30px;
-    
-    
-    display: flex;
-    height: 310px;
-    flex-direction: column;
-}
-.market-name {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-}
+	.info-table{
+	    flex: 1 0 0%;
+	    padding: 0px 30px;
+	    display: flex;
+	    height: 310px;
+	    flex-direction: column;
+	}
+	
+	.market-name {
+	    display: flex;
+	    align-items: center;
+	    font-size: 30px;
+	}
 
 
-
-
-.info-list{
-    
-    height: 45px;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    border-top: 1px solid rgb(250, 250, 250);
-    border-bottom: 1px solid rgb(250, 250, 250);
-    margin-bottom: 20px;
-    flex-shrink: 0;
-
-
-}
-
-.market-open{
-
-    margin-right: 30px;
-    font-size: 13px;
-    color: rgb(136, 136, 136);
-    display: flex;
-}
-.market-opendate{
-    margin-left: 5px;
-    color: rgb(33, 33, 33);
-    
-}
-
-.follower{
-    margin-right: 30px;
-    font-size: 13px;
-    color: rgb(136, 136, 136);
-    display: flex;
-
-}
-
-.market-follower{
-    margin-left: 5px;
-    color: rgb(33, 33, 33);
-
-}
-.sell-product{
-    margin-right: 30px;
-    font-size: 13px;
-    color: rgb(136, 136, 136);
-    display: flex;
-
-}
-
-.market-sell{
-    margin-left: 5px;
-    color: rgb(33, 33, 33);
-
-}
-
-.report{
-
-    margin-right: 0px;
-    font-size: 13px;
-    color: rgb(136, 136, 136);
-    display: flex;
-}
-.market-report{
-
-    margin-left: 5px;
-    color: rgb(33, 33, 33);
-}
-
-.button-area1{
-
-    height: 56px;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    flex-shrink: 0;
-    flex-direction: row-reverse;
-    
-
-
-}
-.button-area2{
-
-
-display: flex;
--webkit-box-align: center;
-align-items: center;
-flex-shrink: 0;
-flex-direction: row-reverse;
-
-
-
-}
-
-.following-list{
-
-    height: 20px;
-    display: flex;
-    align-items: center;
-   
-    color:black;
-    border: 1px solid gold;
-    background-color: gold;
-    font-size: 11px;
-    border-radius: 15px;
-}
-
-.Withdrawal{
-    height: 20px;
-    display: flex;
-   
-    align-items: center;
-    padding: 0px 1px;
-    color: rgb(136, 136, 136);
-   
-    font-size: 11px;
-}
-
-.navi-list{
-            list-style-type: none;/* ul속성 없애줌*/
-            margin: 0;
-            padding :0;
-            height: 100%;
-
-        }
-        .navi-list>li{
-            float: left;
-            width: 15%;
-            height: 100%;
-            text-align: center;
-        }
-        .navi-list a{
-            text-decoration: none;
-            color :black;
-            font-size: 14px;
-            font-weight: 600;
-            width: 100%;
-            height: 100%;
-            display: block;
-            line-height: 35px;
-            transform: scale(1)
-
-        }
-        .market-product{
-            flex: 1 1 0%;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    display: flex;
-    border-top: 1px solid rgb(238, 238, 238);
-    border-right: 1px solid rgb(238, 238, 238);
-    border-bottom: 1px solid rgb(33, 33, 33);
-    background: rgb(250, 250, 250);
-    color: rgb(136, 136, 136);
-            
-        }
-        .market-review{
-            flex: 1 1 0%;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    display: flex;
-    border-top: 1px solid rgb(238, 238, 238);
-    border-right: 1px solid rgb(238, 238, 238);
-    border-bottom: 1px solid rgb(33, 33, 33);
-    background: rgb(250, 250, 250);
-    color: rgb(136, 136, 136);
-}
-        
-        .market-heart{
-           flex: 1 1 0%;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    display: flex;
-    border-top: 1px solid rgb(238, 238, 238);
-    border-right: 1px solid rgb(238, 238, 238);
-    border-bottom: 1px solid rgb(33, 33, 33);
-    background: rgb(250, 250, 250);
-    color: rgb(136, 136, 136);
-        }
-        .market-tracsac{
-          flex: 1 1 0%;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    display: flex;
-    border-top: 1px solid rgb(238, 238, 238);
-    border-right: 1px solid rgb(238, 238, 238);
-    border-bottom: 1px solid rgb(33, 33, 33);
-    background: rgb(250, 250, 250);
-    color: rgb(136, 136, 136);
-        }
-        .list-form{
-            border: 1px solid black;
-            width: 758px;
-          
-            /* padding-left: 200px; */
-        }
-        .list-a{
-        display: flex;
-    height: 50px;
-    text-align:center;
+	.info-list {
+	    display: flex;
+	    align-items: center;
+	    border-top: 1px solid rgb(236 231 231);
+	    border-bottom: 1px solid rgb(236 231 231);
     }
-    .mform{
-    padding: initial;
-    margin-left: auto;
-    margin-right: auto;
-}
-    .allCheck { float:left; width:200px; }
+
+	.market-open{
+	    margin-right: 45px;
+	    font-size: 20px;
+	    color: rgb(136, 136, 136);
+	    display: flex;
+	}
+	
+	.market-opendate{
+	    margin-left: 5px;
+	    color: rgb(33, 33, 33);
+	    
+	}
+
+	.follower{
+	    margin-right: 45px;
+	    font-size: 20px;
+	    color: rgb(136, 136, 136);
+	    display: flex;
+	
+	}
+	
+	.market-follower{
+	    margin-left: 5px;
+	    color: rgb(33, 33, 33);
+	
+	}
+	.sell-product{
+	    margin-right: 45px;
+	    font-size: 20px;
+	    color: rgb(136, 136, 136);
+	    display: flex;
+	
+	}
+	
+	.market-sell{
+	    margin-left: 5px;
+	    color: rgb(33, 33, 33);
+	
+	}
+	
+	.report{
+	
+	    margin-right: 0px;
+	    font-size: 20px;
+	    color: rgb(136, 136, 136);
+	    display: flex;
+	}
+	.market-report{
+	
+	    margin-left: 5px;
+	    color: rgb(33, 33, 33);
+	}
+	
+	.button-area1{
+	
+	    height: 56px;
+	    display: flex;
+	    -webkit-box-align: center;
+	    align-items: center;
+	    flex-shrink: 0;
+	    flex-direction: row-reverse;
+	    
+	
+	
+	}
+	.button-area2{
+	
+	
+	display: flex;
+	-webkit-box-align: center;
+	align-items: center;
+	flex-shrink: 0;
+	flex-direction: row-reverse;
+	
+	
+	
+	}
+	
+	.following-list {
+	    height: 50px;
+	    display: flex;
+	    align-items: center;
+	    color: black;
+	    border: 1px solid gold;
+	    background-color: gold;
+	    font-size: 20px;
+	    border-radius: 15px;
+	    width: 100px;
+	}
+	
+	.Withdrawal{
+	    color: rgb(136, 136, 136);
+	}
+	
+	.navi-list{
+	            list-style-type: none;/* ul속성 없애줌*/
+	            margin: 0;
+	            padding :0;
+	            height: 100%;
+	
+	        }
+	        .navi-list>li{
+	            float: left;
+	            width: 15%;
+	            height: 100%;
+	            text-align: center;
+	        }
+	        .navi-list a{
+	            text-decoration: none;
+	            color :black;
+	            font-size: 14px;
+	            font-weight: 600;
+	            width: 100%;
+	            height: 100%;
+	            display: block;
+	            line-height: 35px;
+	            transform: scale(1)
+	
+	        }
+	        
+/* 상점 정보 밑에 div css*/
+	#mForm{
+		    width: 1000px;
+		    padding-left: 70px;
+		    border: 1px;
+	}
+	
+	 .mform{
+		    padding: initial;
+		    margin-left: auto;
+		    margin-right: auto;
+		}
+	
+	/*버튼들*/
+		.list-a{
+		    display: flex;
+		    height: 50px;
+		    text-align:center;
+    	}
+    	
+		.list-content button{
+		    flex: 1 1 0%;
+		    align-items: center;
+		    justify-content: center;
+		    display: flex;
+		    border: 1px solid rgb(253, 233, 231);
+		    background: rgb(253, 233, 231);
+		    border-radius:15px;
+		    font-size:17px;
+		    font-weight:800;
+		}
+        
+        
+     
+    	
+	   
+
+	#productshow{
+		border: 1px solid lightgray;
+	}  
+		
+/* 찜 목록 버튼 관련 css */		
+		
+.allCheck { float:left; width:200px; }
 .allCheck input { width:16px; height:16px; }
 .allCheck label { margin-left:10px; }
 .delBtn {  width:300px;  }
@@ -294,44 +250,35 @@ flex-direction: row-reverse;
 .checkBox { float:left; width:25px;  float: left; margin-top: 40px; margin-left: 40px; }
 .checkBox input { width:16px; height:16px; }
 .thumb{float: left; margin-left: 100px; margin-top: 40px;}
-.gdsInfo{
-    margin-left: 350px;
-   
-}
+.gdsInfo{margin-left: 350px;}
             
    
         
  </style>
 </head>
 <body>
-		 <jsp:include page="../common/header.jsp"/>
-	 	 <jsp:include page="../common/sideBar.jsp"/>
+	<jsp:include page="../common/header.jsp"/>
+	<jsp:include page="../common/sideBar.jsp"/>
 	 	 
-	 
-	 	 
-	<div class="main-section">
+	<div class="main-section22">
         
-    
-       
-
     <div class="content2">
 
         <div class="profile">
             
             <div class="profile-image">
            <c:if test="${s.avg > 4.5}"> 
-                                 <img src="/tresure/resources/images/icon/grade3.png"/>
+                                 <img src="/tresure/resources/images/icon/grade3.png" height="100%" width="100%"/>
                               </c:if> 
                               <c:if test="${ 4 <= s.avg && s.avg < 4.5 }"> 
-                                 <img src="/tresure/resources/images/icon/grade2.png"/> 
+                                 <img src="/tresure/resources/images/icon/grade2.png" height="100%" width="100%"/> 
                               </c:if> 
                               <c:if test="${ 3.5 <= s.avg && s.avg < 4 }"> 
-                                 <img src="/tresure/resources/images/icon/grade1.png" /> 
+                                 <img src="/tresure/resources/images/icon/grade1.png" height="100%" width="100%"/> 
                               </c:if>
                               <c:if test="${ s.avg == null  || s.avg < 3.5 }">
-                                 <img src="/tresure/resources/images/icon/grade0.png"/>
-                              </c:if>                      
-	</c:forEach>
+                                 <img src="/tresure/resources/images/icon/grade0.png" height="100%" width="100%"/>
+                              </c:if>  
 
 
             </div>
@@ -374,22 +321,21 @@ flex-direction: row-reverse;
                 <br>
 
                 <div class="button-area1">
-                    <a href="#" class= "following-list">팔로잉 목록</a>        
+                    <a href="#" class= "following-list">&nbsp;&nbsp;&nbsp;&nbsp;팔로잉 목록</a>        
                 </div>
                 
                 <div class="button-area2">
+                	<br><br>
                     <a class="Withdrawal" href="#" data-toggle="modal">탈퇴하기</a>
-
                 </div>
-                
-
-                    
             </div>
-
         </div>
-       
-        
     </div> 
+    
+    
+    <br><br>
+    
+    
     <div class="list-form">
     <fieldset id="mForm">
     	<div class="list-content">
@@ -399,7 +345,7 @@ flex-direction: row-reverse;
 				<button class="market-heart" type="button"onclick="show(this);" id="heart"name="show"><span class="rheart">찜</span></button>
 				<button class="market-tracsac" href="#">거래내역<span class="rtransac"></span></button>
     		</div>
-    	
+    		<br><br>
     	</div>
     	<div id="productshow" class="box" style="flex-wrap: wrap;">
      	<c:forEach var="s" items="${sellList}" begin="0" end="${fn:length(sellList)}" step="1" varStatus="status">
