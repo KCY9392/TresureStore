@@ -15,7 +15,7 @@ public interface ChatService {
 	public List<ChatRoom> selectChatRoomList(int userNo);
 
 	// 채팅방 입장하기
-	public HashMap<Object,Object> chattingRoomEnter(int chatRoomNo, String userNo);
+	public HashMap<Object,Object> chattingRoomEnter(int chatRoomNo, String userNo, ChatRoomJoin join);
 
 	// 채팅방 나가기
 	public int exitChatRoom(ChatRoomJoin join);

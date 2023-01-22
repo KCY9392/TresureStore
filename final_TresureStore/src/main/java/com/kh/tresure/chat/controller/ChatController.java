@@ -76,18 +76,23 @@ public class ChatController {
 	@RequestMapping(value = "chat/chatRoom/{chatRoomNo}", method = RequestMethod.POST)
 	public String enterChatRoom(Model model,
 								@PathVariable int chatRoomNo,
-								@RequestParam String userNo) {
-		
+								@RequestParam String userNo,
+								ChatRoomJoin join
+								) {
+		join.setUserNo(Integer.parseInt(userNo));
+		join.setChatRoomNo(chatRoomNo);
 		HashMap<Object,Object> AllList = new HashMap<>();
 		
 		logger.info(">> 채팅방으로 이동");
 		
-		AllList =  chatService.chattingRoomEnter(chatRoomNo, userNo);
-		model.addAttribute("chatRoomNo", chatRoomNo ); 
+		model.addAttribute("chatRoomNo", chatRoomNo );
+		AllList =  chatService.chattingRoomEnter(chatRoomNo, userNo, join);
 		
 		if(AllList.size() > 0) {
 			
+			
 			model.addAttribute("AllList", AllList);
+			
 			return "chat/chatRoom";
 			
 		} else {

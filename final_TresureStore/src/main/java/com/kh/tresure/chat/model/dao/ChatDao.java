@@ -38,6 +38,24 @@ public class ChatDao {
 		
 		return sqlSession.insert("chattingMapper.insertMessage", message);
 	}
+
+	// 채팅방 참여확인
+	public static int joinCheck(SqlSession sqlSession, ChatRoomJoin join) {
+		
+		return sqlSession.selectOne("chattingMapper.joinCheck", join);
+	}
+
+	// 채팅방 참여
+	public static void inChatRoomJoin(SqlSession sqlSession, ChatRoomJoin join) {
+		
+		sqlSession.insert("chattingMapper.inChatRoomJoin", join);
+	}
+
+
+	public List<ChatMessage> selectChatMessageList(SqlSession sqlSession, ChatRoomJoin join) {
+		
+		return sqlSession.selectList("chattingMapper.selectChatMessageList", join);
+	}
 	
 	
 	

@@ -43,7 +43,7 @@ public class ChatServiceImpl implements ChatService{
 	
 	// 채팅방 입장하기
 	@Override
-	public HashMap<Object,Object> chattingRoomEnter(int chatRoomNo, String userNo) {
+	public HashMap<Object,Object> chattingRoomEnter(int chatRoomNo, String userNo, ChatRoomJoin join) {
 		
 		HashMap<Object,Object> AllList = new HashMap<>();
 		
@@ -54,7 +54,18 @@ public class ChatServiceImpl implements ChatService{
 			AllList.put("product", product);
 		}
 		
+		
+		// 채팅방 참여
+		int result = ChatDao.joinCheck(sqlSession, join);
+		if(result == 0) {
+			ChatDao.inChatRoomJoin(sqlSession, join);
+		}
 		// 메세지 가져오기
+		List<ChatMessage> roomMessageList = chatDao.selectChatMessageList(sqlSession, join);
+		if(roomMessageList.size() != 0) {
+			AllList.put("roomMessageList", roomMessageList);
+			logger.info(roomMessageList+"");
+		}
 		
 		
 		// 첨부파일 가져오기

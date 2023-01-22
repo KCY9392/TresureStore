@@ -1,271 +1,440 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-<meta charset="UTF-8">
-<title> 보물상점 채팅 </title>
-<!-- Jquery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-<!-- 부트스트랩에서 제공하는 스타일 -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<!-- 부트스트랩에서 제공하고 있는 스크립트 -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>보물상점</title>
+    <!-- Jquery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <!-- 헤더 js -->
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/header.js"></script>
 
-<!-- fontawesome icon -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" 
-		integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" 
-		crossorigin="anonymous" referrerpolicy="no-referrer" />
-<!-- 헤더 js -->
-<script type="text/javascript" src="/tresure/resources/js/header.js"></script>
-<!-- sockjs  -->
-<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-<style>
-      /* ---전체 div --- */
-      .main-section{
-        box-sizing: border-box;
-       	height: 1000px;
-        width: 70%;
-        margin-left: 20%;
-        margin-right: auto;
-        padding:1%;
-        position: relative;/*기준*/
-       
-	  }
-      /*왼,오 박스 공통 css*/
-      .leftBox, .rightBox {
-        border: 1px solid darkturquoise;
-        width: 50%;
-        height: 70%;
-        float : left;
-        padding : 2%;
-      }
-      /*오른쪽박스 테두리 삭제예정*/
-      .rightBox div{
-        border: 1px solid rgb(237, 189, 12);
-      }
-      
-      
-      /* --- leftBox --- */
-      /* 상품사진 */
-      .sell_pic{
-        display: inline-block;
-        width: 50%;
-        height: 50%;
-      }
-      /*상품 카테고리, 제목, 가격*/
-      .sell_detail{
-        display: inline;
-        width: 45%;
-        height:20%;
-        float: right;
-        margin: 5% 2%;
-      }
-      /*상품 카테고리, 제목, 가격*/
-      .sell_detail > div {
-      	margin: 6% 0%;
-      }
-      
-      /* 상품 상세 내용 */
-      .sell_content{
-        margin: 2% 0%;
-      }
+    <style>
+        /* ---전체 div --- */
+        .main-section{
+            margin-top: 80px;
+        }
+        .inner-section{
+            box-sizing: border-box;
+            height: 1000px;
+            width: 80%;
+            margin : auto;
+            padding:1%;
+            position: static;/*기준*/
+
+        }
+
+        /*왼,오 박스 공통 css*/
+        .main-section .leftBox, .main-section .rightBox {
+            float : left;
+            width: 45%;
+            margin-right: 3%;
+        }
+
+        /* 왼쪽 박스 */
+        .sell_pic{
+            width: 59%;
+            border: 1px solid blue;
+            height: 400px;
+            float: left;
+        }
+        .sell_detail{
+            width: 38%;
+
+            float: right;
+            height: 400px;
+        }
+        .sell_detail .sell_category{
+            margin-left: 10%;
+            margin-top: 13%;
+            color: #666;
+            font-size: 1.1em;
+        }
+        .sell_detail .sell_title,
+        .sell_detail .sell_price{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            box-shadow: 1px 1px lightgray;
+
+        }
+        .sell_detail .sell_title{
+            font-size: 1.4em;
+            width: 90%;
+            margin: 10% auto;
+            font-weight: 600;
+            overflow: hidden;
+            white-space: normal;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            word-break: keep-all;
+            padding : 3%;
+            
+        }
+        .sell_detail .sell_price{
+            width: 90%;
+            margin: 10% auto;
+            font-size: 2em;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            word-break: break-all;
+
+        }
+        .mark{
+            color: rgb(249, 115, 57);
+            text-decoration: underline;
+        }
+        .btn-area{
+            width: 70%;
+            margin: auto;
+        }
+        .negoBtn{
+            width: 100%;
+            color: #000;
+            background-color: gold;
+            border: none;
+            border-radius: 5px;
+            height: 30px;
+            font-weight: 600;
+            cursor: pointer;
+
+            box-shadow: 1px 1px rgb(255, 205, 113);
+        }
+        .negoBtn:hover{
+            color: white;
+            background-color: orange;
+        }
+
+        .sell_content{
+            float: left;
+            margin: auto;
+            padding: 5%;
+            border-radius: 10px;
+            box-shadow: 1px 1px lightgray;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
 
 
-      /* --- rightBox --- */
-      /* 채팅창 맨 위에 바 */
-      .chatting_top_bar{
-        height: 10%;
-        position: relative;
-      }
-      
-      /* 상점명 이름 */
-      .sell_number{
-        display: inline;
-        margin: 2%;
-        font-size: 25px;
+
+        /* 오른쪽 박스 */
+        .rightBox .box{
+            position: relative;
+            width: 100%;
+            height: 900px;
+            background: rgb(107, 107, 107);
+            border-radius: 50px;
+        }
+        .inner{
+            position: absolute;
+            inset: 3px;
+            background: url();  /* 배경화면 */
+            background-size: cover;
+            background-position: center;
+            border-radius: 48px;
+            border: 10px solid #000;
+            display: flex;
+            justify-content: center;
+            background-color: white;
+        }
+        /* 채팅방 헤더 */
+        .box-header{
+            position: relative;
+            width: 90%;
+            margin: auto;
+            height: 10%;
+            overflow: hidden;
+        }
+        .box-header .chatmenubar{
+            width: 100%;
+            height: 100%;
+            padding-top:10px;
+        }
+        .store-text{
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+        .header-list{
+            list-style: none;
+            
+        }
+        .header-list li{
+             float: left;
+             margin-right: 3%;
+        }
+        .buttonCss{
+            text-decoration: none;
+            color: gold;
+            font-size: 1.2em;
+            padding: 5px;
+            padding-left: 10px;
+            padding-right: 10px;
+            border-radius: 15px;
+            margin-top:10px;
+        }
+        .buttonCss:hover{
+            color: black;
+            background-color: gold;
+        }
+        .buttonCss2{
+            border: none;
+            padding: 15px;
+            margin-top: 10px;
+            background-color: gold;
+            font-weight: 600;
+            border-radius: 10px;
+        }
+        .buttonCss2:hover{
+            background-color: orange;
+            cursor: pointer;
+            color: white;
+        }
+
+        /* 채팅방 내용 */
+        .box-body{
+            position: relative;
+            width: 90%;
+            margin: auto;
+            height: 80%;
+            margin-bottom: 2%;
+        }
+
+
+        /* 채팅방 바텀  */
+        .box-footer{
+            position: relative;
+            overflow: hidden;
+            width: 90%;
+            margin: auto;
+            height: 10%;
+        }
+        .footer-area{
+            width: 100%;
+            height: 60%;
+            
+        }
+        .messageInput-area{
+            width: 71%;
+            height: 70%;
+            resize: none;
+            font-size: 1.3em;
+            border: none;
+            background-color: rgb(243, 243, 243);
+            border-bottom-left-radius: 20px;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+            line-height: 2em;
+            padding-left: 20px;
+            float: left;
+            margin-right: 1%;
+        }
+        .messageInput-area:valid,
+        .messageInput-area:focus{
+            border: none;
+            outline: none;
+        }
+
+        .float-left{
+            float: left;
+        }
+        .pricture{
+            margin-right: 1%;
+            cursor: pointer;
+        }
+        .MessageSubmitBtn{
+            border: none;
+            padding: 10px;
+            background-color: gold;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor : pointer;
+        }
+
         
-      }
-      
-      /* 계좌이체 버튼 */
-      .chatting_top_bar button{
-        float: right;
-        padding: 2.2%;
-        background-color: gold;
-        color: rgb(102, 96, 96);
-        border-radius: 3px;
-        border:none;
-       	position:absoulte;
-  		transform: translateY(20%);
-  		cursor: pointer 
-      }
-      /* 신고차단 a태그 */
-      .chatting_top_bar a{
-        text-decoration: none;
-        color: gold;
-        padding : 2%;
-    
-        position:absoulte;
-  		transform: translateX(50%);
-      }
-      
-      
-      /* 채팅 대화창 */
-      .display-chatting{
-        height: 70%;
-        list-style : none;
-        height : 75%;
-        overflow : auto; /*스크롤처럼*/
-        padding : 10px 10px;
-        background-color: rgb(248, 246, 235);
-        z-index: 1;
-        positon: absoulte;
-      }
-		.display-chatting{
+        .rightBox .btn{
+            position: absolute;
+            top: 110px;
+            left: -2px;
+            width: 3px;
+            height: 26px;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+            background: radial-gradient(#ccc, #666, #222);
 
-		list-style:none;
+        }
+        .rightBox .btn.btn2{
+            top :160px;
+            height: 40px;
+        }
+        .rightBox .btn.btn3{
+            top :220px;
+            height: 40px;
+        }
+        .rightBox .rightSideBtn{
+            position: absolute;
+            top: 170px;
+            right: -2px;
+            width: 3px;
+            height: 70px;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+            background: radial-gradient(#ccc, #666, #222);
+        }
+        ul{
+            padding-inline-start: 10px;
+        }
+        p{
+            margin:6px;
+        }
 
-		
-	}
-      
-       /* 구매자 판매자 모든 대화바 */
-      .chat{
-        display: inline-block;
-        border-radius: 5px;
-        padding : 5px;
-        background-color: rgb(102, 96, 96);
-        color:whitesmoke;
-      }
-      
-      /*내 대화바*/
-      .myChat{
-        text-align: right;
-      }
-      /*내 대화바*/
-      .myChat > p{
-        background-color: rgb(248, 212, 5);
-      }
-      
-      /*채팅 모든 대화 시간 텍스트*/
-      .chatDate{
-        font-size:11px;
-      }
-      
-	  /* 채팅창 아래 바 */
-      .chatting_bottom_bar{
-        height: 10%;
-      }
-       /*첨부파일 클릭 버튼..?*/
-      .chat_plus{
-      	width:10%;
-      	height:100%;
-      	background-color:gold;
-      	border:none;
-      	float:left;
-      	
-      }
-      /*대화 입력창*/
-      #inputChatting{
-	    width:70%;
-	    height:100%;
-	    resize: none;
-	    border:none;
-	    border-top:solid 1px gold;
-	    border-bottom:solid 1px gold;
-	    float:left;
-	    
-   	  }
-   	  /*보내기 버튼*/
-   	  .chatting_bottom_bar > button{
-   	  	float:left;
-   	  	height:100%;
-   		width:20%;
-   	  }
-   	  .chatting_bottom_bar > i{
-   	  	width:50%;
-   	  	border :solid 1px white;
-   	  	
-   	  }
-   	  li{
-   	  	list-style : none;
-   	  }
-      
-</style>
+        /* 채팅 대화창 */
+        .display-chatting-area{
+            height: 96%;
+            list-style : none;
+            overflow : auto; /*스크롤처럼*/
+            padding : 5px 5px;
+            background-color: rgb(248, 246, 235);
+            position: absoulte;
+        }
+        .display-chatting{
+            list-style:none;
+        }
+            
+        /* 구매자 판매자 모든 대화바 */
+        .chat{
+            display: inline-block;
+            border-radius: 5px;
+            padding : 5px;
+            background-color: rgb(102, 96, 96);
+            color:whitesmoke;
+        }
+            
+        /*내 대화바*/
+        .myChat{
+            text-align: right;
+        }
+        /*내 대화바*/
+        .myChat > p{
+            background-color: rgb(248, 212, 5);
+            color: black;
+        }
+        .chatDate{
+		    font-size:12px;
+            color: darkgrey;
+            padding: 5px 5px;
+	    }
+
+    </style>
 </head>
 <body>
+    <jsp:include page="../common/header.jsp"/>
 
-	<jsp:include page="../common/header.jsp"/>
-	<%-- <jsp:include page="../common/sideBar.jsp"/> --%>
-    <br><br>
-      
-        <div class="main-section">
-          <br><br>
-          	<!-- 채팅 왼쪽창(상품상세) -->
+    <div class="main-section">
+        <div class="inner-section">
+            <!-- 채팅 왼쪽창(상품상세) -->
             <div class="leftBox">
-                <div class="sell_pic"> <img src="${AllList.get('product').imgSrc }" width="100%" height="100%"/> </div>
-                <div class="sell_detail">
-                    <div id="sell_category">${AllList.get('product').categoryName }</div>
-                    <div id="sell_title">${AllList.get('product').sellTitle }</div> 
-                    <div id="sell_price">${AllList.get('product').price }</div>
+                <div class="sell_pic">
+                    <img src="${AllList.get('product').imgSrc }" width="100%" height="100%"/>
                 </div>
-
-                <div class="sell_content"> 
-                  <span>${AllList.get('product').sellContent }</span>
-                </div>
-           </div>
-			
-			
-			<!-- 채팅 오른쪽창(구매자와 판매자 대화) -->
-            <div class="rightBox" >
-            	<!-- 채팅창 맨 위에 바 -->
-                <div class="chatting_top_bar">
-                    <div class="sell_number">
-                    	<img src="https://cdn-icons-png.flaticon.com/128/9317/9317793.png" width="30"/>
-                    		&nbsp;상점 ${AllList.get('product').userNo }호점
+                    <div class="sell_detail">
+                        <div class="sell_category">카테고리 > ${AllList.get('product').categoryName }</div>
+                        <div class="sell_title">${AllList.get('product').sellTitle }</div> 
+                        <div class="sell_price"><p class="mark">${AllList.get('product').price }</p> &nbsp원</div>
+                        <div class="btn-area"><button class="negoBtn" type="button" >네고하기</button></div>
                     </div>
-                    <a href="#">신고</a>
-                    <a href="#">차단</a>
-                    <button type="submit">계좌이체</button>
-                </div>
-                
-                
- 				<!-- 채팅창 대화 -->
-                <div class="display-chatting">
-                <ul class="zz">
-                     <c:forEach items="${list }" var="msg">
-                      <fmt:formatDate var="chatDate" value="${msg.createDate }" pattern="yyyy년 MM월 dd일 HH:mm:ss"/> 
-                      <!-- 1) 내가 보낸 메세지 -->
-                       <c:if test="${msg.userNo == loginUser.userNo }"> 
-                        <li class="myChat">
-                            <p class="chat">${msg.message }ㅋ</p>
-                            <span class="chatDate">${chatDate }</span>
-                        </li>         
-                       </c:if>           
-                      
-                      <!-- 2) 상대가 보낸 메세지 -->
-                      <c:if test="${msg.userNo != loginUser.userNo }"> 
-                        <li>
-                            <p class="chat">${msg.message }</p>
-                            <span class="chatDate">${chatDate }</span>
-                        </li>
-                      </c:if>            
-                  </c:forEach>
-                  </ul>
-                </div>
-                
+                    <div class="sell_content">${AllList.get('product').sellContent }</div>
+            </div><!-- leftBox 끝 -->
 
-				<!-- 채팅창 맨 아래 바 -->
-                <div class="chatting_bottom_bar">
-                	<div class="chat_plus"></div>
-					<textarea id="inputChatting"></textarea>
-					<button id="send" class="btn btn-outline-warning" onkeypress="if(event.keyCode == 13 {massageEnterSend();})">보내기</button>
+            <div class="rightBox">
+
+                
+                <div class="box">
+                    <div class="inner"></div>
+                    <i class="btn btn1"></i>
+                    <i class="btn btn2"></i>
+                    <i class="btn btn3"></i>
+                    <i class="rightSideBtn"></i>
+                    <div class="box-header">
+                        <div class="chatmenubar">
+
+                            <ul class="header-list">
+                                <li><img src="https://cdn-icons-png.flaticon.com/128/9317/9317793.png" width="40"/>
+                                    <!-- &nbsp;상점 ${AllList.get('product').userNo }호점 -->
+                                    <span class="store-text">상점 ${AllList.get('product').userNo }호점</span>
+                                </li>
+
+                                <li><br>
+                                    <a href="" class="buttonCss">신고</a>
+                                </li>
+                                <li><br>
+                                    <a href="" class="buttonCss">차단</a>
+                                </li>
+                                <li style="float: right;">
+                                    <button class="buttonCss2">계좌이체</button>
+                                </li>
+                            </ul>
+                            
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        
+                        <!-- 채팅창 대화 -->
+                        <div class="display-chatting-area">
+                            <ul class="display-chatting">
+                              <c:forEach items="${AllList.get('roomMessageList') }" var="msg">
+                                 <fmt:formatDate var="chatDate" value="${msg.createDate }" pattern="yyyy년 MM월 dd일 HH:mm" />
+                                 <%-- 1) 내가 보낸 메세지 --%>
+                                 <c:if test="${msg.userNo == loginUser.userNo }">
+                                     <li class="myChat">
+                                     	<p class="chat">${msg.chatContent }</p><br>
+                                        <span class="chatDate">${chatDate }</span>
+                                         
+                                     </li>
+                                 </c:if>
+                                 <%-- 2) 남(이름)이 보낸 메세지 --%>
+                                 <c:if test="${msg.userNo != loginUser.userNo }">
+                                     <li>
+                                         <p class="chat">${msg.message }</p><br>
+                                         <span class="chatDate">${chatDate }</span>
+                                     </li>
+                                 </c:if>
+                              </c:forEach>     
+                            </ul>
+
+                        </div>
+
+                    </div>
+                    <div class="box-footer">
+                        <div class="footer-area">
+                            <div class="float-left pricture"><img src="https://cdn-icons-png.flaticon.com/512/739/739249.png" width="40"/>&nbsp;&nbsp;
+                            </div>
+                            <input class="messageInput-area" id="inputChatting" placeholder="메세지를 입력하세요!" onkeypress="if(event.keyCode == 13) {massageEnterSend();}"/>
+                            <button class="float-left MessageSubmitBtn" id="send" type="button" >보내기</button>
+                        </div>
+                        
+                    </div>
                 </div>
-             
-            </div>
+
+            </div><!-- rightBox 끝 -->
         </div>
-        <jsp:include page="../common/footer.jsp"/>
+    </div><!-- main-section 끝 -->
+    <jsp:include page="../common/footer.jsp"/>
 
-		<script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+   
+     <script>
+    
 			const userNo = "${loginUser.userNo}";
 			const userName = "${loginUser.userName}";
 			const phone = "${loginUser.phone}";
@@ -273,7 +442,7 @@
 			const email = "${loginUser.email}";
 			const chatRoomNo = "${chatRoomNo}";
 			const contextPath = "${pageContext.request.contextPath}";
-		
+            
 			(function(){
 				const displayChatting = document.getElementsByClassName("display-chatting")[0];
 				
@@ -328,10 +497,11 @@
 				
 				const li = document.createElement("li");
 			    const p = document.createElement("p");
+			    const br = document.createElement("br");
 
 			    p.classList.add("chat");
 			    
-			    p.innerHTML = chatMessage.chatContent.replace(/\\n/gm , "<br>" );//줄바꿈 처리
+			    p.innerHTML = chatMessage.chatContent;//줄바꿈 처리
 			    
 
 			    //span태그 추가
@@ -342,11 +512,10 @@
 
 			    //내가쓴 채팅
 			    if (chatMessage.userNo == userNo) {
-			        li.append(span, p);
+			        li.append(p,br,span);
 			        li.classList.add("myChat"); 
 			    } else {
-			        li.innerHTML = "<b>" + chatMessage.userNo + "</b><br>";
-			        li.append(p, span);
+			    	li.append(p,br,span);
 			    }
 			    
 			 	// 채팅창
@@ -382,35 +551,3 @@
 		</script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
