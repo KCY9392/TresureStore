@@ -55,8 +55,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="sellListselect" resultMap="sellResultSet">
 		SELECT 
 	    	SELL_NO, CATEGORY_NO, SELL_TITLE, IMAGE_SRC, PRICE, HEART_NUM
-		FROM SELL 
-		WHERE STATUS = 'Y' AND SELL_STATUS = 'I' AND ROWNUM <![CDATA[ <= ]]> 40
+		FROM SELL S 
+        LEFT JOIN MEMBER M ON(S.USER_NO=M.USER_NO)
+		WHERE S.STATUS = 'Y' 
+		AND SELL_STATUS = 'I' 
+		AND M.STATUS = 'Y' 
+		AND ROWNUM <![CDATA[ <= ]]> 40
 	</select>
 
 	<!-- 상품등록 -->
@@ -126,6 +130,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	   WHERE CHATROOM_NO = ${chatRoomNo} AND S.STATUS = 'Y' AND M.STATUS = 'Y'
 	</select>
 	
+	
+	
 	<!-- 마이페이지 판매목록 -->
 	<select id="mypageSellList" resultMap="sellResultSet" parameterType="Integer">
 	
@@ -136,6 +142,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             WHERE USER_NO=#{userNo}
 		
 	</select>
+	
+	
 	
 	<!-- 상품 상세조회 -->
 	<select id="selectSellDetail" parameterType="map" resultMap="sellResultSet">
@@ -160,8 +168,42 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              GROUP BY S.USER_NO) A ON (A.USER_NO=S.USER_NO)
        LEFT JOIN CATEGORY CG USING(CATEGORY_NO)
        WHERE SELL_NO = ${sellNo}
-		
 	</select>
 	
+	
+	
+	<!-- 상품 상세조회 조회수 증가 -->
+	<update id="increaseCount" parameterType="int">
+      UPDATE SELL
+      SET COUNT = COUNT +1
+      WHERE SELL_NO = #{sellNo}
+    </update>
+   
+   
+   	<!-- 카테고리별 상품목록 조회 -->
+    <select id="GocategoryList" parameterType="int" resultMap="sellResultSet">
+    	<if test="categoryCode == 1">
+    		SELECT 
+		    	SELL_NO, S.CATEGORY_NO, SELL_TITLE, IMAGE_SRC, PRICE, HEART_NUM, CATEGORY_NAME, CG.CATEGORY_NAME AS "CATEGORY_NAME"
+			FROM SELL S 
+	        LEFT JOIN MEMBER M ON(S.USER_NO=M.USER_NO)
+	        LEFT JOIN CATEGORY CG ON(S.CATEGORY_NO=CG.CATEGORY_NO)
+			WHERE S.STATUS = 'Y' 
+			AND SELL_STATUS = 'I' 
+			AND M.STATUS = 'Y' 
+			AND ROWNUM <![CDATA[ <= ]]> 80
+	        ORDER BY S.HEART_NUM DESC, S.COUNT DESC
+    	</if>
+    	<if test="categoryCode != 1">
+	    	SELECT 
+		    	SELL_NO, S.CATEGORY_NO, SELL_TITLE, IMAGE_SRC, PRICE, HEART_NUM, CG.CATEGORY_NAME AS "CATEGORY_NAME"
+			FROM SELL S 
+	        LEFT JOIN MEMBER M ON(S.USER_NO=M.USER_NO)
+	        LEFT JOIN CATEGORY CG ON(S.CATEGORY_NO=CG.CATEGORY_NO)
+			WHERE S.STATUS = 'Y' AND SELL_STATUS = 'I' AND M.STATUS = 'Y'
+	        AND S.CATEGORY_NO = #{categoryCode}
+        </if>
+    </select>
+   
 
 </mapper>

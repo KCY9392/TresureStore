@@ -10,7 +10,7 @@
 }
 
 /* 찜한 상품 */
-.favorites {
+.nfavorites {
     padding: 10px 0px;
     background: white;
     margin: 10px 0px;
@@ -21,14 +21,14 @@
     align-items: center;
 }
 
-.favoritesText {
+.nfavoritesText {
     text-align: center;
     font-size: 18px;
     height: 50%;
     margin-top:7px;
 }
 
-.favoritesCount {
+.nfavoritesCount {
     color: #666;
     text-align: center;
     display: flex;
@@ -37,18 +37,18 @@
     height:30%;
 }
 
-.toFavorites{
+.ntoFavorites{
     display: inline-block;
 }
 
 /* 최근 본 상품 */
 
-.recentlyProduct {
+.nrecentlyProduct {
     text-align: center;
     margin-top: 10px;
 }
 
-#recentlyCnt {
+#nrecentlyCnt {
     display: inline-block;
     padding-bottom: 6px;
     width: 30px;
@@ -56,7 +56,7 @@
     margin-bottom: 10px;
 }
 
-#recentlyList .recentlyImage {
+#nrecentlyList .nrecentlyImage {
 	height: 70px;
     width: 70px;
     cursor: pointer;
@@ -64,11 +64,11 @@
     margin-top: 6px;
 }
 
-#recentlyArea{
+#nrecentlyArea{
 	margin-bottom: 10px;
 }
 
-.recently {
+.nrecently {
     background: white;
     margin: 10px 0px;
     padding: 10px 0px;
@@ -76,25 +76,25 @@
     border: 1px solid gray;
 }
 
-.recentlyText {
+.nrecentlyText {
     font-size: 16px;
     text-align: center;
     margin-top: 10px;
 }
 
-.recentlyCnt {
+.nrecentlyCnt {
     margin-top: 5px;
     font-size: 12px;
     text-align: center;
     
 }
 
-.toRecently {
+.ntoRecently {
     color: rgb(247, 0, 0);
 }
 
 /* TOP */
-.theTop {
+.ntheTop {
     margin: 10px 0px;
     width: 120px;
     padding: 6px 0;
@@ -106,7 +106,7 @@
     height: 20px;
 }
 
-.topText {
+.ntopText {
     cursor: pointer;
     margin: 0px 0px;
     text-align: center;

@@ -25,5 +25,8 @@ public interface SellService {
 	 * 상품 조회수 */
 	public int increaseCount(int sellNo);
 
+	/**
+	 * 카테고리별 상품목록 */
+	public List<Sell> GocategoryList(int categoryCode);
 
 }

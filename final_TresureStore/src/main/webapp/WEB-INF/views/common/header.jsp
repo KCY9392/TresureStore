@@ -22,7 +22,7 @@
 					<div class="search1">
 						<div class="search2">
 							<input onclick="checkInput(this.form)" type="text" id="search" class="search3"
-								placeholder="상품명, @상점명 입력" name="search">
+								placeholder=" 상품명 , @상점명 입력해주세요" name="search">
 							<button onclick="test()" class="exx" id="exit">
 								<img
 									src="/tresure/resources/images/icon/x.png"
@@ -89,35 +89,35 @@
 				<div class="catebox3">
 
 					<ul class="inner-menu">
-						<li class="catebox"><a href="#none"><img
+						<li class="catebox"><a href="${pageContext.request.contextPath}/sell/category/1"><img
 								src="/tresure/resources/images/icon/star.png" width="40px"
 								height="35px"><br>인기매물</a></li>
-						<li class="catebox"><a href=""><img
+						<li class="catebox"><a href="${pageContext.request.contextPath}/sell/category/10"><img
 								src="/tresure/resources/images/icon/디지털기기.png" width="40px"
 								height="35px"><br>디지털기기</a></li>
-						<li class="catebox"><a href=""><img
-								src="/tresure/resources/images/icon/가전제품.png" wwidth="40px"
+						<li class="catebox"><a href="${pageContext.request.contextPath}/sell/category/20"><img
+								src="/tresure/resources/images/icon/가전제품.png" width="40px"
 								height="35px"><br>생활가전</a></li>
-						<li class="catebox"><a href=""><img
+						<li class="catebox"><a href="${pageContext.request.contextPath}/sell/category/30"><img
 								src="/tresure/resources/images/icon/유아용품.png" width="40px"
 								height="35px"><br>유아용품</a></li>
-						<li class="catebox"><a href=""><img
+						<li class="catebox"><a href="${pageContext.request.contextPath}/sell/category/40"><img
 								src="/tresure/resources/images/icon/패션.png" width="40px"
 								height="35px"><br>패션</a></li>
-						<li class="catebox"><a href=""><img
+						<li class="catebox"><a href="${pageContext.request.contextPath}/sell/category/50"><img
 								src="/tresure/resources/images/icon/도서.png" width="40px"
 								height="35px"><br>도서</a></li>
-						<li class="catebox"><a href=""><img
+						<li class="catebox"><a href="${pageContext.request.contextPath}/sell/category/60"><img
 								src="/tresure/resources/images/icon/반려동물용품.png" width="40px"
 								height="35px"><br>반려동물용품</a></li>
-						<li class="catebox"><a href="">&nbsp;&nbsp;<img
+						<li class="catebox"><a href="${pageContext.request.contextPath}/sell/category/70">&nbsp;&nbsp;<img
 								src="/tresure/resources/images/icon/스포츠.png" width="40px"
 								height="35px"><br>스포츠
 						</a></li>
-						<li class="catebox"><a href=""><img
+						<li class="catebox"><a href="${pageContext.request.contextPath}/sell/category/80"><img
 								src="/tresure/resources/images/icon/뷰티.png" width="40px"
 								height="35px"><br>뷰티</a></li>
-						<li class="catebox"><a href=""><img
+						<li class="catebox"><a href="${pageContext.request.contextPath}/sell/category/90"><img
 								src="/tresure/resources/images/icon/교환권.png" width="40px"
 								height="35px"><br>교환권</a></li>
 					</ul>
@@ -126,5 +126,10 @@
 		</div>
 	</div>
 	
+	<script>
+		function Gocategory(categoryCode){
+			location.href = "${pageContext.request.contextPath}/sell/category/"+categoryCode;
+		}
+	</script>
 </body>
 </html>

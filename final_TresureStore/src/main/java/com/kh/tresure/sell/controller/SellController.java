@@ -1,8 +1,5 @@
 package com.kh.tresure.sell.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,13 +20,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.tresure.chat.model.vo.ChatRoom;
 import com.kh.tresure.common.Image;
 import com.kh.tresure.member.model.vo.Member;
 import com.kh.tresure.sell.model.service.SellService;
 import com.kh.tresure.sell.model.vo.Sell;
 
-import retrofit2.http.Multipart;
 
 @Controller
 @RequestMapping("/sell")
@@ -49,6 +44,8 @@ public class SellController {
 	}
 
 	
+	/**
+	 * 상품 상세조회 */
 	@RequestMapping(value="/sellDetail/{sellNo}", method= RequestMethod.GET)
 	public ModelAndView sellDetail (
 			ModelAndView mv, HttpSession session,
@@ -57,77 +54,86 @@ public class SellController {
 			HttpServletResponse res) throws Exception{
 	
 			Member loginUser = (Member)session.getAttribute("loginUser");
-			
+			logger.info("loginUser:"+loginUser);
+			int userNo = 0;
 			
 			HashMap<String, Integer> map = new HashMap<>();
 			map.put("sellNo", sellNo);
 			
 			if(loginUser!=null) {
-			map.put("userNo", loginUser.getUserNo());
+				userNo = loginUser.getUserNo();
+				map.put("userNo", userNo);
 			}
+			
 			Sell s = sellService.selectSellDetail(map);
-			
 			logger.info("s : "+s);
-	
-//		// 쿠키를 이용해서 조회수 중복으로 증가되지 않도록 방지 + 본인의 글은 애초에 조회수가 증가되지않도록
-//		if(s != null) { //상세 조회 성공
-//			
-//			int userNo = 0;
-//			if(loginUser != null) {
-//				userNo = loginUser.getUserNo();
-//			}
-//			
-//			//작성자의 번호와 현재세션의 유저번호가 같지않을 때만 조회수 증가
-//			if(s.getUserNo() != userNo) {
-//				
-//				Cookie cookie = null; //기존의 존재하던 쿠키를 저장하는 변수
-//				
-//				Cookie[] cArr = req.getCookies(); //쿠키얻기
-//				
-//				if(cArr != null && cArr.length > 0) {
-//					for( Cookie c : cArr) {
-//						if(c.getName().equals("readsellNo")) {
-//							cookie = c;
-//							break;
-//						}
-//					}
-//				}
-//				
-//				int result = 0;
-//				if(cookie == null) { //원래 readsellNo라는 이름의 쿠키가 없다
-//					cookie = new Cookie("readsellNo", sellNo+"");//쿠키생성
-//					result = sellService.increaseCount(sellNo); //조회수 증가서비스 호출
-//	
-//				}else { 
-//					
-//					String[] arr = cookie.getValue().split("/");
-//					List<String> list = Arrays.asList(arr); //일치하지 않는 다면, -1반환(아직 조회하지않은 게시물임)
-//					
-//					if(list.indexOf(sellNo+"") == -1) { //기존값에 같은 글 번호가 없다면,
-//						
-//						cookie.setValue(cookie.getValue()+"/"+sellNo);
-//						result = sellService.increaseCount(sellNo);//조회수 증가서비스 호출
-//					}
-//				}
-//				
-//				if(result > 0) { // 성공적으로 조회수가 증가되었다.
-//					s.setCount(s.getCount()+1);
-//					
-//					cookie.setPath(req.getContextPath());
-//					cookie.setMaxAge(60*60*1); //1시간
-//					res.addCookie(cookie); //응답객체인 response에 쿠키가 담겨져서 사용자에게 전송됨
-//					
-//				}
-//			}
-			//상세보기할 정보를 조회
-			mv.addObject("s",s);
-			mv.setViewName("sell/sellDetailForm");
 			
-//			}
-//		mv.setViewName("sell/sellDetailForm");
-			return mv;
+			Cookie[] cookies = req.getCookies();
+		    Cookie viewCookie = null;  // 비교하기 위해 새로운 쿠키
+ 
+		    if (cookies != null && cookies.length > 0) { // 쿠키가 있을 경우
+		        for (int i = 0; i < cookies.length; i++) {
+		            // Cookie의 name이 cookie + sellNo와 일치하는 쿠키를 viewCookie에 넣어줌 
+		            if (cookies[i].getName().equals("cookie"+sellNo)){ 
+		                viewCookie = cookies[i];
+		            }
+		        }
+		    }
+		    
+		    if (s != null) {
+		        System.out.println("System - 해당 상세페이지로 넘어감");
+		        
+		        mv.addObject("s", s);
+
+		        if(loginUser != null) {
+		        // 만일 viewCookie가 null일 경우 쿠키를 생성해서 조회수 증가 로직을 처리함.
+		        if (viewCookie == null && s.getUserNo() != userNo) {
+		            
+		            // 쿠키 생성(이름, 값)
+		            Cookie newCookie = new Cookie("cookie"+sellNo, "|" + sellNo + "|");
+		            // 쿠키 추가
+		            res.addCookie(newCookie);
+		            // 쿠키를 추가 시키고 조회수 증가시킴
+		            int result = sellService.increaseCount(sellNo);
+		            
+		            if(result>0) {
+		                logger.info("조회수 증가");
+		            }else {
+		            	logger.info("조회수 증가 에러");
+		            }
+		        }
+		        // viewCookie가 null이 아닐경우 쿠키가 있으므로 조회수 증가 로직을 처리하지 않음.
+		        else {
+		            // 쿠키 값 받아옴.
+		            String value = viewCookie.getValue();
+		            logger.info("cookie 값 : " + value);
+		        	}
+		        }
+		        mv.setViewName("sell/sellDetailForm");
+		    } 
+		    else {
+		        // 에러 페이지 설정
+		    	mv.addObject("errorMsg","게시글 조회 실패");
+//				mv.setViewName("common/errorPage");
+		    }
+		 return mv;
 	}
 	
+	
+	/**
+	 * 카테고리 선택별 상품목록 조회 */
+	@RequestMapping(value="/category/{categoryCode}", method=RequestMethod.GET)
+		public ModelAndView Gocategory (
+				ModelAndView mv,
+				@PathVariable("categoryCode") int categoryCode){
+		
+		List<Sell> s = sellService.GocategoryList(categoryCode);
+		
+		mv.addObject("s", s);
+		mv.setViewName("sell/Gocategory");
+		
+		return mv;
+	}
 	
 	
 	// 상품등록페이지

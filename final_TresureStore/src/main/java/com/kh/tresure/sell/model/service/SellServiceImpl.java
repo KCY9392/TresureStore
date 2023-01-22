@@ -37,13 +37,17 @@ public class SellServiceImpl implements SellService  {
 	
 	
 	/**
-	 * 판매목록 조회
+	 * 판매목록 조회(메인페이지)
 	 */
 	@Override
 	public List<Sell> sellListselect(){
 		return sellDao.sellListselect(sqlSession);
 	}
 	
+	
+	/**
+	 * 판매 등록
+	 */
 	@Override
 	public int insertSell(Sell s, List<MultipartFile> list, String webPath, String serverFolderPath) {
 		
@@ -135,4 +139,13 @@ public class SellServiceImpl implements SellService  {
 	public int increaseCount(int sellNo) {
 		return sellDao.increaseCount(sellNo, sqlSession);
 	}
+	
+	/**
+	 * 카테고리별 상품 목록 조회
+	 */
+	@Override 
+	public List<Sell> GocategoryList(int categoryCode){
+		return sellDao.GocategoryList(categoryCode, sqlSession);
+	}
+	
 }

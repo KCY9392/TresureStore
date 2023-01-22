@@ -64,7 +64,13 @@ public class SellDao {
 	/**
 	 * 상품 조회수 증가 */
 	public int increaseCount(int sellNo, SqlSession sqlSession) {
-		return 0;
+		return sqlSession.update("sellMapper.increaseCount",sellNo);
+	}
+
+	/**
+	 * 카테고리별 상품 목록 조회 */
+	public List<Sell> GocategoryList(int categoryCode, SqlSession sqlSession) {
+		return sqlSession.selectList("sellMapper.GocategoryList", categoryCode);
 	}
 
 	

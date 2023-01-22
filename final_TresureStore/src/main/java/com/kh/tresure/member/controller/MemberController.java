@@ -167,6 +167,7 @@ public class MemberController {
 	    	
 	    	// email과 nickname으로 회원체크, 회원가입/로그인 성공 후 member객체 반환
 	    	member = memberService.loginAndMemberEnroll(member);
+	    	logger.info("member : "+member);
 	    	
 	    	session.setAttribute("loginUser", member);
 	    	session.setAttribute("access_Token", access_Token);

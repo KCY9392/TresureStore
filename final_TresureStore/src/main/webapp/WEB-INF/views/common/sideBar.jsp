@@ -10,12 +10,12 @@
 <body>
 	<div class="navBar">
 		<!--찜 하트 수-->
-		<div class="favorites">
-			<div class="favoritesText">찜한상품</div>
+		<div class="nfavorites">
+			<div class="nfavoritesText">찜한상품</div>
 			
-			<div class="favoritesCount">
-				<p id="toFavorites" class="toFavorites">
-					<i class="fas fa-heart"><img
+			<div class="nfavoritesCount">
+				<p id="ntoFavorites" class="ntoFavorites">
+					<i class="nfas fa-heart"><img
 						src="https://cdn-icons-png.flaticon.com/512/833/833472.png" width="20">
 					<p>100</p></i>
 				</p>
@@ -25,23 +25,23 @@
 		<!--찜 끝-->
 
 		<!-- 최근 본 상품 시작 -->
-		<div class="recently">
-			<div class="recentlyText">최근본상품</div>
-			<div class="recentlyProduct">
-				<span id="recentlyCnt"></span>
-				<div id="recentlyArea">
-					<a id="recentlyList"> <!-- 최근본상품  --> <img
-						src="resources/resources/image/animal1.gif" class="recentlyImage"><br>
-						<img src="resources/resources/image/animal1.gif"
-						class="recentlyImage"><br> <img
-						src="resources/resources/image/animal1.gif" class="recentlyImage">
+		<div class="nrecently">
+			<div class="nrecentlyText">최근본상품</div>
+			<div class="nrecentlyProduct">
+				<span id="nrecentlyCnt"></span>
+				<div id="nrecentlyArea">
+					<a id="nrecentlyList"> 
+					<!-- 최근본상품  --> 
+						<img src="resources/resources/image/animal1.gif" class="nrecentlyImage"><br>
+						<img src="resources/resources/image/animal1.gif" class="nrecentlyImage"><br> 
+						<img src="resources/resources/image/animal1.gif" class="nrecentlyImage">
 					</a>
 				</div>
 			</div>
 		</div>
 		<!-- 최근 본 상품 끝 -->
-		<div class="theTop">
-			<a href="#" class="topText">TOP</a>
+		<div class="ntheTop">
+			<a href="#" class="ntopText">TOP</a>
 		</div>
 	</div>
 </body>

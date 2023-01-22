@@ -108,6 +108,8 @@ a {
     letter-spacing: -0.5px;
     outline: 0px;
     margin-left: 20px;
+    font-family: 'koverwatch';
+    font-size: 18px;
 }
 .searchicon{
 	width: 30px;
