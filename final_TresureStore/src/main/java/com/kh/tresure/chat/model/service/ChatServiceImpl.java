@@ -59,6 +59,7 @@ public class ChatServiceImpl implements ChatService{
 		int result = ChatDao.joinCheck(sqlSession, join);
 		if(result == 0) {
 			ChatDao.inChatRoomJoin(sqlSession, join);
+			AllList.put("enter", join.getUserNo());
 		}
 		// 메세지 가져오기
 		List<ChatMessage> roomMessageList = chatDao.selectChatMessageList(sqlSession, join);

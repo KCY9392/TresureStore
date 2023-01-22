@@ -405,12 +405,17 @@
                                  <%-- 2) 남(이름)이 보낸 메세지 --%>
                                  <c:if test="${msg.userNo != loginUser.userNo }">
                                      <li>
-                                         <p class="chat">${msg.message }</p><br>
+                                         <p class="chat">${msg.chatContent }</p><br>
                                          <span class="chatDate">${chatDate }</span>
                                      </li>
                                  </c:if>
-                              </c:forEach>     
+                              </c:forEach>
                             </ul>
+                            
+                            
+							    
+							
+                            
 
                         </div>
 
