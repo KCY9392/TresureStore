@@ -26,4 +26,7 @@ public interface ChatService {
 	// 채팅방 메세지 보내기
 	public int insertMessage(ChatMessage Message);
 
+	// 네고 가격결정
+	public int insertNegoPrice(int negoPrice, int sellNo, int chatRoomNo);
+
 }

@@ -51,11 +51,14 @@ public class ChatDao {
 		sqlSession.insert("chattingMapper.inChatRoomJoin", join);
 	}
 
-
+	// 채팅방 메세지
 	public List<ChatMessage> selectChatMessageList(SqlSession sqlSession, ChatRoomJoin join) {
 		
 		return sqlSession.selectList("chattingMapper.selectChatMessageList", join);
 	}
+
+
+
 	
 	
 	

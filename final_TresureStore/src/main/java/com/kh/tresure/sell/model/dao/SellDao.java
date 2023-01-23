@@ -44,11 +44,7 @@ public class SellDao {
 	}
 
 	/**
-	* 채팅방안에 판매게시글 가져오기
-	* @param sqlSession
-	* @param chatRoomNo
-	* @return
-	*/
+	* 채팅방안에 판매게시글 가져오기 */
 	public static Sell selectSellProduct(SqlSession sqlSession, int chatRoomNo) {
       
       return sqlSession.selectOne("sellMapper.selectSellProduct", chatRoomNo);
@@ -71,6 +67,13 @@ public class SellDao {
 	 * 카테고리별 상품 목록 조회 */
 	public List<Sell> GocategoryList(int categoryCode, SqlSession sqlSession) {
 		return sqlSession.selectList("sellMapper.GocategoryList", categoryCode);
+	}
+
+	/**
+	 * 네고하기 */
+	public static int insertNegoPrice(SqlSession sqlSession, Sell nego) {
+		
+		return sqlSession.insert("sellMapper.insertNegoPrice", nego);
 	}
 
 	

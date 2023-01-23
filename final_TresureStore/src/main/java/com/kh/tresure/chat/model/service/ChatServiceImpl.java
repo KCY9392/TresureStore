@@ -99,5 +99,17 @@ public class ChatServiceImpl implements ChatService{
 		return chatDao.insertMessage(sqlSession, Message);
 	}
 	
+	// 네고 가격결정
+	public int insertNegoPrice(int negoPrice, int sellNo, int chatRoomNo) {
+		
+		Sell nego = new Sell();
+		nego.setNegoPrice(negoPrice);
+		nego.setSellNo(sellNo);
+		nego.setChatRoomNo(chatRoomNo);
+		
+		return SellDao.insertNegoPrice(sqlSession, nego);
+		
+	}
+	
 	
 }

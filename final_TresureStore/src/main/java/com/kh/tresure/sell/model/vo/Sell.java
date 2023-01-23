@@ -34,6 +34,8 @@ public class Sell {
 	private int chatRoomNo;
 	private String categoryName;
 	private double avg;
+	private int negoPrice;
+	private String negoStatus;
 
 	
 	// 상품 상세조회 추가사항

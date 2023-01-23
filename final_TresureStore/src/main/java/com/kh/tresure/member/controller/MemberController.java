@@ -128,6 +128,20 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	// 임의적으로 관리자로 로그인하는 컨트롤러생성(이거 문자가 무제한이아니라서 임의적으로 넣어둔 거 - 삭제예정)
+	@RequestMapping(value="/loginJoin/qq")
+	public String qq(HttpServletRequest request) {
+		
+		Member loginUser = Member.builder().userNo(1).userName("사용자").phone("01099887766").count(0).status("Y").build();
+		
+		logger.info(">> 사용자로 로그인");
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("loginUser", loginUser);
+		
+		return "redirect:/";
+	}
+	
 	
 	// 로그아웃 하는 메소드
 	@RequestMapping(value="/logout")

@@ -9,7 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- type은 mybatis-config에서 sell 라는 별칭을 정해두었음 -->
 <resultMap type="sell" id="sellResultSet" >
 
-<id column="SELL_NO" property="sellNo"></id>
+	<id column="SELL_NO" property="sellNo"></id>
 	<result column="USER_NO" property="userNo"></result>
 	<result column="CATEGORY_NO" property="categoryNo"></result>
 	<result column="SELL_TITLE" property="sellTitle"></result>
@@ -29,6 +29,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="CHATROOM_NO" property="chatRoomNo"></result>
 	<result column="CATEGORY_NAME" property="categoryName"></result>
 	<result column="AVG" property="avg"></result>
+	<result column="NEGO_PRICE" property="negoPrice"></result>
+	<result column="NEGO_STATUS" property="negoStatus"></result>
 
 	<result column="REPORT_NUM" property="report_Num"></result>
 	<result column="FOLLOWER_NUM" property="follower_Num"></result>
@@ -117,17 +119,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	          PRICE,
 	          S.CREATE_DATE AS "CREATE_DATE",
 	          HEART_NUM,
-	          AVG
+	          AVG,
+              NEGO_PRICE,
+              NEGO_STATUS
 	   FROM CHAT_ROOM CR
 	   JOIN SELL S ON (S.SELL_NO = CR.SELL_NO)
-	     JOIN CATEGORY C ON (S.CATEGORY_NO = C.CATEGORY_NO)
+       JOIN CATEGORY C ON (S.CATEGORY_NO = C.CATEGORY_NO)
+       LEFT JOIN NEGO N ON (CR.CHATROOM_NO = N.CHATROOM_NO)
 	   JOIN MEMBER M ON (S.USER_NO = M.USER_NO)
 	   JOIN (SELECT AVG(REV_SCORE) AS "AVG",
-	          S.USER_NO
-	   FROM REVIEW R
-	   JOIN SELL S ON(R.SELL_NO = S.SELL_NO)
-	   GROUP BY S.USER_NO) PP ON (PP.USER_NO = S.USER_NO)
-	   WHERE CHATROOM_NO = ${chatRoomNo} AND S.STATUS = 'Y' AND M.STATUS = 'Y'
+	          		S.USER_NO
+	   		 FROM REVIEW R
+	   		 JOIN SELL S ON(R.SELL_NO = S.SELL_NO)
+	   		 GROUP BY S.USER_NO) 
+	   		 PP ON (PP.USER_NO = S.USER_NO)
+	   WHERE CR.CHATROOM_NO = ${chatRoomNo} AND S.STATUS = 'Y' AND M.STATUS = 'Y'
 	</select>
 	
 	
@@ -204,6 +210,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	        AND S.CATEGORY_NO = #{categoryCode}
         </if>
     </select>
+    
+    <insert id="insertNegoPrice" parameterType="Sell" >
+    	INSERT INTO NEGO (SELL_NO, CHATROOM_NO, NEGO_PRICE, NEGO_STATUS)
+    	VALUES (#{sellNo}, #{chatRoomNo}, #{negoPrice}, 'Y')
+    </insert>
    
 
 </mapper>

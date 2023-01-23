@@ -71,6 +71,7 @@
 			<div class="loginType">
 				<button class="myAuthentication-button" type="button"  onclick="gogoIdentificationForm();">본인인증 로그인</button>
 				<a href="${pageContext.request.contextPath}/loginJoin/pp">관리자로 로그인</a>
+				<a href="${pageContext.request.contextPath}/loginJoin/qq">사용자1로 로그인</a>
 			</div>
 			<div class="loginType">
 				<a class="back" href="${pageContext.request.contextPath}">되돌아가기</a>

@@ -130,5 +130,20 @@ public class ChatController {
 		return chatService.exitChatRoom(join);
 		 
 	}
+	
+	// 네고 가격결정
+	@RequestMapping(value="join/nego", method = RequestMethod.POST)
+	@ResponseBody
+	public int insertNegoPrice(@RequestParam int negoPrice,
+							   @RequestParam int sellNo,
+							   @RequestParam int chatRoomNo
+											) {
+		
+		int result = chatService.insertNegoPrice(negoPrice, sellNo, chatRoomNo);
+		
+		return result;
+		
+	}
+	
 
 }
