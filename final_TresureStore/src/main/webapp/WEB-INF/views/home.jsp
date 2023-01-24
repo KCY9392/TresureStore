@@ -19,6 +19,8 @@
    <!-- Semantic UI theme -->
    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
 	
+	<!-- Alert 창  -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	
 </head>
 <body>
@@ -26,9 +28,25 @@
 	<jsp:include page="./common/sideBar.jsp"/>
 	
 	<c:if test="${not empty alertMsg }">
+		<c:if test="${loginUser == null }">
 			<script>
-				alertify.alert("경고",'${alertMsg}');// 변수를 문자열로
+			Swal.fire({
+                icon: 'error',
+                title: '${alertMsg}'                  
+            });		
+// 				alertify.alert("경고",'${alertMsg}');// 변수를 문자열로
 			</script>
+		</c:if>
+		
+		<c:if test="${loginUser != null }">
+			<script>
+				Swal.fire({
+	                icon: 'success',
+	                title: '${alertMsg}'                  
+	            });		
+	// 				alertify.alert("경고",'${alertMsg}');// 변수를 문자열로
+			</script>
+		</c:if>
 			<c:remove var="alertMsg" scope="session"/>
 	</c:if>
 

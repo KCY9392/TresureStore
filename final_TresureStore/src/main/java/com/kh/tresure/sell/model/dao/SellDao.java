@@ -64,16 +64,17 @@ public class SellDao {
 	}
 
 	/**
-	 * 카테고리별 상품 목록 조회 */
-	public List<Sell> GocategoryList(int categoryCode, SqlSession sqlSession) {
-		return sqlSession.selectList("sellMapper.GocategoryList", categoryCode);
-	}
-
-	/**
 	 * 네고하기 */
 	public static int insertNegoPrice(SqlSession sqlSession, Sell nego) {
 		
 		return sqlSession.insert("sellMapper.insertNegoPrice", nego);
+	}
+
+	/**
+	 * 최신순, 인기순, 저가순, 고가순 정렬 */
+	public List<Sell> howOrderLIst(HashMap<String, Object> map, SqlSession sqlSession) {
+		
+		return sqlSession.selectList("sellMapper.howOrderList",map);
 	}
 
 	

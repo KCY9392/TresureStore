@@ -104,7 +104,7 @@ public class MemberController {
 			// 인증번호와 같은경우
 			Member loginUser = memberService.loginAndMemberEnroll(member);
 			session.setAttribute("loginUser", loginUser);
-			
+			session.setAttribute("alertMsg", loginUser.getUserName()+"님 환영합니다");
 		} else {
 			// 인증번호와 다를경우
 			
@@ -124,6 +124,7 @@ public class MemberController {
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("loginUser", loginUser);
+		session.setAttribute("alertMsg", loginUser.getUserName()+"님 환영합니다");
 		
 		return "redirect:/";
 	}
@@ -138,6 +139,7 @@ public class MemberController {
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("loginUser", loginUser);
+		session.setAttribute("alertMsg", loginUser.getUserName()+"님 환영합니다");
 		
 		return "redirect:/";
 	}
@@ -151,7 +153,7 @@ public class MemberController {
 		
 		HttpSession session = request.getSession();
 		session.removeAttribute("loginUser");
-		
+		session.setAttribute("alertMsg", "다음에 또 오세요 ^ㅁ^");
 		return "redirect:/";
 	}
 	
@@ -185,7 +187,7 @@ public class MemberController {
 	    	
 	    	session.setAttribute("loginUser", member);
 	    	session.setAttribute("access_Token", access_Token);
-	    	
+	    	session.setAttribute("alertMsg", member.getUserName()+"님 환영합니다");
 	    }else { //로그인 실패
 	    	
 	    }
@@ -206,6 +208,7 @@ public class MemberController {
 	            session.removeAttribute("access_Token");
 	            session.removeAttribute("loginUser");
 	            session.removeAttribute("userId");
+	            session.setAttribute("alertMsg", "다음에 또 오세요 ^ㅁ^");
 	        }else{
 	            System.out.println("access_Token is null");
 	        }
@@ -221,6 +224,7 @@ public class MemberController {
 	public String unlink(HttpSession session) {
 		kakao.unlink((String)session.getAttribute("access_token"));
 		session.invalidate();
+		session.setAttribute("alertMsg", "다음에 또 오세요 ^ㅁ^");
 		return "redirect:/";
 	}
 	

@@ -127,13 +127,39 @@ public class SellController {
 				ModelAndView mv,
 				@PathVariable("categoryCode") int categoryCode){
 		
-		List<Sell> s = sellService.GocategoryList(categoryCode);
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("categoryCode", categoryCode);
+		
+		List<Sell> s = sellService.howOrderList(map);
 		
 		mv.addObject("s", s);
+		mv.addObject("categoryCode",categoryCode);
 		mv.setViewName("sell/Gocategory");
 		
 		return mv;
 	}
+	
+	
+	/**
+	 * 최신순, 인기순, 저가순, 고가순 정렬 */
+	@RequestMapping(value="/category/{categoryCode}/{how}", method=RequestMethod.GET)
+	public ModelAndView OrderHow (ModelAndView mv,
+								  @PathVariable("categoryCode") int categoryCode,
+								  @PathVariable("how") String howOrder) {
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("howOrder", howOrder);
+		map.put("categoryCode", categoryCode);
+		
+		List<Sell> s = sellService.howOrderList(map);
+		
+		mv.addObject("s", s);
+		mv.addObject("map",map);
+		mv.setViewName("sell/Gocategory");
+		
+		return mv;
+	}
+	
 	
 	
 	// 상품등록페이지

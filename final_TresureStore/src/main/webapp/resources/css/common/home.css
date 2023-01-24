@@ -40,6 +40,16 @@
 		
 		#itemSolid{
 			border: 1px solid rgb(238, 238, 238);
+			border-radius: 15px;
+		}
+		#itemSolid img {
+  			transition: all 0.2s linear;
+  			border: 1px solid rgb(238, 238, 238);
+  			border-radius: 12px;
+		}
+		
+		#itemSolid:hover img{
+		  transform: scale(1.4);
 		}
 		
 		.price-time{

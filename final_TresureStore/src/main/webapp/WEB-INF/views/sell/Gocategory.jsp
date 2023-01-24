@@ -35,10 +35,20 @@
 	<div class="main-section">
 		<div id="displayHeader">
 			<p class="cate_main-Title" style="font-size:20px;"><img src="https://m.bunjang.co.kr/pc-static/resource/f1f8a93028f0f6305a87.png" width="20px" height="20px">&nbsp;&nbsp;&nbsp;카테고리&nbsp;
-			<img class="" src="https://m.bunjang.co.kr/pc-static/resource/c5ce9d5a172b0744e630.png" width="15px" height="15px">&nbsp; ${s[0].categoryName}</p>
+			<img class="" src="https://m.bunjang.co.kr/pc-static/resource/c5ce9d5a172b0744e630.png" width="15px" height="15px">&nbsp;
+		    <c:if test="${categoryCode == 1}">
+			인기매물</c:if>
+			<c:if test="${categoryCode != 1}">
+			 ${s[0].categoryName}</c:if>
+			<a href="${pageContext.request.contextPath}/sell/category/${categoryCode}/recent" style="padding-left: 600px;">최신순</a>
+            <a href="${pageContext.request.contextPath}/sell/category/${categoryCode}/popular" >인기순</a>
+            <a href="${pageContext.request.contextPath}/sell/category/${categoryCode}/lowest" >저가순</a>
+            <a href="${pageContext.request.contextPath}/sell/category/${categoryCode}/high" >고가순</a>
+			</p>
 			<hr>
 			<br>
 		</div>
+		
 		<div id="display-list" class="row">
 	  <c:forEach var="s" items="${s}" begin="0" end="${fn:length(s)}" step="1" varStatus="status">
 						<div class="item col-3">

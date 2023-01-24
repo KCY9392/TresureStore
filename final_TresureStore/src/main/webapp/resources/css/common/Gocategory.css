@@ -32,3 +32,14 @@
             height : 10px;
             margin: 0px 10px;
         }
+        
+        #displayHeader a{
+        	padding-right:15px;
+        	font-size:20px;
+        	font-weight:bold;
+        }
+        
+        #displayHeader a:hover{
+        	color: orange;
+        	text-decoration: underline;
+        }

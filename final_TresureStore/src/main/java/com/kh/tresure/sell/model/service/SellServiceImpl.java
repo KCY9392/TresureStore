@@ -140,12 +140,10 @@ public class SellServiceImpl implements SellService  {
 		return sellDao.increaseCount(sellNo, sqlSession);
 	}
 	
-	/**
-	 * 카테고리별 상품 목록 조회
-	 */
-	@Override 
-	public List<Sell> GocategoryList(int categoryCode){
-		return sellDao.GocategoryList(categoryCode, sqlSession);
-	}
 	
+	/**
+	 * 최신순, 인기순, 저가순, 고가순 정렬 */
+	public List<Sell> howOrderList(HashMap<String, Object> map){
+		return sellDao.howOrderLIst(map, sqlSession);
+	}
 }

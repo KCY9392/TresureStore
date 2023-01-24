@@ -26,7 +26,7 @@ public interface SellService {
 	public int increaseCount(int sellNo);
 
 	/**
-	 * 카테고리별 상품목록 */
-	public List<Sell> GocategoryList(int categoryCode);
+	 * 최신순, 인기순, 저가순, 고가순 정렬 */
+	public List<Sell> howOrderList(HashMap<String, Object> map);
 
 }
