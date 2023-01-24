@@ -112,10 +112,10 @@ public class ChatController {
 		int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
 		
 		List<Block> blockList = chatService.selectBlockList(userNo);
+		model.addAttribute("blockList", blockList);
 		
-		model.addAttribute("chatRoomList", blockList);
-		
-		logger.info(">> 차단목록으로 이동");
+		logger.info(blockList+ ">> 차단 리스트 조회");
+		logger.info(">> 차단 리스트로 이동");
 		
 		return "chat/chatBlockList";
 	}

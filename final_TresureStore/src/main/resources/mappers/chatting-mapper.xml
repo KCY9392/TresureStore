@@ -53,7 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	        CM.CREATE_DATE AS "CREATE_DATE_2",
 	        C.CREATE_DATE AS "CREATE_DATE",
             S.SELL_NO AS "SELL_NO",
-	       	SUBSTR(S.SELL_TITLE, 1, 10)AS "SELL_TITLE",
+	       	SUBSTR(S.SELL_TITLE, 1, 15)AS "SELL_TITLE",
 	        AVG
 	FROM CHAT_ROOM C
 	LEFT JOIN MEMBER M ON(C.USER_NO = M.USER_NO)
@@ -68,7 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	        JOIN SELL S ON (S.SELL_NO = R.SELL_NO)
 	        WHERE R.STATUS = 'Y'
 	        GROUP BY S.USER_NO) PP ON (S.USER_NO = PP.USER_NO)
-	WHERE C.USER_NO = 10 AND C.STATUS = 'Y' AND M.STATUS = 'Y' AND S.STATUS = 'Y' 
+	WHERE C.USER_NO = #{userNo} AND C.STATUS = 'Y' AND M.STATUS = 'Y' AND S.STATUS = 'Y'
 	ORDER BY CM.CREATE_DATE DESC
 </select>
  
@@ -79,9 +79,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE USER_NO = #{userNo} AND CHATROOM_NO = #{chatRoomNo}
 </delete>
 
-<select id="selectBlockList" resultMap="blockResultSet" >
- 	SELECT * 
- 	FROM BLOCK
+<!-- 차단리스트 조회 -->
+<select id="selectBlockList" parameterType="int" resultMap="blockResultSet" >
+ 	SELECT DISTINCT
+ 		   B.BLOCK_NO,
+	       M.USER_NO AS "BLOCKER_NO",
+ 		   S.USER_NO AS "BLOCKED_NO",
+ 		   AVG
+ 	FROM BLOCK B
+ 	LEFT JOIN MEMBER M ON(B.BLOCKER_NO = M.USER_NO)
+ 	JOIN SELL S ON(B.BLOCKED_NO = S.USER_NO)
+ 	JOIN (  SELECT AVG(REV_SCORE) AS "AVG",
+	           	    S.USER_NO
+	        FROM REVIEW R
+	        JOIN SELL S ON (S.SELL_NO = R.SELL_NO)
+	        WHERE R.STATUS = 'Y'
+	        GROUP BY S.USER_NO) PP ON (S.USER_NO = PP.USER_NO)
+ 	WHERE B.BLOCKER_NO = #{blockerNo}
 </select>
 
 <!-- 채팅보내기 -->
