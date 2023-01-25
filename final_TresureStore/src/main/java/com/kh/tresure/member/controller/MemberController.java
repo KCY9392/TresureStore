@@ -129,7 +129,7 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
-	// 임의적으로 관리자로 로그인하는 컨트롤러생성(이거 문자가 무제한이아니라서 임의적으로 넣어둔 거 - 삭제예정)
+	// 임의적으로 사용자로 로그인하는 컨트롤러생성(이거 문자가 무제한이아니라서 임의적으로 넣어둔 거 - 삭제예정)
 	@RequestMapping(value="/loginJoin/qq")
 	public String qq(HttpServletRequest request) {
 		

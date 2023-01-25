@@ -77,15 +77,18 @@ public class ChatController {
 	@RequestMapping(value="chat/chatRoom/{sellNo}/{userNo}", method = RequestMethod.POST)
 	public String createAndEnterChatRoom(@PathVariable String sellNo,
 								 @PathVariable String userNo,
-								 @RequestParam String sellUserNo,
+								 @RequestParam(value="sellUserNo", required=false) String sellUserNo,
+								 @RequestParam(value="chatRoomNo", required=false) String chatRoomNo,
 								 ChatRoom room,
 								 ChatRoomJoin roomJoin,
-								 Model model,
-								 RedirectAttributes rttr) {
+								 Model model) {
 		
 		room.setSellNo(Integer.parseInt(sellNo));
 		room.setUserNo(Integer.parseInt(userNo));
+		room.setChatRoomNo(Integer.parseInt(chatRoomNo));
 		logger.info(">> 채팅방으로 이동");
+		
+		logger.info("시발"+sellUserNo );
 		
 		HashMap<Object,Object> AllList = new HashMap<>();
 		AllList =  chatService.createAndEnterChatRoom(room, sellUserNo, roomJoin);

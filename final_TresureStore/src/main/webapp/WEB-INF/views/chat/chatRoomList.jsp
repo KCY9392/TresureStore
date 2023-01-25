@@ -99,18 +99,35 @@
                                     <tr id="storeName${chatRoom.chatRoomNo }" class="storeName">
                                         <td>${chatRoom.chatRoomNo }</td>
                                         <td>
-
-                                            <c:if test="${chatRoom.avg > 4.5}">
-                                                <img src="/tresure/resources/images/icon/grade3.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.sellUserNo }호 점
+                                        	<!-- 로그인사람과 구매한사람이 같은경우  -->
+                                        	<c:if test="${chatRoom.userNo eq loginUser.userNo}">
+	                                            <c:if test="${chatRoom.avg > 4.5}">
+	                                                <img src="/tresure/resources/images/icon/grade3.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.sellUserNo }호 점
+	                                            </c:if>
+	                                            <c:if test="${ 4 <= chatRoom.avg && chatRoom.avg < 4.5 }">
+	                                                <img src="/tresure/resources/images/icon/grade2.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.sellUserNo }호 점
+	                                            </c:if>
+	                                            <c:if test="${ 3.5 <= chatRoom.avg && chatRoom.avg < 4 }">
+	                                                <img src="/tresure/resources/images/icon/grade1.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.sellUserNo }호 점
+	                                            </c:if>
+	                                            <c:if test="${ null == chatRoom.avg || chatRoom.avg < 3.5 }">
+	                                                <img src="/tresure/resources/images/icon/grade0.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.sellUserNo }호 점
+	                                            </c:if>
                                             </c:if>
-                                            <c:if test="${ 4 <= chatRoom.avg && chatRoom.avg < 4.5 }">
-                                                <img src="/tresure/resources/images/icon/grade2.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.sellUserNo }호 점
-                                            </c:if>
-                                            <c:if test="${ 3.5 <= chatRoom.avg && chatRoom.avg < 4 }">
-                                                <img src="/tresure/resources/images/icon/grade1.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.sellUserNo }호 점
-                                            </c:if>
-                                            <c:if test="${ null == chatRoom.avg || chatRoom.avg < 3.5 }">
-                                                <img src="/tresure/resources/images/icon/grade0.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.sellUserNo }호 점
+                                            <!-- 로그인한 사람과 판매하는 사람이 같은경우 -->
+                                            <c:if test="${chatRoom.sellUserNo eq loginUser.userNo}">
+	                                            <c:if test="${chatRoom.avg > 4.5}">
+	                                                <img src="/tresure/resources/images/icon/grade3.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.userNo }호 점
+	                                            </c:if>
+	                                            <c:if test="${ 4 <= chatRoom.avg && chatRoom.avg < 4.5 }">
+	                                                <img src="/tresure/resources/images/icon/grade2.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.userNo }호 점
+	                                            </c:if>
+	                                            <c:if test="${ 3.5 <= chatRoom.avg && chatRoom.avg < 4 }">
+	                                                <img src="/tresure/resources/images/icon/grade1.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.userNo }호 점
+	                                            </c:if>
+	                                            <c:if test="${ null == chatRoom.avg || chatRoom.avg < 3.5 }">
+	                                                <img src="/tresure/resources/images/icon/grade0.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.userNo }호 점
+	                                            </c:if>
                                             </c:if>
 
                                         </td>
@@ -140,8 +157,17 @@
 
                                             hiddenField.setAttribute('type', 'hidden');
                                             hiddenField.setAttribute('name', "sellUserNo");
-                                            hiddenField.setAttribute('value', ${chatRoom.userNo});
+                                            hiddenField.setAttribute('value', ${chatRoom.sellUserNo });
+
+                                            
+                                            let hiddenField2 = document.createElement('input');
+
+                                            hiddenField2.setAttribute('type', 'hidden');
+                                            hiddenField2.setAttribute('name', "chatRoomNo");
+                                            hiddenField2.setAttribute('value', ${chatRoom.chatRoomNo });
+                                            
                                             form.appendChild(hiddenField);
+                                            form.appendChild(hiddenField2);
 
                                             document.body.appendChild(form);
                                             form.submit();

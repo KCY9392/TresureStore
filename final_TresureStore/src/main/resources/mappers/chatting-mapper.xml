@@ -132,7 +132,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select>
 
 <!-- 채팅방 존재하는지 검색 -->
-<select id="selectChatRoom" parameterType="chatRoom" resultType="int">
+<select id="selectChatRoomByObject" parameterType="chatRoom" resultType="int">
 	SELECT COUNT(*)
 	FROM CHAT_ROOM
 	WHERE SELL_NO = #{sellNo} AND USER_NO = #{userNo}
@@ -155,6 +155,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	FROM CHAT_ROOM
 	WHERE SELL_NO = #{sellNo} AND USER_NO = #{userNo}
 </select>
+
+<!-- 채팅방번호로 인해 채팅방 정보가져오기 -->
+<select id="selectChatRoomByNo" parameterType="int" resultMap="chatResultSet">
+	SELECT CHATROOM_NO,
+		   SELL_NO,
+		   USER_NO,
+		   CREATE_DATE,
+		   STATUS
+	FROM CHAT_ROOM
+	WHERE CHATROOM_NO = #{chatRoomNo}
+</select>
+
+
+
 
 
 

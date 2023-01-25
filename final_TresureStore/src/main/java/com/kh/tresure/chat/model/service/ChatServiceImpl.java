@@ -3,7 +3,6 @@ package com.kh.tresure.chat.model.service;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -12,13 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kh.tresure.chat.controller.ChatController;
 import com.kh.tresure.chat.model.dao.ChatDao;
 import com.kh.tresure.chat.model.vo.Block;
 import com.kh.tresure.chat.model.vo.ChatMessage;
 import com.kh.tresure.chat.model.vo.ChatRoom;
 import com.kh.tresure.chat.model.vo.ChatRoomJoin;
-import com.kh.tresure.member.model.vo.Member;
 import com.kh.tresure.sell.model.dao.SellDao;
 import com.kh.tresure.sell.model.vo.Sell;
 
@@ -47,20 +44,27 @@ public class ChatServiceImpl implements ChatService{
 	public HashMap<Object, Object> createAndEnterChatRoom(ChatRoom room, String sellUserNo, ChatRoomJoin roomJoin) {
 		
 		HashMap<Object,Object> AllList = new HashMap<>();
+		int chatRoomNo = 0;
 		
-		// 채팅방 존재하는지 검사
-		int result = chatDao.selectChatRoom(sqlSession, room);
-		int chatRoomNo;
-		// 채팅방 생성
-		if(result == 0) {
-			chatRoomNo = chatDao.createChatRoom(sqlSession, room);
+		
+		if(Integer.parseInt(sellUserNo) != room.getUserNo()) {
+			// 채팅방 존재하는지 검사
+			int result = chatDao.selectChatRoomByObject(sqlSession, room);
+			
+			// 채팅방 생성
+			if(result == 0) {
+				chatRoomNo = chatDao.createChatRoom(sqlSession, room);
+			} else {
+				chatRoomNo = chatDao.selectChatRoomNo(sqlSession, room);
+			}
 		} else {
-			chatRoomNo = chatDao.selectChatRoomNo(sqlSession, room);
+			chatRoomNo = room.getChatRoomNo();
 		}
 		
 		if(chatRoomNo == 0) {
 			return AllList;
 		}
+		
 		room.setChatRoomNo(chatRoomNo);
 		AllList.put("chatRoomNo", chatRoomNo);
 		
@@ -116,8 +120,33 @@ public class ChatServiceImpl implements ChatService{
 	// 채팅방 메세지 보내기
 	public int insertMessage(ChatMessage Message) {
 		
+		int chatRoomNo = Message.getChatRoomNo();
+		int sendUserNo = Message.getUserNo();
+		int result = 0;
+		ChatRoomJoin roomJoin = new ChatRoomJoin();
+		roomJoin.setChatRoomNo(chatRoomNo);
+		
+		
+		ChatRoom room = chatDao.selectChatRoomByNo(sqlSession, chatRoomNo);
+		
+		if(sendUserNo == room.getSellNo()) {
+			roomJoin.setUserNo(room.getUserNo());
+			result = ChatDao.joinCheck(sqlSession, roomJoin);
+		} 
+		
+		if(sendUserNo == room.getUserNo() ){
+			roomJoin.setUserNo(room.getSellNo());
+			result = ChatDao.joinCheck(sqlSession, roomJoin);
+		}
+		
+		if( result == 0 ) {
+			ChatDao.inChatRoomJoin(sqlSession, roomJoin);
+		}
+		
+		
 		return chatDao.insertMessage(sqlSession, Message);
 	}
+	
 	
 	// 네고 가격결정
 	@Override

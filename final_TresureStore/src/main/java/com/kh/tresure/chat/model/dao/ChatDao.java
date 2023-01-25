@@ -66,8 +66,6 @@ public class ChatDao {
 		
 		int result =  sqlSession.insert("chattingMapper.createChatRoom", room);
 		
-		logger.info("room 1" + room.getChatRoomNo());
-		
 		if(result > 0) {
 
 			return room.getChatRoomNo();
@@ -77,17 +75,27 @@ public class ChatDao {
 	}
 
 
-	// 채팅방이 존재하는지 확인
-	public int selectChatRoom(SqlSession sqlSession, ChatRoom room) {
+	// 채팅방이 존재하는지 확인 (객체에 판매글 번호와 채팅 신청한 유저번호)
+	public int selectChatRoomByObject(SqlSession sqlSession, ChatRoom room) {
 		
-		return sqlSession.selectOne("chattingMapper.selectChatRoom", room);
+		return sqlSession.selectOne("chattingMapper.selectChatRoomByObject", room);
 	}
 
-
+	// 채팅방 번호가져오기
 	public int selectChatRoomNo(SqlSession sqlSession, ChatRoom room) {
 
 		return sqlSession.selectOne("chattingMapper.selectChatRoomNo", room);
 	}
+
+	// 채팅방번호로 인해 채팅방 정보가져오기
+	public ChatRoom selectChatRoomByNo(SqlSession sqlSession, int chatRoomNo) {
+
+		return sqlSession.selectOne("chattingMapper.selectChatRoomByNo", chatRoomNo);
+	}
+
+
+
+
 
 
 
