@@ -73,7 +73,7 @@ public class ChatController {
 	}
 	
 	
-	// 채팅하기 (방생성 > 입장하기 or 입장하기) (아직 미완성 : 정승필 하는중)
+	// 채팅하기 (방생성 > 입장하기 or 입장하기)
 	@RequestMapping(value="chat/chatRoom/{sellNo}/{userNo}", method = RequestMethod.POST)
 	public String createAndEnterChatRoom(@PathVariable String sellNo,
 								 @PathVariable String userNo,
@@ -88,7 +88,6 @@ public class ChatController {
 		room.setChatRoomNo(Integer.parseInt(chatRoomNo));
 		logger.info(">> 채팅방으로 이동");
 		
-		logger.info("시발"+sellUserNo );
 		
 		HashMap<Object,Object> AllList = new HashMap<>();
 		AllList =  chatService.createAndEnterChatRoom(room, sellUserNo, roomJoin);
