@@ -162,7 +162,7 @@
 
                             <!-- 채팅하기 버튼 -->
                             <div class="purchaseGobtnBox">
-                                <button class="chattingbtn-sellDetail" >채팅하기</button>
+                                <button class="chattingbtn-sellDetail" id="chatting-start">채팅하기</button>
                             </div>
 
                             <!-- 상품 설명 텍스트 -->
@@ -179,6 +179,25 @@
         </div>
     </div>
     
+	<script>
+	    $("#chatting-start").click(function() {
+	
+	        let form = document.createElement('form');
+	        form.setAttribute('method', 'post');
+	        form.setAttribute('action', '${pageContext.request.contextPath}/chat/chatRoom/${s.sellNo }/${loginUser.userNo}');
+	        document.charset = 'utf-8';
+	
+	        let hiddenField = document.createElement('input');
+	
+	        hiddenField.setAttribute('type', 'hidden');
+	        hiddenField.setAttribute('name', "sellUserNo");
+	        hiddenField.setAttribute('value', ${s.userNo});
+	        form.appendChild(hiddenField);
+	
+	        document.body.appendChild(form);
+	        form.submit();
+	    });
+    </script>
 	<jsp:include page="../common/footer.jsp"/>
 </body>
 </html>

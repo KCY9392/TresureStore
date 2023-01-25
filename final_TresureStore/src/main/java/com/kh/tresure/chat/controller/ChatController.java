@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.tresure.chat.model.service.ChatService;
 import com.kh.tresure.chat.model.vo.Block;
@@ -72,24 +73,25 @@ public class ChatController {
 	}
 	
 	
-	//채팅방 상세조회(아직 미완성 : 정승필 하는중)
-	@RequestMapping(value = "chat/chatRoom/{chatRoomNo}", method = RequestMethod.POST)
-	public String enterChatRoom(Model model,
-								@PathVariable int chatRoomNo,
-								@RequestParam String userNo,
-								ChatRoomJoin join
-								) {
-		join.setUserNo(Integer.parseInt(userNo));
-		join.setChatRoomNo(chatRoomNo);
-		HashMap<Object,Object> AllList = new HashMap<>();
+	// 채팅하기 (방생성 > 입장하기 or 입장하기) (아직 미완성 : 정승필 하는중)
+	@RequestMapping(value="chat/chatRoom/{sellNo}/{userNo}", method = RequestMethod.POST)
+	public String createAndEnterChatRoom(@PathVariable String sellNo,
+								 @PathVariable String userNo,
+								 @RequestParam String sellUserNo,
+								 ChatRoom room,
+								 ChatRoomJoin roomJoin,
+								 Model model,
+								 RedirectAttributes rttr) {
 		
+		room.setSellNo(Integer.parseInt(sellNo));
+		room.setUserNo(Integer.parseInt(userNo));
 		logger.info(">> 채팅방으로 이동");
 		
-		model.addAttribute("chatRoomNo", chatRoomNo );
-		AllList =  chatService.chattingRoomEnter(chatRoomNo, userNo, join);
+		HashMap<Object,Object> AllList = new HashMap<>();
+		AllList =  chatService.createAndEnterChatRoom(room, sellUserNo, roomJoin);
+		model.addAttribute("chatRoomNo", room.getChatRoomNo() );
 		
 		if(AllList.size() > 0) {
-			
 			
 			model.addAttribute("AllList", AllList);
 			
@@ -100,9 +102,8 @@ public class ChatController {
 			session.setAttribute("alertMsg", "채팅방 입장에 실패하였습니다.");
 			return "redirect:/";
 		}
-		
-		
 	}
+
 	
 	
 	//채팅방 차단목록 이동

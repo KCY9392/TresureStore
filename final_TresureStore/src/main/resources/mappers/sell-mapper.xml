@@ -140,17 +140,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
               NEGO_PRICE,
               NEGO_STATUS
 	   FROM CHAT_ROOM CR
-	   JOIN SELL S ON (S.SELL_NO = CR.SELL_NO)
-       JOIN CATEGORY C ON (S.CATEGORY_NO = C.CATEGORY_NO)
+	   LEFT JOIN SELL S ON (S.SELL_NO = CR.SELL_NO)
+       LEFT JOIN CATEGORY C ON (S.CATEGORY_NO = C.CATEGORY_NO)
        LEFT JOIN NEGO N ON (CR.CHATROOM_NO = N.CHATROOM_NO)
-	   JOIN MEMBER M ON (S.USER_NO = M.USER_NO)
-	   JOIN (SELECT AVG(REV_SCORE) AS "AVG",
+	   LEFT JOIN MEMBER M ON (S.USER_NO = M.USER_NO)
+	   LEFT JOIN (SELECT AVG(REV_SCORE) AS "AVG",
 	          		S.USER_NO
 	   		 FROM REVIEW R
 	   		 JOIN SELL S ON(R.SELL_NO = S.SELL_NO)
 	   		 GROUP BY S.USER_NO) 
 	   		 PP ON (PP.USER_NO = S.USER_NO)
-	   WHERE CR.CHATROOM_NO = ${chatRoomNo} AND S.STATUS = 'Y' AND M.STATUS = 'Y'
+	   WHERE CR.CHATROOM_NO = #{chatRoomNo} AND S.STATUS = 'Y' AND M.STATUS = 'Y'
 	</select>
 	
 	
@@ -170,22 +170,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 상품 상세조회 -->
 	<select id="selectSellDetail" parameterType="map" resultMap="sellResultSet">
-       SELECT SELL_TITLE,
-       CG.CATEGORY_NAME AS "CATEGORY_NAME",
-       PRICE,
-       HEART_NUM,
-       COUNT,
-       CREATE_DATE,
-       SELL_CONTENT,
-       IMAGE_SRC,
-       S.USER_NO AS "USER_NO",
-       (SELECT COUNT(*) FROM REPORT R JOIN SELL S ON (R.REPORTED_NO=S.USER_NO)) AS "REPORT_NUM",
-       (SELECT COUNT(*) FROM FOLLOW F WHERE F.FW_ID=S.USER_NO ) AS "FOLLOWER_NUM",
-       (SELECT COUNT(*) FROM SELL S2 WHERE S2.USER_NO = S.USER_NO AND S2.SELL_STATUS = 'I') AS "SELL_NUM",
-       <if test="#{userNo} != null">
-       (SELECT COUNT(*) FROM FOLLOW F WHERE F.FW_ID = S.USER_NO AND F.FI_ID = #{userNo}) AS "FOLLOW_IS",  
-        </if>
-        AVG
+       SELECT  SELL_NO,
+		       SELL_TITLE,
+		       CG.CATEGORY_NAME AS "CATEGORY_NAME",
+		       PRICE,
+		       HEART_NUM,
+		       COUNT,
+		       CREATE_DATE,
+		       SELL_CONTENT,
+		       IMAGE_SRC,
+		       S.USER_NO AS "USER_NO",
+		       (SELECT COUNT(*) FROM REPORT R JOIN SELL S ON (R.REPORTED_NO=S.USER_NO)) AS "REPORT_NUM",
+		       (SELECT COUNT(*) FROM FOLLOW F WHERE F.FW_ID=S.USER_NO ) AS "FOLLOWER_NUM",
+		       (SELECT COUNT(*) FROM SELL S2 WHERE S2.USER_NO = S.USER_NO AND S2.SELL_STATUS = 'I') AS "SELL_NUM",
+		       <if test="#{userNo} != null">
+		       (SELECT COUNT(*) FROM FOLLOW F WHERE F.FW_ID = S.USER_NO AND F.FI_ID = #{userNo}) AS "FOLLOW_IS",  
+		        </if>
+		        AVG
        FROM SELL S
        LEFT JOIN (SELECT AVG(REV_SCORE) AS "AVG", S.USER_NO FROM REVIEW RE JOIN SELL S ON (RE.SELL_NO=S.SELL_NO)
              GROUP BY S.USER_NO) A ON (A.USER_NO=S.USER_NO)

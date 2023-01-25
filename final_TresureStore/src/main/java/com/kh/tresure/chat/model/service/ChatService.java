@@ -14,8 +14,8 @@ public interface ChatService {
 	//채팅방 리스트 가져오기
 	public List<ChatRoom> selectChatRoomList(int userNo);
 
-	// 채팅방 입장하기
-	public HashMap<Object,Object> chattingRoomEnter(int chatRoomNo, String userNo, ChatRoomJoin join);
+	// 채팅하기 (방생성 > 입장하기 or 입장하기)
+	public HashMap<Object, Object> createAndEnterChatRoom(ChatRoom room, String sellUserNo, ChatRoomJoin roomJoin);
 
 	// 채팅방 나가기
 	public int exitChatRoom(ChatRoomJoin join);
@@ -28,5 +28,8 @@ public interface ChatService {
 
 	// 네고 가격결정
 	public int insertNegoPrice(int negoPrice, int sellNo, int chatRoomNo);
+
+	
+
 
 }

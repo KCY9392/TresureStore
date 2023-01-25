@@ -101,16 +101,16 @@
                                         <td>
 
                                             <c:if test="${chatRoom.avg > 4.5}">
-                                                <img src="/tresure/resources/images/icon/grade3.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.userNo }호 점
+                                                <img src="/tresure/resources/images/icon/grade3.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.sellUserNo }호 점
                                             </c:if>
                                             <c:if test="${ 4 <= chatRoom.avg && chatRoom.avg < 4.5 }">
-                                                <img src="/tresure/resources/images/icon/grade2.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.userNo }호 점
+                                                <img src="/tresure/resources/images/icon/grade2.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.sellUserNo }호 점
                                             </c:if>
                                             <c:if test="${ 3.5 <= chatRoom.avg && chatRoom.avg < 4 }">
-                                                <img src="/tresure/resources/images/icon/grade1.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.userNo }호 점
+                                                <img src="/tresure/resources/images/icon/grade1.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.sellUserNo }호 점
                                             </c:if>
                                             <c:if test="${ null == chatRoom.avg || chatRoom.avg < 3.5 }">
-                                                <img src="/tresure/resources/images/icon/grade0.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.userNo }호 점
+                                                <img src="/tresure/resources/images/icon/grade0.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.sellUserNo }호 점
                                             </c:if>
 
                                         </td>
@@ -133,14 +133,14 @@
 
                                             let form = document.createElement('form');
                                             form.setAttribute('method', 'post');
-                                            form.setAttribute('action', '${pageContext.request.contextPath}/chat/chatRoom/${chatRoom.chatRoomNo }');
+                                            form.setAttribute('action', '${pageContext.request.contextPath}/chat/chatRoom/${chatRoom.sellNo }/${loginUser.userNo}');
                                             document.charset = 'utf-8';
 
                                             let hiddenField = document.createElement('input');
 
                                             hiddenField.setAttribute('type', 'hidden');
-                                            hiddenField.setAttribute('name', "userNo");
-                                            hiddenField.setAttribute('value', ${loginUser.userNo});
+                                            hiddenField.setAttribute('name', "sellUserNo");
+                                            hiddenField.setAttribute('value', ${chatRoom.userNo});
                                             form.appendChild(hiddenField);
 
                                             document.body.appendChild(form);

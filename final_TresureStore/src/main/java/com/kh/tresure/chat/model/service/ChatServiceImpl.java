@@ -41,28 +41,48 @@ public class ChatServiceImpl implements ChatService{
 		return chatDao.selectChatRoomList(sqlSession, userNo);
 	}
 	
-	// 채팅방 입장하기
+	// 채팅하기 (방생성 > 입장하기 or 입장하기)
 	@Override
-	public HashMap<Object,Object> chattingRoomEnter(int chatRoomNo, String userNo, ChatRoomJoin join) {
+	@Transactional
+	public HashMap<Object, Object> createAndEnterChatRoom(ChatRoom room, String sellUserNo, ChatRoomJoin roomJoin) {
 		
 		HashMap<Object,Object> AllList = new HashMap<>();
 		
-			
+		// 채팅방 존재하는지 검사
+		int result = chatDao.selectChatRoom(sqlSession, room);
+		int chatRoomNo;
+		// 채팅방 생성
+		if(result == 0) {
+			chatRoomNo = chatDao.createChatRoom(sqlSession, room);
+		} else {
+			chatRoomNo = chatDao.selectChatRoomNo(sqlSession, room);
+		}
+		
+		if(chatRoomNo == 0) {
+			return AllList;
+		}
+		room.setChatRoomNo(chatRoomNo);
+		AllList.put("chatRoomNo", chatRoomNo);
+		
+		logger.info("내가고른 chatRoomNo : " + chatRoomNo);
+		
+		roomJoin.setChatRoomNo(room.getChatRoomNo());
+		roomJoin.setUserNo(room.getUserNo());
+		
+		// 채팅방 참여
+		int result2 = ChatDao.joinCheck(sqlSession, roomJoin);
+		if(result2 == 0) {
+			ChatDao.inChatRoomJoin(sqlSession, roomJoin);
+		}
+		
 		// 판매게시글 가져오기
-		Sell product = SellDao.selectSellProduct(sqlSession, chatRoomNo);
+		Sell product = SellDao.selectSellProduct(sqlSession, room.getChatRoomNo());
 		if(product != null) {
 			AllList.put("product", product);
 		}
 		
-		
-		// 채팅방 참여
-		int result = ChatDao.joinCheck(sqlSession, join);
-		if(result == 0) {
-			ChatDao.inChatRoomJoin(sqlSession, join);
-			AllList.put("enter", join.getUserNo());
-		}
 		// 메세지 가져오기
-		List<ChatMessage> roomMessageList = chatDao.selectChatMessageList(sqlSession, join);
+		List<ChatMessage> roomMessageList = chatDao.selectChatMessageList(sqlSession, roomJoin);
 		if(roomMessageList.size() != 0) {
 			AllList.put("roomMessageList", roomMessageList);
 			logger.info(roomMessageList+"");
@@ -100,6 +120,7 @@ public class ChatServiceImpl implements ChatService{
 	}
 	
 	// 네고 가격결정
+	@Override
 	public int insertNegoPrice(int negoPrice, int sellNo, int chatRoomNo) {
 		
 		Sell nego = new Sell();
@@ -110,6 +131,8 @@ public class ChatServiceImpl implements ChatService{
 		return SellDao.insertNegoPrice(sqlSession, nego);
 		
 	}
+	
+
 	
 	
 }
