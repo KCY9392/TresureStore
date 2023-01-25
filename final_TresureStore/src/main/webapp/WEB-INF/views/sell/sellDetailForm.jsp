@@ -38,8 +38,8 @@
                         	<c:if test="${s.imgSrc != null}">
                         		<img src="${pageContext.request.contextPath}${s.imgSrc}" alt="" width="100%; height:100%;">
                         	</c:if>
-                        	<br><br><br><br><br><br><br><br><br><br><br>
                         		<!-- 여기다가 sfile 정보 가져오기 -->
+                        	</div>
                         	<c:if test="${s.imgList != null}">
 							<div class="sellImg3_Box">
 								<c:forEach var="img" items="${s.imgList }">
@@ -52,7 +52,6 @@
 								</c:forEach>
 							</div>
 						</c:if>
-                        	</div>
 								<!-- <div class="sellImg3_Box">
                             <div class="sellImg3_1" style="border: 1px solid rgb(238, 238, 238);">
                                 <img src="https://img2.joongna.com/media/original/2023/01/12/1673451291434UwM_EwsSN.jpg" alt="" width="100%; height:100%;">                                
