@@ -2,6 +2,7 @@ package com.kh.tresure.sell.model.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -38,9 +39,16 @@ public class SellDao {
 		return sqlSession.insert("sellMapper.insertSellImgList", sellImageList);
 	}
 	
-	public int getSellNo(SqlSession sqlSession, String userNo) {
+	public int getSellNo(SqlSession sqlSession) {
 		
-		return sqlSession.selectOne("sellMapper.getSellNo", userNo);
+		return sqlSession.selectOne("sellMapper.getSellNo");
+	}
+	
+	/**
+	 * 상품 상세조회
+	 */
+	public List<SellImg> selectSellImgList(Map<String, Integer> map, SqlSession sqlSession) {
+		return sqlSession.selectList("sellMapper.selectSellImgList", map);
 	}
 
 	/**
@@ -53,7 +61,7 @@ public class SellDao {
 	
 	/**
 	 * 상품 상세조회 */
-	public Sell selectSellDetail(HashMap<String, Integer> map, SqlSession sqlSession) {
+	public Sell selectSellDetail(Map<String, Integer> map, SqlSession sqlSession) {
 		return sqlSession.selectOne("sellMapper.selectSellDetail", map);
 	}
 

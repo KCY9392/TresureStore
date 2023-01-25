@@ -2,6 +2,12 @@
 
 
  /* 위에 상점 ~호점 div */
+.main-section {
+	   width: 1100px;
+	   padding-top: 60px;
+	   margin: auto;
+    }	 
+	 
 	 .content2{
 	 	display: flex;
 	    width: 900px;
@@ -13,12 +19,6 @@
 	    border-radius: 15px;
 	    padding-bottom: 25px;
 	 }
-	 
- 	.main-section22{
-	   width: 1100px;
-	   padding-top: 60px;
-	   margin: auto;
-    }
     
     .content2{
     	display: flex;

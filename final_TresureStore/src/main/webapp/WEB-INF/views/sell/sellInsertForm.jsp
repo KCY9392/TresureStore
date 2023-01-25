@@ -15,7 +15,7 @@
 	<jsp:include page="../common/sideBar.jsp"/>
 
 	<div class="sellInsert-div">
-		<form id="sellInsertForm" action="${pageContext.request.contextPath}/sell/sellInsert" enctype="multipart/form-data" method = "post">
+		<form id="sellInsertForm" action= "${pageContext.request.contextPath}/sell/sellInsert" onsubmit="return sell_file();" enctype="multipart/form-data" method="post">
 			<div class="main-section">
 				<div class="sellInsert1">           
 					<main class="sellInsert2">
@@ -27,12 +27,12 @@
 								<!-- image start -->
 								<li class="list">
 									<div class="image_sub">
-										상품이미지<span>*</span><small>(0/5)</small>
+										상품이미지<span>*</span><small>(0/3)</small>
 									</div>
 									<div class="image_con">
 										<ul class="sellInsertImages" id="imageList">
  											<li class="imageList">이미지 등록 <input type="file"
- 												 id="inputImage" name="upfile">${s.originName }
+ 												 id="inputImage" name="upfile" multiple>
  											</li>
 										</ul>
 										<div class="add_description">
@@ -59,7 +59,7 @@
 													name="sellTitle">
 											</div>
 											<div class="titleSize">
-												<span>최대 40글자
+												<span>최대 40글자</span>
 											</div>
 										</div>
 										<div class="subjectDiv" id="subjectDiv">상품명을 2자 이상

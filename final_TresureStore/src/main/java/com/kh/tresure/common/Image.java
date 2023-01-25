@@ -22,11 +22,12 @@ public class Image {
 		String ext = originName.substring(originName.lastIndexOf("."));	// jpg png 
 
 		String changeName = currentTime + random + ext;	// 2023011912523595242.jpg
-		
+		System.out.println("1."+changeName);
 
-		
+		System.out.println("2."+savePath);
 			try {
 				upfile.transferTo(new File(savePath + changeName));
+				System.out.println("3."+upfile);
 			} catch (IllegalStateException e) {
 				e.printStackTrace();
 			} catch (IOException e) {

@@ -1,7 +1,9 @@
 package com.kh.tresure.sell.controller;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +26,7 @@ import com.kh.tresure.common.Image;
 import com.kh.tresure.member.model.vo.Member;
 import com.kh.tresure.sell.model.service.SellService;
 import com.kh.tresure.sell.model.vo.Sell;
+import com.kh.tresure.sell.model.vo.SellImg;
 
 
 @Controller
@@ -57,7 +60,7 @@ public class SellController {
 			logger.info("loginUser:"+loginUser);
 			int userNo = 0;
 			
-			HashMap<String, Integer> map = new HashMap<>();
+			Map<String, Integer> map = new HashMap<>();
 			map.put("sellNo", sellNo);
 			
 			if(loginUser!=null) {
@@ -66,6 +69,10 @@ public class SellController {
 			}
 			
 			Sell s = sellService.selectSellDetail(map);
+			List<SellImg> imgList = sellService.selectSellImgList(map);
+			
+			s.setImgList(imgList);
+			
 			logger.info("s : "+s);
 			
 			Cookie[] cookies = req.getCookies();
@@ -87,7 +94,7 @@ public class SellController {
 
 		        if(loginUser != null) {
 		        // 만일 viewCookie가 null일 경우 쿠키를 생성해서 조회수 증가 로직을 처리함.
-		        if (viewCookie == null && s.getUserNo() != userNo) {
+				if (viewCookie == null /* && s.getUserNo() != userNo */) {
 		            
 		            // 쿠키 생성(이름, 값)
 		            Cookie newCookie = new Cookie("cookie"+sellNo, "|" + sellNo + "|");
@@ -180,36 +187,38 @@ public class SellController {
 	}
 
 	
-	@RequestMapping(value= "/sellInsert", method = RequestMethod.POST)
-	public String insertSell (Sell s, Model model, HttpSession session ,
-			@RequestParam(value="upfile", required=false) List<MultipartFile> imgList, // 업로드용 이미지파일
+	@RequestMapping(value = "/sellInsert", method = RequestMethod.POST)
+	public String insertSell(Sell s, Model model, HttpSession session,
+			@RequestParam(value = "mode", required = false, defaultValue = "insert") String mode,
+			@RequestParam(value = "upfile", required = false) List<MultipartFile> imgList, // 업로드용 이미지파일
 			MultipartFile upfile // 첨부파일) {
-			) {
-			
-		String mode = "insert";
-		
+	) {
+
 		String webPath = "/resources/images/sell/";
 		String serverFolderPath = session.getServletContext().getRealPath(webPath);
-		int result = 0;
 
+		int result = 0;
+		File file = null;
+
+		// 폴더 생성
 		if (!upfile.getOriginalFilename().equals("")) {
-			String savePath = session.getServletContext().getRealPath("/resources/images/sell/");
+			String savePath = session.getServletContext().getRealPath("/resources/images/uploadFiles/");
+
+			file = new File(savePath);
+			if (!file.exists()) {
+				file.mkdirs();
+			}
+
 			String changeName = Image.saveFile(upfile, savePath);
-			
-			
-			/*try {
-				upfile.transferTo(new File(savePath + changeName));
-			} catch (IllegalStateException | IOException e) {
-				logger.error(e.getMessage());
-			}*/
-			
-			s.setChangeName("resources/images/uploadFiles/" + changeName);
-			s.setOriginName(upfile.getOriginalFilename());
+
+			System.out.println("s1." + savePath);
+			System.out.println("s2." + changeName);
+
 		}
-		
-		if(mode.equals("insert")) {
+
+		if (mode.equals("insert")) {
 			// db에 board테이블에 데이터 추가
-			
+
 			try {
 				result = sellService.insertSell(s, imgList, webPath, serverFolderPath);
 			} catch (Exception e) {
@@ -217,18 +226,16 @@ public class SellController {
 				e.printStackTrace();
 			}
 		}
-		
+
 		System.out.println(s);
-			
-		
-		
+
 //		if(mode.equals("insert")) {
-//			// db에 board테이블에 데이터 추가
-//			
-//				
+//			// db에 sell테이블에 데이터 추가
+//
+//
 //		}
 //			else { // 수정
-//		
+//
 //			// 게시글 수정 서비스 호출
 //			// b객체 안에 boardNo
 //			try {
@@ -237,16 +244,15 @@ public class SellController {
 //				logger.error("에러발생");
 //			}
 //		}sell/sellInsert
-		
+
 		if (result > 0) {
 			session.setAttribute("alertMsg", "상품등록에 성공하셨습니다.");
-			return "home";
+			return "redirect:/";
 		} else { // errorPage
 			model.addAttribute("errorMsg", "상품등록에 실패하였습니다.");
 			return "common/errorPage";
 		}
-		
-		
+
 	}
 	
 }

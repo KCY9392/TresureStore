@@ -70,24 +70,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO SELL(
 			SELL_NO,
 			USER_NO,
-			IMAGE_SRC, 
+			IMAGE_SRC,
 			CATEGORY_NO,
 			SELL_TITLE,
 			SELL_CONTENT,
 			PRICE
 		) VALUES (
-			SEQ_SNO.NEXTVAL,
-			10,
-			#{imgSrc},
-			#{categoryNo},
-			#{sellTitle},
-			#{sellContent},
-			#{price}
+			#{sellNo}
+		  , 10
+		  , #{imgSrc}
+		  , #{categoryNo}
+		  , #{sellTitle}
+		  , #{sellContent}
+		  , #{price}
 		)
 	</insert>
 	<insert id="insertSellImgList" parameterType="list">
 		INSERT INTO SFILE
-		SELECT SEQ_SFNO.NEXTVAL AS SFILE_NO, C.* FROM 
+		SELECT SEQ_SFNO.NEXTVAL AS SFILE_NO, C.* FROM
 		(
 			<foreach collection="list" item="img" separator="UNION ALL">
 				SELECT #{img.sellNo} as SELL_NO,
@@ -96,14 +96,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					   #{img.upLoadDate} as UPLOAD_DATE,
 					   #{img.filePath} as FILE_PATH,
 					   #{img.fileType} as FILE_TYPE,
-					   #{img.status} as STATUS 
+					   #{img.status} as STATUS
 				FROM DUAL
-			</foreach>	
+			</foreach>
 		) C
 	</insert>
 	
 	<select id="getSellNo" parameterType="string" resultType="integer">
-		select sell_no from (select sell_No from sell where user_no = '10' order by create_date desc) where rownum = 1
+		SELECT SEQ_SNO.NEXTVAL FROM DUAL
+	</select>
+	
+	<select id="selectSellImgList" parameterType="hashmap" resultType="sellImg">
+		SELECT F.SFILE_NO
+		     , F.SELL_NO
+		     , F.ORIGIN_NAME
+		     , F.CHANGE_NAME
+		     , F.UPLOAD_DATE
+		     , F.FILE_PATH
+		     , F.FILE_TYPE
+		     , F.STATUS
+		  FROM SELL S
+		     , SFILE F
+		 WHERE S.SELL_NO = F.SELL_NO
+		   AND F.FILE_TYPE = 'D'
+		   AND S.SELL_NO = #{sellNo}
+		ORDER BY F.SFILE_NO DESC
 	</select>
 	
 	<!-- 채팅방에 보이는 판매제품정보 --> 
@@ -173,7 +190,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
        LEFT JOIN (SELECT AVG(REV_SCORE) AS "AVG", S.USER_NO FROM REVIEW RE JOIN SELL S ON (RE.SELL_NO=S.SELL_NO)
              GROUP BY S.USER_NO) A ON (A.USER_NO=S.USER_NO)
        LEFT JOIN CATEGORY CG USING(CATEGORY_NO)
-       WHERE SELL_NO = ${sellNo}
+       WHERE SELL_NO = #{sellNo}
 	</select>
 	
 	

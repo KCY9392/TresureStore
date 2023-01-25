@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,77 +51,78 @@ public class SellServiceImpl implements SellService  {
 	 */
 	@Override
 	public int insertSell(Sell s, List<MultipartFile> list, String webPath, String serverFolderPath) {
-		
+
 		s.setSellTitle(s.getSellTitle());
 		s.setSellContent(s.getSellContent());
 		s.setPrice(s.getPrice());
-		
-		// 1) 게시글 삽입.
-		// 게시글 등록 후 해당 게시글의 pk값을 반환받음 => boardNo
-		int sellNo = sellDao.getSellNo(sqlSession, s.getUserNo()+"");
-		
-		if (sellNo > 0 && list != null/* && b.getBoardCd().equals("T") */) {
+
+		int sellNo = sellDao.getSellNo(sqlSession);
+
+		if (list != null/* && b.getBoardCd().equals("T") */) {
 			// 2) 이미지 삽입.
-			
+
 			// list -> 실제 파일이 담겨있는 리스트
-			List<SellImg> sellImageList = new ArrayList();
-			List<String> renameList = new ArrayList();
+			List<SellImg> sellImageList = new ArrayList<>();
+			List<String> renameList = new ArrayList<>();
 			// renameList : 변경된 파일명을 저장할 리스트.
-			
+
 			// list에서 담겨있는 파일정보 중 실제로 업로드된 파일만 분류하기.
-			for(int i = 0; i < list.size(); i++) {
-				
-				if(list.get(i).getSize() > 0) { // i번째 요소에 업로드된 이미지가 존재하는 경우.
-					
+			for (int i = 0; i < list.size(); i++) {
+				if (list.get(i).getSize() > 0) { // i번째 요소에 업로드된 이미지가 존재하는 경우.
+
 					// 변경된 파일명 저장.
 					String changeName = Image.saveFile(list.get(i), serverFolderPath);
 					renameList.add(changeName);
-					
+
 					// BoardImg객체를 생성해서 값을 추가한 후 boardImageList;
 					SellImg img = new SellImg();
 					img.setSellNo(sellNo); // 게시글 번호
-					img.setFileType("Y");
+					img.setFileType(i == 0 ? "C" : "D");
 					img.setOriginName(list.get(i).getOriginalFilename()); // 원본이름
 					img.setChangeName(changeName);
 					img.setUpLoadDate(new Date());
+					img.setFilePath(webPath);
 					System.out.println(img.toString());
-					
-					
+
 					sellImageList.add(img);
 				}
 			}
-			
+
+			if (sellImageList.size() > 0) {
+				s.setImgSrc(webPath + sellImageList.get(0).getChangeName());
+			}
+			s.setSellNo(sellNo);
+			int sellCount = sellDao.insertSell(sqlSession, s);
 			// 분류작업완료 후 boardImageList가 비워있다 ? --> 등록한 이미지가 없음
-			//                             비어있지 않다 ? --> 등록한 이미지가 있음.
-			
-			
-			 if(!sellImageList.isEmpty()) {
-			 
-			 int result = sellDao.insertSellImgList(sqlSession, sellImageList);
-			 
-			 if(result == sellImageList.size()) { // 삽입된 행의 갯수와, 업로드된 이미지 수가 같은 경우
-			  
-			 // 서버에 이미지 저장. 
-				for (int i = 0; i < sellImageList.size(); i++) {
+			// 비어있지 않다 ? --> 등록한 이미지가 있음.
 
-					String fileType = sellImageList.get(i).getFileType();
+			if (!sellImageList.isEmpty()) {
 
-					try {
-						list.get(i).transferTo(new File(serverFolderPath + renameList.get(i)));
-					} catch (IllegalStateException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
+				int result = sellDao.insertSellImgList(sqlSession, sellImageList);
+
+				if (result == sellImageList.size()) { // 삽입된 행의 갯수와, 업로드된 이미지 수가 같은 경우
+
+					// 서버에 이미지 저장.
+					for (int i = 0; i < sellImageList.size(); i++) {
+
+						String fileType = sellImageList.get(i).getFileType();
+
+						try {
+							list.get(i).transferTo(new File(serverFolderPath + renameList.get(i)));
+						} catch (IllegalStateException e) {
+							e.printStackTrace();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 					}
-				}                     
 
-			} else { // 이미지 삽입 실패시
-				// 강제로 예외 발생시키기.
+				} else { // 이미지 삽입 실패시
+					// 강제로 예외 발생시키기.
 
+				}
 			}
 		}
-	}
-	return sellNo;
+		return sellNo;
 	}
 	
 	
@@ -128,8 +130,16 @@ public class SellServiceImpl implements SellService  {
 	 * 상품 상세조회
 	 */
 	@Override
-	public Sell selectSellDetail(HashMap<String, Integer> map) {
+	public Sell selectSellDetail(Map<String, Integer> map) {
 		return sellDao.selectSellDetail(map, sqlSession);
+	}
+	
+	/**
+	 * 상품 이미지 조회
+	 */
+	@Override
+	public List<SellImg> selectSellImgList(Map<String, Integer> map) {
+		return sellDao.selectSellImgList(map, sqlSession);
 	}
 	
 	/**

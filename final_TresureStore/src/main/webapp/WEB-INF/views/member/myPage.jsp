@@ -17,7 +17,7 @@
 	<jsp:include page="../common/header.jsp"/>
 	<jsp:include page="../common/sideBar.jsp"/>
 	 	 
-	<div class="main-section22">
+	<div class="main-section">
         
     <div class="content2">
 

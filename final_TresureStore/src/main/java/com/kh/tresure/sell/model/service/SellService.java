@@ -2,10 +2,12 @@ package com.kh.tresure.sell.model.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.tresure.sell.model.vo.Sell;
+import com.kh.tresure.sell.model.vo.SellImg;
 
 public interface SellService {
 	
@@ -19,7 +21,12 @@ public interface SellService {
 
 	/**
 	 * 상품 상세조회 */
-	public Sell selectSellDetail(HashMap<String, Integer> map);
+	public Sell selectSellDetail(Map<String, Integer> map);
+	
+	/**
+	 * 상품 이미지 조회
+	 */
+	public List<SellImg> selectSellImgList(Map<String, Integer> map);
 
 	/**
 	 * 상품 조회수 */

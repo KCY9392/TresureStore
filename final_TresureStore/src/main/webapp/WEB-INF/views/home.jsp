@@ -10,6 +10,7 @@
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 	<script type="text/javascript" src="/tresure/resources/js/header.js"></script>
+	<script type="text/javascript" src="/tresure/resources/js/thbogi.js"></script>
 	 <!-- alertify -->
 <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 <!-- alertify css -->
@@ -62,7 +63,7 @@
 							<div class="item" onclick="sellDetail(${s.sellNo})">
 								<div id="itemSolid" class="slist-items">
 									<c:if test="${s.imgSrc != null}">
-									<img src="${s.imgSrc}" width="100%" height="150px;"
+									<img src="${pageContext.request.contextPath}${s.imgSrc}" width="100%" height="150px;"
 										class="rounded float-start" alt="">
 									</c:if>
 									<c:if test="${s.imgSrc == null}">

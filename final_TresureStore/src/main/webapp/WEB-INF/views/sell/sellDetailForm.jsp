@@ -36,22 +36,33 @@
                         <div class="sellImg3">
                         	<div class="sellImgFirst" style="border: 1px solid rgb(238, 238, 238);">
                         	<c:if test="${s.imgSrc != null}">
-                        		<img src="${s.imgSrc}" alt="" width="100%; height:100%;">
+                        		<img src="${pageContext.request.contextPath}${s.imgSrc}" alt="" width="100%; height:100%;">
                         	</c:if>
-                        	<c:if test="${s.imgSrc == null}">
+                        	<br><br><br><br><br><br><br><br><br><br><br>
                         		<!-- 여기다가 sfile 정보 가져오기 -->
-                        	</c:if>
+                        	<c:if test="${s.imgList != null}">
+							<div class="sellImg3_Box">
+								<c:forEach var="img" items="${s.imgList }">
+									<div class="sellImg3_1"
+										style="border: 1px solid rgb(238, 238, 238);">
+										<img src="${pageContext.request.contextPath}${contextPath }${img.filePath}${img.changeName }"
+											alt="" style="width:100%; height:100%;">
+									</div>
+									
+								</c:forEach>
+							</div>
+						</c:if>
                         	</div>
-                           <div class="sellImg3_Box">
+								<!-- <div class="sellImg3_Box">
                             <div class="sellImg3_1" style="border: 1px solid rgb(238, 238, 238);">
                                 <img src="https://img2.joongna.com/media/original/2023/01/12/1673451291434UwM_EwsSN.jpg" alt="" width="100%; height:100%;">                                
                             </div>
                             <div class="sellImg3_2" style="border: 1px solid rgb(238, 238, 238);">
                                 <img src="https://img2.joongna.com/media/original/2023/01/12/1673451291434UwM_EwsSN.jpg" alt="" width="100%; height:100%;">
-                            </div>
-                           </div> 
-                           
-                           <!-- 판매자 정보 -->
+                            </div> -->
+							
+
+							<!-- 판매자 정보 -->
                            <div class="sellerInfo">
 
                                 <div class="sellGradeAndNameBox">
