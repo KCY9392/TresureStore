@@ -85,7 +85,10 @@ public class ChatController {
 		
 		room.setSellNo(Integer.parseInt(sellNo));
 		room.setUserNo(Integer.parseInt(userNo));
-		room.setChatRoomNo(Integer.parseInt(chatRoomNo));
+		if(chatRoomNo != null) {
+			room.setChatRoomNo(Integer.parseInt(chatRoomNo));
+		}
+		
 		logger.info(">> 채팅방으로 이동");
 		
 		
