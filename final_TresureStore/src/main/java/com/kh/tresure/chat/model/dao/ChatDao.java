@@ -26,7 +26,7 @@ public class ChatDao {
 
 	
 	//채팅방 나가기
-	public int exitChatRoom(SqlSession sqlSession, int join) {
+	public int exitChatRoom(SqlSession sqlSession, ChatRoomJoin join) {
 
 		return sqlSession.delete("chattingMapper.exitChatRoom", join);
 	}

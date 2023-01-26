@@ -156,13 +156,15 @@ public class ChatController {
 	
 	
 	//채팅방 나가기
-	@RequestMapping(value = "chat/chatRoom/{chatRoomNo}", method = RequestMethod.GET)
-	@ResponseBody //@ResponseBody :데이터 자체를 반환
-	public int exitChatRoom(@ModelAttribute("loginUser") Member loginUser,
-							@PathVariable int chatRoomNo,
+	@RequestMapping(value = "chat/chatRoom/exit", method = RequestMethod.POST)
+	@ResponseBody
+	public int exitChatRoom(@RequestParam String userNo,
+							@RequestParam String chatRoomNo,
 							ChatRoomJoin join) {
 		
-		return chatService.exitChatRoom(join);
+		int result = chatService.exitChatRoom(join, chatRoomNo, userNo);
+		
+		return result;
 		 
 	}
 	

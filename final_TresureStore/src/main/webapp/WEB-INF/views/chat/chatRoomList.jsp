@@ -11,10 +11,17 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <!-- 헤더 js -->
     <script type="text/javascript" src="/tresure/resources/js/header.js"></script>
-    <title>treasure ChatRoomList</title>
+    <!-- Alert 창  -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	<!-- alertify -->
+	<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+	<!-- alertify css -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+    <title>보물상점</title>
 
     <style>
-        /*전체 공통 div*/
+       
+
        
         .chat-list-outer{
          	width: 67%;
@@ -31,6 +38,7 @@
             font-weight: bold;
             font-size: 40px;
         }
+
 
         /*차단목록 a태그*/
         .block-list {
@@ -51,15 +59,32 @@
             text-align: center;
         }
         
-        .chat-exit{
+        table .chat-exit{
         	font-family: 'koverwatch';
-        	padding:10%;
+        	padding:0px;
         	background-color:gold;
             color:grey;
         	border:none;
         	border-radius : 8%;
         	cursor: pointer;
+        	width:40px;
+        	hegith : 40px;
+        	font-size: 20px;
+		    border: 2px solid;
+		    width: 60px;
+		    height: 30px;
         }
+        .chat-exit:hover{
+        	cursor:ponter;
+        }
+        
+        table .storeName:hover td:not(:last-child){
+        	background-color : lightgrey;
+        	cursor:pointer;
+        	border-radius : 5px;
+        }
+
+
     </style>
 
 
@@ -96,9 +121,9 @@
                             <tbody>
                                 <%--조회한 채팅 목록이 있을 때	 --%>
                                 <c:forEach var="chatRoom" items="${chatRoomList }">
-                                    <tr id="storeName${chatRoom.chatRoomNo }" class="storeName">
-                                        <td>${chatRoom.chatRoomNo }</td>
-                                        <td>
+                                    <tr  class="storeName" >
+                                        <td class="storeName${chatRoom.chatRoomNo } list">${chatRoom.chatRoomNo }</td>
+                                        <td class="storeName${chatRoom.chatRoomNo } list">
                                         	<!-- 로그인사람과 구매한사람이 같은경우  -->
                                         	<c:if test="${chatRoom.userNo eq loginUser.userNo}">
 	                                            <c:if test="${chatRoom.avg > 4.5}">
@@ -131,22 +156,24 @@
                                             </c:if>
 
                                         </td>
-                                        <td>${chatRoom.sellTitle}</td>
+                                        <td class="storeName${chatRoom.chatRoomNo } list">${chatRoom.sellTitle}</td>
                                         <c:choose>
                                             <c:when test="${empty chatRoom.chatDate }">
                                                 <td>${chatRoom.createDate }</td>
                                             </c:when>
                                             <c:otherwise>
-                                                <td>
+                                                <td class="storeName${chatRoom.chatRoomNo } list">
                                                     <fmt:formatDate value="${chatRoom.chatDate }" type="both" pattern="yyyy-MM-dd(E) a HH:mm" />
                                                 </td>
                                             </c:otherwise>
                                         </c:choose>
-                                        <td><button type="button" id="chatExit${chatRoom.chatRoomNo }" class="chat-exit">나가기</button></td>
+                                        <td style="padding : 0px;"><button type="button" id="chatExit${chatRoom.chatRoomNo }" class="chat-exit">나가기</button></td>
                                     </tr>
 
                                     <script>
-                                        $("#storeName${chatRoom.chatRoomNo }").click(function() {
+                                        $(".storeName${chatRoom.chatRoomNo }").click(function() {
+                                        	
+                                        	
 
                                             let form = document.createElement('form');
                                             form.setAttribute('method', 'post');
@@ -171,6 +198,42 @@
 
                                             document.body.appendChild(form);
                                             form.submit();
+                                        });
+                                        
+                                        
+                                        $("#chatExit${chatRoom.chatRoomNo }").click(function() {
+                                        	
+                               	            function reload(){
+                            	            	location.reload();
+                            	            }
+                                        	
+                                        	$.ajax({
+                                        		url : "${pageContext.request.contextPath}/chat/chatRoom/exit",
+                                        		data : { userNo :  ${loginUser.userNo},
+                                        			     chatRoomNo : ${chatRoom.chatRoomNo }
+                                        		},
+                                        		type : "post",
+                                        		success : function(result){
+                                        			if(result > 0){
+                                        	            Swal.fire({
+                                        	                   icon: 'success',
+                                        	                   title: '성공하셨습니다.'                  
+                                        	               });
+                                        	            setTimeout(function() {
+                                        	            	  location.reload();
+                                        	            	}, 3000);
+                                        	            
+                                        	   //             alertify.alert("경고",'${alertMsg}');// 변수를 문자열로
+                                        			} else {
+                                        				alert("실패");
+                                        			}
+                                        			
+                                        		},
+                                        		error : function(){
+                                        			console.log("통신실패");
+                                        		}
+                                        		
+                                        	})
                                         });
                                     </script>
                                 </c:forEach>

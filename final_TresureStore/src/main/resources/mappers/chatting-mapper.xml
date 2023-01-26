@@ -75,7 +75,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select>
  
 <!-- 채팅방 나가기(삭제) -->
-<delete id="exitChatRoom" parameterType="int">
+<delete id="exitChatRoom" parameterType="chatRoomJoin">
     DELETE 
  	FROM CHAT_ROOM_JOIN
 	WHERE USER_NO = #{userNo} AND CHATROOM_NO = #{chatRoomNo}

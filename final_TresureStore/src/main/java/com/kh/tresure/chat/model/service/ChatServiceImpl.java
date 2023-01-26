@@ -103,9 +103,12 @@ public class ChatServiceImpl implements ChatService{
 	
 	//채팅방 나가기
 	@Override
-	public int exitChatRoom(ChatRoomJoin join) {
+	public int exitChatRoom(ChatRoomJoin join, String chatRoomNo, String userNo) {
 
-		return  chatDao.exitChatRoom(sqlSession, join.getChatRoomNo());
+		join.setChatRoomNo(Integer.parseInt(chatRoomNo));
+		join.setUserNo(Integer.parseInt(userNo));
+		
+		return  chatDao.exitChatRoom(sqlSession, join);
 			
 	}
 	
