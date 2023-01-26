@@ -108,7 +108,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			PRICE
 		) VALUES (
 			#{sellNo}
-		  , 10
+		  , #{userNo}
 		  , #{imgSrc}
 		  , #{categoryNo}
 		  , #{sellTitle}

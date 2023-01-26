@@ -114,6 +114,8 @@ public class SellController {
 			
 			s.setImgList(imgList);
 			
+			logger.info("imgList : "+imgList);
+			
 			logger.info("s : "+s);
 			
 			Cookie[] cookies = req.getCookies();
@@ -239,7 +241,7 @@ public class SellController {
 
 		// 폴더 생성
 		if (!upfile.getOriginalFilename().equals("")) {
-			String savePath = session.getServletContext().getRealPath("/resources/images/uploadFiles/");
+			String savePath = session.getServletContext().getRealPath("/resources/images/sell/");
 
 			file = new File(savePath);
 			if (!file.exists()) {
@@ -257,6 +259,10 @@ public class SellController {
 			// db에 board테이블에 데이터 추가
 
 			try {
+				Member loginUser = (Member)session.getAttribute("loginUser");
+				int userNo = loginUser.getUserNo();
+				s.setUserNo(userNo);
+				
 				result = sellService.insertSell(s, imgList, webPath, serverFolderPath);
 			} catch (Exception e) {
 				logger.error("에러발생");
