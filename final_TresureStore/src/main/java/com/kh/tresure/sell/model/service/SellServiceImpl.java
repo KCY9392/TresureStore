@@ -45,6 +45,21 @@ public class SellServiceImpl implements SellService  {
 		return sellDao.sellListselect(sqlSession);
 	}
 	
+	/**
+	 * 상품 검색
+	 */
+	@Override
+	public List<Sell> sellListsearch(String keyword){
+		return sellDao.sellListsearch(keyword, sqlSession);
+	}
+	
+	/**
+	 * 최근거래성공한 5개 상품가격
+	 */
+	public List<Sell> successfive(String keyword){
+		return sellDao.successfive(keyword, sqlSession);
+	}
+	
 	
 	/**
 	 * 판매 등록

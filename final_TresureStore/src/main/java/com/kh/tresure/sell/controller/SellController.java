@@ -28,6 +28,8 @@ import com.kh.tresure.sell.model.service.SellService;
 import com.kh.tresure.sell.model.vo.Sell;
 import com.kh.tresure.sell.model.vo.SellImg;
 
+import oracle.net.aso.s;
+
 
 @Controller
 @RequestMapping("/sell")
@@ -46,6 +48,45 @@ public class SellController {
 		this.sellService = sellService;
 	}
 
+	
+	/**
+	 * 검색 시 -> 상품이면 시세조회하면서 해당 상품리스트, 상점이면 해당 상점페이지 */
+	@RequestMapping(value="/search", method=RequestMethod.POST)
+	public ModelAndView searchList(
+				ModelAndView mv, HttpSession session,
+				 String search) {
+		
+		//상품 검색할 경우
+		if(search.charAt(0) != '@') {
+		
+			List<Sell> sList = sellService.sellListsearch(search);
+			List<Sell> success = sellService.successfive(search);
+			
+			int price = 0;
+			for(int i=0; i<success.size(); i++) {
+				price += success.get(i).getPrice();
+			}
+			price /= 5;
+			
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("s", sList);
+			map.put("keyword", search);
+			map.put("success", success);
+			map.put("price", price);
+			
+			mv.addObject("m", map);
+			mv.setViewName("sell/searchList");
+			
+		}else { //상점 검색할 경우
+			
+			
+		  //mv.setViewName("다른사람이 보는 내상점");
+		}
+		
+		return mv;
+	}
+	
+	
 	
 	/**
 	 * 상품 상세조회 */
@@ -88,7 +129,7 @@ public class SellController {
 		    }
 		    
 		    if (s != null) {
-		        System.out.println("System - 해당 상세페이지로 넘어감");
+		        logger.info("System - 해당 상세페이지로 넘어감");
 		        
 		        mv.addObject("s", s);
 
@@ -118,11 +159,7 @@ public class SellController {
 		        }
 		        mv.setViewName("sell/sellDetailForm");
 		    } 
-		    else {
-		        // 에러 페이지 설정
-		    	mv.addObject("errorMsg","게시글 조회 실패");
-//				mv.setViewName("common/errorPage");
-		    }
+		    
 		 return mv;
 	}
 	
@@ -254,6 +291,10 @@ public class SellController {
 		}
 
 	}
+	
+	
+	
+	
 	
 }
 	

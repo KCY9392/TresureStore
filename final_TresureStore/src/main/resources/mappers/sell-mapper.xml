@@ -24,6 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="UPDATE_DATE" property="updateDate"></result>
 	<result column="STATUS" property="status"></result>
 	<result column="HEART_NUM" property="heartNum"></result>
+	<result column="CRAWL" property="crawl"></result>
 	
 	
 	<result column="CHATROOM_NO" property="chatRoomNo"></result>
@@ -54,9 +55,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </resultMap>
 
 
+	<!-- 상품목록조회(메인페이지) -->
 	<select id="sellListselect" resultMap="sellResultSet">
 		SELECT 
-	    	SELL_NO, CATEGORY_NO, SELL_TITLE, IMAGE_SRC, PRICE, HEART_NUM
+	    	SELL_NO, CATEGORY_NO, SELL_TITLE, IMAGE_SRC, PRICE, HEART_NUM, CRAWL
 		FROM SELL S 
         LEFT JOIN MEMBER M ON(S.USER_NO=M.USER_NO)
 		WHERE S.STATUS = 'Y' 
@@ -65,6 +67,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND ROWNUM <![CDATA[ <= ]]> 40
 	</select>
 
+	<!-- 상품검색 -->
+	<select id="sellListsearch" parameterType="String" resultMap="sellResultSet">
+		SELECT
+			SELL_NO, CATEGORY_NO, SELL_TITLE, IMAGE_SRC, PRICE, HEART_NUM, CRAWL
+		FROM SELL S
+		LEFT JOIN MEMBER M ON(S.USER_NO=M.USER_NO)
+		WHERE S.STATUS = 'Y' 
+		AND SELL_STATUS = 'I' 
+		AND M.STATUS = 'Y' 
+		AND SELL_TITLE like '%${keyword}%'
+	</select>
+	
+	
+	<!-- 최근거래성공한 5개 상품가격 -->
+	<select id="successfive" parameterType="String" resultMap="sellResultSet">
+		SELECT
+			S.PRICE AS "PRICE"
+		FROM SELL S
+		LEFT JOIN MEMBER M ON(S.USER_NO=M.USER_NO)
+        LEFT JOIN PURCHASE P ON(S.SELL_NO=P.SELL_NO)
+		WHERE S.STATUS = 'Y' 
+		AND S.SELL_STATUS = 'C' 
+		AND M.STATUS = 'Y' 
+		AND S.SELL_TITLE like '%${keyword}%'
+        AND ROWNUM <![CDATA[ <= ]]> 5
+        ORDER BY P.CREATE_DATE DESC
+	</select>
+	
+	
 	<!-- 상품등록 -->
 	<insert id="insertSell" parameterType="sell" >
 		INSERT INTO SELL(
@@ -186,6 +217,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		       SELL_CONTENT,
 		       IMAGE_SRC,
 		       S.USER_NO AS "USER_NO",
+		       CRAWL,
 		       (SELECT COUNT(*) FROM REPORT R JOIN SELL S ON (R.REPORTED_NO=S.USER_NO)) AS "REPORT_NUM",
 		       (SELECT COUNT(*) FROM FOLLOW F WHERE F.FW_ID=S.USER_NO ) AS "FOLLOWER_NUM",
 		       (SELECT COUNT(*) FROM SELL S2 WHERE S2.USER_NO = S.USER_NO AND S2.SELL_STATUS = 'I') AS "SELL_NUM",

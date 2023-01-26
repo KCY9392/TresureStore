@@ -1,0 +1,54 @@
+@charset "UTF-8";
+
+/* 시세조회 박스 */
+.price-inquiry{
+	width: 1000px;
+    height: 220px;
+    
+    border: 3px solid rgb(253, 233, 231);
+    background: rgb(253 233 231 / 44%);
+    border-radius: 30px;
+    
+    margin-left: 50px;
+    margin-top: 20px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#lineChart{
+	height: 182px;
+    width: 250PX;
+    padding-top: 15px;
+    padding-left: 80px;
+}
+
+#lineChart svg{
+	width:400px;
+}
+
+#lineChart path{
+	stoke:red;
+}
+
+.titleAndPrice-inq{
+	
+	width: 60%;    
+	text-align: center;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+}
+
+.searchresultBox{
+	justify-items: center;
+    align-items: center;
+    display:flex;
+    padding-left:50px;
+    font-size: 28px;
+}
+
+.searchresultBox p{
+	color:#e39090;
+}

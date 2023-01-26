@@ -16,6 +16,15 @@ public interface SellService {
 	public List<Sell> sellListselect();
 	
 	/**
+	 * 상품 검색 */
+	public List<Sell> sellListsearch(String keyword);
+	
+	/**
+	 * 최근 거래성공 5개 상품가격
+	 */
+	public List<Sell> successfive(String search);
+	
+	/**
 	 * 상품등록 */
 	public int insertSell(Sell s, List<MultipartFile> list, String webPath, String serverFolderPath);
 
@@ -35,5 +44,7 @@ public interface SellService {
 	/**
 	 * 최신순, 인기순, 저가순, 고가순 정렬 */
 	public List<Sell> howOrderList(HashMap<String, Object> map);
+
+	
 
 }

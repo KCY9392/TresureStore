@@ -5,12 +5,14 @@
 <html>
 <head>
 	<title>Home</title>
+	<link rel="stylesheet" href="/tresure/resources/css/sell/searchList.css">
 	<link rel="stylesheet" href="/tresure/resources/css/common/font.css">
 	<link rel="stylesheet" href="/tresure/resources/css/common/home.css">
 	<link rel="stylesheet" href="/tresure/resources/css/common/Gocategory.css">
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 	<script type="text/javascript" src="/tresure/resources/js/header.js"></script>
+	
 	<!-- alertify -->
 	<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 	<!-- alertify css -->
@@ -20,65 +22,48 @@
     <!-- Semantic UI theme -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
 	
+	<link rel="stylesheet" href="https://naver.github.io/billboard.js/release/latest/dist/theme/datalab.min.css">
+  <script src="https://naver.github.io/billboard.js/release/latest/dist/billboard.pkgd.min.js"></script>
 </head>
+
+   
+
 <body>
 	<jsp:include page="../common/header.jsp"/>
 	<jsp:include page="../common/sideBar.jsp"/>
 	
 	<c:if test="${not empty alertMsg }">
-		<c:if test="${loginUser == null }">
 			<script>
-			Swal.fire({
-                icon: 'error',
-                title: '${alertMsg}'                  
-            });		
-// 				alertify.alert("경고",'${alertMsg}');// 변수를 문자열로
+				alertify.alert("경고",'${alertMsg}');// 변수를 문자열로
 			</script>
-		</c:if>
-		
-		<c:if test="${loginUser != null }">
-			<script>
-				Swal.fire({
-	                icon: 'success',
-	                title: '${alertMsg}'                  
-	            });		
-	// 				alertify.alert("경고",'${alertMsg}');// 변수를 문자열로
-			</script>
-		</c:if>
 			<c:remove var="alertMsg" scope="session"/>
 	</c:if>
 
 	<div class="main-section">
-		<div id="displayHeader">
-			<p class="cate_main-Title" style="font-size:20px;"><img src="https://m.bunjang.co.kr/pc-static/resource/f1f8a93028f0f6305a87.png" width="20px" height="20px">&nbsp;&nbsp;&nbsp;카테고리&nbsp;
-			<img class="" src="https://m.bunjang.co.kr/pc-static/resource/c5ce9d5a172b0744e630.png" width="15px" height="15px">&nbsp;
-		    <c:if test="${categoryCode == 1}">
-			인기매물</c:if>
-			<c:if test="${categoryCode != 1}">
-			 ${s[0].categoryName}</c:if>
-			<a href="${pageContext.request.contextPath}/sell/category/${categoryCode}/recent" style="padding-left: 600px;">최신순</a>
-            <a href="${pageContext.request.contextPath}/sell/category/${categoryCode}/popular" >인기순</a>
-            <a href="${pageContext.request.contextPath}/sell/category/${categoryCode}/lowest" >저가순</a>
-            <a href="${pageContext.request.contextPath}/sell/category/${categoryCode}/high" >고가순</a>
-			</p>
-			<hr>
-			<br>
-		</div>
+		<div class="price-inquiry">
 		
-		<div id="display-list" class="row">
-	  <c:forEach var="s" items="${s}" begin="0" end="${fn:length(s)}" step="1" varStatus="status">
+			<div id="lineChart"></div>
+			<div class="titleAndPrice-inq">
+			<img src="/tresure/resources/images/icon/inyong1.png" width="20px" height="20px" style="padding-bottom:10px;">
+			${m.keyword}
+			<img src="/tresure/resources/images/icon/inyong2.png" width="20px" height="20px" style="padding-bottom:10px;"> 의  시세는 
+			<br><br>
+			${m.price}원 입니다.
+			</div>
+		</div>
+		<br><br>
+		
+		<div class="searchresultBox" style="display:flex;"><p>${m.keyword}</p>의 검색결과</div>
+		<hr style="width: 1000; background: #e4e0e1;  height: 1px;  border: 0;">
+		
+		<div id="display-list" class="row" style="padding-top: 50px;">
+	  <c:forEach var="s" items="${m.s}" begin="0" end="${fn:length(m.s)}" step="1" varStatus="status">
 						<div class="item col-3">
 							<div class="item" onclick="sellDetail(${s.sellNo})">
 								<div id="itemSolid" class="slist-items">
 									<c:if test="${s.imgSrc != null}">
-										<c:if test="${s.crawl.equals('Y')}">
-											<img src="${s.imgSrc}" width="100%" height="150px;"
-											class="rounded float-start" alt="">
-										</c:if>
-										<c:if test="${s.crawl.equals('N')}">
-										<img src="${pageContext.request.contextPath}${s.imgSrc}" width="100%" height="150px;"
-											class="rounded float-start" alt="">
-										</c:if>
+									<img src="${s.imgSrc}" width="100%" height="150px;"
+										class="rounded float-start" alt="">
 									</c:if>
 									<c:if test="${s.imgSrc == null}">
 									
@@ -107,6 +92,26 @@
 			location.href = "${pageContext.request.contextPath}/sell/sellDetail/"+sellNo;
 		}
 	</script>
+	
+	<script>
+	var chart = bb.generate({
+	  data: {
+	    columns: [
+		["price",${m.success[0].getPrice()},${m.success[1].getPrice()},${m.success[2].getPrice()},${m.success[3].getPrice()},${m.success[4].getPrice()}]
+	    ],
+	    type: "line",
+	  },
+	  bindto: "#lineChart"
+	});
+
+	(function() {
+		chart.load({
+			columns: [
+				["price",${m.success[0]},${m.success[1]},${m.success[2]},${m.success[3]},${m.success[4]}]
+			]
+		});
+	});
+</script>
 	
 	<jsp:include page="../common/theBoGi.jsp" />
 

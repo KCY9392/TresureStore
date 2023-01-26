@@ -169,11 +169,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 채팅방번호로 인해 채팅방 정보가져오기 -->
 <select id="selectChatRoomByNo" parameterType="int" resultMap="chatResultSet">
 	SELECT CHATROOM_NO,
-		   SELL_NO,
-		   USER_NO,
-		   CREATE_DATE,
-		   STATUS
-	FROM CHAT_ROOM
+		   CR.SELL_NO,
+           S.USER_NO AS "SELLUSER_NO",
+		   CR.USER_NO,
+		   CR.CREATE_DATE,
+		   CR.STATUS
+	FROM CHAT_ROOM CR
+    JOIN SELL S ON(S.SELL_NO = CR.SELL_NO)
 	WHERE CHATROOM_NO = #{chatRoomNo}
 </select>
 

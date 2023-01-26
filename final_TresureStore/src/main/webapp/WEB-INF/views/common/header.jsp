@@ -7,6 +7,8 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/tresure/resources/css/common/header.css">
 <link rel="stylesheet" href="/tresure/resources/css/font.css">
+<!-- Alert 창  -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <title>Insert title here</title>
 </head>
 <body>
@@ -18,19 +20,17 @@
 						src="/tresure/resources/images/icon/icon.png" width="136" height="80"
 						alt="보물상점 로고">
 					</a>
-					<form>
+					<form id="sfm" action= "${pageContext.request.contextPath}/sell/search" enctype="multipart/form-data" method="post">
 					<div class="search1">
 						<div class="search2">
 							<input onclick="checkInput(this.form)" type="text" id="search" class="search3"
 								placeholder=" 상품명 , @상점명 입력해주세요" name="search">
-							<button onclick="test()" class="exx" id="exit">
-								<img
+								<img onclick="test()" class="exx" id="exit"
 									src="/tresure/resources/images/icon/x.png"
 									width="10" height="12" alt="검색어 삭제 버튼 아이콘">
-							</button>
-							<a href="" class="searchicon"> <img
+							<a class="searchicon"> <img
 								src="/tresure/resources/images/icon/search.png" width="85%"
-								height="92%" alt="검색 버튼 아이콘">
+								height="92%" alt="검색 버튼 아이콘" id="searchGO">
 							</a>
 						</div>
 					</div>
@@ -67,10 +67,6 @@
 							<span class="onecate"></span> <span class="onecate"></span> <span
 							class="onecate"></span>
 						</a>
-						<!-- <div class="catebox1">
-                            <div class="catebox2"> -->
-						<!-- </div>
-                        </div> -->
 
 					</div>
 					<div class="sun_wrap_li">

@@ -1,7 +1,8 @@
 /**
- * 
+ * header js
  */
  
+//검색창에 검색키워드 적었을 경우 -> exit버튼 보이게
 $(function () {
     $('#search').keyup(function () {
         if ($("#search").val() != "") {
@@ -22,13 +23,33 @@ $(function () {
     });
 });
 
-
+//검색키워드 없을 경우, exit버튼 안보이게
 function test() {
     $('#search').val('');
     $('#exit').hide();
 }
 
 
+
+// 검색키워드 작성후 검색버튼 눌렀을 경우,
+$(document).on('click', '#searchGO', function(e){
+
+	e.preventDefault();
+
+	if($('#search').val()==''){
+		Swal.fire({
+                icon: 'error',
+                title: '검색어를 입력하세요'                  
+            });	
+		return false;
+	}
+	
+   document.getElementById('sfm').submit();
+});
+
+
+
+//카테고리박스 관련
 $(function() {
     $(".catebox3").hide();
     $(".sun_wrap_div").mouseover(function() {

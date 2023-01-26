@@ -140,17 +140,24 @@ public class ChatServiceImpl implements ChatService{
 		
 		ChatRoom room = chatDao.selectChatRoomByNo(sqlSession, chatRoomNo);
 		
-		if(sendUserNo == room.getSellNo()) {
+		// 보내는 사람이 판매자유저번호와같으면 
+		if(sendUserNo == room.getSellUserNo()) {
 			roomJoin.setUserNo(room.getUserNo());
 			result = ChatDao.joinCheck(sqlSession, roomJoin);
 		} 
 		
+		// 보내는 사람이 구매자 유저와같으면
 		if(sendUserNo == room.getUserNo() ){
-			roomJoin.setUserNo(room.getSellNo());
+			roomJoin.setUserNo(room.getSellUserNo());
 			result = ChatDao.joinCheck(sqlSession, roomJoin);
 		}
 		
 		if( result == 0 ) {
+			logger.info(">> 채팅방은? : " + roomJoin.getChatRoomNo());
+			logger.info(">> 보내는사람은? : " + sendUserNo);
+			logger.info(">> 구매자는?? 나?: " + room.getUserNo());
+			logger.info(">> 판매자자는? 상대방!?: " + room.getSellUserNo());
+			
 			ChatDao.inChatRoomJoin(sqlSession, roomJoin);
 		}
 		

@@ -30,6 +30,7 @@ public class Sell {
 	private Date updateDate;
 	private String status;
 	private String heartNum;
+	private String crawl;
 	
 	// 채팅방 상세보기
 	private int chatRoomNo;

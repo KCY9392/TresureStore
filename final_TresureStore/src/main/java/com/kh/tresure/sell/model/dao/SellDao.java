@@ -24,6 +24,20 @@ public class SellDao {
 		return sqlSession.selectList("sellMapper.sellListselect");
 	}
 	
+	/**
+	 * 상품 검색 */
+	public List<Sell> sellListsearch(String keyword, SqlSession sqlSession) {
+		return sqlSession.selectList("sellMapper.sellListsearch", keyword);
+	}
+	
+	
+	/**
+	 * 최근 거래성공한 5개 상품 가격 */
+	public List<Sell> successfive(String keyword, SqlSession sqlSession) {
+		return sqlSession.selectList("sellMapper.successfive", keyword);
+	}
+	
+	
 	public int insertSell(SqlSession sqlSession, Sell s) {
 		int result = sqlSession.insert("sellMapper.insertSell", s);
 		
@@ -84,6 +98,10 @@ public class SellDao {
 		
 		return sqlSession.selectList("sellMapper.howOrderList",map);
 	}
+
+	
+
+	
 
 	
 	

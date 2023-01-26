@@ -17,6 +17,29 @@
 	<jsp:include page="../common/header.jsp"/>
 	<jsp:include page="../common/sideBar.jsp"/>
 	
+	<c:if test="${not empty alertMsg }">
+		<c:if test="${loginUser == null }">
+			<script>
+			Swal.fire({
+                icon: 'error',
+                title: '${alertMsg}'                  
+            });		
+// 				alertify.alert("경고",'${alertMsg}');// 변수를 문자열로
+			</script>
+		</c:if>
+		
+		<c:if test="${loginUser != null }">
+			<script>
+				Swal.fire({
+	                icon: 'success',
+	                title: '${alertMsg}'                  
+	            });		
+	// 				alertify.alert("경고",'${alertMsg}');// 변수를 문자열로
+			</script>
+		</c:if>
+			<c:remove var="alertMsg" scope="session"/>
+	</c:if>
+	
 	 <div class="main-section">
         <div class="sellDetail-div2">
             <div class="sellDetail-div3">
@@ -35,10 +58,14 @@
                     <div class="sellImg2">
                         <div class="sellImg3">
                         	<div class="sellImgFirst" style="border: 1px solid rgb(238, 238, 238);">
-                        	<c:if test="${s.imgSrc != null}">
-                        		<img src="${pageContext.request.contextPath}${s.imgSrc}" alt="" width="100%; height:100%;">
-                        	</c:if>
-                        		<!-- 여기다가 sfile 정보 가져오기 -->
+	                        	<c:if test="${s.crawl.equals('Y')}">
+											<img src="${s.imgSrc}" width="100%" height="100%"
+											class="rounded float-start" alt="">
+									</c:if>
+									<c:if test="${s.crawl.equals('N')}">
+										<img src="${pageContext.request.contextPath}${s.imgSrc}" width="100%" height="150px;"
+										class="rounded float-start" alt="">
+								</c:if>
                         	</div>
                         	<c:if test="${s.imgList != null}">
 							<div class="sellImg3_Box">
@@ -52,13 +79,6 @@
 								</c:forEach>
 							</div>
 						</c:if>
-								<!-- <div class="sellImg3_Box">
-                            <div class="sellImg3_1" style="border: 1px solid rgb(238, 238, 238);">
-                                <img src="https://img2.joongna.com/media/original/2023/01/12/1673451291434UwM_EwsSN.jpg" alt="" width="100%; height:100%;">                                
-                            </div>
-                            <div class="sellImg3_2" style="border: 1px solid rgb(238, 238, 238);">
-                                <img src="https://img2.joongna.com/media/original/2023/01/12/1673451291434UwM_EwsSN.jpg" alt="" width="100%; height:100%;">
-                            </div> -->
 							
 
 							<!-- 판매자 정보 -->

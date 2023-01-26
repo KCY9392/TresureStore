@@ -18,7 +18,7 @@
 	.wrap .middle-top{
 		background: #ffdac8;
 	    width: 40%;
-	    height: 929px;
+	    height: 50.9vw;
 	}
 	.image-area{
 	 	padding-top: 25%;
@@ -33,7 +33,7 @@
 		padding-top: 15%;
 	    padding-left: 23%;
 	    width: 50%;
-	    height: 30%;
+	    height: 270px;
 	}
 	.middle-bottom .loginType{
 		text-align : center;
