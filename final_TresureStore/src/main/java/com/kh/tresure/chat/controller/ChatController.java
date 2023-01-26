@@ -126,6 +126,35 @@ public class ChatController {
 		return "chat/chatBlockList";
 	}
 	
+	
+	
+	//차단 리스트에 추가
+	@RequestMapping(value="chat/chatBlockList/{sellUserNo}", method = RequestMethod.POST)
+    public String addBlock(@RequestParam(value="addBlock", required=false )String addBlock,
+    						@PathVariable("sellUserNo") int sellUserNo,
+    						Model model,
+    						HttpSession session) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		int blockerNo = chatService.addBlock();
+		model.addAttribute("blockerNo", blockerNo);
+		
+		logger.info(blockerNo+"");
+		
+		if(blockerNo > 0) {
+			model.addAttribute("alertMsg","차단 리스트 추가 성공");
+			return "chat/chatBlockList";
+			
+		} else {
+			model.addAttribute("alertMsg","차단 리스트 추가 실패");
+			return  "redirect:/" ;
+		}
+		
+    }
+	
+	
+	
 	//채팅방 나가기
 	@RequestMapping(value = "chat/chatRoom/{chatRoomNo}", method = RequestMethod.GET)
 	@ResponseBody //@ResponseBody :데이터 자체를 반환

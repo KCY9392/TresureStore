@@ -34,6 +34,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <id column="BLOCK_NO" property="blockNo"/>
       <result column="BLOCKER_NO" property="blockerNo"/>
       <result column="BLOCKED_NO" property="blockedNo"/>
+      <result column="AVG" property="avg"/>
+      <result column="USER_NO" property="userNo"/>
 </resultMap>
 
 <resultMap type="chatRoomJoin" id="chatRoomJoinResultSet">
@@ -97,6 +99,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	        GROUP BY S.USER_NO) PP ON (S.USER_NO = PP.USER_NO)
  	WHERE B.BLOCKER_NO = #{blockerNo}
 </select>
+
+<!-- 차단리스트에 추가 -->
+<insert id="addBlock" parameterType="block">
+	INSERT INTO BLOCK (BLOCK_NO, BLOCKER_NO, BLOCKED_NO)
+	VALUES (SEQ_BLNO.NEXTVAL, #{blockerNo}, #{blockedNo})
+</insert>
+
+
 
 <!-- 채팅보내기 -->
 <insert id="insertMessage" parameterType="chatMessage">

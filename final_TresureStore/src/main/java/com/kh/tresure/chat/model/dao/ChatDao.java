@@ -37,6 +37,13 @@ public class ChatDao {
 		return sqlSession.selectList("chattingMapper.selectBlockList", userNo);
 	}
 	
+	//차단 리스트에 추가
+	public int addBlock(SqlSession sqlSession) {
+		
+		return sqlSession.insert("chattingMapper.addBlock");
+	}
+	
+	
 	// 메세지 입력하기
 	public int insertMessage(SqlSession sqlSession, ChatMessage message) {
 		

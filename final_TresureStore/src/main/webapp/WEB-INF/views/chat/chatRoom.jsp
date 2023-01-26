@@ -428,13 +428,14 @@
                                     <a href="" class="buttonCss">신고</a>
                                 </li>
                                 <li><br>
-                                    <a href="" class="buttonCss">차단</a>
+                                    <a href="${pageContext.request.contextPath}/chat/chatBlockList/${AllList.get('product').userNo}" id="addBlock" class="buttonCss" onclick="blockClick();">차단</a>
                                 </li>
                                 <li style="float: right;">
                                     <button class="buttonCss2">계좌이체</button>
                                 </li>
                             </ul>
                             
+						                            
                         </div>
                     </div>
                     <div class="box-body">
@@ -489,7 +490,16 @@
 
    
      <script>
-     
+     	
+     	function blockClick(){
+     		
+     		let blockCk = confirm('차단하면 더 이상 거래가 불가능합니다. 차단하시겠습니까?');
+     		alert(blockCk);
+     	}
+     	
+     	
+     	
+     	
      	
      
 		function sellDetail(sellNo){

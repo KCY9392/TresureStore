@@ -117,6 +117,14 @@ public class ChatServiceImpl implements ChatService{
 		
 	}
 	
+	
+	//차단 목록에 추가
+	@Override
+	public int addBlock() {
+		
+		return chatDao.addBlock(sqlSession);
+	}
+	
 	// 채팅방 메세지 보내기
 	public int insertMessage(ChatMessage Message) {
 		

@@ -1,6 +1,5 @@
 package com.kh.tresure.report.controller;
 
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,8 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.kh.tresure.chat.model.vo.ChatRoom;
-import com.kh.tresure.member.model.vo.Member;
 import com.kh.tresure.report.model.service.ReportService;
 
 @Controller
@@ -35,13 +32,23 @@ public class ReportController {
 	
 	//사기조회 페이지 
 	@RequestMapping(value = "report/reportSearch", method = RequestMethod.GET)
-	public String selectChatRoomList( Model model, HttpServletRequest request) {
+	public String reportSearch( Model model) {
 		
 		
+		logger.info(">> 사기조회로 이동");
+		
+		return "report/reportSearch";
+	}
+	
+	//사기조회 결과 페이지 
+		@RequestMapping(value = "report/reportSearchResult", method = RequestMethod.GET)
+		public String reportSearchResult( Model model) {
+			
+			
 			logger.info(">> 사기조회로 이동");
 			
-			return "report/reportSearch";
-	}
+			return "report/reportSearchResult";
+		}
 		
 	
 	

@@ -23,6 +23,9 @@ public interface ChatService {
 	//차단 목록 가져오기
 	public List<Block> selectBlockList(int userNo);
 	
+	//차단 목록에 추가
+	public int addBlock();
+	
 	// 채팅방 메세지 보내기
 	public int insertMessage(ChatMessage Message);
 

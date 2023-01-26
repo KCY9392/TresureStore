@@ -9,56 +9,16 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <!-- 헤더 js -->
 <script type="text/javascript" src="/tresure/resources/js/header.js"></script>
+<link rel="stylesheet" href="/tresure/resources/css/chat/chatBlockList.css">
 <title>TreasureStore chatBlockList</title>
-<style>
-   /*전체 공통 div*/
-   .main-section{
-     width: 67%;
-     margin: auto;
-     font-size:18px;
-   }
-  .innerOuter {
-     padding: 15%;
-   }
-   /*차단목록 text*/
-   .innerOuter span{
-     font-weight: bold;
-     font-size: 40px;
-   }
-   /*보물톡 a태그*/
-   .innerOuter a {
-     text-decoration: none;
-     color:gold;
-     float: right;
-   }
-   .table{
-     width: 100%;
-   } 
-   thead{
-     color: rgb(248, 212, 12);
-     text-align:center;
-   }
-   tbody{
-     text-align: center;
-   }
-   .block-clear{
-   	 font-family: 'koverwatch';
-     padding:8%;
-     background-color:grey;
-     color:white;
-     border:none;
-     border-radius : 8%;
-     cursor: pointer;
-   }
-</style>
 </head>
 <body>
 	<jsp:include page="../common/header.jsp"/>
 	<jsp:include page="../common/sideBar.jsp"/>
     <br><br>
     
-      <div class="main-section">
-            <div class="innerOuter">
+      <div class="main-section-blockList">
+            <div class="innerOuter-blockList">
               <img src="/tresure/resources/images/icon/mainLogo.png" width="30" height="30">&nbsp;<span>차단목록</span>
                   <a href="${pageContext.request.contextPath}/chat/chatRoomList" >보물톡</a>
                   
@@ -69,15 +29,15 @@
 	                    </c:when>
 	                    
 	                    <c:otherwise>
-		                <table class="table">
-		                  <thead>
+		                <table class="chatBlockList-table">
+		                  <thead class="chatBlockList-thead">
 		                    <tr>
 		                      <th></th>
 		                      <th>상점명</th>
 		                      <th></th>
 		                    </tr>
 		                  </thead>
-		                  <tbody>
+		                  <tbody class="chatBlockList-tbody">
 			                    <tr>
 			                      <td></td>
 		                      		<td>

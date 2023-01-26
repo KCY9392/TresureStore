@@ -1,0 +1,42 @@
+@charset "UTF-8";
+
+/*전체 공통 div*/
+   .main-section-blockList{
+     width: 67%;
+     margin: auto;
+     font-size:18px;
+   }
+  .innerOuter-blockList {
+     padding: 15%;
+   }
+   /*차단목록 text*/
+   .innerOuter-blockList span{
+     font-weight: bold;
+     font-size: 40px;
+   }
+   /*보물톡 a태그*/
+   .innerOuter-blockList a {
+     text-decoration: none;
+     color:gold;
+     float: right;
+   }
+   .chatBlockList-table{
+     width: 100%;
+   } 
+   .chatBlockList-thead{
+     color: rgb(248, 212, 12);
+     text-align:center;
+   }
+   .chatBlockList-tbody{
+     text-align: center;
+   }
+   /*해제 버튼*/
+   .block-clear{
+   	 font-family: 'koverwatch';
+     padding:8%;
+     background-color:grey;
+     color:white;
+     border:none;
+     border-radius : 8%;
+     cursor: pointer;
+   }

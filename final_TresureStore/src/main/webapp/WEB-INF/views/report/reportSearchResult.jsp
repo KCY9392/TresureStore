@@ -4,19 +4,15 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<!-- fontawesome icon -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" 
-		integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" 
-		crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- Jquery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <!-- 헤더 js -->
 <script type="text/javascript" src="/tresure/resources/js/header.js"></script>
 
-<title>TreasureStore reportSearch</title>
+<title>TreasureStore reportSearchAfter</title>
 <style>
 	.main-section{
-	 width: 67%;
+	 width: 70%;
 	 height: 600px;
      margin: auto;
      font-size:18px;
@@ -29,12 +25,12 @@
     
     }
     
-    /*사기조회 text*/
+    /*사기조회결과 text*/
 	.report-top-text{
 	 font-weight: bold;
      font-size: 30px;
      display:inline;
-     margin:45%; 
+     margin: 43%;
      position: relative;
 	}
 
@@ -44,14 +40,7 @@
      margin:auto;
      padding: 20px;
   	}
-  	/*느낌표 아이콘*/
-  	.report-icon{
-  	 color: gold;
-  	 position:absolute;
-  	 right: 50%;
-     top: 46%;
-  	}
-	
+
 	/*사기조회 이용 text*/
 	.report-middle-text{
 	 display:inline;
@@ -63,25 +52,41 @@
 	/*사기조회 select, text, button묶음 div*/
 	.report-inner{
      position:absolute;
-     top: 60%;
-     right: 30%;
+     
 	}
 	
-	select{
-     width:100px;
-     height:36px;
-     margin-right: 20px;
-  	}
-	
-	.report-option{
-	 float : left;
+	.report-number{
+	 font-size:25px;
+	 padding-top: 5%;
+	 padding-left: 15%;
 	}
 	
-	.report-search-text{
-	 float : left;
-     width:400px; 
-     height:30px;
-     margin-right: 20px;
+	.report-text{
+	 font-size:18px;
+	 padding-left: 15%;
+	}
+	
+	.report-line2{
+	 border-bottom: 1px solid gray;
+     margin:auto;
+     padding: 20px;
+	
+	}
+	
+	.report-inner{
+	 padding-left: 15%;
+	 margin-top: 5%;
+	}
+	
+	.tresure-report{
+	 display:inline;
+	 float:left;
+	 margin-left: -65px;
+	}
+	.report-content{
+	 display:inline;
+	 float:left;
+	 margin-left: 70px;
 	}
 	
 	.report-search-button{
@@ -103,18 +108,16 @@
 	
 	<div class="main-section">
 		<div class="main-box">
-			<div class="report-top-text"> 사기 조회</div>
+			<div class="report-top-text"> 사기 조회 결과</div>
         	<div class="report-line"></div>
-        		<span class="report-icon"><i class="fa-solid fa-circle-exclamation fa-lg"></i></span>
-				<div class="report-middle-text">판매자의 상점 번호, 계좌번호로 피해 사례 조회를 이용해 보세요.</div>
+				<div class="report-number"> 346***** </div>
+				<div class="report-text"> 피해 사례 조회 </div>
+				<div class="report-line2"></div>
 				<div class="report-inner">
-					<select class="report-option">
-						<option>상점명</option>
-						<option>계좌번호</option>
-					</select>
-					<input type="text" class="report-search-text" placeholder=" @포함해서 상점번호를 입력해주세요.">
-					<button type="submit" class="report-search-button" onclick="location.href='${pageContext.request.contextPath}/report/reportSearchResult'">조회</button>
+					<div class="tresure-report">보물상점</div>
+					<div class="report-content">신고 건수 5회<br>신고 접수 내용 : 사기, 비매너 </div>
 				</div>
+				<button class="report-search-button" >다시 조회하기</button>
 		</div>
 	</div>
 	
