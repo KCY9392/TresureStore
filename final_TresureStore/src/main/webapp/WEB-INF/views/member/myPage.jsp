@@ -12,6 +12,8 @@
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
  <script type="text/javascript" src="/tresure/resources/js/header.js"></script>
  <script type="text/javascript" src="/tresure/resources/js/mypageMain.js"></script>
+      
+
 </head>
 <body>
 	<jsp:include page="../common/header.jsp"/>
@@ -25,16 +27,16 @@
             
 <!-- 상점 등급 이미지 나오는 박스 -->            
             <div class="profile-image">
-           <c:if test="${s.avg > 4.5}"> 
-                                 <img src="/tresure/resources/images/icon/grade3.png" height="100%" width="100%"/>
+           <c:if test="${reviewAvg > 4.5}"> 
+                                 <img src="/tresure/resources/images/icon/grade_3.png" height="100%" width="100%"/>
                               </c:if> 
-                              <c:if test="${ 4 <= s.avg && s.avg < 4.5 }"> 
+                              <c:if test="${ 4 <= reviewAvg && reviewAvg < 4.5 }"> 
                                  <img src="/tresure/resources/images/icon/grade2.png" height="100%" width="100%"/> 
                               </c:if> 
-                              <c:if test="${ 3.5 <= s.avg && s.avg < 4 }"> 
+                              <c:if test="${ 3.5 <= reviewAvg && reviewAvg < 4 }"> 
                                  <img src="/tresure/resources/images/icon/grade1.png" height="100%" width="100%"/> 
                               </c:if>
-                              <c:if test="${ s.avg == null  || s.avg < 3.5 }">
+                              <c:if test="${ reviewAvg == null  || reviewAvg < 3.5 }">
                                  <img src="/tresure/resources/images/icon/grade0.png" height="100%" width="100%"/>
                               </c:if>  
 
@@ -127,8 +129,20 @@
 	                           </div>
 	                           <div class="price-time">
 	                              <p class="displayPrice">&nbsp;${s.price}원</p>
-	                              <h5 class="displayTime">&nbsp;${s.getTimeago()}</h5>
+	                              <h5 class="displayTime">&nbsp;${s.createDate}
+	                               
+	                              	 
+	                              </h5>
+	                              <c:if test="${s.sellStatus eq 'I' }">
+	                           <h5 class="sellStatus">판매중</h5>
+	                           </c:if>	
+	                           <c:if test="${s.sellStatus eq 'C' }">
+	                           <h5 class="sellStatus">판매완료</h5>
+	                           </c:if>
+	                             
+	                              
 	                           </div>
+	                           
 	                        </div>
 	                     </div>
 	                  </div>
@@ -140,6 +154,45 @@
        
 <!-- 상점후기 버튼 클릭 시, 나오는 박스 -->       
        <div class="box box2" id="reviewshow" style="display:none;">
+       <c:forEach var="r" items="${reviewList}" begin="0" end="${fn:length(reviewList)}" step="1" varStatus="status">
+       <div class="review-table">
+    <table>
+    
+        <tr>
+       
+        <td class="review-profile"> 
+           <c:if test="${r.ravg> 4.5}"> 
+                                 <img src="/tresure/resources/images/icon/grade_3.png" height="100%" width="100%"/>
+                              </c:if> 
+                              <c:if test="${ 4 <= r.ravg && r.ravg < 4.5 }"> 
+                                 <img src="/tresure/resources/images/icon/grade2.png" height="100%" width="100%"/> 
+                              </c:if> 
+                              <c:if test="${ 3.5 <= r.ravg && r.ravg < 4 }"> 
+                                 <img src="/tresure/resources/images/icon/grade1.png" height="100%" width="100%"/> 
+                              </c:if>
+                              <c:if test="${ r.ravg== null  ||r.ravg < 3.5 }">
+                                 <img src="/tresure/resources/images/icon/grade0.png" height="100%" width="100%"/>
+                              </c:if>  
+
+
+           </td>
+        
+       
+        <td><h3>${r.userNo }호점</h3></td>
+      
+     
+        <td>${r.revContent }</td>
+     
+      
+        <td>${r.createDate }</td>
+       
+    </tr>
+
+    </table>
+
+</div>
+</c:forEach>
+       
        
        
        </div>
@@ -186,8 +239,66 @@
     </div> 
 
 </div>
+<script>
+
+$("#allCheck").click(function(){
+    var chk = $("#allCheck").prop("checked");
+    if(chk) {
+     $(".chBox").prop("checked", true);
+    } else {
+     $(".chBox").prop("checked", false);
+    }
+ })
+  </script>
+ 
+ 
+ 
+ <script>
+$(".chBox").click(function(){
+    $("#allCheck").prop("checked", false);
+    });
+    
+    </script>
+   
+     <script>
+     $(".selectDelete_btn").click(function(){
+   var confirm_val = confirm("정말 삭제하시겠습니까?");
+   
+   if(confirm_val) {
+    var checkArr = [];
+    
+    
+    $("input[class='chBox']:checked").each(function(){
+     checkArr.push($(this).attr("data-heartNum"));
+    })
+    
+    
+    console.log(checkArr);
+    
+    
+    $.ajax({
+     url : '${pageContext.request.contextPath}/deleteHeart',
+     type : 'post',
+     data : { chbox : checkArr },
+     success : function(){
+      console.log("성공");
+      location.href = "${pageContext.request.contextPath}/member/myPage";
+     },
+     error:function(){
+        console.log("실패")
+     }
+   
+    });
+   } 
+  });
+  
+  
+  </script>
+
+
 
     
      <jsp:include page="../common/footer.jsp"/>
+      
 </body>
 </html>

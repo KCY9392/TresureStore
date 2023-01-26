@@ -11,5 +11,10 @@ public class HeartDao {
 	public void deleteHeart(SqlSession sqlSession, Heart heart) {
 		sqlSession.delete("heartMapper.deleteHeart", heart);
 	}
+	
+	public void addHeart(SqlSession sqlSession, Heart heart) {
+		sqlSession.insert("heartMapper.addHeart", heart);
+	}
+	
 
 }

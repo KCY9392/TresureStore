@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.kh.tresure.heart.model.vo.Heart;
+import com.kh.tresure.review.model.vo.Review;
 import com.kh.tresure.sell.model.vo.Sell;
 
 @Repository
@@ -43,6 +44,10 @@ public class MyPageDao {
 		return sqlSession.selectOne("mypageMapper.marketOpen", userNo);
 	}
 	
+	public int reviewAvg(SqlSession sqlSession, int userNo) {
+		return sqlSession.selectOne("mypageMapper.reviewAvg", userNo);
+	}
+	
 	/**
 	 * 마이페이지 상품 목록
 	 */
@@ -56,6 +61,10 @@ public class MyPageDao {
 	 */
 	public List<Heart> mypageHeartList(SqlSession sqlSession, int userNo){
 		return (List)sqlSession.selectList("heartMapper.mypageHeartList", userNo);
+	}
+	
+	public List<Review> mypageReviewList(SqlSession sqlSession, int userNo) {
+		return (List)sqlSession.selectList("reviewMapper.mypageReviewList", userNo);
 	}
 
 }

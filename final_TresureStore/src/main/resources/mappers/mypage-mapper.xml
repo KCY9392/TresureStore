@@ -15,6 +15,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="CREATE_DATE" property="createDate"></result>
 	<result column="STATUS" property="status"></result>
 	<result column="SELL_TITLE" property="sellTitle"></result>
+	<result column="RAVG" property="ravg"></result>
+	
 	
 
 
@@ -48,6 +50,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	
 	</select>
+	
+	<select id="reviewAvg" resultType="Integer" parameterType="Integer">
+	SELECT
+	NVL(AVG(REV_SCORE),0) AS "RAVG"
+	           	    
+	        FROM MEMBER M
+	        
+            
+            JOIN SELL S ON M.USER_NO = S.USER_NO
+    		JOIN REVIEW R ON S.SELL_NO = R.SELL_NO
+	        WHERE M.USER_NO=#{userNo}
+	
+	</select>
+	
 	
 	<select id="marketOpen" resultType="Integer" parameterType="Integer">
 	SELECT

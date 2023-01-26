@@ -30,6 +30,12 @@ public class HeartServiceImpl implements HeartService{
 		System.out.println("서비스 : "+heart);
 	}
 	
+	@Override
+	public void addHeart(Heart heart) {
+		heartDao.addHeart(sqlSession, heart);
+		
+	}
+	
 	
 	
 

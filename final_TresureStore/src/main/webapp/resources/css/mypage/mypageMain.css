@@ -27,9 +27,18 @@
 	
 /* 상점 정보 */
 	.profile-image{
-	    border: grey solid 1px;
+	   
 	    width: 200px;
 	    height: 200px;
+	    margin-top: 20px;
+	    margin-left: 40px;
+	    margin-right: 20px;
+	}
+	
+	.review-profile{
+	   
+	    width: 50px;
+	    height: 50px;
 	    margin-top: 20px;
 	    margin-left: 40px;
 	    margin-right: 20px;
@@ -221,6 +230,12 @@
         	font-family: 'koverwatch';
         	font-size: 20px;
         }
+        .sellStatus{
+        margin-left:159px;
+        margin-top:-35px;
+        }
+        
+        
      
     	
 	   

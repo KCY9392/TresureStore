@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="reviewMapper">
+
+<!-- type은 mybatis-config에서 review 라는 별칭을 정해두었음 -->
+
+<resultMap type="review" id="reviewResultSet" >
+
+	<id column="REV_NO" property="revNo"/>
+	<result column="SELL_NO" property="sellNo"></result>
+	<result column="REV_CONTENT" property="revContent"></result>
+	<result column="USER_NO" property="userNo"></result>
+	<result column="CREATE_DATE" property="createDate"></result>
+	<result column="STATUS" property="status"></result>
+	<result column="REV_SCORE" property="revScore"></result>
+	
+	<result column="RAVG" property="ravg"></result>
+	
+	
+	
+
+
+
+
+</resultMap>
+
+<select id="mypageReviewList" parameterType="int" resultMap="reviewResultSet">
+		
+		  select
+       R.REV_NO,
+       R.SELL_NO,
+       R.USER_NO,
+       R.REV_CONTENT,
+       R.CREATE_DATE,
+       AVG(R.REV_SCORE) AS RAVG
+    FROM MEMBER M 
+    JOIN SELL S ON M.USER_NO = S.USER_NO
+    JOIN REVIEW R ON S.SELL_NO = R.SELL_NO
+    WHERE R.STATUS = 'Y' AND M.USER_NO = #{userNo}
+    GROUP BY
+     R.REV_NO,
+        R.SELL_NO,
+       R.SELL_NO,
+       R.USER_NO,
+       R.REV_CONTENT,
+       R.CREATE_DATE
+     
+     
+     
+	</select>
+	
+
+
+</mapper>

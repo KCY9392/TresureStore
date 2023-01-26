@@ -1,8 +1,10 @@
-package com.kh.tresure.mypage.model.vo;
+package com.kh.tresure.review.model.vo;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 import com.kh.tresure.sell.model.vo.Sell;
+import com.kh.tresure.sell.model.vo.SellImg;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,16 +15,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class MyPage {
+public class Review {
 	
-	private int sellNo;	
-	private int reportNo;
-	private int fwId;
-	private int userNo;	
+	private int revNo;
+	private int sellNo;
+	private int userNo;
+	private String revContent;
+	private int revScore;
 	private Date createDate;
 	private String status;
 	
-	private String sellTitle;
 	private double ravg;
 
 }

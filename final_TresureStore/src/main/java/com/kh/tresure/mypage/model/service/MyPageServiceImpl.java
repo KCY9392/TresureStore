@@ -9,23 +9,24 @@ import org.springframework.stereotype.Service;
 
 import com.kh.tresure.heart.model.vo.Heart;
 import com.kh.tresure.mypage.model.dao.MyPageDao;
+import com.kh.tresure.review.model.vo.Review;
 import com.kh.tresure.sell.model.vo.Sell;
 
 
 @Service
-public class MyPageImpl implements MyPageService{
+public class MyPageServiceImpl implements MyPageService{
 	
 	private MyPageDao mypageDao;
 	private SqlSession sqlSession;
 	
 	
 	// 기본생성자
-	public MyPageImpl() {
+	public MyPageServiceImpl() {
 		
 	}
 	
 	@Autowired
-	public MyPageImpl(MyPageDao mypageDao, SqlSession sqlSession) {
+	public MyPageServiceImpl(MyPageDao mypageDao, SqlSession sqlSession) {
 		this.mypageDao=mypageDao;
 		this.sqlSession=sqlSession;
 		
@@ -65,6 +66,11 @@ public class MyPageImpl implements MyPageService{
 	public int marketOpen(int userNo) {
 		return mypageDao.marketOpen(sqlSession, userNo);
 	}
+	@Override
+	public int reviewAvg(int userNo) {
+		return mypageDao.reviewAvg(sqlSession, userNo);
+		
+	}
 	
 	/**
 	 * 마이페이지 상품 목록
@@ -81,6 +87,11 @@ public class MyPageImpl implements MyPageService{
 	public List<Heart> mypageHeartList(int userNo){
 		return mypageDao.mypageHeartList(sqlSession, userNo);
 	}
+	
+	public List<Review> mypageReviewList(int userNo) {
+		
+		return mypageDao.mypageReviewList(sqlSession, userNo);
+		}
 	
 	
 	

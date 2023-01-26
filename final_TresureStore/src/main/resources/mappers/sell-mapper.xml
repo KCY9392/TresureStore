@@ -159,11 +159,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="mypageSellList" resultMap="sellResultSet" parameterType="Integer">
 	
 	SELECT 
-             SELL_NO, CATEGORY_NO, SELL_TITLE, IMAGE_SRC, PRICE, HEART_NUM
-            FROM SELL 
-            JOIN MEMBER USING(USER_NO)
-            WHERE USER_NO=#{userNo}
-		
+           S.SELL_NO, 
+             S.CATEGORY_NO, 
+             S.SELL_TITLE, 
+             S.IMAGE_SRC, 
+             S.PRICE, 
+             S.HEART_NUM,
+             S.SELL_STATUS, 
+             S.CREATE_DATE
+            FROM SELL S
+            JOIN MEMBER M ON M.USER_NO = S.USER_NO
+            WHERE M.USER_NO=#{userNo}
 	</select>
 	
 	

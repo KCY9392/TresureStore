@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.kh.tresure.heart.model.vo.Heart;
+import com.kh.tresure.review.model.vo.Review;
 import com.kh.tresure.sell.model.vo.Sell;
 
 public interface MyPageService{
@@ -31,6 +32,8 @@ public interface MyPageService{
 	
 	public int marketOpen(int userNo);
 	
+	public int reviewAvg(int userNo);
+	
 	/**
 	 * 마이페이지 상품 목록
 	 */
@@ -41,5 +44,7 @@ public interface MyPageService{
 	 * 마이페이지 찜 상품 목록
 	 */
 	public List<Heart> mypageHeartList(int userNo);
+	
+	public List<Review> mypageReviewList(int userNo);
 
 }

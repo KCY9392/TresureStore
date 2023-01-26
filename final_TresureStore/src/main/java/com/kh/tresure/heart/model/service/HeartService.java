@@ -6,6 +6,8 @@ public interface HeartService {
 	
 	public void deleteHeart(Heart heart);
 	
+	public void addHeart(Heart heart);
+	
 	
 
 }

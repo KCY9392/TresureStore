@@ -65,6 +65,23 @@ public class HeartController {
 		
 	}
 	
+	@ResponseBody
+	@RequestMapping("addHeart")
+	public int addHeart(Heart heart, HttpSession session) {
+		 int result = 0;
+		 Member loginUser = (Member)session.getAttribute("loginUser");
+		 if(loginUser != null) {
+			  heart.setUserNo(loginUser.getUserNo());
+			  heartService.addHeart(heart);
+			  result = 1;
+			 }
+			 
+			 return result;
+		 
+	}
+	
+	
+	
 	
 
 }

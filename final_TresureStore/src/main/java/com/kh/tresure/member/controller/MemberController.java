@@ -21,6 +21,7 @@ import com.kh.tresure.member.model.service.KakaoAPI;
 import com.kh.tresure.member.model.service.MemberService;
 import com.kh.tresure.member.model.vo.Member;
 import com.kh.tresure.mypage.model.service.MyPageService;
+import com.kh.tresure.review.model.vo.Review;
 import com.kh.tresure.sell.model.vo.Sell;
 
 import net.nurigo.sdk.NurigoApp;
@@ -251,18 +252,26 @@ public class MemberController {
 			//상점 오픈일
 			int marketOpen = mypageService.marketOpen(loginUser.getUserNo());
 			
+			//리뷰 평점
+			int reviewAvg = mypageService.reviewAvg(loginUser.getUserNo());
+			
 			
 			
 			//판매상품 리스트
 			List<Sell> sellList = mypageService.mypageSellList(loginUser.getUserNo());
 			//찜 상품 리스트
 			List<Heart> heartList = mypageService.mypageHeartList(loginUser.getUserNo());
+			//리뷰 리스트
+			List<Review> reviewList = mypageService.mypageReviewList(loginUser.getUserNo());
 			m.addAttribute("sellCount", sellCount);
-			m.addAttribute("folloewCount", followCount);
+			m.addAttribute("followCount", followCount);
 			m.addAttribute("reportCount", reportCount);
 			m.addAttribute("marketOpen", marketOpen);
 			m.addAttribute("sellList", sellList);
 			m.addAttribute("heartList", heartList);
+			m.addAttribute("reviewList", reviewList);
+			m.addAttribute("reviewAvg", reviewAvg);
+
 			
 			System.out.println();
 			
