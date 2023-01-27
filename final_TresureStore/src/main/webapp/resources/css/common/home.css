@@ -41,6 +41,7 @@
 		#itemSolid{
 			border: 1px solid rgb(238, 238, 238);
 			border-radius: 15px;
+			position: relative;
 		}
 		#itemSolid img {
   			transition: all 0.2s linear;
@@ -53,11 +54,19 @@
 		}
 		
 		.price-time{
-			margin-block-start: -0.33em; margin-block-end: 1.67em;
+			margin-block-start: -0.33em; 
+			margin-block-end: 1.67em;
 			margin-top: 10px;
     		font-size: 20px;
 		}
 		
 		.price-time p{
 /* 			white-space: nowrap;  */
+		}
+		
+		.price-time2{
+			text-align:right;
+			position: absolute;
+			right: 15px;
+			bottom: 15px;
 		}

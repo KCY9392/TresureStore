@@ -52,6 +52,7 @@ public class Sell {
 
 	private List<SellImg> imgList;
 		
+	
 	public String getTimeago() {
 		return timeago;
 	}

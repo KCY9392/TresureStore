@@ -62,11 +62,14 @@
 							<div class="item" onclick="sellDetail(${s.sellNo})">
 								<div id="itemSolid" class="slist-items">
 									<c:if test="${s.imgSrc != null}">
-									<img src="${s.imgSrc}" width="100%" height="150px;"
-										class="rounded float-start" alt="">
-									</c:if>
-									<c:if test="${s.imgSrc == null}">
-									
+										<c:if test="${s.crawl.equals('Y')}">
+											<img src="${s.imgSrc}" width="100%" height="150px;"
+											class="rounded float-start" alt="">
+										</c:if>
+										<c:if test="${s.crawl.equals('N')}">
+										<img src="${pageContext.request.contextPath}${s.imgSrc}" width="100%" height="150px;"
+											class="rounded float-start" alt="">
+										</c:if>
 									</c:if>
 									<div class="price-time">
 										&nbsp;${s.sellTitle}

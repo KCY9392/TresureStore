@@ -53,8 +53,9 @@ public class SellController {
 	 * 검색 시 -> 상품이면 시세조회하면서 해당 상품리스트, 상점이면 해당 상점페이지 */
 	@RequestMapping(value="/search", method=RequestMethod.POST)
 	public ModelAndView searchList(
-				ModelAndView mv, HttpSession session,
-				 String search) {
+				ModelAndView mv, 
+				HttpSession session,
+				String search) {
 		
 		//상품 검색할 경우
 		if(search.charAt(0) != '@') {
@@ -79,6 +80,7 @@ public class SellController {
 			
 		}else { //상점 검색할 경우
 			
+			mv.setViewName("sell/sellerPage");
 			
 		  //mv.setViewName("다른사람이 보는 내상점");
 		}
@@ -220,7 +222,6 @@ public class SellController {
 			session.setAttribute("alertMsg", "로그인 후 이용가능");
 			return "redirect:/";
 		}else {
-		
 			return "sell/sellInsertForm";
 		}
 	}

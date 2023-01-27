@@ -106,9 +106,6 @@ public class MemberController {
 			Member loginUser = memberService.loginAndMemberEnroll(member);
 			session.setAttribute("loginUser", loginUser);
 			session.setAttribute("alertMsg", loginUser.getUserName()+"님 환영합니다");
-		} else {
-			// 인증번호와 다를경우
-			
 		}
 		
 		return "redirect:/";
@@ -160,8 +157,6 @@ public class MemberController {
 	
 	
 	
-	
-	
 
 	/**
 	 * kakao 로그인 
@@ -189,8 +184,6 @@ public class MemberController {
 	    	session.setAttribute("loginUser", member);
 	    	session.setAttribute("access_Token", access_Token);
 	    	session.setAttribute("alertMsg", member.getUserName()+"님 환영합니다");
-	    }else { //로그인 실패
-	    	
 	    }
         
 		return "redirect:/";

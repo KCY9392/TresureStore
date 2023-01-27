@@ -22,7 +22,7 @@ import com.kh.tresure.sell.model.vo.Sell;
 
 @Controller
 public class HomeController {
-	
+	private int count = 0; 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	private SellService sellService;
 	private KakaoAPI kakao;
@@ -43,15 +43,22 @@ public class HomeController {
 
 		List<Sell> sList = sellService.sellListselect();
 		logger.info("sList ? "+sList);
+		for(int i=0; i<sList.size(); i++) {
+			sList.get(i).setTimeago(sList.get(i).getCreateDate());
+		}
+		
 		
 		String access_Token = (String)session.getAttribute("access_Token");
-		if(access_Token !=null) {
+		if(access_Token != null) {
 			
 			Member member = kakao.getUserInfo(access_Token);
 			member = memberservice.loginAndMemberEnroll(member);
 			session.setAttribute("loginUser", member);
 	    	session.setAttribute("access_Token", access_Token);
-	    	session.setAttribute("alertMsg", member.getUserName()+"님 환영합니다");
+	    	if(count == 0) {
+	    		session.setAttribute("alertMsg", member.getUserName()+"님 환영합니다");
+	    		count++;
+	    	}
 		}
 		
 		model.addAttribute("sellList", sList);
