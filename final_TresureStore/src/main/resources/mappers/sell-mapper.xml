@@ -37,6 +37,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="FOLLOWER_NUM" property="follower_Num"></result>
 	<result column="SELL_NUM" property="sell_Num"></result>
 	<result column="FOLLOW_IS" property="follow_Is"></result>
+	<result column="HEART_IS" property="heart_Is"></result>
 	
 	
 	<collection property="imgList" resultMap="sellImgResultSet"/>
@@ -211,7 +212,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		       SELL_TITLE,
 		       CG.CATEGORY_NAME AS "CATEGORY_NAME",
 		       PRICE,
-		       HEART_NUM,
+		          (SELECT COUNT(*) FROM HEART H WHERE H.SELL_NO = #{sellNo}) AS "HEART_NUM",
 		       COUNT,
 		       CREATE_DATE,
 		       SELL_CONTENT,
@@ -222,7 +223,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		       (SELECT COUNT(*) FROM FOLLOW F WHERE F.FW_ID=S.USER_NO ) AS "FOLLOWER_NUM",
 		       (SELECT COUNT(*) FROM SELL S2 WHERE S2.USER_NO = S.USER_NO AND S2.SELL_STATUS = 'I') AS "SELL_NUM",
 		       <if test="#{userNo} != null">
-		       (SELECT COUNT(*) FROM FOLLOW F WHERE F.FW_ID = S.USER_NO AND F.FI_ID = #{userNo}) AS "FOLLOW_IS",  
+		      (SELECT COUNT(*) FROM FOLLOW F WHERE F.FW_ID = S.USER_NO AND F.FI_ID = #{userNo}) AS "FOLLOW_IS", 
+		       (SELECT COUNT(*) 
+		       FROM HEART H 
+		       LEFT JOIN MEMBER M ON(H.USER_NO=M.USER_NO) 
+		       LEFT JOIN SELL S ON(H.SELL_NO=S.SELL_NO)
+		       WHERE M.USER_NO = #{userNo} AND S.SELL_NO = #{sellNo}) AS "HEART_IS", 
+
+
 		        </if>
 		        AVG
        FROM SELL S

@@ -136,8 +136,17 @@
                                      
                                      <!-- 찜하기 버튼 -->
                                      <div class="right_area">
-                                        <a href="javascript:;" class="icon heart">
+                                        <a href="javascript:;" class="icon heart ${s.heart_Is == 0?'':'active'}">
+                                        
+                                        	<!-- 찜 안되어있는 경우 -->
+                                        	<c:if test="${s.heart_Is == 0}">
                                            <img src="https://cdn-icons-png.flaticon.com/512/812/812327.png" alt="찜하기">
+                                            </c:if>
+                                            
+                                            <!-- 찜 되어있는 경우 -->
+                                            <c:if test="${s.heart_Is != 0}">
+                                            <img src="https://cdn-icons-png.flaticon.com/512/803/803087.png" alt="찜취소">
+                                            </c:if>
                                         </a>
                                       </div>  
                                 </div>
@@ -218,6 +227,87 @@
 	        form.submit();
 	    });
     </script>
+     <script>
+     $(function(){
+ 	    var $likeBtn =$('.icon.heart');
+ 			
+ 	    	
+ 	        $likeBtn.click(function(){
+ 			if(!this.classList.contains('active')){
+ 	         $.ajax({
+ 	   	               	url : '${pageContext.request.contextPath}/addHeart',
+ 	   	                type : 'post',
+ 	   	                data : {sellNo : "${s.sellNo}"},
+ 	   	                success : function(result){
+ 	   	    				if(result == 1) {
+ 	   	     					alert("찜하기 성공");
+ 	   	     					
+ 	   	     				$likeBtn.toggleClass('active');
+ 	   	                	if($likeBtn.hasClass('active')){ 
+ 	   	 		        	
+ 	   	   	              	 $likeBtn.find('img').attr({
+ 	   		 	              'src': 'https://cdn-icons-png.flaticon.com/512/803/803087.png',
+ 	   		 	               alt:'찜하기 완료'
+ 	  	 	            	  
+ 	   	 	            	  });
+ 	   	                	}
+ 	   	              		
+ 	   	                location.reload();
+ 	   	    				} else {
+ 	   	    		 			alert("회원만 사용할 수 있습니다.");
+ 	   	     				}
+ 	   	   				},
+ 	   	   				error : function(){
+ 	   				    alert("찜 하기 실패");
+ 	   				
+ 	   				   }
+ 	                
+ 	               
+ 	                })
+ 	         
+ 	         
+ 	        }
+ 	        else{
+ 				 $.ajax({
+ 				     url : '${pageContext.request.contextPath}/mypageDeleteHeart',
+ 				     type : 'post',
+ 				     data : { sellNo : "${s.sellNo}" },
+ 				     success : function(result){
+ 				    	 
+ 				    	 if(result==1){
+ 				    	 alert("찜하기 취소");
+ 				    	 
+ 				    	 
+ 				    	  $likeBtn.find('i').removeClass('fas').addClass('far')
+ 				    	  $likeBtn.find('img').attr({
+ 				    		 'src': 'https://cdn-icons-png.flaticon.com/512/812/812327.png',
+ 				    		 alt:"찜하기 취소"
+ 				    	 });
+ 				    	 location.reload();
+ 				      
+ 				     }else {
+ 	    		 			alert("회원만 사용할 수 있습니다.");
+ 	     				}
+ 				     },
+ 				 error:function(){
+ 				        alert("실패")
+ 				     }
+ 				   
+ 				   
+ 	         })
+ 	      }
+     }); 
+ 	        
+     });
+	       
+    </script>
+	        
+	            	  
+	                
+	              
+	          
+	          
+
 	<jsp:include page="../common/footer.jsp"/>
 </body>
 </html>

@@ -282,7 +282,7 @@ $(".chBox").click(function(){
      data : { chbox : checkArr },
      success : function(){
       console.log("성공");
-      location.href = "${pageContext.request.contextPath}/member/myPage";
+      location.reload();
      },
      error:function(){
         console.log("실패")

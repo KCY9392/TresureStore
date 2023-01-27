@@ -1,5 +1,6 @@
 package com.kh.tresure.heart.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -79,6 +80,32 @@ public class HeartController {
 			 return result;
 		 
 	}
+	
+	@ResponseBody
+	@RequestMapping("mypageDeleteHeart")
+	public int mypageDeleteHeart(HttpSession session,
+								@RequestParam("sellNo") int sellNo) {
+		int result = 0;
+		
+		logger.info("sellNo : "+sellNo);
+		
+		 Member loginUser = (Member)session.getAttribute("loginUser");
+		 int userNo = loginUser.getUserNo();
+		 
+		 HashMap<String, Object> map = new HashMap<>();
+		 map.put("sellNo", sellNo);
+		 map.put("userNo", userNo);
+		 
+		 if(loginUser != null) {
+			  
+		  heartService.mypageDeleteHeart(map);
+			  result = 1;
+			 }
+			 
+			 return result;
+		
+	}
+	
 	
 	
 	

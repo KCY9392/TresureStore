@@ -48,10 +48,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </delete>
 
 
-	<insert id="addHeart">
+	<insert id="addHeart" parameterType="heart">
  INSERT INTO HEART(HEART_NO, USER_NO, SELL_NO, CREATE_DATE)
- VALUES(SEQ_HNO, #{userNo}, #{sellNo}, #{createDate)
+ VALUES(SEQ_HNO.NEXTVAL, #{userNo}, #{sellNo}, #{createDate})
 </insert>
+
+
+<delete id="mypageDeleteHeart" parameterType="map">
+ DELETE HEART
+ WHERE SELL_NO = #{sellNo}  AND
+ 	   USER_NO = #{userNo}
+</delete>
+
+
 	
 
 

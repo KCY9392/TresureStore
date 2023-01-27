@@ -1,5 +1,8 @@
 package com.kh.tresure.heart.model.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +37,11 @@ public class HeartServiceImpl implements HeartService{
 	public void addHeart(Heart heart) {
 		heartDao.addHeart(sqlSession, heart);
 		
+	}
+	
+	@Override
+	public void mypageDeleteHeart(HashMap<String, Object> map) {
+		heartDao.mypageDeleteHeart(sqlSession, map);
 	}
 	
 	

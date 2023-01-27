@@ -45,6 +45,7 @@ public class Sell {
 	private int follower_Num;
 	private int sell_Num;
 	private int follow_Is;
+	private int heart_Is;
 	
 	
 	private String timeago;
