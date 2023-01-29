@@ -23,10 +23,10 @@
 	}
 	
 	.main-box {
-     padding: 15% 0%;
-     height:100%;
+     padding: 10% 0%;
+     height: 100%;
      margin: auto;
-    
+     width: 1000px;
     }
     
     /*사기조회 text*/
@@ -49,22 +49,23 @@
   	 color: gold;
   	 position:absolute;
   	 right: 50%;
-     top: 46%;
+     top: 20%;
   	}
 	
 	/*사기조회 이용 text*/
 	.report-middle-text{
-	 display:inline;
-     position:absolute;
-     right: 40%;
-     top: 50%;
+	 display: inline;
+    position: absolute;
+    right: 26%;
+    top: 50%;
+    font-size: 24px;
 	}
 	
 	/*사기조회 select, text, button묶음 div*/
 	.report-inner{
      position:absolute;
-     top: 60%;
-     right: 30%;
+     top: 80%;
+    right: 20%;
 	}
 	
 	select{
@@ -94,6 +95,11 @@
       cursor: pointer;
 	}
 	
+	.searchBoxReport{
+		    position: relative;
+		    width: 1000px;
+		    height: 300px;
+	}
 	
 </style>
 </head>
@@ -103,10 +109,11 @@
 	
 	<div class="main-section">
 		<div class="main-box">
-			<div class="report-top-text"> 사기 조회</div>
+			<div class="report-top-text"> 신고 조회</div>
         	<div class="report-line"></div>
-        		<span class="report-icon"><i class="fa-solid fa-circle-exclamation fa-lg"></i></span>
-				<div class="report-middle-text">판매자의 상점 번호, 계좌번호로 피해 사례 조회를 이용해 보세요.</div>
+        	<div class="searchBoxReport" style="position:relative">
+        		<span class="report-icon"><i class="fa-solid fa-circle-exclamation fa-lg"></i></span><br>
+				<div class="report-middle-text">판매자의 상점 번호, 계좌번호로 피해 사례 조회를 이용해 보세요.</div><br>
 				<div class="report-inner">
 					<select class="report-option">
 						<option>상점명</option>
@@ -115,6 +122,7 @@
 					<input type="text" class="report-search-text" placeholder=" @포함해서 상점번호를 입력해주세요.">
 					<button type="submit" class="report-search-button" onclick="location.href='${pageContext.request.contextPath}/report/reportSearchResult'">조회</button>
 				</div>
+			</div>
 		</div>
 	</div>
 	

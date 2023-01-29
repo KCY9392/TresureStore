@@ -23,14 +23,15 @@
        
 
        
-        .chat-list-outer{
-         	width: 67%;
-            margin: auto;
-            font-size:18px;
-        }
+         .main-section
+         { 
+          	    width: 67%;
+			    margin: auto;
+			    font-size: 25px; 
+         } 
 
-        .innerOuter {
-            padding: 15%;
+        .innerOuter{
+        	padding: 10%;
         }
 
         /*보물톡 text*/
@@ -39,17 +40,41 @@
             font-size: 40px;
         }
 
-
         /*차단목록 a태그*/
         .block-list {
             text-decoration: none;
-            color: gold;
-            float: right;
+		    color: gold;
+		    float: right;
+		    font-size: 22px;
+		    border: 2px solid gold;
+		    width: 90px;
+		    text-align: center;
+		    height: 30px;
+		    padding-top: 12px;
+		    margin-right: 10px;
+		    border-radius: 15px;
         }
+        
+        .block-list:hover{
+        	background-color:gold;
+        	color:white;
+        }
+        
          .table{
-        	width: 100%;
+        	    border: 2px solid #dedede;
+			    width: 1000px;
+			    margin: auto;
+			    border-radius: 15px;
         } 
 
+		table th{
+			font-size:22px !important;
+		}
+		
+		table tr{
+			margin: auto;
+		}
+		
         thead {
             color: rgb(248, 212, 12);
             text-align: center;
@@ -79,11 +104,10 @@
         }
         
         table .storeName:hover td:not(:last-child){
-        	background-color : lightgrey;
+        	background-color : #ebeae7;
         	cursor:pointer;
         	border-radius : 5px;
         }
-
 
     </style>
 
@@ -95,9 +119,9 @@
     <jsp:include page="../common/sideBar.jsp" />
     
    
-    	<div class="chat-list-outer">
+    	<div class="main-section">
             <div class="innerOuter">
-                <img src="/tresure/resources/images/icon/mainLogo.png" width="40">&nbsp;<span>보물톡</span>
+                <img src="/tresure/resources/images/icon/mainLogo.png" width="40" style="margin-left: 20px;">&nbsp;<span>보물톡</span>
                 <a class="block-list" href="${pageContext.request.contextPath}/chat/chatBlockList">차단목록</a>
 
                 <c:choose>

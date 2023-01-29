@@ -10,6 +10,7 @@
 	<link rel="stylesheet" href="/tresure/resources/css/common/home.css">
 	<link rel="stylesheet" href="/tresure/resources/css/common/Gocategory.css">
 	
+	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 	<script type="text/javascript" src="/tresure/resources/js/header.js"></script>
 	
@@ -72,14 +73,13 @@
 										</c:if>
 									</c:if>
 									<div class="price-time">
-										&nbsp;${s.sellTitle}
-									 	<div class="price-time2" style="text-align:right; position: absolute;">
+										<span>&nbsp;${s.sellTitle}</span><br><br>
+									 	<div class="price-time2">
 									 		<br>
-											${s.price}원
-											<br>
-											
-											&nbsp;♥ &nbsp;${s.heartNum}
-											&nbsp;${s.getTimeago()}분전
+											&nbsp;<img src="/tresure/resources/images/icon/heart.png" width="15px" height="15px" style="margin-top:2px;">&nbsp;${s.heartNum}
+											&nbsp;&nbsp;&nbsp;${s.timeago}
+									 		<br>
+											<span style="font-size: 33px; color:black;">${s.price}원</span>
 										</div>
 									</div>
 								</div>
@@ -114,6 +114,16 @@
 			]
 		});
 	});
+</script>
+
+<script>
+$(document).ready(function() {
+	var keyword = "${m.keyword}"; 
+	
+	if(keyword != "") {  //검색어 부분 유지하기
+		$("#search").val( keyword );
+	}
+});
 </script>
 	
 	<jsp:include page="../common/theBoGi.jsp" />

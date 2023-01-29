@@ -63,6 +63,10 @@ public class SellController {
 			List<Sell> sList = sellService.sellListsearch(search);
 			List<Sell> success = sellService.successfive(search);
 			
+			for(int i=0; i<sList.size(); i++) {
+				sList.get(i).setTimeago(sList.get(i).getCreateDate());
+			}
+			
 			int price = 0;
 			for(int i=0; i<success.size(); i++) {
 				price += success.get(i).getPrice();
@@ -115,6 +119,7 @@ public class SellController {
 			List<SellImg> imgList = sellService.selectSellImgList(map);
 			
 			s.setImgList(imgList);
+			s.setTimeago(s.getCreateDate());
 			
 			logger.info("imgList : "+imgList);
 			
@@ -180,6 +185,10 @@ public class SellController {
 		
 		List<Sell> s = sellService.howOrderList(map);
 		
+		for(int i=0; i<s.size(); i++) {
+			s.get(i).setTimeago(s.get(i).getCreateDate());
+		}
+		
 		mv.addObject("s", s);
 		mv.addObject("categoryCode",categoryCode);
 		mv.setViewName("sell/Gocategory");
@@ -200,6 +209,10 @@ public class SellController {
 		map.put("categoryCode", categoryCode);
 		
 		List<Sell> s = sellService.howOrderList(map);
+		
+		for(int i=0; i<s.size(); i++) {
+			s.get(i).setTimeago(s.get(i).getCreateDate());
+		}
 		
 		mv.addObject("s", s);
 		mv.addObject("map",map);

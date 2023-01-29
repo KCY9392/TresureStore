@@ -76,10 +76,10 @@
 										<span>&nbsp;${s.sellTitle}</span><br><br>
 									 	<div class="price-time2">
 									 		<br>
-											&nbsp;♥&nbsp;${s.heartNum}
+											&nbsp;<img src="/tresure/resources/images/icon/heart.png" width="15px" height="15px" style="margin-top:2px;">&nbsp;${s.heartNum}
 											&nbsp;&nbsp;&nbsp;${s.timeago}
 									 		<br>
-											<span style="font-size: 33px;">${s.price}원</span>
+											<span style="font-size: 33px; color:black;">${s.price}원</span>
 										</div>
 									</div>
 								</div>

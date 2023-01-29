@@ -86,6 +86,7 @@
         .sellProductPriceText{
             font-size: 40px;
             font-weight: 500;
+            width: 120px;
         }
 
         .sellProductPriceText span{
@@ -280,7 +281,7 @@
         }
         
         .right_area{
-            margin-left: 420px;
+            margin-left: 62%;
         }
 
         .right_area .icon{
