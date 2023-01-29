@@ -123,10 +123,21 @@ public class ChatServiceImpl implements ChatService{
 	
 	//차단 목록에 추가
 	@Override
-	public int addBlock() {
-		
-		return chatDao.addBlock(sqlSession);
+	public int addBlock(Block block) {
+
+		return chatDao.addBlock(sqlSession, block);
 	}
+	
+	//차단 목록에서 삭제
+	public int deleteBlock( String chatRoomNo, String userNo, Block block) {
+		
+		block.setChatRoomNo(Integer.parseInt(chatRoomNo));
+		block.setUserNo(Integer.parseInt(userNo));
+		
+		return chatDao.deleteBlock(sqlSession, block);
+	
+	}
+
 	
 	// 채팅방 메세지 보내기
 	public int insertMessage(ChatMessage Message) {

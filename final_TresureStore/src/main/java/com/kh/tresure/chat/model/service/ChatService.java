@@ -24,7 +24,10 @@ public interface ChatService {
 	public List<Block> selectBlockList(int userNo);
 	
 	//차단 목록에 추가
-	public int addBlock();
+	public int addBlock(Block block);
+	
+	//차단 목록에서 삭제
+	public int deleteBlock(String chatRoomNo, String userNo, Block block);
 	
 	// 채팅방 메세지 보내기
 	public int insertMessage(ChatMessage Message);

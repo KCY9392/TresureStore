@@ -24,8 +24,6 @@
    	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
    	<!-- Semantic UI theme -->
    	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
-	
-	
 
 
     <style>
@@ -428,7 +426,7 @@
                                     <a href="" class="buttonCss">신고</a>
                                 </li>
                                 <li><br>
-                                    <a href="${pageContext.request.contextPath}/chat/chatBlockList/${AllList.get('product').userNo}" id="addBlock" class="buttonCss" onclick="blockClick();">차단</a>
+                                    <a data-toggle="modal" data-target="#block-modal" id="addBlock" class="buttonCss" >차단</a>
                                 </li>
                                 <li style="float: right;">
                                     <button class="buttonCss2">계좌이체</button>
@@ -488,20 +486,63 @@
     <jsp:include page="../common/footer.jsp"/>
 
 
+	<!-- 차단버튼 modal 시작-->
+		<div class="modal" tabindex="-1" role="dialog" id="block-modal">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title">판매자 차단하기</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        <p>차단하면 더 이상 거래가 불가능합니다. 차단하시겠습니까?</p>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-primary">차단하기</button>
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	<!-- 차단 modal 끝 -->
+   
    
      <script>
      	
-     	function blockClick(){
-     		
-     		let blockCk = confirm('차단하면 더 이상 거래가 불가능합니다. 차단하시겠습니까?');
-     		alert(blockCk);
-     	}
+     	//차단버튼 클릭 시 
+    	 $('#addBlock').on('click', function(){
+    		 
+    		 let form = document.createElement('form');
+             form.setAttribute('method', 'post');
+             form.setAttribute('action', '${pageContext.request.contextPath}/chat/chatBlockAdd');
+             document.charset = 'utf-8';
+
+             let hiddenField = document.createElement('input');
+
+             hiddenField.setAttribute('type', 'hidden');
+             hiddenField.setAttribute('name', "sellUserNo");
+             hiddenField.setAttribute('value', ${AllList.get('product').userNo});
+
+             
+             let hiddenField2 = document.createElement('input');
+             
+             hiddenField2.setAttribute('type', 'hidden');
+             hiddenField2.setAttribute('name', "chatRoomNo");
+             hiddenField2.setAttribute('value', ${chatRoomNo});
+             console.log(${chatRoomNo});
+             
+             form.appendChild(hiddenField);
+             form.appendChild(hiddenField2);
+
+             document.body.appendChild(form);
+             form.submit();
+    	    
+    	  });
      	
      	
      	
-     	
-     	
-     
 		function sellDetail(sellNo){
 			location.href = "${pageContext.request.contextPath}/sell/sellDetail/"+sellNo;
 		}

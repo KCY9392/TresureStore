@@ -57,7 +57,7 @@ public class ChatController {
 		}else {
 			int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
 			
-			logger.info(userNo+ ">> 유저 정보 조회");
+			logger.info("유저 정보 "+userNo+"번");
 			
 			List<ChatRoom> crList = chatService.selectChatRoomList(userNo);
 			
@@ -112,9 +112,9 @@ public class ChatController {
 	
 	
 	//채팅방 차단목록 이동
-	@RequestMapping(value = "chat/chatBlockList", method = RequestMethod.GET)
-	public String selectBlockList(Model model) {
-		
+	@RequestMapping(value = "chat/chatBlockList",  method = {RequestMethod.POST, RequestMethod.GET})
+	public String selectBlockList(Model model, HttpSession session) {
+	
 		int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
 		
 		List<Block> blockList = chatService.selectBlockList(userNo);
@@ -129,44 +129,56 @@ public class ChatController {
 	
 	
 	//차단 리스트에 추가
-	@RequestMapping(value="chat/chatBlockList/{sellUserNo}", method = RequestMethod.POST)
-    public String addBlock(@RequestParam(value="addBlock", required=false )String addBlock,
-    						@PathVariable("sellUserNo") int sellUserNo,
-    						Model model,
-    						HttpSession session) {
+	@RequestMapping(value="chat/chatBlockAdd", method = {RequestMethod.POST, RequestMethod.GET})
+	public String addBlock(@RequestParam(value="sellUserNo", required=false) int sellUserNo,
+							@RequestParam(value="chatRoomNo", required=false) int chatRoomNo,
+		    				Model model,
+		    				HttpSession session) {
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		
-		int blockerNo = chatService.addBlock();
-		model.addAttribute("blockerNo", blockerNo);
+		int blockerNo = loginUser.getUserNo();
+
+		Block block = new Block();
+		block.setBlockerNo(blockerNo);
+		block.setBlockedNo(sellUserNo);
+		block.setChatRoomNo(chatRoomNo);
 		
-		logger.info(blockerNo+"");
+		logger.info(chatRoomNo+"번 방");
 		
-		if(blockerNo > 0) {
-			model.addAttribute("alertMsg","차단 리스트 추가 성공");
-			return "chat/chatBlockList";
-			
-		} else {
-			model.addAttribute("alertMsg","차단 리스트 추가 실패");
-			return  "redirect:/" ;
-		}
+		int result = chatService.addBlock(block);
+		model.addAttribute("chatRoomNo", chatRoomNo);
+		
+		logger.info(result+"결과");
+		logger.info(block+"");
+		
+//		if(result > 0) {
+//			session.setAttribute("alertMsg","차단 리스트 추가 성공");
+//			return "chat/chatBlockList";
+//			
+//		} else {
+//			session.setAttribute("alertMsg","차단 리스트 추가 실패");
+//			return  "chat/chatRoom" ;
+//		}
+		return "redirect:chatBlockList";
 		
     }
+
 	
 	
 	
 	//채팅방 나가기
-	@RequestMapping(value = "chat/chatRoom/exit", method = RequestMethod.POST)
+	@RequestMapping(value = "chat/chatBlockList/delete", method = RequestMethod.POST)
 	@ResponseBody
-	public int exitChatRoom(@RequestParam String userNo,
-							@RequestParam String chatRoomNo,
-							ChatRoomJoin join) {
+	public int deleteBlock(@RequestParam String chatRoomNo,
+							@RequestParam String userNo,
+							Block block) {
 		
-		int result = chatService.exitChatRoom(join, chatRoomNo, userNo);
-		
+		int result = chatService.deleteBlock(chatRoomNo, userNo, block);
+
 		return result;
-		 
 	}
+
 	
 	// 네고 가격결정
 	@RequestMapping(value="join/nego", method = RequestMethod.POST)

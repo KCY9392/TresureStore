@@ -38,10 +38,10 @@
 		                    </tr>
 		                  </thead>
 		                  <tbody class="chatBlockList-tbody">
+					          <c:forEach var="block" items="${blockList }">
 			                    <tr>
-			                      <td></td>
+			                      <td>${block.blockNo}</td>
 		                      		<td>
-					                  <c:forEach var="block" items="${blockList }">
 		                                  <c:if test="${block.avg > 4.5}">
 		                                      <img src="/tresure/resources/images/icon/grade3.png" width="20px" /> &nbsp;&nbsp;상점 ${block.blockedNo }호 점
 		                                  </c:if>
@@ -51,13 +51,13 @@
 		                                  <c:if test="${ 3.5 <= block.avg && block.avg < 4 }">
 		                                      <img src="/tresure/resources/images/icon/grade1.png" width="20px" /> &nbsp;&nbsp;상점 ${block.blockedNo }호 점
 		                                  </c:if>
-		                                  <c:if test="${ null == block.avg  && block.avg < 3.5 }">
+		                                  <c:if test="${ null == block.avg || block.avg < 3.5 }">
 		                                      <img src="/tresure/resources/images/icon/grade0.png" width="20px" /> &nbsp;&nbsp;상점 ${block.blockedNo }호 점
 		                                  </c:if>
-					                  </c:forEach>
                               		</td>                      
-			                      <td><button type="button" class="block-clear">해제</button></td>
+			                      <td><button type="button" class="block-clear" id="deleteBlock">해제</button></td>
 			                    </tr>
+					          </c:forEach>
 		                  </tbody>
 		                </table>
               	 	</c:otherwise>

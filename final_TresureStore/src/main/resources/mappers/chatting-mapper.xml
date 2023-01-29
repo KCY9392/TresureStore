@@ -36,6 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <result column="BLOCKED_NO" property="blockedNo"/>
       <result column="AVG" property="avg"/>
       <result column="USER_NO" property="userNo"/>
+      <result column="CHATROOM_NO" property="chatRoomNo"/>
 </resultMap>
 
 <resultMap type="chatRoomJoin" id="chatRoomJoinResultSet">
@@ -87,17 +88,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  		   B.BLOCK_NO,
 	       M.USER_NO AS "BLOCKER_NO",
  		   S.USER_NO AS "BLOCKED_NO",
- 		   AVG
+ 		   NVL(AVG, 0) AS "AVG"
  	FROM BLOCK B
  	LEFT JOIN MEMBER M ON(B.BLOCKER_NO = M.USER_NO)
  	JOIN SELL S ON(B.BLOCKED_NO = S.USER_NO)
- 	JOIN (  SELECT AVG(REV_SCORE) AS "AVG",
+ 	 LEFT JOIN (  SELECT AVG(REV_SCORE) AS "AVG",
 	           	    S.USER_NO
 	        FROM REVIEW R
 	        JOIN SELL S ON (S.SELL_NO = R.SELL_NO)
 	        WHERE R.STATUS = 'Y'
 	        GROUP BY S.USER_NO) PP ON (S.USER_NO = PP.USER_NO)
  	WHERE B.BLOCKER_NO = #{blockerNo}
+ 	ORDER BY BLOCK_NO DESC
 </select>
 
 <!-- 차단리스트에 추가 -->
@@ -106,7 +108,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	VALUES (SEQ_BLNO.NEXTVAL, #{blockerNo}, #{blockedNo})
 </insert>
 
-
+<!-- 차단 리스트에서 삭제(해제) -->
+<delete id="deleteBlock" parameterType="block">
+	DELETE
+    FROM BLOCK B
+    WHERE BLOCKER_NO = #{blockerNo} AND BLOCKED_NO= #{blockedNo}
+</delete>
 
 <!-- 채팅보내기 -->
 <insert id="insertMessage" parameterType="chatMessage">

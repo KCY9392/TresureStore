@@ -17,4 +17,6 @@ public class Block {
 
 	private int avg; //전체 거래 평점의 평균값
 	private int userNo;
+	private int chatRoomNo;
+
 }

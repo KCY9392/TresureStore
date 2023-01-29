@@ -19,7 +19,18 @@
      text-decoration: none;
      color:gold;
      float: right;
+     border: 2px solid gold;
+     width: 90px;
+     text-align: center;
+     height: 30px;
+     padding-top: 12px;
+     border-radius: 15px;
    }
+   .innerOuter-blockList a:hover{
+     background-color:gold;
+   	 color:white;
+   }
+   
    .chatBlockList-table{
      width: 100%;
    } 

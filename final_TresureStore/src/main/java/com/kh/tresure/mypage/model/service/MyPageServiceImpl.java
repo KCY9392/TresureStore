@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import com.kh.tresure.heart.model.vo.Heart;
@@ -12,7 +13,7 @@ import com.kh.tresure.mypage.model.dao.MyPageDao;
 import com.kh.tresure.review.model.vo.Review;
 import com.kh.tresure.sell.model.vo.Sell;
 
-
+@Primary
 @Service
 public class MyPageServiceImpl implements MyPageService{
 	

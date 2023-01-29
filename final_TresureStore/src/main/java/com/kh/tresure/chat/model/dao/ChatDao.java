@@ -38,9 +38,15 @@ public class ChatDao {
 	}
 	
 	//차단 리스트에 추가
-	public int addBlock(SqlSession sqlSession) {
-		
-		return sqlSession.insert("chattingMapper.addBlock");
+	public int addBlock(SqlSession sqlSession, Block block) {
+	
+		return sqlSession.insert("chattingMapper.addBlock", block);
+	}
+
+	//차단 목록에서 삭제
+	public int deleteBlock(SqlSession sqlSession, Block block) {
+
+		return sqlSession.delete("chattingMapper.deleteBlock", block);
 	}
 	
 	
