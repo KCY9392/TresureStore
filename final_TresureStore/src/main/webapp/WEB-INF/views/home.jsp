@@ -90,6 +90,8 @@
 	
 	</div>
 	
+	<br>
+	
 	<script>
 		function sellDetail(sellNo){
 			location.href = "${pageContext.request.contextPath}/sell/sellDetail/"+sellNo;
