@@ -46,5 +46,7 @@ public interface MyPageService{
 	public List<Heart> mypageHeartList(int userNo);
 	
 	public List<Review> mypageReviewList(int userNo);
+	
+	public int changeStatus(int sellNo);
 
 }

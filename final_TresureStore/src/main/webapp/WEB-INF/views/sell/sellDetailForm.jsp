@@ -133,7 +133,7 @@
                                      <div class="sellProductPriceText">
                                         ${s.price}<span> 원</span>
                                      </div> 
-                                     
+                                    <c:if test="${loginUser.userNo!=s.userNo }">
                                      <!-- 찜하기 버튼 -->
                                      <div class="right_area">
                                         <a href="javascript:;" class="icon heart ${s.heart_Is == 0?'':'active'}">
@@ -148,7 +148,14 @@
                                             <img src="https://cdn-icons-png.flaticon.com/512/803/803087.png" alt="찜취소">
                                             </c:if>
                                         </a>
-                                      </div>  
+                                      </div> 
+                                      </c:if>
+                                      <c:if test="${loginUser.userNo==s.userNo }">
+                                      <div class="sellBtn">
+                                      <button type="button" class="sellUpdateBtn">수정하기</button>
+                                      <button type="button" class="sellDeleteBtn">삭제하기</button>
+                                      </div>
+                                      </c:if>
                                 </div>
                             </div>
                             <!-- 찜수, 조회수, 몇분전 게시 출력 -->

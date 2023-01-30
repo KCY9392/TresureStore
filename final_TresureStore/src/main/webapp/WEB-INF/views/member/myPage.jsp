@@ -98,7 +98,7 @@
     			<button class="market-product"  type="button" onclick="show(this);" id="product" name="show"><span class="rproduct">상품</span></button>
 				<button class="market-review" type="button" onclick="show(this);" id="review"name="show"><span class="rrview">상점후기</span></button>
 				<button class="market-heart" type="button"onclick="show(this);" id="heart"name="show"><span class="rheart">찜</span></button>
-				<button class="market-tracsac" href="#"><span class="rtransac">거래내역</span></button>
+				<button class="market-tracsac" onclick="tracsac();"><span class="rtransac">거래내역</span></button>
     		</div>
     		<br><br>
     	</div>
@@ -113,11 +113,28 @@
 	                                           width: 200px !important;
 	                                           padding: 0px 20px !important;
 	                                           margin-bottom:10px !important;">
-	                     <div class="item">
+	                     <div class="item" onclick="sellDetail(${s.sellNo})">
 	                        <div id="itemSolid" class="slist-items" style="border: 1px solid rgb(238, 238, 238)">
 	                           <c:if test="${s.imgSrc != null}">
 	                           <img src="${s.imgSrc}" width="100%" height="150px;"
 	                              class="rounded float-start" alt="" style="">
+	                           
+	                            
+	                              <c:if test="${s.sellStatus eq 'C' }">
+	                              <div class="over-img">
+	                      		  </div>
+	                      		  <div class="text-c" style="color: white;
+								    margin-left: 82px;
+								    margin-top: -110px;
+								    margin-bottom: 92px;">
+	                      		  <h3>판매완료</h3>
+	                      		  </div>
+	                             
+	                              </c:if>
+	                        
+	                           
+	                          
+	                              
 	                           </c:if>
 	                           <c:if test="${s.imgSrc == null}">
 	                           
@@ -186,6 +203,7 @@
       
         <td>${r.createDate }</td>
        
+       
     </tr>
 
     </table>
@@ -221,15 +239,15 @@
 		           <input type="checkbox" name="chBox" class="chBox" data-heartNum="${h.heartNo}" />
 		         </div>
 		        
-		         <div class="thumb" >
-		           <img src="${h.imgSrc}"  width="30px" height="30px"/>
+		         <div class="thumb" onclick="sellDetail(${h.sellNo})">
+		           <img src="${h.imgSrc}"  width="78px" height="78px" style="margin-top: -15px;"/>
 		         </div>
 		         
 		         <div class="gdsInfo">
-		           <p>
-		             <span>${h.sellTitle}</span><br/>
-		             <span>${h.price }</span><br/>
-		             <span>${h.createDate }</span><br/>
+		           <p style="margin-top: 18px;">
+		             <span>${h.sellTitle}</span><br><br>
+		             <span>${h.price }</span><br><br>
+		             <span>${h.createDate }</span><br><br>
 		           </p>
 		         </div>  
 		    </div> 
@@ -239,6 +257,17 @@
     </div> 
 
 </div>
+<script>
+		function sellDetail(sellNo){
+			location.href = "${pageContext.request.contextPath}/sell/sellDetail/"+sellNo;
+		}
+	</script>
+	
+	<script>
+		function tracsac(){
+			location.href = "${pageContext.request.contextPath}/member/tracsac";
+		}
+	</script>
 <script>
 
 $("#allCheck").click(function(){

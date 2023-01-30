@@ -66,5 +66,9 @@ public class MyPageDao {
 	public List<Review> mypageReviewList(SqlSession sqlSession, int userNo) {
 		return (List)sqlSession.selectList("reviewMapper.mypageReviewList", userNo);
 	}
+	
+	public int changeStatus(SqlSession sqlSession, int sellNo) {
+		return sqlSession.update("mypageMapper.changeStatus", sellNo);
+	}
 
 }

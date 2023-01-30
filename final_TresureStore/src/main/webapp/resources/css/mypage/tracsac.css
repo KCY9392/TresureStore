@@ -1,0 +1,75 @@
+@charset "UTF-8";
+
+.main-section {
+	   width: 1100px;
+	   padding-top: 60px;
+	   margin-left: 200px;
+	   
+    }	 
+
+
+.content2 {
+		width: 100%;
+		padding: 10px 50px 20px;
+}
+
+
+	.list-area {
+		
+		margin: auto;
+	}
+	
+	.list-area thead{
+	
+	border-top: 1px solid rgb(30, 29, 41);
+    border-bottom: 1px solid rgb(30, 29, 41);
+	}
+	
+	tr>td{
+		    vertical-align: middle;
+    padding: 0.5rem;
+    line-height: normal;
+}
+	}
+	
+	/* 상점 정보 밑에 div css*/
+	#mForm{
+		    width: 1000px;
+		    padding-left: 70px;
+		    border: 1px;
+	}
+	
+	 .mform{
+		    padding: initial;
+		    margin-left: auto;
+		    margin-right: auto;
+		}
+	
+	/*버튼들*/
+		.list-b{
+		    display: flex;
+		    height: 50px;
+		    text-align:center;
+    	}
+    	
+		.list-content button{
+		    flex: 1 1 0%;
+		    align-items: center;
+		    justify-content: center;
+		    display: flex;
+		    border: 1px solid rgb(253, 233, 231);
+		    background: rgb(253, 233, 231);
+		    border-radius:15px;
+		    font-size:17px;
+		    font-weight:800;
+		}
+        
+        .list-content button>span{
+        	font-family: 'koverwatch';
+        	font-size: 20px;
+        }
+       
+        
+        
+	
+	

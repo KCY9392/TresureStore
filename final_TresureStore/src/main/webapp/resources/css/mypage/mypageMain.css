@@ -248,19 +248,42 @@
 		    display: flex;
 		    flex-wrap: wrap;
 	}  
+	
+	.over-img {  
+
+    opacity: 0.6;
+    background-color: gray;
+    position: relative;
+    height: 100px;
+    /* height: 100%; */
+       height: 153px;
+    color: white;
+       margin-top: -154px;
+    text-align: center;
+    /* border: 1px solid rgb(238, 238, 238); */
+        margin-bottom: 17px;
+    background: rgb(55, 55, 55, 0.5) opacity:0.7;
+
+}
 		
 /* 찜 목록 버튼 관련 css */		
 		
-.allCheck { float:left; width:200px; }
+.allCheck { float:left; width:200px;     margin-left: 181px;}
 .allCheck input { width:16px; height:16px; }
 .allCheck label { margin-left:10px; }
-.delBtn {  width:300px;  }
+
+.delBtn {  width:300px;      margin-left: auto;}
 .delBtn button { font-size:18px; padding:5px 10px; border:1px solid #eee; background:#eee;}
 
-.list-box{border: 1px solid; width: 600px; }
-.checkBox { float:left; width:25px;  float: left; margin-top: 40px; margin-left: 40px; }
+
+.list-box{border: 1px solid; width: 600px; height: 106px;     margin: auto;}
+.checkBox { float:left; width:25px;  float: left; margin-top: 42px; margin-left: 40px; }
 .checkBox input { width:16px; height:16px; }
-.thumb{float: left; margin-left: 100px; margin-top: 40px;}
+
+.thumb{float: left; margin-left: 95px; margin-top: 29px;}
 .gdsInfo{margin-left: 350px;}
-            
+
+
+
+
    

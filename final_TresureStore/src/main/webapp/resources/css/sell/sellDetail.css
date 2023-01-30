@@ -280,6 +280,10 @@
             cursor: pointer;
         }
         
+        .sellBtn{
+       	    margin-left: 318px;
+        }
+        
         .right_area{
             margin-left: 62%;
         }

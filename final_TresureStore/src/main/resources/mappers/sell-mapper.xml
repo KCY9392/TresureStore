@@ -196,7 +196,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              S.SELL_TITLE, 
              S.IMAGE_SRC, 
              S.PRICE, 
-             S.HEART_NUM,
+             (SELECT COUNT(*) FROM HEART H WHERE H.SELL_NO = S.SELL_NO) AS "HEART_NUM",
              S.SELL_STATUS, 
              S.CREATE_DATE
             FROM SELL S

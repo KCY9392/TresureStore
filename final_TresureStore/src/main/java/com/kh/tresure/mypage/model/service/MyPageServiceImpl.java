@@ -88,13 +88,17 @@ public class MyPageServiceImpl implements MyPageService{
 	public List<Heart> mypageHeartList(int userNo){
 		return mypageDao.mypageHeartList(sqlSession, userNo);
 	}
-	
+	@Override
 	public List<Review> mypageReviewList(int userNo) {
 		
 		return mypageDao.mypageReviewList(sqlSession, userNo);
 		}
 	
-	
+	@Override
+	public int changeStatus(int sellNo) {
+		return mypageDao.changeStatus(sqlSession, sellNo);
+	}
+
 	
 	
 

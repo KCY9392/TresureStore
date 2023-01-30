@@ -223,55 +223,6 @@ public class MemberController {
 	}
 	
 	
-	@RequestMapping(value = "member/myPage", method = RequestMethod.GET)
-	public String myPage(HttpServletRequest request,Model m) {
-		HttpSession session = request.getSession();
-		
-		
-		Member loginUser = (Member)session.getAttribute("loginUser");	
-		if(loginUser==null) {
-			session.setAttribute("alertMsg", "로그인 후 이용가능");
-			return "redirect:/";
-		}else {
-			logger.info(">> 마이페이지 폼으로 이동");
-			
-			//상품판매 조회
-			int sellCount = mypageService.sellCount(loginUser.getUserNo());
-			//팔로워 수 조회
-			int followCount = mypageService.followCount(loginUser.getUserNo());
-			//신고 수 조회
-			int reportCount = mypageService.reportCount(loginUser.getUserNo());
-			
-			//상점 오픈일
-			int marketOpen = mypageService.marketOpen(loginUser.getUserNo());
-			
-			//리뷰 평점
-			int reviewAvg = mypageService.reviewAvg(loginUser.getUserNo());
-			
-			
-			
-			//판매상품 리스트
-			List<Sell> sellList = mypageService.mypageSellList(loginUser.getUserNo());
-			//찜 상품 리스트
-			List<Heart> heartList = mypageService.mypageHeartList(loginUser.getUserNo());
-			//리뷰 리스트
-			List<Review> reviewList = mypageService.mypageReviewList(loginUser.getUserNo());
-			m.addAttribute("sellCount", sellCount);
-			m.addAttribute("followCount", followCount);
-			m.addAttribute("reportCount", reportCount);
-			m.addAttribute("marketOpen", marketOpen);
-			m.addAttribute("sellList", sellList);
-			m.addAttribute("heartList", heartList);
-			m.addAttribute("reviewList", reviewList);
-			m.addAttribute("reviewAvg", reviewAvg);
-
-			
-			System.out.println();
-			
-			return "member/myPage";
-		}
-		
-	}
 	
 	
 	
