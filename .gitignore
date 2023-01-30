@@ -1,4 +1,4 @@
-
+/sell/**
 
 # Log file
 *.log
@@ -129,3 +129,4 @@ local.properties
 hs_err_pid*
 
 Servers/
+final_TresureStore/src/main/webapp/resources/images/sell/*.png
