@@ -423,7 +423,7 @@
                                 </li>
 
                                 <li><br>
-                                    <a href="" class="buttonCss">신고</a>
+                                    <a id="addReport" class="buttonCss" onclick="addReport();">신고</a>
                                 </li>
                                 <li><br>
                                     <a data-toggle="modal" data-target="#block-modal" id="addBlock" class="buttonCss" >차단</a>
@@ -507,10 +507,45 @@
 		  </div>
 		</div>
 	<!-- 차단 modal 끝 -->
-   
-   
+	
+	
+	<div>
+	
+	   	<input type = "radio" name="addReportRadio" value = "reportReason-1" >주류, 담배<br>
+	   	<input type = "radio" name="addReportRadio" value = "reportReason-2" >전문 의약품, 의료기기<br>
+	   	<input type = "radio" name="addReportRadio" value = "reportReason-3" >개인정보 거래<br>
+	   	<input type = "radio" name="addReportRadio" value = "reportReason-4" >음란물/성인용품<br>
+	   	<input type = "radio" name="addReportRadio" value = "reportReason-5" >위조상품<br>
+	   	<input type = "radio" name="addReportRadio" value = "reportReason-6" >총포 도검류<br>
+	   	<input type = "radio" name="addReportRadio" value = "reportReason-7" >게임 계정<br>
+	   	<input type = "radio" name="addReportRadio" value = "reportReason-8" >동물 분양/입양글<br>
+	    <input type = "radio" name="addReportRadio" value = "reportReason-9" >기타<br>
+	   
+	</div>
+	
+	
      <script>
      	
+     	//신고버튼 클릭 시
+	     function deleteBoard(seq){
+	 		Swal.fire({
+	 		  title: '글을 삭제하시겠습니까???',
+	 		  text: "삭제하시면 다시 복구시킬 수 없습니다.",
+	 		  icon: 'warning',
+	 		  showCancelButton: true,
+	 		  confirmButtonColor: '#3085d6',
+	 		  cancelButtonColor: '#d33',
+	 		  confirmButtonText: '삭제',
+	 		  cancelButtonText: '취소'
+	 		}).then((result) => {
+	 		  if (result.value) {
+	               //"삭제" 버튼을 눌렀을 때 작업할 내용을 이곳에 넣어주면 된다. 
+	 		  }
+	 		})
+	 	}
+	     
+	     
+	     
      	//차단버튼 클릭 시 
     	 $('#addBlock').on('click', function(){
     		 
