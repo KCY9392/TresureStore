@@ -123,9 +123,7 @@
 		      data : {sellNo : "${s.sellNo}"},
 		      success : function(result){
 		    			if(result == 1) {
-		     				alert("판매완료로 변경");
-		    			}else{
-		    				alert("판매중으로 변경");
+		     				alert("상태 변경");
 		    			}
 		    	},
 		    	error:function(){
