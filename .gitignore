@@ -130,3 +130,5 @@ hs_err_pid*
 
 Servers/
 final_TresureStore/src/main/webapp/resources/images/sell/*.png
+final_TresureStore/src/main/webapp/resources/images/sell/*.jpg
+final_TresureStore/src/main/webapp/resources/images/sell/*.jpeg
