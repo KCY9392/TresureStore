@@ -171,4 +171,6 @@ public class SellServiceImpl implements SellService  {
 	public List<Sell> howOrderList(HashMap<String, Object> map){
 		return sellDao.howOrderLIst(map, sqlSession);
 	}
+	
+	
 }
