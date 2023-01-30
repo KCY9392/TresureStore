@@ -35,7 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <result column="BLOCKER_NO" property="blockerNo"/>
       <result column="BLOCKED_NO" property="blockedNo"/>
       <result column="AVG" property="avg"/>
-      <result column="USER_NO" property="userNo"/>
+      <result column="CHATROOM_NO" property="chatRoomNo"/>
 </resultMap>
 
 <resultMap type="chatRoomJoin" id="chatRoomJoinResultSet">
