@@ -25,6 +25,7 @@
 	
 </head>
 <!-- 아 김채영 -->
+<!-- 왱 -->
 <body>
 	<jsp:include page="./common/header.jsp"/>
 	<jsp:include page="./common/sideBar.jsp"/>
@@ -90,7 +91,7 @@
 		 </div>
 	
 	</div>
-	
+	<!-- 왜 -->
 	<br>
 	
 	<script>
