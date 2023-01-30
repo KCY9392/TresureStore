@@ -24,6 +24,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	
 </head>
+<!-- 왱 -->
 <body>
 	<jsp:include page="./common/header.jsp"/>
 	<jsp:include page="./common/sideBar.jsp"/>
@@ -89,7 +90,7 @@
 		 </div>
 	
 	</div>
-	
+	<!-- 왜 -->
 	<br>
 	
 	<script>
