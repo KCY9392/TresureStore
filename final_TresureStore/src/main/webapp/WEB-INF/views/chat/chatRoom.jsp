@@ -417,13 +417,44 @@
                         <div class="chatmenubar">
 
                             <ul class="header-list">
-                                <li><img src="https://cdn-icons-png.flaticon.com/128/9317/9317793.png" width="40"/>
-                                    <!-- &nbsp;상점 ${AllList.get('product').userNo }호점 -->
-                                    <span class="store-text">상점 ${AllList.get('product').userNo }호점</span>
+                                <li>
+                                	<!-- 로그인사람과 구매한사람이 같은경우  -->
+                                   	<c:if test="${AllList.get('purchaseInfo').userNo eq loginUser.userNo}">
+                                        <c:if test="${AllList.get('product').avg  >= 4.5}">
+                                            <img src="/tresure/resources/images/icon/grade3.png" width="40px" /> <span class="store-text">상점 ${AllList.get('product').userNo }호 점</span>
+                                        </c:if>
+                                        <c:if test="${ 4 <= AllList.get('product').avg && AllList.get('product').avg < 4.5 }">
+                                            <img src="/tresure/resources/images/icon/grade2.png" width="40px" /> <span class="store-text">상점 ${AllList.get('product').userNo }호 점</span>
+                                        </c:if>
+                                        <c:if test="${ 3.5 <= AllList.get('product').avg && AllList.get('product').avg < 4 }">
+                                            <img src="/tresure/resources/images/icon/grade1.png" width="40px" /> <span class="store-text">상점 ${AllList.get('product').userNo }호 점</span>
+                                        </c:if>
+                                        <c:if test="${ null == AllList.get('product').avg || AllList.get('product').avg < 3.5 }">
+                                            <img src="/tresure/resources/images/icon/grade0.png" width="40px" /> <span class="store-text">상점 ${AllList.get('product').userNo }호 점</span>
+                                        </c:if>
+                                       </c:if>
+                                       <!-- 로그인한 사람과 판매하는 사람이 같은경우 -->
+                                       <c:if test="${AllList.get('product').userNo eq loginUser.userNo}">
+                                        <c:if test="${AllList.get('purchaseInfo').purchaseUserAvg >= 4.5}">
+                                            <img src="/tresure/resources/images/icon/grade3.png" width="40px" />  <span class="store-text">상점 ${AllList.get('purchaseInfo').userNo }호 점</span>
+                                        </c:if>
+                                        <c:if test="${ 4 <= AllList.get('purchaseInfo').purchaseUserAvg && AllList.get('purchaseInfo').purchaseUserAvg < 4.5 }">
+                                            <img src="/tresure/resources/images/icon/grade2.png" width="40px" /> <span class="store-text">상점 ${AllList.get('purchaseInfo').userNo }호 점</span>
+                                        </c:if>
+                                        <c:if test="${ 3.5 <= AllList.get('purchaseInfo').purchaseUserAvg && AllList.get('purchaseInfo').purchaseUserAvg < 4 }">
+                                            <img src="/tresure/resources/images/icon/grade1.png" width="40px" /> <span class="store-text">상점 ${AllList.get('purchaseInfo').userNo }호 점</span>
+                                        </c:if>
+                                        <c:if test="${ null == AllList.get('purchaseInfo').purchaseUserAvg || AllList.get('purchaseInfo').purchaseUserAvg < 3.5 }">
+                                            <img src="/tresure/resources/images/icon/grade0.png" width="40px" /> <span class="store-text">상점 ${AllList.get('purchaseInfo').userNo }호 점</span>
+                                        </c:if>
+                                      </c:if>
+                                
+                                
+     
                                 </li>
 
                                 <li><br>
-                                    <a href="" class="buttonCss">신고</a>
+                                    <a id="addReport" class="buttonCss" onclick="addReport();">신고</a>
                                 </li>
                                 <li><br>
                                     <a data-toggle="modal" data-target="#block-modal" id="addBlock" class="buttonCss" >차단</a>
@@ -507,10 +538,45 @@
 		  </div>
 		</div>
 	<!-- 차단 modal 끝 -->
-   
-   
+	
+	
+	<div>
+	
+	   	<input type = "radio" name="addReportRadio" value = "reportReason-1" >주류, 담배<br>
+	   	<input type = "radio" name="addReportRadio" value = "reportReason-2" >전문 의약품, 의료기기<br>
+	   	<input type = "radio" name="addReportRadio" value = "reportReason-3" >개인정보 거래<br>
+	   	<input type = "radio" name="addReportRadio" value = "reportReason-4" >음란물/성인용품<br>
+	   	<input type = "radio" name="addReportRadio" value = "reportReason-5" >위조상품<br>
+	   	<input type = "radio" name="addReportRadio" value = "reportReason-6" >총포 도검류<br>
+	   	<input type = "radio" name="addReportRadio" value = "reportReason-7" >게임 계정<br>
+	   	<input type = "radio" name="addReportRadio" value = "reportReason-8" >동물 분양/입양글<br>
+	    <input type = "radio" name="addReportRadio" value = "reportReason-9" >기타<br>
+	   
+	</div>
+	
+	
      <script>
      	
+     	//신고버튼 클릭 시
+	     function deleteBoard(seq){
+	 		Swal.fire({
+	 		  title: '글을 삭제하시겠습니까???',
+	 		  text: "삭제하시면 다시 복구시킬 수 없습니다.",
+	 		  icon: 'warning',
+	 		  showCancelButton: true,
+	 		  confirmButtonColor: '#3085d6',
+	 		  cancelButtonColor: '#d33',
+	 		  confirmButtonText: '삭제',
+	 		  cancelButtonText: '취소'
+	 		}).then((result) => {
+	 		  if (result.value) {
+	               //"삭제" 버튼을 눌렀을 때 작업할 내용을 이곳에 넣어주면 된다. 
+	 		  }
+	 		})
+	 	}
+	     
+	     
+	     
      	//차단버튼 클릭 시 
     	 $('#addBlock').on('click', function(){
     		 

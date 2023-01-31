@@ -24,6 +24,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	
 </head>
+<!-- 아 김채영 -->
 <!-- 왱 -->
 <body>
 	<jsp:include page="./common/header.jsp"/>

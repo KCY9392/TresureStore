@@ -76,7 +76,7 @@
                 <br><br><br>
 
                 <div class="button-area1">
-                    <a href="#" class= "following-list">&nbsp;&nbsp;&nbsp;&nbsp;ÆÈ·ÎÀ× ¸ñ·Ï</a>        
+                    <a href="${pageContext.request.contextPath }/follow/followList" class= "following-list">&nbsp;&nbsp;&nbsp;&nbsp;ÆÈ·ÎÀ× ¸ñ·Ï</a>        
                 </div>
                 
                 <div class="button-area2">

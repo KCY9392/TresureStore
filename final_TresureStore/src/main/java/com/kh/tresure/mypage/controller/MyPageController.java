@@ -1,6 +1,7 @@
 package com.kh.tresure.mypage.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -127,6 +128,24 @@ public class MyPageController {
 	}
 	
 	
+	
+	
+	
+	@ResponseBody
+	@RequestMapping("changeStatus")
+	public int changeStatus(@PathVariable("sellNo") int sellNo) {
+		int result = 0;
+		if(result==0) {
+			
+			mypageService.changeStatus(sellNo);
+			result =1;
+		}
+		return result;
+		
+		
+		
+		
+	}
 	
 	
 	

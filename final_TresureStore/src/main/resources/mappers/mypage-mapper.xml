@@ -18,29 +18,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="RAVG" property="ravg"></result>
 
 	<result column="SELL_STATUS" property="sellStatus"></result>
-
+	
 </resultMap>
 
-<resultMap type="sell" id="sellResultSet" >
 
-	<id column="SELL_NO" property="sellNo"></id>
-	<result column="USER_NO" property="userNo"></result>
-	<result column="CATEGORY_NO" property="categoryNo"></result>
-	<result column="SELL_TITLE" property="sellTitle"></result>
-	<result column="SELL_CONTENT" property="sellContent"></result>
-	<result column="IMAGE_SRC" property="imgSrc"></result>
-	<result column="ORIGIN_NAME" property="originName"></result>
-	<result column="CHANGE_NAME" property="changeName"></result>
-	<result column="COUNT" property="count"></result>
-	<result column="PRICE" property="price"></result>
-	<result column="SELL_STATUS" property="sellStatus"></result>
-	<result column="CREATE_DATE" property="createDate"></result>
-	<result column="UPDATE_DATE" property="updateDate"></result>
-	<result column="STATUS" property="status"></result>
-	<result column="HEART_NUM" property="heartNum"></result>
-	<result column="CRAWL" property="crawl"></result>
-	
-	</resultMap>
 
 <select id="sellCount" resultType="Integer" parameterType="Integer">
 		SELECT 
@@ -103,7 +84,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		
 	</select>
 	
-	<update id="changeStatus" parameterType="sell">
+	<update id="changeStatus" parameterType="int">
 	 UPDATE SELL SET
 	  <if test="#{sellStatus}=='I'">
 	   SELL_STATUS = 'C'
