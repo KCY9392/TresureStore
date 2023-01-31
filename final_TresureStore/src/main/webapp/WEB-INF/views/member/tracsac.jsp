@@ -31,8 +31,8 @@
 	
 	<div class="list-content">
     		<div class="list-b">
-    			<button class="sell-trac"  type="button" onclick="show(this);" id="s" name="show"><span class="sell-trac">ÆÇ¸Å³»¿ª</span></button>
-				<button class="pur-trac" type="button" onclick="show(this);" id="p"name="show"><span class="pur-trac">±¸¸Å³»¿ª</span></button>
+    			<button class="sell-trac"  type="button" onclick="show(this);" id="s" name="show"><span class="sell-trac">íŒë§¤ë‚´ì—­</span></button>
+				<button class="pur-trac" type="button" onclick="show(this);" id="p"name="show"><span class="pur-trac">êµ¬ë§¤ë‚´ì—­</span></button>
     		</div>
     		<br><br>
     	</div>
@@ -46,12 +46,12 @@
 					<table class="table table-hover list">
 						<thead>
 							<tr>
-								<th scope="col" style="text-align: center;" width="20%">»çÁø</th>
-								<th scope="col" width="200px">»óÇ°¸í</th>
-								<th scope="col">°¡°İ</th>
-								<th scope="col">Âò</th>
-								<th scope="col">³¯Â¥</th>
-								<th scope="col">ÆÇ¸Å»óÅÂ</th>
+								<th scope="col" style="text-align: center;" width="20%">ì‚¬ì§„</th>
+								<th scope="col" width="200px">ìƒí’ˆëª…</th>
+								<th scope="col">ê°€ê²©</th>
+								<th scope="col">ì°œ</th>
+								<th scope="col">ë‚ ì§œ</th>
+								<th scope="col">íŒë§¤ìƒíƒœ</th>
 								<th scope="col"></th>
 								
 							</tr>
@@ -69,20 +69,20 @@
 											
 										</c:if></td>
 										<td scope="col"> ${s.sellTitle}</td>
-										<td scope="col">${s.price }¿ø</td>
+										<td scope="col">${s.price }ì›</td>
 										<td scope="col">${s.heartNum }</td>
 										<td scope="col">${s.createDate }</td>
 										<td scope="col"><c:if test="${s.sellStatus eq 'I' }">
-		                           <h5 class="sellStatus">ÆÇ¸ÅÁß</h5>
+		                           <h5 class="sellStatus">íŒë§¤ì¤‘</h5>
 		                           </c:if>	
 		                           <c:if test="${s.sellStatus eq 'C' }">
-		                           <h5 class="sellStatus">ÆÇ¸Å¿Ï·á</h5>
+		                           <h5 class="sellStatus">íŒë§¤ì™„ë£Œ</h5>
 		                           </c:if>
 		                           </td>
-		                           <td><button type="button" class="reviewB" onclick="changeStatus();">»óÅÂ º¯°æ</button></td>
-										
-									</tr>
-									
+		                           <td><button type="button" class="reviewB" onclick="changeStatus(${s.sellNo});">ìƒíƒœ ë³€ê²½</button></td>
+
+								</tr>
+
 							</c:forEach>
 							
 							
@@ -100,11 +100,11 @@
 						<table class="table table-hover list">
 							<thead>
 								<tr>
-									<th scope="col" style="text-align: center;" width="20%">»çÁø</th>
-									<th scope="col" style="padding-left: 10px;" width="35%">»óÇ°¸í</th>
-									<th scope="col" width="20%">°¡°İ</th>
-									<th scope="col" width="20%">³¯Â¥</th>
-									<th scope="col" width="5%">ÈÄ±â</th>
+									<th scope="col" style="text-align: center;" width="20%">ì‚¬ì§„</th>
+									<th scope="col" style="padding-left: 10px;" width="35%">ìƒí’ˆëª…</th>
+									<th scope="col" width="20%">ê°€ê²©</th>
+									<th scope="col" width="20%">ë‚ ì§œ</th>
+									<th scope="col" width="5%">í›„ê¸°</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -120,13 +120,13 @@
 												
 											</td>
 											<td scope="col"> ${p.sellTitle}</td>
-											<td scope="col">${p.price }¿ø</td>
+											<td scope="col">${p.price }ì›</td>
 											<td scope="col">${p.createDate }</td>
 											<c:if test="${p.rev_is == 'N'}">
-												<td><button type="button" class="reviewB" data-bs-toggle="modal" data-bs-target="#exampleModal" id="write" >ÀÛ¼ºÇÏ±â</button></td>
+												<td><button type="button" class="reviewB" data-bs-toggle="modal" data-bs-target="#exampleModal" id="write" >ì‘ì„±í•˜ê¸°</button></td>
 											</c:if>
 											<c:if test="${p.rev_is != 'N'}">
-												<td><button type="button" class="reviewB" data-bs-toggle="modal" data-bs-target="#exampleModal" id="write">¼öÁ¤ÇÏ±â</button></td>
+												<td><button type="button" class="reviewB" data-bs-toggle="modal" data-bs-target="#exampleModal" id="write">ìˆ˜ì •í•˜ê¸°</button></td>
 											</c:if>
 										</tr>
 										
@@ -145,7 +145,7 @@
 										    margin-top: 150px;
 										    margin-left: -125px;">
 			      <div class="modal-header" style="background-color: #fff5ba;">
-			        <h5 class="modal-title" id="exampleModalLabel" style="margin-left: 42%; font-size: 30px;">»óÁ¡ ÈÄ±â ÀÛ¼º</h5>
+			        <h5 class="modal-title" id="exampleModalLabel" style="margin-left: 42%; font-size: 30px;">ìƒì  í›„ê¸° ì‘ì„±</h5>
 			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			      </div>
 			      <div class="modal-body" style="text-align: center;">
@@ -191,18 +191,24 @@
 	</div>
 	
 	<script>
-	  function changeStatus(){
+	  function changeStatus(sellNo){
+		  var sellNum = $('.sellNo').val();
+		  
+		  
+		  
 		  $.ajax({
 			  url : '${pageContext.request.contextPath}/changeStatus',
 	          type : 'post',
-		      data : {sellNo : "${s.sellNo}"},
+		      data : {sellNo :sellNo},
 		      success : function(result){
 		    			if(result == 1) {
-		     				alert("»óÅÂ º¯°æ");
+		    				
+		     				alert("ìƒíƒœ ë³€ê²½");
+		     				  location.reload();
 		    			}
 		    	},
 		    	error:function(){
-		            console.log("½ÇÆĞ");
+		            console.log("ì‹¤íŒ¨");
 		         }
 				  
 		  });
