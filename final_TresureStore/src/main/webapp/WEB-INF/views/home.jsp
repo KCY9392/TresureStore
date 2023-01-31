@@ -36,7 +36,6 @@
                 icon: 'error',
                 title: '${alertMsg}'                  
             });		
-// 				alertify.alert("경고",'${alertMsg}');// 변수를 문자열로
 			</script>
 		</c:if>
 		
@@ -46,7 +45,6 @@
 	                icon: 'success',
 	                title: '${alertMsg}'                  
 	            });		
-	// 				alertify.alert("경고",'${alertMsg}');// 변수를 문자열로
 			</script>
 		</c:if>
 			<c:remove var="alertMsg" scope="session"/>
