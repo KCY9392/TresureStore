@@ -193,7 +193,6 @@ public class ChatServiceImpl implements ChatService{
       return SellDao.insertNegoPrice(sqlSession, nego);
       
    }
-   
 
    
    

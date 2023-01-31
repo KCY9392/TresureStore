@@ -22,32 +22,35 @@ public interface MyPageService{
 	public int followCount(int userNo);
 	
 	/**
-	 * 신고 수 조회
-	 */
+	 * 신고 수 조회 */
 	public int reportCount(int userNo);
 
 	
 	/**
-	 * 상점 오픈일
-	 */
-	
+	 * 상점 오픈일 */
 	public int marketOpen(int userNo);
 	
 	public int reviewAvg(int userNo);
 	
-	/**
-	 * 마이페이지 상품 목록
-	 */
 	
+	/**
+	 * 마이페이지 상품 목록 */
 	public List<Sell> mypageSellList(int userNo);
 	
 	/**
-	 * 마이페이지 찜 상품 목록
-	 */
+	 * 마이페이지 찜 상품 목록 */
 	public List<Heart> mypageHeartList(int userNo);
 	
+	
+	/**
+	 * 마이페이지 상점후기 목록 */
 	public List<Review> mypageReviewList(int userNo);
 	
-	public int changeStatus(int sellNo);
+	public int changeStatus(HashMap<String, Object> map);
+
+	
+	/**
+	 * 마이페이지 구매목록 */
+	public List<Sell> mypagePurchaseList(int userNo);
 
 }

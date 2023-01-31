@@ -42,6 +42,8 @@ public class MyPageController {
 		this.mypageService = mypageService;
 	}
 	
+	
+	
 	@RequestMapping(value = "member/myPage", method = RequestMethod.GET)
 	public String myPage(HttpServletRequest request,Model m) {
 		HttpSession session = request.getSession();
@@ -92,17 +94,26 @@ public class MyPageController {
 		
 	}
 	
+	
+	
 	@RequestMapping(value = "member/tracsac", method = RequestMethod.GET)
 	public String tracsac(Model m,HttpServletRequest request) {
 		
 		HttpSession session = request.getSession();
-		
-		
 		Member loginUser = (Member)session.getAttribute("loginUser");	
+		
+		//판매내역
 		List<Sell> sellList = mypageService.mypageSellList(loginUser.getUserNo());
 		m.addAttribute("sellList", sellList);
+		
+		//구매내역
+		List<Sell> purchaseList = mypageService.mypagePurchaseList(loginUser.getUserNo());
+		m.addAttribute("purchaseList", purchaseList);
+		
 		return "member/tracsac";
 	}
+
+	
 	
 	@ResponseBody
 	@RequestMapping("changeStatus")
@@ -111,6 +122,30 @@ public class MyPageController {
 		if(result==0) {
 			
 			mypageService.changeStatus(sellNo);
+			result =1;
+		}
+		return result;
+	}
+	
+	
+	
+	
+	
+	@ResponseBody
+	@RequestMapping("changeStatus")
+	public int changeStatus(@RequestParam("sellNo") int sellNo) {
+		int result = 0;
+		
+		Sell s = new Sell();
+		
+		String sellStatus = s.getSellStatus();
+		 
+		 HashMap<String, Object> map = new HashMap<>();
+		 map.put("sellNo", sellNo);
+		 map.put("sellStatus", sellStatus);
+		if(result==0) {
+			
+			mypageService.changeStatus(map);
 			result =1;
 		}
 		return result;

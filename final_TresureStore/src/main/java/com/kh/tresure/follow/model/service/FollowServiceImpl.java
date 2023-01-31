@@ -29,12 +29,20 @@ public class FollowServiceImpl implements FollowService {
 		this.followDao = followDao;
 		this.sqlSession = sqlSession;
 	}
-
+	
+	/**
+	 * 멤버 조회
+	 */
+	@Override
+	public Map <String, Object> selectMember(Follow follow) {
+		return followDao.selectMember(follow, sqlSession);
+	}
+	
 	/**
 	 * 팔로우 리스트 조회
 	 */
 	@Override
-	public List<Follow> selectFollowList(Follow follow) {
+	public List <Follow> selectFollowList(Follow follow) {
 		return followDao.selectFollowList(follow, sqlSession);
 	}
 	

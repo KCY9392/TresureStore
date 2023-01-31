@@ -228,38 +228,40 @@
                                         
                                         
                                         $("#chatExit${chatRoom.chatRoomNo }").click(function() {
-                                           
-                                              function reload(){
-                                              location.reload();
-                                           }
-                                           
-                                           $.ajax({
-                                              url : "${pageContext.request.contextPath}/chat/chatRoom/exit",
-                                              data : { userNo :  ${loginUser.userNo},
-                                                      chatRoomNo : ${chatRoom.chatRoomNo }
-                                              },
-                                              type : "post",
-                                              success : function(result){
-                                                 if(result > 0){
-                                                       Swal.fire({
-                                                              icon: 'success',
-                                                              title: '성공적으로 채팅방을 나갔습니다.'                  
-                                                          });
-                                                       setTimeout(function() {
-                                                            location.reload();
-                                                          }, 1000);
-                                                       
-                                              //             alertify.alert("경고",'${alertMsg}');// 변수를 문자열로
-                                                 } else {
-                                                    alert("실패");
-                                                 }
-                                                 
-                                              },
-                                              error : function(){
-                                                 console.log("통신실패");
-                                              }
-                                              
-                                           })
+
+                                        	
+                               	            function reload(){
+                            	            	location.reload();
+                            	            }
+                                        	
+                                        	$.ajax({
+                                        		url : "${pageContext.request.contextPath}/chat/chatRoom/exit",
+                                        		data : { userNo :  ${loginUser.userNo},
+                                        			     chatRoomNo : ${chatRoom.chatRoomNo }
+                                        		},
+                                        		type : "post",
+                                        		success : function(result){
+                                        			if(result > 0){
+                                        	            Swal.fire({
+                                        	                   icon: 'success',
+                                        	                   title: '성공적으로 채팅방을 나갔습니다.'                  
+                                        	               });
+                                        	            setTimeout(function() {
+                                        	            	  location.reload();
+                                        	            	}, 1000);
+                                        	            
+                                        	   //             alertify.alert("경고",'${alertMsg}');// 변수를 문자열로
+                                        			} else {
+                                        				alert("실패");
+                                        			}
+                                        			
+                                        		},
+                                        		error : function(){
+                                        			console.log("통신실패");
+                                        		}
+                                        		
+                                        	})
+
                                         });
                                     </script>
                                 </c:forEach>

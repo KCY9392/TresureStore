@@ -14,6 +14,10 @@
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
  <script type="text/javascript" src="/tresure/resources/js/header.js"></script>
  <script type="text/javascript" src="/tresure/resources/js/mypageMain.js"></script>
+ 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
 </head>
 <body>
 	<jsp:include page="../common/header.jsp"/>
@@ -27,114 +31,201 @@
 	
 	<div class="list-content">
     		<div class="list-b">
-    			<button class="sell-trac"  type="button" onclick="show(this);" id="s" name="show"><span class="sell-trac">ÆÇ¸Å³»¿ª</span></button>
-				<button class="pur-trac" type="button" onclick="show(this);" id="p"name="show"><span class="pur-trac">±¸¸Å³»¿ª</span></button>
+    			<button class="sell-trac"  type="button" onclick="show(this);" id="s" name="show"><span class="sell-trac">íŒë§¤ë‚´ì—­</span></button>
+				<button class="pur-trac" type="button" onclick="show(this);" id="p"name="show"><span class="pur-trac">êµ¬ë§¤ë‚´ì—­</span></button>
     		</div>
     		<br><br>
     	</div>
     	
+    	
     <div id="sshow" class="box">	
-	<div class="list-area">
-				
-	           
-				<br>
-				<table class="table table-hover list">
-					<thead>
-						<tr>
-							<th scope="col" style="text-align: center;">»çÁø</th>
-							<th scope="col" width="350px">»óÇ°¸í</th>
-							<th scope="col">°¡°İ</th>
-							<th scope="col">Âò</th>
-							<th scope="col">³¯Â¥</th>
-							<th scope="col">ÆÇ¸Å»óÅÂ</th>
-							<th scope="col"></th>
-							
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach var="s" items="${sellList}" begin="0" end="${fn:length(sellList)}" step="1" varStatus="status">
-						
-						
-								<tr>
-									<td scope="col"><c:if test="${s.imgSrc != null}">
-										 <c:if test="${s.imgSrc != null}">
-											<img src="${s.imgSrc}" width="100%" height="150px;"
-											class="rounded float-start" alt="">
-										</c:if>
-										
-									</c:if></td>
-									<td scope="col"> ${s.sellTitle}</td>
-									<td scope="col">${s.price }</td>
-									<td scope="col">${s.heartNum }</td>
-									<td scope="col">${s.createDate }</td>
-									<td scope="col"><c:if test="${s.sellStatus eq 'I' }">
-	                           <h5 class="sellStatus">ÆÇ¸ÅÁß</h5>
-	                           </c:if>	
-	                           <c:if test="${s.sellStatus eq 'C' }">
-	                           <h5 class="sellStatus">ÆÇ¸Å¿Ï·á</h5>
-	                           </c:if>
-	                           </td>
-	                           <td><button type="button" onclick="changeStatus();">»óÅÂ º¯°æ</button></td>
-									
-								</tr>
+		<div class="list-area">
+					
+		           
+					<br>
+					<table class="table table-hover list">
+						<thead>
+							<tr>
+								<th scope="col" style="text-align: center;" width="20%">ì‚¬ì§„</th>
+								<th scope="col" width="200px">ìƒí’ˆëª…</th>
+								<th scope="col">ê°€ê²©</th>
+								<th scope="col">ì°œ</th>
+								<th scope="col">ë‚ ì§œ</th>
+								<th scope="col">íŒë§¤ìƒíƒœ</th>
+								<th scope="col"></th>
 								
-						</c:forEach>
-						
-						
-					</tbody>
-				</table>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach var="s" items="${sellList}" begin="0" end="${fn:length(sellList)}" step="1" varStatus="status">
+							
+							
+									<tr>
+										<td scope="col"><c:if test="${s.imgSrc != null}">
+											 <c:if test="${s.imgSrc != null}">
+												<img src="${s.imgSrc}" width="100%" height="150px;"
+												class="rounded float-start" alt="">
+											</c:if>
+											
+										</c:if></td>
+										<td scope="col"> ${s.sellTitle}</td>
+										<td scope="col">${s.price }ì›</td>
+										<td scope="col">${s.heartNum }</td>
+										<td scope="col">${s.createDate }</td>
+										<td scope="col"><c:if test="${s.sellStatus eq 'I' }">
+		                           <h5 class="sellStatus">íŒë§¤ì¤‘</h5>
+		                           </c:if>	
+		                           <c:if test="${s.sellStatus eq 'C' }">
+		                           <h5 class="sellStatus">íŒë§¤ì™„ë£Œ</h5>
+		                           </c:if>
+		                           </td>
+		                           <td><button type="button" class="reviewB" onclick="changeStatus(${s.sellNo});">ìƒíƒœ ë³€ê²½</button></td>
+
+								</tr>
+
+							</c:forEach>
+							
+							
+						</tbody>
+					</table>
+				</div>
 			</div>
+			
+			
+			<div id="pshow" class="box">	
+			   <div class="list-area">
+						
+			           
+						<br>
+						<table class="table table-hover list">
+							<thead>
+								<tr>
+									<th scope="col" style="text-align: center;" width="20%">ì‚¬ì§„</th>
+									<th scope="col" style="padding-left: 10px;" width="35%">ìƒí’ˆëª…</th>
+									<th scope="col" width="20%">ê°€ê²©</th>
+									<th scope="col" width="20%">ë‚ ì§œ</th>
+									<th scope="col" width="5%">í›„ê¸°</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="p" items="${purchaseList}" begin="0" end="${fn:length(purchaseList)}" step="1" varStatus="status">
+								
+								
+										<tr>
+											<td scope="col">
+												<c:if test="${p.imgSrc != null}">
+													<img src="${p.imgSrc}" width="100%" height="150px;"
+													class="rounded float-start" alt="">
+												</c:if>
+												
+											</td>
+											<td scope="col"> ${p.sellTitle}</td>
+											<td scope="col">${p.price }ì›</td>
+											<td scope="col">${p.createDate }</td>
+											<c:if test="${p.rev_is == 'N'}">
+												<td><button type="button" class="reviewB" data-bs-toggle="modal" data-bs-target="#exampleModal" id="write" >ì‘ì„±í•˜ê¸°</button></td>
+											</c:if>
+											<c:if test="${p.rev_is != 'N'}">
+												<td><button type="button" class="reviewB" data-bs-toggle="modal" data-bs-target="#exampleModal" id="write">ìˆ˜ì •í•˜ê¸°</button></td>
+											</c:if>
+										</tr>
+										
+								</c:forEach>
+								
+								
+							</tbody>
+						</table>
+					</div>
 			</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-</div>
+			
+			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content" style="width: 800px;
+										    height: 600px;
+										    margin-top: 150px;
+										    margin-left: -125px;">
+			      <div class="modal-header" style="background-color: #fff5ba;">
+			        <h5 class="modal-title" id="exampleModalLabel" style="margin-left: 42%; font-size: 30px;">ìƒì  í›„ê¸° ì‘ì„±</h5>
+			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			      </div>
+			      <div class="modal-body" style="text-align: center;">
+			        <!-- Login -->
+			        <form>
+			        
+				        <div class="star-rating">
+						  <input type="radio" id="5-stars" name="rating" value="5" />
+						  <label for="5-stars" class="star">&#9733;</label>
+						  <input type="radio" id="4-stars" name="rating" value="4" />
+						  <label for="4-stars" class="star">&#9733;</label>
+						  <input type="radio" id="3-stars" name="rating" value="3" />
+						  <label for="3-stars" class="star">&#9733;</label>
+						  <input type="radio" id="2-stars" name="rating" value="2" />
+						  <label for="2-stars" class="star">&#9733;</label>
+						  <input type="radio" id="1-star" name="rating" value="1" />
+						  <label for="1-star" class="star">&#9733;</label>
+						</div>
+			          <div class="mb-3" style="margin-top: 50px;">
+			            <label for="exampleInputEmail1" class="form-label">Email address</label>
+			            <textarea class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" style="    width: 700px;
+    margin: auto;
+    height: 140px;
+}"></textarea>
+			            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+			          </div>
+			          
+			          
+			        </form>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			        <button type="submit" class="btn btn-primary">Submit</button>
+			      </div>
+			    </div>
+			  </div>
+		  </div>
+		
+		</div>
+		</div>
 
 
 	</div>
 	
 	<script>
-	  function changeStatus(){
+	  function changeStatus(sellNo){
+		  var sellNum = $('.sellNo').val();
+		  
+		  
+		  
 		  $.ajax({
 			  url : '${pageContext.request.contextPath}/changeStatus',
 	          type : 'post',
-		      data : {sellNo : "${s.sellNo}"},
+		      data : {sellNo :sellNo},
 		      success : function(result){
 		    			if(result == 1) {
-		     				alert("»óÅÂ º¯°æ");
+		    				
+		     				alert("ìƒíƒœ ë³€ê²½");
+		     				  location.reload();
 		    			}
 		    	},
 		    	error:function(){
-		            console.log("½ÇÆĞ");
+		            console.log("ì‹¤íŒ¨");
 		         }
 				  
 		  });
 		 
 		  
 	  };
+	  
 	
+	</script>
+	
+	<script>
+		const emailInputEl = document.querySelector('#exampleInputEmail1')
+		const modalEl = document.querySelector('#exampleModal')
+	
+		modalEl.addEventListener('shown.bs.modal', function () {
+		  emailInputEl.focus()
+		})
 	</script>
 
 

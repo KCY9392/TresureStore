@@ -315,9 +315,21 @@ public class SellController {
 
 	}
 	
-	
-	
-	
-	
+	// 상세페이지에서 판매자 이미지 클릭 시 판매자 상점으로 이동
+	@RequestMapping(value = "/seller/{userNo}")
+	public String sellerPage(@PathVariable("userNo") int userNo, Model model, Sell sell, HttpSession session) {
+		Member member = (Member) session.getAttribute("loginUser");
+		
+		Map <String, Integer> map = new HashMap<>();
+		map.put("userNo", member.getUserNo());
+		map.put("sellerNo", userNo);
+		model.addAttribute("member", sellService.sellerDetail(map));
+		// 판매 리스트
+		model.addAttribute("sellList", sellService.sellList(userNo));
+		// 리뷰 리스트
+		model.addAttribute("reviewList", sellService.reviewList(userNo));
+		
+		return "sell/sellerPage";
+	}
 }
 	

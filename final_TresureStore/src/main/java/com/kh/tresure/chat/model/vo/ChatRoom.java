@@ -29,3 +29,4 @@ public class ChatRoom {
    private String sellTitle; //상품제목
    private double purchaseUserAvg;   // 구매자의 평점
 }
+

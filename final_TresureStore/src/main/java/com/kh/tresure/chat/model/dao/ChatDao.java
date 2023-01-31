@@ -109,6 +109,7 @@ public class ChatDao {
    public ChatRoom selectUserNoByChatRoomNo(SqlSession sqlSession, int chatRoomNo) {
       
       return sqlSession.selectOne("chattingMapper.selectUserNoByChatRoomNo", chatRoomNo);
+
    }
 
 
