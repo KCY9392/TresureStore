@@ -48,6 +48,6 @@ public interface MyPageService{
 	
 	public List<Review> mypageReviewList(int userNo);
 	
-	public int changeStatus(int sellNo);
+	public int changeStatus(HashMap<String, Object> map);
 
 }

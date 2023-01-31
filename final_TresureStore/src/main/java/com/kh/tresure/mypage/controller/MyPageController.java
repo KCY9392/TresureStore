@@ -67,8 +67,6 @@ public class MyPageController {
 			//리뷰 평점
 			int reviewAvg = mypageService.reviewAvg(loginUser.getUserNo());
 			
-			
-			
 			//판매상품 리스트
 			List<Sell> sellList = mypageService.mypageSellList(loginUser.getUserNo());
 			//찜 상품 리스트
@@ -106,17 +104,22 @@ public class MyPageController {
 	
 	@ResponseBody
 	@RequestMapping("changeStatus")
-	public int changeStatus(@PathVariable("sellNo") int sellNo) {
+	public int changeStatus(@RequestParam("sellNo") int sellNo) {
 		int result = 0;
+		
+		Sell s = new Sell();
+		
+		String sellStatus = s.getSellStatus();
+		 
+		 HashMap<String, Object> map = new HashMap<>();
+		 map.put("sellNo", sellNo);
+		 map.put("sellStatus", sellStatus);
 		if(result==0) {
 			
-			mypageService.changeStatus(sellNo);
+			mypageService.changeStatus(map);
 			result =1;
 		}
 		return result;
-		
-		
-		
 		
 	}
 	

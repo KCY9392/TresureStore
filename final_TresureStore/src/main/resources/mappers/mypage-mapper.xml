@@ -83,17 +83,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		
 	</select>
 	
-	<update id="changeStatus" parameterType="int">
-	 UPDATE SELL SET
-	  <if test="#{sellStatus}=='I'">
-	   SELL_STATUS = 'C'
-    </if>
-     <if test="#{sellStatus}=='C'">
-	   SELL_STATUS = 'I'
-    </if>
+	<update id="changeStatus" parameterType="map">
+    UPDATE SELL SET
+     SELL_STATUS = DECODE((SELECT SELL_STATUS FROM SELL WHERE SELL_NO = #{sellNo}),'C','I','I','C') 
     WHERE SELL_NO = #{sellNo}
-	
-	</update>
+   </update>
 	
 
 </mapper>

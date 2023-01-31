@@ -63,7 +63,7 @@
 											class="rounded float-start" alt="">
 									</c:if>
 									<c:if test="${s.crawl.equals('N')}">
-										<img src="${pageContext.request.contextPath}${s.imgSrc}" width="100%" height="150px;"
+										<img src="${pageContext.request.contextPath}${s.imgSrc}" width="100%" height="100%"
 										class="rounded float-start" alt="">
 								</c:if>
                         	</div>
@@ -230,7 +230,7 @@
 			return;
 		}
 
-		$(e.target).parent().removeClass("followBtn-sell"); // 중복 이벤트 방지를 위해 class를 제거하자. (class를 제거하면 더 이상 이벤트 발생 안함)
+		$(e.target).parent().removeClass("followBtn-sell"); // 중복 이벤트 방지를 위해 class를 제거. (class를 제거하면 더 이상 이벤트 발생 안함)
 		$.ajax({
 			url : '${pageContext.request.contextPath}/follow/addFollow',
 			type : "post",
@@ -241,6 +241,7 @@
 				if (result == 1) {
 					$(".followBtm").attr("src", $(".followBtm").attr("src").replace("followAddBtn.png", "followSubBtn.png"));
 					alert("팔로우 되었습니다.");
+					location.reload();
 				} else if (result == 2) {
 					if (confirm("이미 팔로우 했습니다.\n팔로우를 취소하시겠습니까?")) {
 						$.ajax({
@@ -253,6 +254,7 @@
 								if (count == 1) {
 									alert("팔로우가 취소되었습니다.");
 									$(".followBtm").attr("src", $(".followBtm").attr("src").replace("followSubBtn.png", "followAddBtn.png"));
+									location.reload();
 								} else {
 									alert("팔로우 취소에 실패하었습니다.");
 								}
