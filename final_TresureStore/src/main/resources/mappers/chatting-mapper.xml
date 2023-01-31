@@ -120,7 +120,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- 차단 리스트에서 삭제(해제) -->
 <delete id="deleteBlock" parameterType="block">
-	DELETE
+   DELETE
     FROM BLOCK B
     WHERE BLOCKER_NO = #{blockerNo} AND BLOCKED_NO= #{blockedNo}
 </delete>

@@ -107,8 +107,9 @@ public class ChatDao {
 
    // 채팅방 안에 구매자유저번호( 채팅방 만든 유저번호) 가져오기
    public ChatRoom selectUserNoByChatRoomNo(SqlSession sqlSession, int chatRoomNo) {
-		
-	   return sqlSession.selectOne("chattingMapper.selectUserNoByChatRoomNo", chatRoomNo);
+      
+      return sqlSession.selectOne("chattingMapper.selectUserNoByChatRoomNo", chatRoomNo);
+
    }
 
 
