@@ -24,6 +24,8 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	
 </head>
+<!-- 아 김채영 -->
+<!-- 왱 -->
 <body>
 	<jsp:include page="./common/header.jsp"/>
 	<jsp:include page="./common/sideBar.jsp"/>
@@ -35,7 +37,6 @@
                 icon: 'error',
                 title: '${alertMsg}'                  
             });		
-// 				alertify.alert("경고",'${alertMsg}');// 변수를 문자열로
 			</script>
 		</c:if>
 		
@@ -45,7 +46,6 @@
 	                icon: 'success',
 	                title: '${alertMsg}'                  
 	            });		
-	// 				alertify.alert("경고",'${alertMsg}');// 변수를 문자열로
 			</script>
 		</c:if>
 			<c:remove var="alertMsg" scope="session"/>
@@ -89,6 +89,8 @@
 		 </div>
 	
 	</div>
+	<!-- 왜 -->
+	<br>
 	
 	<script>
 		function sellDetail(sellNo){

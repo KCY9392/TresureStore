@@ -32,7 +32,7 @@
 									<div class="image_con">
 										<ul class="sellInsertImages" id="imageList">
  											<li class="imageList">이미지 등록 <input type="file"
- 												 id="inputImage" name="upfile" multiple>
+ 												 id="inputImage" name="upfile" multiple required>
  											</li>
 										</ul>
 										<div class="add_description">
@@ -56,7 +56,7 @@
 											<div class="title_insertBox">
 												<input type="text" placeholder="상품 제목을 입력해주세요."
 													class="titleInput" id="product_subject"
-													name="sellTitle">
+													name="sellTitle" required>
 											</div>
 											<div class="titleSize">
 												<span>최대 40글자</span>
@@ -74,7 +74,7 @@
 										카테고리<span>*</span>
 									</div>
 									<div class="category_sub">
-										<select name="categoryNo" id="category_sub">
+										<select name="categoryNo" id="category_sub" required>
 											<option value="">카테고리</option>
 											<option value="10">디지털기기</option>
 											<option value="20">생활가전</option>
@@ -96,7 +96,7 @@
 									<div class="price_con">
 										<div class="priceBox">
 											<input type="text" placeholder="숫자만 입력해주세요."
-												class="priceInput" id="product_price" name="price">원
+												class="priceInput" id="product_price" name="price" required/>원
 										</div>
 
 									</div>
@@ -110,7 +110,7 @@
 									</div>
 									<div class="content_con">
 										<textarea style="resize: none;" rows="10" class="content"
-											id="product_content" name="sellContent"></textarea>
+											id="product_content" name="sellContent" required></textarea>
 										<div class="text">
 											<div class="limit">최대 2000자</div>
 										</div>
@@ -136,6 +136,21 @@
 	
 	<jsp:include page="../common/footer.jsp"/>
 
+	<script>
+	/* 가격 유효성 검사 */
+		$(function(){
+			$("#product_price").keyup(function(){
+				var regExp = /[^0-9]/g;	
+	   	        if(regExp.test($("#product_price").val())) {
+	   	        	alert("숫자만입력가능^^");
+	   	        	let str = $("#product_price").val().replace(regExp, "");
+	   	        	$("#product_price").val("");
+	   	        	$("#product_price").val(str);
+				}
+	   	        
+		    });
+		});
+	</script>
 
 	
 </body>

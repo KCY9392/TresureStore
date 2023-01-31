@@ -89,18 +89,30 @@ public class MyPageServiceImpl implements MyPageService{
 	public List<Heart> mypageHeartList(int userNo){
 		return mypageDao.mypageHeartList(sqlSession, userNo);
 	}
+	
+	/**
+	 * 마이페이지 상점후기 목록
+	 */
 	@Override
 	public List<Review> mypageReviewList(int userNo) {
 		
 		return mypageDao.mypageReviewList(sqlSession, userNo);
 		}
 	
+	
+	
 	@Override
 	public int changeStatus(HashMap<String, Object> map) {
 		return mypageDao.changeStatus(sqlSession, map);
 	}
 
-	
+	/**
+	 * 마이페이지 구매목록
+	 */
+	@Override
+	public List<Sell> mypagePurchaseList(int userNo){
+		return mypageDao.mypagePurchaseList(sqlSession, userNo);
+	}
 	
 
 }

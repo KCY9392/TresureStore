@@ -209,6 +209,8 @@
                                             hiddenField.setAttribute('type', 'hidden');
                                             hiddenField.setAttribute('name', "sellUserNo");
                                             hiddenField.setAttribute('value', ${chatRoom.sellUserNo });
+                                            
+                    
 
                                             
                                             let hiddenField2 = document.createElement('input');
@@ -241,11 +243,11 @@
                                         			if(result > 0){
                                         	            Swal.fire({
                                         	                   icon: 'success',
-                                        	                   title: '성공하셨습니다.'                  
+                                        	                   title: '성공적으로 채팅방을 나갔습니다.'                  
                                         	               });
                                         	            setTimeout(function() {
                                         	            	  location.reload();
-                                        	            	}, 3000);
+                                        	            	}, 1000);
                                         	            
                                         	   //             alertify.alert("경고",'${alertMsg}');// 변수를 문자열로
                                         			} else {

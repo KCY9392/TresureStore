@@ -25,6 +25,7 @@ public class ChatRoom {
 	
 	private int sellUserNo; // 판매한 유저번호
 	private Timestamp chatDate; //대화한 시간
-	private int avg; //전체 거래 평점의 평균값
+	private double avg; // 판매자의평점
 	private String sellTitle; //상품제목
+	private double purchaseUserAvg;	// 구매자의 평점
 }

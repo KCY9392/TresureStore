@@ -12,10 +12,24 @@
     box-sizing: border-box;
     background-color: rgb(255 255 239);
 }
+
+.reviewB{
+	width: 100px;
+    height: 40px;
+    /* font-family: none; */
+    font-family: 'koverwatch';
+    font-size: 20px;
+    background-color: #ffe6c4;
+    border: 2px solid tan;
+    border-radius: 12px;
+	
+}
+
 table{
     margin: auto;
     text-align: center;
     overflow : hidden;
+    font-size: 20px;
 }
 table tr th{
     padding: 30px;
