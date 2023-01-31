@@ -96,8 +96,8 @@ public class MyPageServiceImpl implements MyPageService{
 		}
 	
 	@Override
-	public int changeStatus(int sellNo) {
-		return mypageDao.changeStatus(sqlSession, sellNo);
+	public int changeStatus(HashMap<String, Object> map) {
+		return mypageDao.changeStatus(sqlSession, map);
 	}
 
 	
