@@ -12,10 +12,14 @@ import com.kh.tresure.follow.model.vo.Follow;
 public interface FollowService {
 	
 	/**
+	 * 멤버 조회
+	 */
+	public Map <String, Object> selectMember(Follow follow);
+	
+	/**
 	 * 팔로우 리스트 조회
 	 */
-	public List<Follow> selectFollowList(Follow follow);
-	
+	public List <Follow> selectFollowList(Follow follow);
 	
 	/**
 	 * 팔로우 조회
