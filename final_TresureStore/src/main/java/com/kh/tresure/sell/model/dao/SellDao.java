@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.kh.tresure.review.model.vo.Review;
 import com.kh.tresure.sell.model.vo.Sell;
 import com.kh.tresure.sell.model.vo.SellImg;
 
@@ -99,6 +100,15 @@ public class SellDao {
 		return sqlSession.selectList("sellMapper.howOrderList",map);
 	}
 
+	public List<Sell> sellList(SqlSession sqlSession, int userNo) {
+		return sqlSession.selectList("sellMapper.sellList", userNo);
+	}
 	
+	public List<Review> reviewList(SqlSession sqlSession, int userNo) {
+		return sqlSession.selectList("sellMapper.reviewList", userNo);
+	}
 	
+	public Map<String, Object> sellerDetail(SqlSession sqlSession, Map<String, Integer> map) {
+		return sqlSession.selectOne("sellMapper.sellerDetail", map);
+	}
 }

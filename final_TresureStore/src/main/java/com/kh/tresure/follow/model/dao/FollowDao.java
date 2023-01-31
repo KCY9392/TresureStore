@@ -1,6 +1,7 @@
 package com.kh.tresure.follow.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -9,12 +10,19 @@ import com.kh.tresure.follow.model.vo.Follow;
 
 @Repository
 public class FollowDao {
-
+	
+	/**
+	 * 멤버 조회
+	 */
+	public Map <String, Object> selectMember(Follow follow, SqlSession sqlSession) {
+		return sqlSession.selectOne("followMapper.selectMember", follow);
+	}
+	
 	/**
 	 * 팔로우 리스트 조회
 	 */
 	public List <Follow> selectFollowList(Follow follow, SqlSession sqlSession) {
-		return sqlSession.selectOne("followMapper.selectFollowList", follow);
+		return sqlSession.selectList("followMapper.selectFollowList", follow);
 	}
 
 	/**

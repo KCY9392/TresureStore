@@ -29,7 +29,7 @@
 					<c:if test="${ 3.5 <= member.avg && member.avg < 4 }">
 						<img src="/tresure/resources/images/icon/grade1.png" height="100%" width="100%" />
 					</c:if>
-					<c:if test="${ member.avg == null  || member.avg < 3.5 }">
+					<c:if test="${	member.avg  == null  || member.avg  < 3.5 }">
 						<img src="/tresure/resources/images/icon/grade0.png" height="100%" width="100%" />
 					</c:if>
 				</div>
@@ -60,7 +60,7 @@
 							<img src="/tresure/resources/images/icon/팔로워.png" width="20"
 								height="15" alt="팔로워 아이콘"> &nbsp;팔로워
 							<div class="market-follower">
-								<span>${member.folloewCount }</span> 명
+								<span>${member.followCount }</span> 명
 							</div>
 						</div>
 
@@ -76,7 +76,7 @@
 							<img src="/tresure/resources/images/icon/신고수.png" width="20"
 								height="15" alt="신고 아이콘"> &nbsp;신고
 							<div class="market-report">
-								<span>${member.reportCount }</span>회
+								<span>${member.repoterCount }</span>회
 							</div>
 						</div>
 						<br>
@@ -90,12 +90,11 @@
 		</div>
 		<div class="following_box">
 			<h2 class="following_title">팔로잉 목록</h2>
-			<!-- ${followList} -->
 			<ul class="following_body">
 			<c:forEach var="follow" items="${followList }">
 				<li class="following_list">
 					<div class="profile-image1">
-						<a href="${pageContext.request.contextPath }/sell/store/${follow.fwId }">
+						<a href="${pageContext.request.contextPath }/sell/seller/${follow.fwId}">
 						<c:if test="${follow.avg > 4.5}">
 							<img src="/tresure/resources/images/icon/grade3.png" height="100%" width="100%" />
 						</c:if>
@@ -123,7 +122,7 @@
 						</div>
 					</div>
 					<div>
-						<div class="market-name1">
+						<div class="market-name2">
 							<button type="button" class="follow-cancel" data-fwid="${follow.fwId }">팔로잉 취소</button>
 						</div>
 					</div>
@@ -133,32 +132,32 @@
 		</div>
 	</div>
 	<script>
-	$(document).on("click", ".follow-cancel", (e) => {
-		if (confirm("팔로잉을 취소하시겠습니까?")) {
-			let li = $(e.target).closest("li");
-			console.log("fwId : ", $(e.target).data("fwid"))
-			$.ajax({
-				url : '${pageContext.request.contextPath }/follow/delFollow',
-				type : "post",
-				data : {fwId : $(e.target).data("fwid")},
-				dataType : "json",
-				success : function(data) {
-					let count = Number(data.result)
-					if (count == 1) {
-						alert("팔로우가 취소되었습니다.");
-						$(li).remove();
-					} else {
-						alert("팔로우 취소에 실패하었습니다.");
+		$(document).on("click", ".follow-cancel", (e) => {
+			if (confirm("팔로잉을 취소하시겠습니까?")) {
+				let li = $(e.target).closest("li");
+				console.log("fwId : ", $(e.target).data("fwid"))
+				$.ajax({
+					url : '${pageContext.request.contextPath}/follow/delFollow',
+					type : "post",
+					data : {fwId : $(e.target).data("fwid")},
+					dataType : "json",
+					success : function(data) {
+						let count = Number(data.result)
+						if (count == 1) {
+							alert("팔로우가 취소되었습니다.");
+							$(li).remove();
+						} else {
+							alert("팔로우 취소에 실패하었습니다.");
+						}
+					},
+					error : function() {
+						alert("오류가 발생했습니다. 관리자에게 문의해주세요");
+						console.log("오류");
 					}
-				},
-				error : function() {
-					alert("오류가 발생했습니다. 관리자에게 문의해주세요");
-					console.log("오류");
-				}
-			});
-		}
-
-	});
+				});
+			}
+	
+		});
 	</script>
 </body>
 </html>

@@ -47,16 +47,16 @@
             
 <!-- 상점 등급 이미지 나오는 박스 -->            
             <div class="profile-image">
-           <c:if test="${reviewAvg > 4.5}"> 
+           <c:if test="${member.reviewAvg > 4.5}"> 
                                  <img src="/tresure/resources/images/icon/grade_3.png" height="100%" width="100%"/>
                               </c:if> 
-                              <c:if test="${ 4 <= reviewAvg && reviewAvg < 4.5 }"> 
+                              <c:if test="${ 4 <= member.reviewAvg && member.reviewAvg < 4.5 }"> 
                                  <img src="/tresure/resources/images/icon/grade2.png" height="100%" width="100%"/> 
                               </c:if> 
-                              <c:if test="${ 3.5 <= reviewAvg && reviewAvg < 4 }"> 
+                              <c:if test="${ 3.5 <= member.reviewAvg && member.reviewAvg < 4 }"> 
                                  <img src="/tresure/resources/images/icon/grade1.png" height="100%" width="100%"/> 
                               </c:if>
-                              <c:if test="${ reviewAvg == null  || reviewAvg < 3.5 }">
+                              <c:if test="${ member.reviewAvg == null  || member.reviewAvg < 3.5 }">
                                  <img src="/tresure/resources/images/icon/grade0.png" height="100%" width="100%"/>
                               </c:if>  
 
@@ -70,36 +70,36 @@
 <!-- 상점명 & 개업날짜 & 팔로워수 & 판매상품수 & 상점신고수 내용 박스 -->
         <div class="info">
             <div class="info-table">
-                <div class="market-name">상점<h3>${loginUser.userNo }</h3>호점</div><br><br>
+                <div class="market-name">상점<h3>${member.userNo }</h3>호점</div><br><br>
                 <div class="info-list">
                     <div class="market-open">
                         <img src="/tresure/resources/images/icon/상점오픈.png" width="20" height="15" alt="상점오픈일 아이콘">
-                        &nbsp;상점오픈일<div class="market-opendate"><span>${marketOpen }</span>일전</div>
+                        &nbsp;상점오픈일<div class="market-opendate"><span>${member.marketOpen }</span>일전</div>
                     </div>
 
                     <div class="follower">
                         <img src="/tresure/resources/images/icon/팔로워.png" width="20" height="15" alt="팔로워 아이콘">
-                        &nbsp;팔로워<div class="market-follower"><span>${folloewCount }</span> 명</div>
+                        &nbsp;팔로워<div class="market-follower"><span>${member.followCount }</span> 명</div>
                     </div>
 
                     <div class="sell-product">
                         <img src="/tresure/resources/images/icon/판매수.png" width="20" height="15" alt="상품판매 아이콘">
-                        &nbsp;상품판매<div class="market-sell"> <span>${sellCount }</span> 회</div>
+                        &nbsp;상품판매<div class="market-sell"> <span>${member.sellCount }</span> 회</div>
                     </div>
 
                     <div class="report">
                         <img src="/tresure/resources/images/icon/신고수.png" width="20" height="15" alt="신고 아이콘">
-                        &nbsp;신고<div class="market-report"> <span>${reportCount }</span>회</div>
+                        &nbsp;신고<div class="market-report"> <span>${member.reportCount }</span>회</div>
                     </div>
                     <br><br>
                 </div>
                 <br><br><br>
 
                 <div class="followAddOrSubBox">
-					<c:if test="${loginUser.getUserNo() == null || s.follow_Is == 0}">
+					<c:if test="${member.isFollow == 0}">
                            <button type="button" class="followBtn-sell" style="width:100%; height: 100%;"><img src="/tresure/resources/images/icon/followAddBtn.png" width="100%" height="70%"></button>
                     </c:if>
-                    <c:if test="${s.follow_Is != 0}">
+                    <c:if test="${member.isFollow != 0}">
                            <button type="button" class="followBtn-sell" style="width:100%; height: 100%;"><img src="/tresure/resources/images/icon/followSubBtn.png" width="100%" height="70%"></button>
                     </c:if>                
                 </div>
@@ -131,7 +131,7 @@
 	                                           width: 200px !important;
 	                                           padding: 0px 20px !important;
 	                                           margin-bottom:10px !important;">
-	                     <div class="item">
+	                     <div class="item" onclick="sellDetail(${s.sellNo});">
 	                        <div id="itemSolid" class="slist-items" style="border: 1px solid rgb(238, 238, 238)">
 	                           <c:if test="${s.imgSrc != null}">
 	                           <img src="${s.imgSrc}" width="100%" height="150px;"
@@ -209,6 +209,70 @@
 </div>
     
      <jsp:include page="../common/footer.jsp"/>
+     
+     <script>
+ 	$(document).on("click", ".followBtn-sell", (e) => {
+		if ("${loginUser.userNo}" == "${s.userNo}") {
+			alert("내가 나 자신을 팔로우 할 수는 없습니다.");
+			return;
+		}
+
+		$(e.target).parent().removeClass("followBtn-sell"); // 중복 이벤트 방지를 위해 class를 제거하자. (class를 제거하면 더 이상 이벤트 발생 안함)
+		$.ajax({
+			url : '${pageContext.request.contextPath}/follow/addFollow',
+			type : "post",
+			data : {fwId : "${s.userNo}"},
+			dataType : "json",
+			success : function(data) {
+				let result = Number(data.result);
+				if (result == 1) {
+					$(".followBtm").attr("src", $(".followBtm").attr("src").replace("followAddBtn.png", "followSubBtn.png"));
+					alert("팔로우 되었습니다.");
+				} else if (result == 2) {
+					if (confirm("이미 팔로우 했습니다.\n팔로우를 취소하시겠습니까?")) {
+						$.ajax({
+							url : '${pageContext.request.contextPath}/follow/delFollow',
+							type : "post",
+							data : {fwId : "${s.userNo}"},
+							dataType : "json",
+							success : function(data) {
+								let count = Number(data.result)
+								if (count == 1) {
+									alert("팔로우가 취소되었습니다.");
+									$(".followBtm").attr("src", $(".followBtm").attr("src").replace("followSubBtn.png", "followAddBtn.png"));
+								} else {
+									alert("팔로우 취소에 실패하었습니다.");
+								}
+							},
+							error : function() {
+								alert("오류!!!");
+								console.log("오류");
+							}
+						});
+					}
+				} else {
+					alert("오류가 발생!!")
+				}
+				console.log(data);
+			},
+			error : function() {
+				alert("오류가 발생.");
+				console.log("오류");
+			},
+			complete : function () {
+				$(e.target).parent().addClass("followBtn-sell");
+			}
+		})
+
+	    });
+
+     </script>
+     
+     <script>
+		function sellDetail(sellNo){
+			location.href = "${pageContext.request.contextPath}/sell/sellDetail/"+sellNo;
+		}
+     </script>
       
 </body>
 </html>

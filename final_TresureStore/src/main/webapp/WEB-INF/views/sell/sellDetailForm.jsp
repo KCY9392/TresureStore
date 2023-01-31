@@ -84,20 +84,27 @@
 							<!-- 판매자 정보 -->
                            <div class="sellerInfo">
 
+	                                    <c:set var="sellerUrl" value="${pageContext.request.contextPath }/member/myPage" />
+	                                    <c:if test="${loginUser.userNo != s.userNo }">
+	                                    	<c:set var="sellerUrl" value="${pageContext.request.contextPath }/sell/seller/${s.userNo }" />
+	                                    </c:if>
+								<a href="${sellerUrl }">
                                 <div class="sellGradeAndNameBox">
                                     <div class="sellerGradeImg">
-                                        <c:if test="${s.avg > 4.5}"> 
-											<img src="/tresure/resources/images/icon/grade_3.png" width="100%" height="100%"/>
-										</c:if> 
-										<c:if test="${ 4 <= s.avg && s.avg < 4.5 }"> 
-											<img src="/tresure/resources/images/icon/grade_3.png" width="100%" height="100%"/> 
-										</c:if> 
-										<c:if test="${ 3.5 <= s.avg && s.avg < 4 }"> 
-											<img src="/tresure/resources/images/icon/grade_3.png" width="100%" height="100%"/> 
-										</c:if>
-										<c:if test="${ s.avg == null  || s.avg < 3.5 }">
-											<img src="/tresure/resources/images/icon/grade_3.png" width="100%" height="100%"/>
-										</c:if>
+	                                    	
+	                                        <c:if test="${s.avg > 4.5}"> 
+												<img src="/tresure/resources/images/icon/grade_3.png" width="100%" height="100%"/>
+											</c:if> 
+											<c:if test="${ 4 <= s.avg && s.avg < 4.5 }"> 
+												<img src="/tresure/resources/images/icon/grade_3.png" width="100%" height="100%"/> 
+											</c:if> 
+											<c:if test="${ 3.5 <= s.avg && s.avg < 4 }"> 
+												<img src="/tresure/resources/images/icon/grade_3.png" width="100%" height="100%"/> 
+											</c:if>
+											<c:if test="${ s.avg == null  || s.avg < 3.5 }">
+												<img src="/tresure/resources/images/icon/grade_3.png" width="100%" height="100%"/>
+											</c:if>
+											
                                     </div>
                                     <div class="sellerNameInfoBox">
                                         <div class="sellerName">
@@ -109,6 +116,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                </a>
 
                                 <div class="followBtn-sellDetail">
                                     <c:if test="${loginUser.getUserNo() == null || s.follow_Is == 0}">
