@@ -47,6 +47,7 @@ public class Sell {
 	private int follow_Is;
 	private int heart_Is;
 	
+	private String rev_is;
 	
 	private String timeago;
 	

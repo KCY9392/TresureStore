@@ -22,6 +22,7 @@ import com.kh.tresure.sell.model.vo.Sell;
 
 @Service
 public class ChatServiceImpl implements ChatService{
+
    private ChatDao chatDao;
    private SqlSession sqlSession;
    private Logger logger = LoggerFactory.getLogger(ChatServiceImpl.class);
@@ -99,6 +100,7 @@ public class ChatServiceImpl implements ChatService{
       
       // 첨부파일 가져오기
          
+
 
       
       return AllList; 

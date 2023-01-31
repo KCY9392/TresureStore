@@ -16,6 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="STATUS" property="status"></result>
 	<result column="SELL_TITLE" property="sellTitle"></result>
 	<result column="RAVG" property="ravg"></result>
+
 	<result column="SELL_STATUS" property="sellStatus"></result>
 	
 </resultMap>
@@ -92,8 +93,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	   SELL_STATUS = 'I'
     </if>
     WHERE SELL_NO = #{sellNo}
-	
 	</update>
+	
+	
+	<!-- 마이페이지 구매목록 -->
+	<select id="mypagePurchaseList" parameterType="int" resultMap="mypageResultSet">
+		SELECT S.IMAGE_SRC AS "IMAGE_SRC", 
+			   S.SELL_TITLE AS "SELL_TITLE",
+			   S.PRICE AS "PRICE",
+			   S.UPDATE_DATE AS "CREATE_DATE" 
+	    FROM PURCHASE P
+	    LEFT JOIN SELL S USING(SELL_NO)
+	    LEFT JOIN MEMBER M ON (S.USER_NO = M.USER_NO)
+	    WHERE S.SELL_STATUS = 'C' AND M.USER_NO = #{userNo}
+	</select>
 	
 
 </mapper>
