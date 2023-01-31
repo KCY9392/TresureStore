@@ -24,7 +24,8 @@
    	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
    	<!-- Semantic UI theme -->
    	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
-
+	<!-- Alert 창  -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
     <style>
         /* ---전체 div --- */
@@ -356,7 +357,28 @@
             color: darkgrey;
             padding: 5px 5px;
 	    }
-
+	    
+	   /*신고 alert 내부 css*/
+	    .inline-flex {
+		    display: inline-grid !important;
+		    margin: .5em !important;
+		}
+		
+		/*신고 alert 내부 css radio버튼*/
+		.swal2-radio label {
+		    margin: 0 0.6em;
+		    font-size: 1.125em;
+		    padding: 5px;
+		}
+		/*신고 alert 내부 css ok버튼*/
+		.swal2-actions .swal2-confirm {
+		    border: 0;
+		    border-radius: 0.25em;
+		    background: initial;
+		    background-color: gold;
+		    color: #fff;
+		    font-size: 1em;
+		}
     </style>
 </head>
 <body>
@@ -454,7 +476,7 @@
                                 </li>
 
                                 <li><br>
-                                    <a id="addReport" class="buttonCss" onclick="addReport();">신고</a>
+                                    <a id="addReport" class="buttonCss" >신고</a>
                                 </li>
                                 <li><br>
                                     <a data-toggle="modal" data-target="#block-modal" id="addBlock" class="buttonCss" >차단</a>
@@ -515,67 +537,50 @@
         </div>
     </div><!-- main-section 끝 -->
     <jsp:include page="../common/footer.jsp"/>
-
-
-	<!-- 차단버튼 modal 시작-->
-		<div class="modal" tabindex="-1" role="dialog" id="block-modal">
-		  <div class="modal-dialog" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <h5 class="modal-title">판매자 차단하기</h5>
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">&times;</span>
-		        </button>
-		      </div>
-		      <div class="modal-body">
-		        <p>차단하면 더 이상 거래가 불가능합니다. 차단하시겠습니까?</p>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-primary">차단하기</button>
-		        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-		      </div>
-		    </div>
-		  </div>
-		</div>
-	<!-- 차단 modal 끝 -->
 	
-	
-	<div>
-	
-	   	<input type = "radio" name="addReportRadio" value = "reportReason-1" >주류, 담배<br>
-	   	<input type = "radio" name="addReportRadio" value = "reportReason-2" >전문 의약품, 의료기기<br>
-	   	<input type = "radio" name="addReportRadio" value = "reportReason-3" >개인정보 거래<br>
-	   	<input type = "radio" name="addReportRadio" value = "reportReason-4" >음란물/성인용품<br>
-	   	<input type = "radio" name="addReportRadio" value = "reportReason-5" >위조상품<br>
-	   	<input type = "radio" name="addReportRadio" value = "reportReason-6" >총포 도검류<br>
-	   	<input type = "radio" name="addReportRadio" value = "reportReason-7" >게임 계정<br>
-	   	<input type = "radio" name="addReportRadio" value = "reportReason-8" >동물 분양/입양글<br>
-	    <input type = "radio" name="addReportRadio" value = "reportReason-9" >기타<br>
-	   
-	</div>
 	
 	
      <script>
-     	
-     	//신고버튼 클릭 시
-	     function deleteBoard(seq){
+     
+   		//신고버튼 클릭 시
+		 $('#addReport').on('click', function(){
+			 
 	 		Swal.fire({
-	 		  title: '글을 삭제하시겠습니까???',
-	 		  text: "삭제하시면 다시 복구시킬 수 없습니다.",
-	 		  icon: 'warning',
-	 		  showCancelButton: true,
-	 		  confirmButtonColor: '#3085d6',
-	 		  cancelButtonColor: '#d33',
-	 		  confirmButtonText: '삭제',
-	 		  cancelButtonText: '취소'
-	 		}).then((result) => {
-	 		  if (result.value) {
-	               //"삭제" 버튼을 눌렀을 때 작업할 내용을 이곳에 넣어주면 된다. 
+	 		  title: '상점신고',
+	 		  input: 'radio',
+	 		  inputOptions: {
+		 			주류_담배 : '주류, 담배',
+		 			전문의약품_의료기기 : '전문 의약품, 의료기기',
+		 			개인정보거래 : '개인정보 거래',
+		 			음란물_성인용품 : '음란물/성인용품',
+		 			위조상품 : '위조상품',
+		 			총포도검류 : '총포 도검류',
+		 			게임계정 : '게임 계정',
+		 			동물분양_입양글 : '동물 분양/입양글',
+		 			기타 : '기타'
+	 		  },
+	 		  customClass: {
+	 			    input: 'inline-flex',
+	 			    inputLabel: 'inline-block'
 	 		  }
-	 		})
-	 	}
-	     
-	     
+			}).then(function(addReport) {
+			    if (addReport.value) {
+			    	Swal.fire(addReport.value, addReport.value+" 로 신고하셨습니다.", "success");
+			        console.log("Result: " + addReport.value);
+			        
+			        if(addReport){
+						location.href='${pageContext.request.contextPath}/chat/chatRoomList';
+					}
+			        
+			    }
+			}).then(function(result) {
+			    	
+			    })
+			});
+	 	
+
+   		
+		 
 	     
      	//차단버튼 클릭 시 
     	 $('#addBlock').on('click', function(){
