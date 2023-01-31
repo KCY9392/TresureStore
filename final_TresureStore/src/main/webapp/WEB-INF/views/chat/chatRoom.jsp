@@ -417,9 +417,40 @@
                         <div class="chatmenubar">
 
                             <ul class="header-list">
-                                <li><img src="https://cdn-icons-png.flaticon.com/128/9317/9317793.png" width="40"/>
-                                    <!-- &nbsp;상점 ${AllList.get('product').userNo }호점 -->
-                                    <span class="store-text">상점 ${AllList.get('product').userNo }호점</span>
+                                <li>
+                                	<!-- 로그인사람과 구매한사람이 같은경우  -->
+                                   	<c:if test="${AllList.get('purchaseInfo').userNo eq loginUser.userNo}">
+                                        <c:if test="${AllList.get('product').avg  >= 4.5}">
+                                            <img src="/tresure/resources/images/icon/grade3.png" width="40px" /> <span class="store-text">상점 ${AllList.get('product').userNo }호 점</span>
+                                        </c:if>
+                                        <c:if test="${ 4 <= AllList.get('product').avg && AllList.get('product').avg < 4.5 }">
+                                            <img src="/tresure/resources/images/icon/grade2.png" width="40px" /> <span class="store-text">상점 ${AllList.get('product').userNo }호 점</span>
+                                        </c:if>
+                                        <c:if test="${ 3.5 <= AllList.get('product').avg && AllList.get('product').avg < 4 }">
+                                            <img src="/tresure/resources/images/icon/grade1.png" width="40px" /> <span class="store-text">상점 ${AllList.get('product').userNo }호 점</span>
+                                        </c:if>
+                                        <c:if test="${ null == AllList.get('product').avg || AllList.get('product').avg < 3.5 }">
+                                            <img src="/tresure/resources/images/icon/grade0.png" width="40px" /> <span class="store-text">상점 ${AllList.get('product').userNo }호 점</span>
+                                        </c:if>
+                                       </c:if>
+                                       <!-- 로그인한 사람과 판매하는 사람이 같은경우 -->
+                                       <c:if test="${AllList.get('product').userNo eq loginUser.userNo}">
+                                        <c:if test="${AllList.get('purchaseInfo').purchaseUserAvg >= 4.5}">
+                                            <img src="/tresure/resources/images/icon/grade3.png" width="40px" />  <span class="store-text">상점 ${AllList.get('purchaseInfo').userNo }호 점</span>
+                                        </c:if>
+                                        <c:if test="${ 4 <= AllList.get('purchaseInfo').purchaseUserAvg && AllList.get('purchaseInfo').purchaseUserAvg < 4.5 }">
+                                            <img src="/tresure/resources/images/icon/grade2.png" width="40px" /> <span class="store-text">상점 ${AllList.get('purchaseInfo').userNo }호 점</span>
+                                        </c:if>
+                                        <c:if test="${ 3.5 <= AllList.get('purchaseInfo').purchaseUserAvg && AllList.get('purchaseInfo').purchaseUserAvg < 4 }">
+                                            <img src="/tresure/resources/images/icon/grade1.png" width="40px" /> <span class="store-text">상점 ${AllList.get('purchaseInfo').userNo }호 점</span>
+                                        </c:if>
+                                        <c:if test="${ null == AllList.get('purchaseInfo').purchaseUserAvg || AllList.get('purchaseInfo').purchaseUserAvg < 3.5 }">
+                                            <img src="/tresure/resources/images/icon/grade0.png" width="40px" /> <span class="store-text">상점 ${AllList.get('purchaseInfo').userNo }호 점</span>
+                                        </c:if>
+                                      </c:if>
+                                
+                                
+     
                                 </li>
 
                                 <li><br>
