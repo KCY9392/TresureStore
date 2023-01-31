@@ -46,7 +46,7 @@ public interface MyPageService{
 	 * 마이페이지 상점후기 목록 */
 	public List<Review> mypageReviewList(int userNo);
 	
-	public int changeStatus(int sellNo);
+	public int changeStatus(HashMap<String, Object> map);
 
 	
 	/**
