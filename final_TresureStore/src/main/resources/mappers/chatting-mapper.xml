@@ -7,27 +7,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- type은 mybatis-config에서 chatRoom 라는 별칭을 정해두었음 -->
 <resultMap type="chatRoom" id="chatResultSet" >
-	  <id column="CHATROOM_NO" property="chatRoomNo"/>
-	  <result column="USER_NO" property="userNo"/>
-	  <result column="SELLUSER_NO" property="sellUserNo"/>
-	  <result column="SELL_NO" property="sellNo"/>
-	  <result column="STATUS" property="status"/>
-	  <result column="CREATE_DATE" property="createDate"/>
-	  <result column="CHAT_CREATE_DATE" property="chatDate"/>
-	  <result column="AVG" property="avg"/>
-	  <result column="SELL_TITLE" property="sellTitle"/>
+     <id column="CHATROOM_NO" property="chatRoomNo"/>
+     <result column="USER_NO" property="userNo"/>
+     <result column="SELLUSER_NO" property="sellUserNo"/>
+     <result column="SELL_NO" property="sellNo"/>
+     <result column="STATUS" property="status"/>
+     <result column="CREATE_DATE" property="createDate"/>
+     <result column="CHAT_CREATE_DATE" property="chatDate"/>
+     <result column="AVG" property="avg"/>
+     <result column="SELL_TITLE" property="sellTitle"/>
+     <result column="PURCHASEUSER_AVG" property="purchaseUserAvg"/>
 </resultMap>
 
 
 <!-- type은 mybatis-config에서 chatMessage 라는 별칭을 정해두었음 -->
 <resultMap type="chatMessage" id="chatMessageResultSet">
-	<id column="CHAT_NO" property="chatNo"></id>
-	<result column="CHATROOM_NO" property="chatRoomNo"/>
-	<result column="USER_NO" property="userNo"/>
-	<result column="CHAT_CONTENT" property="chatContent"/>
-	<result column="CREATE_DATE" property="createDate"/>
-	<result column="READ_STATUS" property="readStatus"/>
-	<result column="USER_NAME" property="userName"/>
+   <id column="CHAT_NO" property="chatNo"></id>
+   <result column="CHATROOM_NO" property="chatRoomNo"/>
+   <result column="USER_NO" property="userNo"/>
+   <result column="CHAT_CONTENT" property="chatContent"/>
+   <result column="CREATE_DATE" property="createDate"/>
+   <result column="READ_STATUS" property="readStatus"/>
+   <result column="USER_NAME" property="userName"/>
 </resultMap>
 
 <resultMap type="block" id="blockResultSet" >
@@ -40,7 +41,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </resultMap>
 
 <resultMap type="chatRoomJoin" id="chatRoomJoinResultSet">
-	<result column="USER_NO" property="userNo"/>
+   <result column="USER_NO" property="userNo"/>
     <result column="CHATROOM_NO" property="chatRoomNo"/>
 </resultMap>
 
@@ -50,75 +51,84 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- 채팅방 목록 조회 -->
 <select id="selectChatRoomList" parameterType="int" resultMap="chatResultSet">
-	SELECT CR.CHATROOM_NO,
-	       CR.SELL_NO,
-	       S.USER_NO AS "SELLUSER_NO",
-	       CR.USER_NO AS "USER_NO",
-	       CR.CREATE_DATE AS "CREATE_DATE",
-	       CM.CREATE_DATE AS "CHAT_CREATE_DATE",
-	       SUBSTR(S.SELL_TITLE, 1, 15)AS "SELL_TITLE",
-	       PP.AVG
-	FROM CHAT_ROOM CR
-	JOIN CHAT_ROOM_JOIN CRJ ON (CRJ.CHATROOM_NO = CR.CHATROOM_NO)
+   SELECT CR.CHATROOM_NO,
+          CR.SELL_NO,
+          S.USER_NO AS "SELLUSER_NO",
+          CR.USER_NO AS "USER_NO",
+          CR.CREATE_DATE AS "CREATE_DATE",
+          CM.CREATE_DATE AS "CHAT_CREATE_DATE",
+          SUBSTR(S.SELL_TITLE, 1, 15)AS "SELL_TITLE",
+          PP.AVG,
+          pp2.avg
+   FROM CHAT_ROOM CR
+   JOIN CHAT_ROOM_JOIN CRJ ON (CRJ.CHATROOM_NO = CR.CHATROOM_NO)
     LEFT JOIN (SELECT MAX(CREATE_DATE) AS CREATE_DATE, 
                       CHATROOM_NO 
                FROM CHAT_MESSAGE 
                GROUP BY CHATROOM_NO) CM ON (CR.CHATROOM_NO = CM.CHATROOM_NO)
-	JOIN SELL S ON (S.SELL_NO = CR.SELL_NO)
-	LEFT JOIN ( SELECT AVG(REV_SCORE) AS "AVG",
-	                   S.USER_NO
-	            FROM REVIEW R
-	            JOIN SELL S ON (S.SELL_NO = R.SELL_NO)
-	            WHERE R.STATUS = 'Y'
-	            GROUP BY S.USER_NO) PP ON (S.USER_NO = PP.USER_NO)
-	WHERE CRJ.USER_NO = #{userNo} AND S.STATUS = 'Y'
-    ORDER BY CHAT_CREATE_DATE DESC, CREATE_DATE DESC
+   JOIN SELL S ON (S.SELL_NO = CR.SELL_NO)
+   LEFT JOIN ( SELECT AVG(REV_SCORE) AS "AVG",
+                      S.USER_NO
+               FROM REVIEW R
+               JOIN SELL S ON (S.SELL_NO = R.SELL_NO)
+               WHERE R.STATUS = 'Y'
+               GROUP BY S.USER_NO) PP ON (S.USER_NO = PP.USER_NO)
+    LEFT JOIN ( SELECT AVG(REV_SCORE) AS "AVG",
+                      cr.USER_NO
+               FROM REVIEW R
+               join sell s on (s.sell_no = r.sell_no)
+               JOIn chat_room cr ON (cr.user_NO = s.user_NO)
+               WHERE R.STATUS = 'Y'
+               GROUP BY cr.USER_NO) PP2 ON (cr.USER_NO = PP2.USER_NO)
+   WHERE CRJ.USER_NO = #{userNo} AND S.STATUS = 'Y'
+    ORDER BY CHAT_CREATE_DATE DESC, CREATE_DATE DESC;
 </select>
  
 <!-- 채팅방 나가기(삭제) -->
 <delete id="exitChatRoom" parameterType="chatRoomJoin">
     DELETE 
- 	FROM CHAT_ROOM_JOIN
-	WHERE USER_NO = #{userNo} AND CHATROOM_NO = #{chatRoomNo}
+    FROM CHAT_ROOM_JOIN
+   WHERE USER_NO = #{userNo} AND CHATROOM_NO = #{chatRoomNo}
 </delete>
 
 <!-- 차단리스트 조회 -->
 <select id="selectBlockList" parameterType="int" resultMap="blockResultSet" >
- 	SELECT DISTINCT
- 		   B.BLOCK_NO,
-	       M.USER_NO AS "BLOCKER_NO",
- 		   S.USER_NO AS "BLOCKED_NO",
- 		   NVL(AVG, 0) AS "AVG"
- 	FROM BLOCK B
- 	LEFT JOIN MEMBER M ON(B.BLOCKER_NO = M.USER_NO)
- 	JOIN SELL S ON(B.BLOCKED_NO = S.USER_NO)
- 	 LEFT JOIN (  SELECT AVG(REV_SCORE) AS "AVG",
-	           	    S.USER_NO
-	        FROM REVIEW R
-	        JOIN SELL S ON (S.SELL_NO = R.SELL_NO)
-	        WHERE R.STATUS = 'Y'
-	        GROUP BY S.USER_NO) PP ON (S.USER_NO = PP.USER_NO)
- 	WHERE B.BLOCKER_NO = #{blockerNo}
- 	ORDER BY BLOCK_NO DESC
+    SELECT DISTINCT
+          B.BLOCK_NO,
+          M.USER_NO AS "BLOCKER_NO",
+          S.USER_NO AS "BLOCKED_NO",
+          NVL(AVG, 0) AS "AVG"
+    FROM BLOCK B
+    LEFT JOIN MEMBER M ON(B.BLOCKER_NO = M.USER_NO)
+    JOIN SELL S ON(B.BLOCKED_NO = S.USER_NO)
+     LEFT JOIN (  SELECT AVG(REV_SCORE) AS "AVG",
+                     S.USER_NO
+           FROM REVIEW R
+           JOIN SELL S ON (S.SELL_NO = R.SELL_NO)
+           WHERE R.STATUS = 'Y'
+           GROUP BY S.USER_NO) PP ON (S.USER_NO = PP.USER_NO)
+    WHERE B.BLOCKER_NO = #{blockerNo}
+    ORDER BY BLOCK_NO DESC
+
 </select>
 
 <!-- 차단리스트에 추가 -->
 <insert id="addBlock" parameterType="block">
-	INSERT INTO BLOCK (BLOCK_NO, BLOCKER_NO, BLOCKED_NO)
-	VALUES (SEQ_BLNO.NEXTVAL, #{blockerNo}, #{blockedNo})
+   INSERT INTO BLOCK (BLOCK_NO, BLOCKER_NO, BLOCKED_NO)
+   VALUES (SEQ_BLNO.NEXTVAL, #{blockerNo}, #{blockedNo})
 </insert>
 
 <!-- 차단 리스트에서 삭제(해제) -->
 <delete id="deleteBlock" parameterType="block">
-	DELETE
+   DELETE
     FROM BLOCK B
     WHERE BLOCKER_NO = #{blockerNo} AND BLOCKED_NO= #{blockedNo}
 </delete>
 
 <!-- 채팅보내기 -->
 <insert id="insertMessage" parameterType="chatMessage">
-	INSERT INTO CHAT_MESSAGE (CHAT_NO, CHATROOM_NO, USER_NO, CHAT_CONTENT)
-	VALUES (SEQ_CMNO.NEXTVAL, #{chatRoomNo}, #{userNo}, #{chatContent})
+   INSERT INTO CHAT_MESSAGE (CHAT_NO, CHATROOM_NO, USER_NO, CHAT_CONTENT)
+   VALUES (SEQ_CMNO.NEXTVAL, #{chatRoomNo}, #{userNo}, #{chatContent})
 </insert>
 
 <!-- 채팅방 참여여부 확인 -->
@@ -131,8 +141,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- 채팅방 참여 -->
 <insert id="inChatRoomJoin" parameterType="chatRoomJoin">
-	INSERT INTO CHAT_ROOM_JOIN (CHATROOM_NO, USER_NO)
-	VALUES (#{chatRoomNo}, #{userNo})
+   INSERT INTO CHAT_ROOM_JOIN (CHATROOM_NO, USER_NO)
+   VALUES (#{chatRoomNo}, #{userNo})
 </insert>
 
 <!-- 해당 채팅방 메세지 다 가져오기 -->
@@ -150,40 +160,54 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- 채팅방 존재하는지 검색 -->
 <select id="selectChatRoomByObject" parameterType="chatRoom" resultType="int">
-	SELECT COUNT(*)
-	FROM CHAT_ROOM
-	WHERE SELL_NO = #{sellNo} AND USER_NO = #{userNo}
+   SELECT COUNT(*)
+   FROM CHAT_ROOM
+   WHERE SELL_NO = #{sellNo} AND USER_NO = #{userNo}
 </select>
 
 
 
 <!-- 채팅하기 실행하기 (방생성)  -->
 <insert id="createChatRoom" parameterType="chatRoom" useGeneratedKeys="true">
-	<selectKey keyProperty="chatRoomNo" resultType="int" order="BEFORE">
-		SELECT SEQ_CRNO.NEXTVAL  FROM DUAL
-	</selectKey>
-	INSERT INTO CHAT_ROOM (CHATROOM_NO, SELL_NO, USER_NO, CREATE_DATE, STATUS)
-	VALUES ( #{chatRoomNo} , #{sellNo}, #{userNo}, DEFAULT, DEFAULT )
+   <selectKey keyProperty="chatRoomNo" resultType="int" order="BEFORE">
+      SELECT SEQ_CRNO.NEXTVAL  FROM DUAL
+   </selectKey>
+   INSERT INTO CHAT_ROOM (CHATROOM_NO, SELL_NO, USER_NO, CREATE_DATE, STATUS)
+   VALUES ( #{chatRoomNo} , #{sellNo}, #{userNo}, DEFAULT, DEFAULT )
 </insert>
 
 <!-- 해당 채팅방 번호 가져오기 -->
 <select id="selectChatRoomNo" parameterType="chatRoom" resultType="int">
-	SELECT CHATROOM_NO
-	FROM CHAT_ROOM
-	WHERE SELL_NO = #{sellNo} AND USER_NO = #{userNo}
+   SELECT CHATROOM_NO
+   FROM CHAT_ROOM
+   WHERE SELL_NO = #{sellNo} AND USER_NO = #{userNo}
 </select>
 
 <!-- 채팅방번호로 인해 채팅방 정보가져오기 -->
 <select id="selectChatRoomByNo" parameterType="int" resultMap="chatResultSet">
-	SELECT CHATROOM_NO,
-		   CR.SELL_NO,
+   SELECT CHATROOM_NO,
+         CR.SELL_NO,
            S.USER_NO AS "SELLUSER_NO",
-		   CR.USER_NO,
-		   CR.CREATE_DATE,
-		   CR.STATUS
-	FROM CHAT_ROOM CR
+         CR.USER_NO,
+         CR.CREATE_DATE,
+         CR.STATUS
+   FROM CHAT_ROOM CR
     JOIN SELL S ON(S.SELL_NO = CR.SELL_NO)
-	WHERE CHATROOM_NO = #{chatRoomNo}
+   WHERE CHATROOM_NO = #{chatRoomNo}
+</select>
+
+<!-- 채팅방 만든 유저번호, 구매자? 번호 가져오기 -->
+<select id="selectUserNoByChatRoomNo" parameterType="int" resultMap="chatResultSet">
+    SELECT AVG(REV_SCORE) "PURCHASEUSER_AVG",
+           PP.USER_NO
+    FROM REVIEW R
+    JOIN SELL S ON (S.SELL_NO = R.SELL_NO)
+    JOIN MEMBER M ON (S.USER_NO = M.USER_NO)
+    RIGHT JOIN (SELECT USER_NO
+            FROM CHAT_ROOM
+            WHERE CHATROOM_NO = #{chatRoomNo}) PP ON (PP.USER_NO = M.USER_NO)
+    WHERE S.STATUS = 'Y' AND R.STATUS = 'Y'
+    GROUP BY PP.USER_NO
 </select>
 
 
