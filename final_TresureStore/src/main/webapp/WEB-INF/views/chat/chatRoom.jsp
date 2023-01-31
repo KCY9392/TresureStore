@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>보물상점</title>
     <!-- Jquery -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <!-- 헤더 js -->
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/header.js"></script>
 	<!-- 웹소켓 js -->
@@ -24,6 +24,8 @@
    	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
    	<!-- Semantic UI theme -->
    	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
+	<!-- Alert 창  -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 
     <style>
@@ -352,11 +354,33 @@
             color: black;
         }
         .chatDate{
-		    font-size:12px;
+          font-size:12px;
             color: darkgrey;
             padding: 5px 5px;
-	    }
 
+	    }
+	    
+	   /*신고 alert 내부 css*/
+	    .inline-flex {
+		    display: inline-grid !important;
+		    margin: .5em !important;
+		}
+		
+		/*신고 alert 내부 css radio버튼*/
+		.swal2-radio label {
+		    margin: 0 0.6em;
+		    font-size: 1.125em;
+		    padding: 5px;
+		}
+		/*신고 alert 내부 css ok버튼*/
+		.swal2-actions .swal2-confirm {
+		    border: 0;
+		    border-radius: 0.25em;
+		    background: initial;
+		    background-color: gold;
+		    color: #fff;
+		    font-size: 1em;
+		}
     </style>
 </head>
 <body>
@@ -372,27 +396,27 @@
                     <div class="sell_detail">
                         <div class="sell_category">카테고리 > ${AllList.get('product').categoryName }</div>
                         
-                        	<div class="sell_title" onclick="sellDetail(${AllList.get('product').sellNo })">
-	                        	${AllList.get('product').sellTitle }
-	                        </div> 
-	                    
+                           <div class="sell_title" onclick="sellDetail(${AllList.get('product').sellNo })">
+                              ${AllList.get('product').sellTitle }
+                           </div> 
+                       
                         <div class="sell_price"><p class="mark">
-                        	<c:choose>
-                        		<c:when test="${AllList.get('product').negoStatus ne null }">
-                        			${AllList.get('product').negoPrice }
-                        		</c:when>
-                        		<c:otherwise>
-                        			${AllList.get('product').price }
-                        		</c:otherwise>
-                        	</c:choose>
+                           <c:choose>
+                              <c:when test="${AllList.get('product').negoStatus ne null }">
+                                 ${AllList.get('product').negoPrice }
+                              </c:when>
+                              <c:otherwise>
+                                 ${AllList.get('product').price }
+                              </c:otherwise>
+                           </c:choose>
                         </div>
                         <c:if test="${loginUser.userNo eq  AllList.get('product').userNo}">
-                        	<c:if test="${AllList.get('product').negoStatus  eq null }">
-                        		<div class="btn-area"><button class="negoBtn" id="negoBtn" onclick="modal();" type="button">네고 가격 결정</button></div>
-                        	</c:if>
-                        	<c:if test="${AllList.get('product').negoStatus ne null }">
-                        		<div class="btn-area"><button class="negoBtn2" type="button" disabled>네고 가격 완료</button></div>
-                        	</c:if>
+                           <c:if test="${AllList.get('product').negoStatus  eq null }">
+                              <div class="btn-area"><button class="negoBtn" id="negoBtn" onclick="modal();" type="button">네고 가격 결정</button></div>
+                           </c:if>
+                           <c:if test="${AllList.get('product').negoStatus ne null }">
+                              <div class="btn-area"><button class="negoBtn2" type="button" disabled>네고 가격 완료</button></div>
+                           </c:if>
                         </c:if>
                         
                     </div>
@@ -417,13 +441,44 @@
                         <div class="chatmenubar">
 
                             <ul class="header-list">
-                                <li><img src="https://cdn-icons-png.flaticon.com/128/9317/9317793.png" width="40"/>
-                                    <!-- &nbsp;상점 ${AllList.get('product').userNo }호점 -->
-                                    <span class="store-text">상점 ${AllList.get('product').userNo }호점</span>
+                                <li>
+                                	<!-- 로그인사람과 구매한사람이 같은경우  -->
+                                   	<c:if test="${AllList.get('purchaseInfo').userNo eq loginUser.userNo}">
+                                        <c:if test="${AllList.get('product').avg  >= 4.5}">
+                                            <img src="/tresure/resources/images/icon/grade3.png" width="40px" /> <span class="store-text">상점 ${AllList.get('product').userNo }호 점</span>
+                                        </c:if>
+                                        <c:if test="${ 4 <= AllList.get('product').avg && AllList.get('product').avg < 4.5 }">
+                                            <img src="/tresure/resources/images/icon/grade2.png" width="40px" /> <span class="store-text">상점 ${AllList.get('product').userNo }호 점</span>
+                                        </c:if>
+                                        <c:if test="${ 3.5 <= AllList.get('product').avg && AllList.get('product').avg < 4 }">
+                                            <img src="/tresure/resources/images/icon/grade1.png" width="40px" /> <span class="store-text">상점 ${AllList.get('product').userNo }호 점</span>
+                                        </c:if>
+                                        <c:if test="${ null == AllList.get('product').avg || AllList.get('product').avg < 3.5 }">
+                                            <img src="/tresure/resources/images/icon/grade0.png" width="40px" /> <span class="store-text">상점 ${AllList.get('product').userNo }호 점</span>
+                                        </c:if>
+                                       </c:if>
+                                       <!-- 로그인한 사람과 판매하는 사람이 같은경우 -->
+                                       <c:if test="${AllList.get('product').userNo eq loginUser.userNo}">
+                                        <c:if test="${AllList.get('purchaseInfo').purchaseUserAvg >= 4.5}">
+                                            <img src="/tresure/resources/images/icon/grade3.png" width="40px" />  <span class="store-text">상점 ${AllList.get('purchaseInfo').userNo }호 점</span>
+                                        </c:if>
+                                        <c:if test="${ 4 <= AllList.get('purchaseInfo').purchaseUserAvg && AllList.get('purchaseInfo').purchaseUserAvg < 4.5 }">
+                                            <img src="/tresure/resources/images/icon/grade2.png" width="40px" /> <span class="store-text">상점 ${AllList.get('purchaseInfo').userNo }호 점</span>
+                                        </c:if>
+                                        <c:if test="${ 3.5 <= AllList.get('purchaseInfo').purchaseUserAvg && AllList.get('purchaseInfo').purchaseUserAvg < 4 }">
+                                            <img src="/tresure/resources/images/icon/grade1.png" width="40px" /> <span class="store-text">상점 ${AllList.get('purchaseInfo').userNo }호 점</span>
+                                        </c:if>
+                                        <c:if test="${ null == AllList.get('purchaseInfo').purchaseUserAvg || AllList.get('purchaseInfo').purchaseUserAvg < 3.5 }">
+                                            <img src="/tresure/resources/images/icon/grade0.png" width="40px" /> <span class="store-text">상점 ${AllList.get('purchaseInfo').userNo }호 점</span>
+                                        </c:if>
+                                      </c:if>
+                                
+                                
+     
                                 </li>
 
                                 <li><br>
-                                    <a id="addReport" class="buttonCss" onclick="addReport();">신고</a>
+                                    <a id="addReport" class="buttonCss" >신고</a>
                                 </li>
                                 <li><br>
                                     <a data-toggle="modal" data-target="#block-modal" id="addBlock" class="buttonCss" >차단</a>
@@ -433,7 +488,7 @@
                                 </li>
                             </ul>
                             
-						                            
+                                              
                         </div>
                     </div>
                     <div class="box-body">
@@ -446,7 +501,7 @@
                                  <%-- 1) 내가 보낸 메세지 --%>
                                  <c:if test="${msg.userNo == loginUser.userNo }">
                                      <li class="myChat">
-                                     	<p class="chat">${msg.chatContent }</p><br>
+                                        <p class="chat">${msg.chatContent }</p><br>
                                         <span class="chatDate">${chatDate }</span>
                                          
                                      </li>
@@ -462,8 +517,8 @@
                             </ul>
                             
                             
-							    
-							
+                         
+                     
                             
 
                         </div>
@@ -485,71 +540,53 @@
     </div><!-- main-section 끝 -->
     <jsp:include page="../common/footer.jsp"/>
 
-
-	<!-- 차단버튼 modal 시작-->
-		<div class="modal" tabindex="-1" role="dialog" id="block-modal">
-		  <div class="modal-dialog" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <h5 class="modal-title">판매자 차단하기</h5>
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">&times;</span>
-		        </button>
-		      </div>
-		      <div class="modal-body">
-		        <p>차단하면 더 이상 거래가 불가능합니다. 차단하시겠습니까?</p>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-primary">차단하기</button>
-		        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-		      </div>
-		    </div>
-		  </div>
-		</div>
-	<!-- 차단 modal 끝 -->
-	
-	
-	<div>
-	
-	   	<input type = "radio" name="addReportRadio" value = "reportReason-1" >주류, 담배<br>
-	   	<input type = "radio" name="addReportRadio" value = "reportReason-2" >전문 의약품, 의료기기<br>
-	   	<input type = "radio" name="addReportRadio" value = "reportReason-3" >개인정보 거래<br>
-	   	<input type = "radio" name="addReportRadio" value = "reportReason-4" >음란물/성인용품<br>
-	   	<input type = "radio" name="addReportRadio" value = "reportReason-5" >위조상품<br>
-	   	<input type = "radio" name="addReportRadio" value = "reportReason-6" >총포 도검류<br>
-	   	<input type = "radio" name="addReportRadio" value = "reportReason-7" >게임 계정<br>
-	   	<input type = "radio" name="addReportRadio" value = "reportReason-8" >동물 분양/입양글<br>
-	    <input type = "radio" name="addReportRadio" value = "reportReason-9" >기타<br>
-	   
-	</div>
-	
-	
      <script>
-     	
-     	//신고버튼 클릭 시
-	     function deleteBoard(seq){
+     
+   		//신고버튼 클릭 시
+		 $('#addReport').on('click', function(){
+			 
 	 		Swal.fire({
-	 		  title: '글을 삭제하시겠습니까???',
-	 		  text: "삭제하시면 다시 복구시킬 수 없습니다.",
-	 		  icon: 'warning',
-	 		  showCancelButton: true,
-	 		  confirmButtonColor: '#3085d6',
-	 		  cancelButtonColor: '#d33',
-	 		  confirmButtonText: '삭제',
-	 		  cancelButtonText: '취소'
-	 		}).then((result) => {
-	 		  if (result.value) {
-	               //"삭제" 버튼을 눌렀을 때 작업할 내용을 이곳에 넣어주면 된다. 
+	 		  title: '상점신고',
+	 		  input: 'radio',
+	 		  inputOptions: {
+		 			주류_담배 : '주류, 담배',
+		 			전문의약품_의료기기 : '전문 의약품, 의료기기',
+		 			개인정보거래 : '개인정보 거래',
+		 			음란물_성인용품 : '음란물/성인용품',
+		 			위조상품 : '위조상품',
+		 			총포도검류 : '총포 도검류',
+		 			게임계정 : '게임 계정',
+		 			동물분양_입양글 : '동물 분양/입양글',
+		 			기타 : '기타'
+	 		  },
+	 		  customClass: {
+	 			    input: 'inline-flex',
+	 			    inputLabel: 'inline-block'
 	 		  }
-	 		})
-	 	}
-	     
-	     
+			}).then(function(addReport) {
+			    if (addReport.value) {
+			    	Swal.fire(addReport.value, addReport.value+" 로 신고하셨습니다.", "success");
+			        console.log("Result: " + addReport.value);
+			        
+			        if(addReport){
+						location.href='${pageContext.request.contextPath}/chat/chatRoomList';
+					}
+			        
+			    }
+			}).then(function(result) {
+			    	
+			    })
+			});
+	 	
+
+   		
+		 
 	     
      	//차단버튼 클릭 시 
     	 $('#addBlock').on('click', function(){
     		 
     		 let form = document.createElement('form');
+
              form.setAttribute('method', 'post');
              form.setAttribute('action', '${pageContext.request.contextPath}/chat/chatBlockAdd');
              document.charset = 'utf-8';
@@ -573,173 +610,173 @@
 
              document.body.appendChild(form);
              form.submit();
-    	    
-    	  });
-     	
-     	
-     	
-		function sellDetail(sellNo){
-			location.href = "${pageContext.request.contextPath}/sell/sellDetail/"+sellNo;
-		}
-		
-		
-		const userNo = "${loginUser.userNo}";
-		const userName = "${loginUser.userName}";
-		const phone = "${loginUser.phone}";
-		const birth = "${loginUser.birth}";
-		const email = "${loginUser.email}";
-		const chatRoomNo = "${chatRoomNo}";
-		const contextPath = "${pageContext.request.contextPath}";
-        const regNum = /^[0-9]+$/;
-		
-		// /chat이라는 요청주소로 통신할 수 있는 webSocket 객체생성
-		let chatSocket = new SockJS(contextPath + "/chat");
-		
-	    function modal(){
-	    	alertify.prompt('재설정할 가격을 입력해주세요', '',''
-	                , function(evt, value) { 
-				    	if(!regNum.test(value)){
-				    		alertify.error('숫자만 입력해주세요!');
-				    		return;
-				    	}
-	    				alertify.success('success : ' + value);
-	    				negoStart(value);
-	    			}, 
-	    			  function() {
-	    				alertify.error('Cancel');
-	    			   }
-	    			);
-
-	    };
-	    
-	    function negoStart(value){
-	    	$.ajax({
-	    		url : "${pageContext.request.contextPath}/join/nego",
-	    		data : {negoPrice : value,
-	    				sellNo : ${AllList.get('product').sellNo },
-	    				chatRoomNo :chatRoomNo},
-	    		type : "post",
-	    		success : function(result){
-	    			if(result == 1){
-	    				location.reload();
-	    			}
-	    			
-	    		},
-	    		error : function(){
-	    			console.log("통신실패");
-	    		}
-	    	});
-	    };
-		
+           
+         });
         
-		
+        
+        
+      function sellDetail(sellNo){
+         location.href = "${pageContext.request.contextPath}/sell/sellDetail/"+sellNo;
+      }
+      
+      
+      const userNo = "${loginUser.userNo}";
+      const userName = "${loginUser.userName}";
+      const phone = "${loginUser.phone}";
+      const birth = "${loginUser.birth}";
+      const email = "${loginUser.email}";
+      const chatRoomNo = "${chatRoomNo}";
+      const contextPath = "${pageContext.request.contextPath}";
+        const regNum = /^[0-9]+$/;
+      
+      // /chat이라는 요청주소로 통신할 수 있는 webSocket 객체생성
+      let chatSocket = new SockJS(contextPath + "/chat");
+      
+       function modal(){
+          alertify.prompt('재설정할 가격을 입력해주세요', '',''
+                   , function(evt, value) { 
+                   if(!regNum.test(value)){
+                      alertify.error('숫자만 입력해주세요!');
+                      return;
+                   }
+                   alertify.success('success : ' + value);
+                   negoStart(value);
+                }, 
+                  function() {
+                   alertify.error('Cancel');
+                   }
+                );
 
-		
-		(function(){
-			const displayChatting = document.getElementsByClassName("display-chatting")[0];
-			
-			if(displayChatting != null){
-				displayChatting.scrollTop =displayChatting.scrollHeight; 
-			}
-		})();
-			
+       };
+       
+       function negoStart(value){
+          $.ajax({
+             url : "${pageContext.request.contextPath}/join/nego",
+             data : {negoPrice : value,
+                   sellNo : ${AllList.get('product').sellNo },
+                   chatRoomNo :chatRoomNo},
+             type : "post",
+             success : function(result){
+                if(result == 1){
+                   location.reload();
+                }
+                
+             },
+             error : function(){
+                console.log("통신실패");
+             }
+          });
+       };
+      
+        
+      
 
-		
-		
-		function massageEnterSend(){
-			console.log( $('#inputChatting').val() );
-			sendMessage();
-		}
-		
-		document.getElementById("send").addEventListener("click", sendMessage);
-		
-		// 채팅을 보내는 함수
-		function sendMessage() {
-			// 채팅이 입력되는 textarea요소 가져오기
-			const inputChatting = document.getElementById("inputChatting");
-			
-			// 클라이언트가 채팅내용을 입력하지 않은상태로 보내기 버튼을 누른경우
-			if(inputChatting.value.trim().length == 0) {
-				alert("채팅내용을 입력하고 보내주세요!");
-				
-				inputChatting.value ="";
-				inputChatting.focus();
-			} else {
-				// 메세지 입력시 필요한 데이터를 js 객체로 생성
-				const chatMessage = {
-						"userNo" : userNo,
-						"userName" : userName,
-						"chatRoomNo" : chatRoomNo,
-						"chatContent" : inputChatting.value
-				};
-				
-				console.log(chatMessage);
-		        console.log(JSON.stringify(chatMessage));
-		        
-		        chatSocket.send(JSON.stringify(chatMessage));
-		        
-		        inputChatting.value = "";
-			}
-		}
-		
-		chatSocket.onmessage = function(e) {
-			// 전달 받은 메세지 JS객체로 변환
-			const chatMessage = JSON.parse(e.data);
-			
-			const li = document.createElement("li");
-		    const p = document.createElement("p");
-		    const br = document.createElement("br");
+      
+      (function(){
+         const displayChatting = document.getElementsByClassName("display-chatting")[0];
+         
+         if(displayChatting != null){
+            displayChatting.scrollTop =displayChatting.scrollHeight; 
+         }
+      })();
+         
 
-		    p.classList.add("chat");
-		    
-		    p.innerHTML = chatMessage.chatContent;//줄바꿈 처리
-		    
+      
+      
+      function massageEnterSend(){
+         console.log( $('#inputChatting').val() );
+         sendMessage();
+      }
+      
+      document.getElementById("send").addEventListener("click", sendMessage);
+      
+      // 채팅을 보내는 함수
+      function sendMessage() {
+         // 채팅이 입력되는 textarea요소 가져오기
+         const inputChatting = document.getElementById("inputChatting");
+         
+         // 클라이언트가 채팅내용을 입력하지 않은상태로 보내기 버튼을 누른경우
+         if(inputChatting.value.trim().length == 0) {
+            alert("채팅내용을 입력하고 보내주세요!");
+            
+            inputChatting.value ="";
+            inputChatting.focus();
+         } else {
+            // 메세지 입력시 필요한 데이터를 js 객체로 생성
+            const chatMessage = {
+                  "userNo" : userNo,
+                  "userName" : userName,
+                  "chatRoomNo" : chatRoomNo,
+                  "chatContent" : inputChatting.value
+            };
+            
+            console.log(chatMessage);
+              console.log(JSON.stringify(chatMessage));
+              
+              chatSocket.send(JSON.stringify(chatMessage));
+              
+              inputChatting.value = "";
+         }
+      }
+      
+      chatSocket.onmessage = function(e) {
+         // 전달 받은 메세지 JS객체로 변환
+         const chatMessage = JSON.parse(e.data);
+         
+         const li = document.createElement("li");
+          const p = document.createElement("p");
+          const br = document.createElement("br");
 
-		    //span태그 추가
-		    const span = document.createElement("span");
-		    span.classList.add("chatDate");
+          p.classList.add("chat");
+          
+          p.innerHTML = chatMessage.chatContent;//줄바꿈 처리
+          
 
-		    span.innerText = getCurrentTime();
+          //span태그 추가
+          const span = document.createElement("span");
+          span.classList.add("chatDate");
 
-		    //내가쓴 채팅
-		    if (chatMessage.userNo == userNo) {
-		        li.append(p,br,span);
-		        li.classList.add("myChat"); 
-		    } else {
-		    	li.append(p,br,span);
-		    }
-		    
-		 	// 채팅창
-		    const displayChatting = document.getElementsByClassName("display-chatting")[0];
+          span.innerText = getCurrentTime();
 
-		    // 채팅창에 채팅 추가
-		    displayChatting.append(li);
+          //내가쓴 채팅
+          if (chatMessage.userNo == userNo) {
+              li.append(p,br,span);
+              li.classList.add("myChat"); 
+          } else {
+             li.append(p,br,span);
+          }
+          
+          // 채팅창
+          const displayChatting = document.getElementsByClassName("display-chatting")[0];
 
-		    // 채팅창을 제일밑으로 내리기
-		    displayChatting.scrollTop = displayChatting.scrollHeight;
-		    // scrollTop : 스크롤 이동
-		    // scrollHeight : 스크롤이되는 요소의 전체 높이.
-		};
-		
-		function getCurrentTime() {
+          // 채팅창에 채팅 추가
+          displayChatting.append(li);
 
-		    const now = new Date();
+          // 채팅창을 제일밑으로 내리기
+          displayChatting.scrollTop = displayChatting.scrollHeight;
+          // scrollTop : 스크롤 이동
+          // scrollHeight : 스크롤이되는 요소의 전체 높이.
+      };
+      
+      function getCurrentTime() {
 
-		    const time = now.getFullYear() + "년 " +
-		        addZero(now.getMonth() + 1) + "월 " +
-		        addZero(now.getDate()) + "일 " +
-		        addZero(now.getHours()) + ":" +
-		        addZero(now.getMinutes()) + ":" +
-		        addZero(now.getSeconds()) + " ";
+          const now = new Date();
 
-		    return time;
-		}
+          const time = now.getFullYear() + "년 " +
+              addZero(now.getMonth() + 1) + "월 " +
+              addZero(now.getDate()) + "일 " +
+              addZero(now.getHours()) + ":" +
+              addZero(now.getMinutes()) + ":" +
+              addZero(now.getSeconds()) + " ";
 
-		// 10보다 작은수가 매개변수로 들어오는경우 앞에 0을 붙여서 반환해주는함수.
-		function addZero(number) {
-		    return number < 10 ? "0" + number : number;
-		}
-	 </script>
-	 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+          return time;
+      }
+
+      // 10보다 작은수가 매개변수로 들어오는경우 앞에 0을 붙여서 반환해주는함수.
+      function addZero(number) {
+          return number < 10 ? "0" + number : number;
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </body>
 </html>
