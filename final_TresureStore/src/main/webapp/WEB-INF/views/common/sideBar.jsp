@@ -28,7 +28,7 @@
 		<div class="nrecently">
 			<div class="nrecentlyText">최근본상품</div>
 			<div class="nrecentlyProduct">
-				<span id="nrecentlyCnt"></span>
+				<div id="nrecentlyCnt">1</div>
 				<div id="nrecentlyArea">
 					<a id="nrecentlyList"> 
 					<!-- 최근본상품  --> 
