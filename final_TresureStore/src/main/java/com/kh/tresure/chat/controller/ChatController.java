@@ -25,6 +25,7 @@ import com.kh.tresure.chat.model.vo.Block;
 import com.kh.tresure.chat.model.vo.ChatRoom;
 import com.kh.tresure.chat.model.vo.ChatRoomJoin;
 import com.kh.tresure.member.model.vo.Member;
+import com.kh.tresure.sell.model.vo.Sell;
 
 @Controller
 @SessionAttributes({"chatRoomNo", "loginUser"})
@@ -81,7 +82,8 @@ public class ChatController {
                          @RequestParam(value="chatRoomNo", required=false) String chatRoomNo,
                          ChatRoom room,
                          ChatRoomJoin roomJoin,
-                         Model model) {
+                         Model model,
+                         Block block) {
       
       room.setSellNo(Integer.parseInt(sellNo));
       room.setUserNo(Integer.parseInt(userNo));
@@ -93,7 +95,7 @@ public class ChatController {
       
       
       HashMap<Object,Object> AllList = new HashMap<>();
-      AllList =  chatService.createAndEnterChatRoom(room, sellUserNo, roomJoin);
+      AllList =  chatService.createAndEnterChatRoom(room, sellUserNo, roomJoin, block);
       model.addAttribute("chatRoomNo", room.getChatRoomNo() );
       
       if(AllList.size() > 0) {
@@ -128,24 +130,43 @@ public class ChatController {
    
    
    
-   //차단 리스트에 추가
+   //차단 리스트에 추가, 차단하기
    @RequestMapping(value="chat/chatBlockAdd", method = RequestMethod.POST)
+   @ResponseBody
    public String addBlock(@RequestParam(value="sellUserNo", required=false) int sellUserNo,
                      	  @RequestParam(value="chatRoomNo", required=false) int chatRoomNo,
+                     	  @RequestParam(value="purchaseUserNo", required=false) int purchaseUserNo,
                      	  Model model,
-                     	  HttpSession session) {
+                     	  HttpSession session,
+                     	  Block block) {
+	   
 	   
 	   // 로그인 한유저
 	   int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
 	   
-	   
-	   
-	   
-	   
+	   int result = chatService.addBlock(sellUserNo, chatRoomNo, purchaseUserNo, userNo,block);
+
+       return String.valueOf(result);
       
-	  
+    }
+   
+   // 차단 풀기
+   @RequestMapping(value="chat/chatBlockremove", method = RequestMethod.POST)
+   @ResponseBody
+   public String deleteBlock(@RequestParam(value="sellUserNo", required=false) int sellUserNo,
+                     	  @RequestParam(value="chatRoomNo", required=false) int chatRoomNo,
+                     	  @RequestParam(value="purchaseUserNo", required=false) int purchaseUserNo,
+                     	  Model model,
+                     	  HttpSession session,
+                     	  Block block) {
 	   
-      return "redirect:chatBlockList";
+	   
+	   // 로그인 한유저
+	   int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
+	   
+	   int result = chatService.deleteBlock(sellUserNo, chatRoomNo, purchaseUserNo, userNo,block);
+
+       return String.valueOf(result);
       
     }
 
@@ -170,10 +191,11 @@ public class ChatController {
    @ResponseBody
    public int insertNegoPrice(@RequestParam int negoPrice,
                         @RequestParam int sellNo,
-                        @RequestParam int chatRoomNo
+                        @RequestParam int chatRoomNo,
+                        Sell nego
                                  ) {
       
-      int result = chatService.insertNegoPrice(negoPrice, sellNo, chatRoomNo);
+      int result = chatService.insertNegoPrice(negoPrice, sellNo, chatRoomNo, nego);
       
       return result;
       

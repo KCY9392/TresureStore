@@ -57,6 +57,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="FILE_PATH" property="filePath"/>
 </resultMap>
 
+<resultMap id="seller" type="hashmap">
+		<result column="USER_NO" property="userNo" />
+		<result column="MARKET_OPEN" property="marketOpen" />
+		<result column="SELL_COUNT" property="sellCount" />
+		<result column="FOLLOW_COUNT" property="followCount" />
+		<result column="REPORT_COUNT" property="reportCount" />
+		<result column="REVIEW_AVG" property="reviewAvg" />
+		<result column="IS_FOLLOW" property="isFollow" />
+	</resultMap>
+
 
 	<!-- 상품목록조회(메인페이지) -->
 	<select id="sellListselect" resultMap="sellResultSet">
@@ -336,4 +346,85 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    LEFT JOIN REVIEW R ON (P.USER_NO = R.USER_NO)
 	    WHERE S.SELL_STATUS = 'C' AND M.USER_NO =  #{userNo}
 	</select>
+	
+	<select id="sellList" parameterType="int" resultType="sell">
+		SELECT SELL_NO
+		     , CATEGORY_NO
+		     , SELL_TITLE
+		     , IMAGE_SRC
+		     , PRICE
+		     , (SELECT COUNT(*) FROM HEART H WHERE H.SELL_NO = S.SELL_NO) AS HEART_NUM
+		     , SELL_STATUS
+		     , CREATE_DATE
+		     , CRAWL
+		     , SELL_STATUS
+		  FROM SELL S
+		 WHERE USER_NO = #{userNo}
+	</select>
+
+	<select id="reviewList" parameterType="int" resultType="review">
+		SELECT R.REV_NO
+			     , R.SELL_NO
+			     , R.USER_NO
+			     , R.REV_CONTENT
+			     , R.CREATE_DATE
+			     , A.RAVG
+			  FROM MEMBER M
+			     , SELL S
+			     , REVIEW R
+			     , (SELECT AVG(REV_SCORE) AS RAVG
+			             , S.USER_NO
+			          FROM REVIEW RE
+			             , SELL S
+			         WHERE RE.SELL_NO = S.SELL_NO
+			        GROUP BY S.USER_NO
+			       ) A
+			WHERE M.USER_NO = S.USER_NO
+			  AND S.SELL_NO = R.SELL_NO
+			  AND S.USER_NO = A.USER_NO
+			  AND R.STATUS = 'Y'
+			  AND M.USER_NO = #{userNo}
+	</select>
+	
+	<select id="sellerDetail" parameterType="hashmap" resultMap="seller">
+		SELECT M.USER_NO
+		     , ROUND(SYSDATE - M.CREATE_DATE) AS MARKET_OPEN
+		     , (
+		        SELECT COUNT(*)
+		          FROM SELL
+		         WHERE USER_NO = M.USER_NO
+		       ) AS SELL_COUNT
+		    , (
+		       SELECT COUNT(*)
+		         FROM FOLLOW
+		        WHERE FW_ID = M.USER_NO
+		      ) AS FOLLOW_COUNT
+		    , (
+		       SELECT COUNT(*)
+		         FROM REPORT
+		        WHERE REPORT_NO = M.USER_NO
+		      ) AS REPORT_COUNT
+		    , (
+		        SELECT NVL(AVG(REV_SCORE), 0)
+		          FROM SELL S
+		             , REVIEW R
+		         WHERE S.SELL_NO = R.SELL_NO
+		           AND S.USER_NO = M.USER_NO
+		      ) AS REVIEW_AVG
+		    , (
+		       SELECT COUNT(*)
+		         FROM FOLLOW
+		        WHERE FI_ID = M.USER_NO
+		          AND FW_ID = #{fwId}
+		      )
+		    , (
+		       SELECT COUNT(*)
+		         FROM FOLLOW
+		        WHERE FI_ID = #{userNo}
+		          AND FW_ID = M.USER_NO
+		      ) AS IS_FOLLOW
+		  FROM MEMBER M
+		 WHERE M.USER_NO = #{sellerNo}
+	</select>
+	
 </mapper>

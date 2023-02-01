@@ -64,6 +64,7 @@ public class MyPageDao {
 	
 	public int changeStatus(SqlSession sqlSession, HashMap<String, Object> map) {
 		return sqlSession.update("mypageMapper.changeStatus", map);
+
 	}
 	
 	public List<Sell> mypagetSellList(SqlSession sqlSession, int userNo){

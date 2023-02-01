@@ -69,8 +69,6 @@ public class MyPageController {
 			//리뷰 평점
 			int reviewAvg = mypageService.reviewAvg(loginUser.getUserNo());
 			
-			
-			
 			//판매상품 리스트
 			List<Sell> sellList = mypageService.mypageSellList(loginUser.getUserNo());
 			//찜 상품 리스트
@@ -115,8 +113,7 @@ public class MyPageController {
 
 	
 	
-	
-	
+
 	
 	
 	
@@ -139,9 +136,6 @@ public class MyPageController {
 			result =1;
 		}
 		return result;
-		
-		
-		
 		
 	}
 	

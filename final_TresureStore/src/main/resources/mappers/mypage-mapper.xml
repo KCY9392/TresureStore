@@ -123,10 +123,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<update id="changeStatus" parameterType="map">
-	 UPDATE SELL SET
-	  SELL_STATUS = DECODE((SELECT SELL_STATUS FROM SELL WHERE SELL_NO = #{sellNo}),'C','I','I','C') 
+    UPDATE SELL SET
+     SELL_STATUS = DECODE((SELECT SELL_STATUS FROM SELL WHERE SELL_NO = #{sellNo}),'C','I','I','C') 
     WHERE SELL_NO = #{sellNo}
-	</update>
+   </update>
+
 	
 	
 	<!-- 마이페이지 구매목록 -->

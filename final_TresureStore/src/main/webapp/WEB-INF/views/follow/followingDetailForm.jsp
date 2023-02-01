@@ -92,9 +92,8 @@
 			<h2 class="following_title">팔로잉 목록</h2>
 			<ul class="following_body">
 			<c:forEach var="follow" items="${followList }">
-				<li class="following_list">
-					<div class="profile-image1">
-						<a href="${pageContext.request.contextPath }/sell/seller/${follow.fwId}">
+				<li class="following_list" >
+					<div class="profile-image1" data-seller-no='${follow.fwId}'>
 						<c:if test="${follow.avg > 4.5}">
 							<img src="/tresure/resources/images/icon/grade3.png" height="100%" width="100%" />
 						</c:if>
@@ -107,21 +106,20 @@
 						<c:if test="${ follow.avg == null  || follow.avg < 3.5 }">
 							<img src="/tresure/resources/images/icon/grade0.png" height="100%" width="100%" />
 						</c:if>
-						</a>
 					</div>
-					<div>
+					<div data-seller-no='${follow.fwId}'>
 						<div class="market-name1">
 						상점
 						<h3>${follow.fwId }</h3>
 						호점
 						</div>
 					</div>
-					<div>
+					<div data-seller-no='${follow.fwId}'>
 						<div class="market-name1">
 							<h3>상품 ${follow.sellCount }개</h3>
 						</div>
 					</div>
-					<div>
+					<div class="follow-cancel-box">
 						<div class="market-name2">
 							<button type="button" class="follow-cancel" data-fwid="${follow.fwId }">팔로잉 취소</button>
 						</div>
@@ -132,6 +130,14 @@
 		</div>
 	</div>
 	<script>
+		$(function(){
+			$(".follow-cancel-box").siblings().click(function(){
+				let no = $(this).data("seller-no");
+				location.href = '${pageContext.request.contextPath}/sell/seller/'+no;
+			});
+		});
+		
+		
 		$(document).on("click", ".follow-cancel", (e) => {
 			if (confirm("팔로잉을 취소하시겠습니까?")) {
 				let li = $(e.target).closest("li");

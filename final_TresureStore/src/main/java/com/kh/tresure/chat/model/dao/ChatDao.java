@@ -57,13 +57,13 @@ public class ChatDao {
    }
 
    // 채팅방 참여확인
-   public static int joinCheck(SqlSession sqlSession, ChatRoomJoin join) {
+   public int joinCheck(SqlSession sqlSession, ChatRoomJoin join) {
       
       return sqlSession.selectOne("chattingMapper.joinCheck", join);
    }
 
    // 채팅방 참여
-   public static void inChatRoomJoin(SqlSession sqlSession, ChatRoomJoin join) {
+   public void inChatRoomJoin(SqlSession sqlSession, ChatRoomJoin join) {
       
       sqlSession.insert("chattingMapper.inChatRoomJoin", join);
    }
@@ -107,9 +107,35 @@ public class ChatDao {
 
    // 채팅방 안에 구매자유저번호( 채팅방 만든 유저번호) 가져오기
    public ChatRoom selectUserNoByChatRoomNo(SqlSession sqlSession, int chatRoomNo) {
-		
-	   return sqlSession.selectOne("chattingMapper.selectUserNoByChatRoomNo", chatRoomNo);
+      
+      return sqlSession.selectOne("chattingMapper.selectUserNoByChatRoomNo", chatRoomNo);
+
    }
+
+    // 현재 채팅방에서 누군가 차단했는지 확인하기
+	public ChatRoom selectUsers(SqlSession sqlSession, int chatRoomNo) {
+		
+		return sqlSession.selectOne("chattingMapper.selectUsers", chatRoomNo);
+	}
+
+	// 경우1) 구매자가 판매자 차단한경우 찾기
+	public int selectBlockFind1(SqlSession sqlSession, Block block) {
+		
+		return sqlSession.selectOne("chattingMapper.selectBlockFind1", block);
+	}
+
+	// 경우2) 판매자가 구매자 차단한경우 찾기
+	public int selectBlockFind2(SqlSession sqlSession, Block block) {
+		
+		return sqlSession.selectOne("chattingMapper.selectBlockFind2", block);
+	}
+
+	// 차단되었는지 체크
+	public int blockCheck(SqlSession sqlSession, Block block) {
+
+		return sqlSession.selectOne("chattingMapper.blockCheck", block);
+	}
+
 
 
 
