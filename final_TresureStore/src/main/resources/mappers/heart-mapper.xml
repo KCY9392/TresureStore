@@ -40,6 +40,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 </select>
+<select id="heartCount"  parameterType="int" resultMap="heartResultSet">
+	  SELECT
+	 COUNT(*)
+    FROM HEART H
+   
+    JOIN MEMBER M ON H.USER_NO = M.USER_NO
+	WHERE M.USER_NO = #{userNo}
+
+
+
+
+</select>
 
 <delete id="deleteHeart">
  DELETE HEART
@@ -59,7 +71,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  WHERE SELL_NO = #{sellNo}  AND
  	   USER_NO = #{userNo}
 </delete>
-
 
 	
 

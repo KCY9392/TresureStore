@@ -9,9 +9,13 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="/tresure/resources/css/mypage/mypageMain.css">
 <link rel="stylesheet" href="/tresure/resources/css/common/font.css">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
  <script type="text/javascript" src="/tresure/resources/js/header.js"></script>
  <script type="text/javascript" src="/tresure/resources/js/mypageMain.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    
       
 
 </head>
@@ -43,7 +47,30 @@
 
             </div>
             <br>
-            <a href="#" class="market-grade">상점등급 안내</a>
+            <a href="#" class="market-grade" data-toggle="modal" data-target="#myModal">상점등급 안내</a>
+            <div class="modal fade" id="myModal" data-backdrop="static" data-keyboard="false">
+    			<div class="modal-dialog modal-xl modal-dialog-centered">
+     		 <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">등급 안내</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+            <img class="card-img-top rounded img-fluid" src="/tresure/resources/images/icon/그림1.png">
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+</div>
 
         </div>
 
@@ -59,7 +86,7 @@
 
                     <div class="follower">
                         <img src="/tresure/resources/images/icon/팔로워.png" width="20" height="15" alt="팔로워 아이콘">
-                        &nbsp;팔로워<div class="market-follower"><span>${folloewCount }</span> 명</div>
+                        &nbsp;팔로워<div class="market-follower"><span>${followCount }</span> 명</div>
                     </div>
 
                     <div class="sell-product">
@@ -116,17 +143,23 @@
 	                     <div class="item" onclick="sellDetail(${s.sellNo})">
 	                        <div id="itemSolid" class="slist-items" style="border: 1px solid rgb(238, 238, 238)">
 	                           <c:if test="${s.imgSrc != null}">
-	                           <img src="${s.imgSrc}" width="100%" height="150px;"
-	                              class="rounded float-start" alt="" style="">
+	                           	<c:if test="${s.crawl.equals('Y')}">
+											<img src="${s.imgSrc}" width="100%" height="150px;"
+											class="rounded float-start" alt="">
+										</c:if>
+										<c:if test="${s.crawl.equals('N')}">
+										<img src="${pageContext.request.contextPath}${s.imgSrc}" width="100%" height="150px;"
+											class="rounded float-start" alt="">
+										</c:if>
 	                           
 	                            
 	                              <c:if test="${s.sellStatus eq 'C' }">
 	                              <div class="over-img">
 	                      		  </div>
 	                      		  <div class="text-c" style="color: white;
-								    margin-left: 82px;
-								    margin-top: -110px;
-								    margin-bottom: 92px;">
+								    margin-left: 60px;
+								    margin-top: -93px;
+								    margin-bottom: 75px;">
 	                      		  <h3>판매완료</h3>
 	                      		  </div>
 	                             
@@ -140,21 +173,22 @@
 	                           
 	                           </c:if>
 	                           <div class="price-time"
-	                              style="margin-block-start: -0.33em; margin-block-end: 1.67em;">
-	                              <h4 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">&nbsp;${s.sellTitle}</h4>
+	                              style="margin-block-start: 0.33em; margin-block-end: -1.33em;">
+	                              <h5 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">&nbsp;${s.sellTitle}</h5>
 	                              <p>&nbsp;♥ &nbsp;${s.heartNum}</p>
 	                           </div>
 	                           <div class="price-time">
-	                              <p class="displayPrice">&nbsp;${s.price}원</p>
+	                              <p class="displayPrice" style="margin-top: 0;
+    margin-bottom: 1rem;">&nbsp;${s.price}원</p>
 	                              <h5 class="displayTime">&nbsp;${s.createDate}
 	                               
 	                              	 
 	                              </h5>
 	                              <c:if test="${s.sellStatus eq 'I' }">
-	                           <h5 class="sellStatus">판매중</h5>
+	                           <h5 class="sellStatus" style="font-size: 1rem;">판매중</h5>
 	                           </c:if>	
 	                           <c:if test="${s.sellStatus eq 'C' }">
-	                           <h5 class="sellStatus">판매완료</h5>
+	                           <h5 class="sellStatus"style="font-size: 1rem;">판매완료</h5>
 	                           </c:if>
 	                             
 	                              
@@ -243,11 +277,11 @@
 		           <img src="${h.imgSrc}"  width="78px" height="78px" style="margin-top: -15px;"/>
 		         </div>
 		         
-		         <div class="gdsInfo">
+		         <div class="gdsInfo" onclick="sellDetail(${h.sellNo})">
 		           <p style="margin-top: 18px;">
-		             <span>${h.sellTitle}</span><br><br>
-		             <span>${h.price }</span><br><br>
-		             <span>${h.createDate }</span><br><br>
+		             <span>${h.sellTitle}</span><br>
+		             <span>${h.price }원</span><br>
+		             <span>${h.createDate }</span><br>
 		           </p>
 		         </div>  
 		    </div> 

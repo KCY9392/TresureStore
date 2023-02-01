@@ -63,9 +63,22 @@
 											class="rounded float-start" alt="">
 									</c:if>
 									<c:if test="${s.crawl.equals('N')}">
-										<img src="${pageContext.request.contextPath}${s.imgSrc}" width="100%" height="100%"
+
+										<img src="${pageContext.request.contextPath}${s.imgSrc}" width="100%" height="400px;"
+
 										class="rounded float-start" alt="">
 								</c:if>
+								<c:if test="${s.sellStatus eq 'C' }">
+					                              <div class="over-img">
+					                              <div class="text-c" style="color: white;
+												   
+												    margin-top: 180px;
+												    margin-bottom: 195px;">
+					                      		  <h1>판매완료</h1>
+					                      		  </div>
+					                      		  </div>
+					                      		  
+			                   </c:if>
                         	</div>
                         	<c:if test="${s.imgList != null}">
 							<div class="sellImg3_Box">
@@ -158,12 +171,7 @@
                                         </a>
                                       </div> 
                                       </c:if>
-                                      <c:if test="${loginUser.userNo==s.userNo }">
-                                      <div class="sellBtn">
-                                      <button type="button" class="sellUpdateBtn">수정하기</button>
-                                      <button type="button" class="sellDeleteBtn">삭제하기</button>
-                                      </div>
-                                      </c:if>
+                                      
                                 </div>
                             </div>
                             <!-- 찜수, 조회수, 몇분전 게시 출력 -->
@@ -190,7 +198,8 @@
                                                 <span>${s.createDate}</span>
                                             </div>    
                                         </div>
-                                        
+                                            <c:if test="${loginUser.userNo!=s.userNo }">
+                          
                                         <div class="sellInfoTextBox">
                                             <div class="sellInfoTextBoxReport">
                                                 <img src="https://m.bunjang.co.kr/pc-static/resource/0acf058f19649d793382.png" width="16" height="16" alt="상품 몇분전 아이콘">
@@ -199,6 +208,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        </c:if>
                                     </div>
                                 </div>
                             </div>
@@ -206,7 +216,16 @@
 
                             <!-- 채팅하기 버튼 -->
                             <div class="purchaseGobtnBox">
+                               <c:if test="${s.sellStatus eq 'I' && loginUser.userNo==s.userNo }">
+                                	<button class="chattingbtn-sellDetail" id="chatting-start">수정하기</button>
+                                	<button class="chattingbtn-sellDetail" id="chatting-start">삭제하기</button>
+                                </c:if>
+                                <c:if test="${loginUser.userNo!=s.userNo }">
                                 <button class="chattingbtn-sellDetail" id="chatting-start">채팅하기</button>
+                                </c:if>
+                                <c:if test="${s.sellStatus eq 'C' }">
+                                	<button class="sell-comp" id="sell-comp">삭제하기</button>
+                                </c:if>
                             </div>
 
                             <!-- 상품 설명 텍스트 -->

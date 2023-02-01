@@ -100,9 +100,9 @@ public class MyPageController {
 		HttpSession session = request.getSession();
 		Member loginUser = (Member)session.getAttribute("loginUser");	
 		
-		//판매내역
-		List<Sell> sellList = mypageService.mypageSellList(loginUser.getUserNo());
+		List<Sell> sellList = mypageService.mypagetSellList(loginUser.getUserNo());
 		m.addAttribute("sellList", sellList);
+
 		
 		//구매내역
 		List<Sell> purchaseList = mypageService.mypagePurchaseList(loginUser.getUserNo());
@@ -113,6 +113,7 @@ public class MyPageController {
 
 	
 	
+
 	
 	
 	

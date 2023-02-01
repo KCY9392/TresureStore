@@ -104,7 +104,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="marketOpen" resultType="Integer" parameterType="Integer">
 	SELECT
-	ROUND(TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDD')) - CREATE_DATE)
+	ROUND(SYSDATE - CREATE_DATE)
 	FROM MEMBER
 	WHERE USER_NO = #{userNo}
 
