@@ -1,11 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
      <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 
 <link rel="stylesheet" href="/tresure/resources/css/common/font.css">
@@ -60,14 +60,33 @@
 							<c:forEach var="s" items="${sellList}" begin="0" end="${fn:length(sellList)}" step="1" varStatus="status">
 							
 							
-									<tr>
-										<td scope="col"><c:if test="${s.imgSrc != null}">
+									<tr onclick="sellDetail(${s.sellNo})">
+										<td scope="col">
+										<div style="display: flex;
+    position: relative;">
 											 <c:if test="${s.imgSrc != null}">
-												<img src="${s.imgSrc}" width="100%" height="150px;"
-												class="rounded float-start" alt="">
+												<c:if test="${s.crawl.equals('Y')}">
+													<img src="${s.imgSrc}" width="100%" height="150px;"
+													class="rounded float-start" alt="">
+												</c:if>
+												
+												<c:if test="${s.crawl.equals('N')}">
+													<img src="${pageContext.request.contextPath}${s.imgSrc}" width="100%" height="150px;"
+														class="rounded float-start" alt="">
+												</c:if>
+										
+												<c:if test="${s.sellStatus eq 'C' }">
+					                              <div class="over-img">
+					                              
+					                              <div style="color: white;
+    flex-grow: 1;">판매완료</div>
+					                             
+					                      		  </div>
+					                      		  
+			                             		</c:if>
 											</c:if>
-											
-										</c:if></td>
+											</div>
+										</td>
 										<td scope="col"> ${s.sellTitle}</td>
 										<td scope="col">${s.price }원</td>
 										<td scope="col">${s.heartNum }</td>
@@ -92,7 +111,7 @@
 			</div>
 			
 			
-			<div id="pshow" class="box">	
+			<div id="pshow" class="box" style="display:none;">	
 			   <div class="list-area">
 						
 			           
@@ -191,9 +210,15 @@
 	</div>
 	
 	<script>
+		function sellDetail(sellNo){
+			location.href = "${pageContext.request.contextPath}/sell/sellDetail/"+sellNo;
+		}
+	</script>
+	
+	<script>
 	  function changeStatus(sellNo){
 		  var sellNum = $('.sellNo').val();
-		  
+		  	
 		  
 		  
 		  $.ajax({
@@ -232,5 +257,10 @@
 	
 
 	<jsp:include page="../common/footer.jsp" />
+
+
+
+
+
 </body>
 </html>
