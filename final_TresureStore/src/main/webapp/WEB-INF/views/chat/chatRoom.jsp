@@ -268,6 +268,29 @@
             border: none;
             outline: none;
         }
+        .messageInput-area2{
+            width: 71%;
+            height: 70%;
+            resize: none;
+            font-size: 1.3em;
+            border: none;
+            color : white;
+            background-color: red;
+            border-bottom-left-radius: 20px;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+            line-height: 2em;
+            padding-left: 20px;
+            float: left;
+            margin-right: 1%;
+        }
+        .messageInput-area2:valid,
+        .messageInput-area2:focus{
+            border: none;
+            outline: none;
+        }
+        
 
         .float-left{
             float: left;
@@ -481,7 +504,23 @@
                                     <a id="addReport" class="buttonCss" >신고</a>
                                 </li>
                                 <li><br>
-                                    <a data-toggle="modal" data-target="#block-modal" id="addBlock" class="buttonCss" >차단</a>
+                                	<!-- 구매자가 차단했을 경우 -->
+                                	<c:if test="${AllList.get('puTose') >= 1 && loginUser.userNo eq AllList.get('purchaseInfo').userNo}"   >
+                                		<a data-toggle="modal" data-target="#block-modal" id="removeBlock" class="buttonCss" >차단 해제</a>
+                                	</c:if>
+                                	<!-- 구매자가 차단 안 했을 경우 -->
+                                	<c:if test="${AllList.get('puTose') == 0 && loginUser.userNo eq AllList.get('purchaseInfo').userNo}"   >
+                                		<a data-toggle="modal" data-target="#block-modal" id="addBlock" class="buttonCss" >차단</a>
+                                	</c:if>
+                                	<!-- 판매자가 차단했을 경우 -->
+                                	<c:if test="${AllList.get('seTopu') >= 1 && loginUser.userNo eq AllList.get('product').userNo}"   >
+                                		<a data-toggle="modal" data-target="#block-modal" id="removeBlock" class="buttonCss" >차단 해제</a>
+                                	</c:if>
+                                	<!-- 판매자가 차단 안 했을 경우 -->
+                                	<c:if test="${AllList.get('seTopu') == 0 && loginUser.userNo eq AllList.get('product').userNo}"   >
+                                		<a data-toggle="modal" data-target="#block-modal" id="addBlock" class="buttonCss" >차단</a>
+                                	</c:if>
+                                     		
                                 </li>
                                 <li style="float: right;">
                                     <button class="buttonCss2">계좌이체</button>
@@ -515,11 +554,7 @@
                                  </c:if>
                               </c:forEach>
                             </ul>
-                            
-                            
-                         
-                     
-                            
+
 
                         </div>
 
@@ -528,8 +563,16 @@
                         <div class="footer-area">
                             <div class="float-left pricture"><img src="https://cdn-icons-png.flaticon.com/512/739/739249.png" width="40"/>&nbsp;&nbsp;
                             </div>
-                            <input class="messageInput-area" id="inputChatting" placeholder="메세지를 입력하세요!" onkeypress="if(event.keyCode == 13) {massageEnterSend();}"/>
-                            <button class="float-left MessageSubmitBtn" id="send" type="button" >보내기</button>
+                            <!-- 차단 아무도 없을 때 -->
+                            <c:if test="${AllList.get('puTose') == 0 && AllList.get('seTopu') == 0}">
+                            	<input class="messageInput-area" id="inputChatting" placeholder="메세지를 입력하세요!" onkeypress="if(event.keyCode == 13) {massageEnterSend();}"/>
+                            	<button class="float-left MessageSubmitBtn" id="send" type="button" >보내기</button>
+                            </c:if>
+                            <!-- 차단 한명이라도 했을 때 -->
+                            <c:if test="${AllList.get('puTose') >= 1 || AllList.get('seTopu') >= 1}">
+                            	<input class="messageInput-area2" id="nonoinputChatting" placeholder="상점에게 메세지를 보낼 수 없습니다." disabled/>
+                            	<button class="float-left MessageSubmitBtn" id="send" type="button" disabled >보내기</button>
+                            </c:if>
                         </div>
                         
                     </div>
@@ -585,35 +628,57 @@
      	//차단버튼 클릭 시 
     	 $('#addBlock').on('click', function(){
     		 
-    		 let form = document.createElement('form');
-
-             form.setAttribute('method', 'post');
-             form.setAttribute('action', '${pageContext.request.contextPath}/chat/chatBlockAdd');
-             document.charset = 'utf-8';
-
-             let hiddenField = document.createElement('input');
-
-             hiddenField.setAttribute('type', 'hidden');
-             hiddenField.setAttribute('name', "sellUserNo");
-             hiddenField.setAttribute('value', ${AllList.get('product').userNo});
-
-             
-             let hiddenField2 = document.createElement('input');
-             
-             hiddenField2.setAttribute('type', 'hidden');
-             hiddenField2.setAttribute('name', "chatRoomNo");
-             hiddenField2.setAttribute('value', ${chatRoomNo});
-             console.log(${chatRoomNo});
-             
-             form.appendChild(hiddenField);
-             form.appendChild(hiddenField2);
-
-             document.body.appendChild(form);
-             form.submit();
-           
-         });
-        
-        
+    		 $.ajax({
+    			 url : "${pageContext.request.contextPath}/chat/chatBlockAdd",
+    			 data : {
+    				 chatRoomNo : ${chatRoomNo},
+    				 sellUserNo : ${AllList.get('product').userNo},
+    				 purchaseUserNo : ${AllList.get('purchaseInfo').userNo} 
+    				 },
+    			 type : "post",
+    			 success : function (result){
+    				 console.log(result);
+    				 if(result == 1){
+    					 alert("차단되었습니다.");
+    					 
+    					 location.reload();
+    					 
+    					 
+    				 }
+    			 },
+    			 error : function(){
+    				 console.log("통신실패");
+    			 }
+    		 });
+    	 });
+     	
+    	//차단해제 버튼 클릭 시 
+    	 $('#removeBlock').on('click', function(){
+    		 
+    		 $.ajax({
+    			 url : "${pageContext.request.contextPath}/chat/chatBlockremove",
+    			 data : {
+    				 chatRoomNo : ${chatRoomNo},
+    				 sellUserNo : ${AllList.get('product').userNo},
+    				 purchaseUserNo : ${AllList.get('purchaseInfo').userNo} 
+    				 },
+    			 type : "post",
+    			 success : function (result){
+    				 console.log(result);
+    				 if(result == 1){
+    					 alert("차단해제 되었습니다.");
+    					 
+    					 location.reload();
+    					 
+    				 }
+    			 },
+    			 error : function(){
+    				 console.log("통신실패");
+    			 }
+    		 });
+    	 });
+    	
+    		
         
       function sellDetail(sellNo){
          location.href = "${pageContext.request.contextPath}/sell/sellDetail/"+sellNo;

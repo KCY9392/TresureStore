@@ -20,7 +20,6 @@
     <title>보물상점</title>
 
     <style>
-       
 
        
          .main-section
@@ -165,16 +164,16 @@
                                             </c:if>
                                             <!-- 로그인한 사람과 판매하는 사람이 같은경우 -->
                                             <c:if test="${chatRoom.sellUserNo eq loginUser.userNo}">
-                                               <c:if test="${chatRoom.avg > 4.5}">
+                                               <c:if test="${chatRoom.purchaseUserAvg >= 4.5}">
                                                    <img src="/tresure/resources/images/icon/grade3.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.userNo }호 점
                                                </c:if>
-                                               <c:if test="${ 4 <= chatRoom.avg && chatRoom.avg < 4.5 }">
+                                               <c:if test="${ 4 <= chatRoom.purchaseUserAvg && chatRoom.purchaseUserAvg < 4.5 }">
                                                    <img src="/tresure/resources/images/icon/grade2.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.userNo }호 점
                                                </c:if>
-                                               <c:if test="${ 3.5 <= chatRoom.avg && chatRoom.avg < 4 }">
+                                               <c:if test="${ 3.5 <= chatRoom.purchaseUserAvg && chatRoom.purchaseUserAvg < 4 }">
                                                    <img src="/tresure/resources/images/icon/grade1.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.userNo }호 점
                                                </c:if>
-                                               <c:if test="${ null == chatRoom.avg || chatRoom.avg < 3.5 }">
+                                               <c:if test="${ null == chatRoom.purchaseUserAvg || chatRoom.purchaseUserAvg < 3.5 }">
                                                    <img src="/tresure/resources/images/icon/grade0.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.userNo }호 점
                                                </c:if>
                                             </c:if>
