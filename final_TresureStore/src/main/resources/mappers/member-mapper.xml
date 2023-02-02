@@ -84,6 +84,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</choose>
 </select>
 
+<!-- 탈퇴한 회원 새롭게 로그인하는 메소드 -->
 <update id="updateUserState" parameterType="member">
 	UPDATE MEMBER
 	SET STATUS = 'Y' , USER_NO = SEQ_MNO.NEXTVAL
@@ -99,10 +100,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</choose>
 </update>
 
+<!-- 회원번호로 그 사람 객체 가져오기 -->
 <select id="selectUser" parameterType="int" resultType="member">
 	SELECT *
 	FROM MEMBER
 	WHERE USER_NO = #{userNo}
 </select>
+
+<insert id="insertLeaveUser" parameterType="member">
+	<if test="phone != null">
+		INSERT INTO MEMBER (USER_NO, USER_NAME, PHONE, BIRTH, STATUS) 
+		VALUES (#{userNo} ,#{userName}, #{phone}, #{birth}, 'N')
+	</if>
+	<if test="email != null">
+		INSERT INTO MEMBER (USER_NO, USER_NAME, EMAIL , BIRTH, STATUS) 
+		VALUES (#{userNo} ,#{userName}, #{email}, #{birth}, 'N')
+	</if>
+</insert>
    
 </mapper>

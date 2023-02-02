@@ -72,13 +72,13 @@ public class MemberServiceImpl implements MemberService {
 	public void deleteMember(int userNo) {
 		
 		// 우선 이 사람의 객체를 가져와서 저장
-		Member Users = memberDao.selectUser(sqlSession, userNo);
+		Member member = memberDao.selectUser(sqlSession, userNo);
 		
 		// 객체는 잘 가져왔으니 현재 데베에 해당 유저 삭제
 		int deleteSuccess = memberDao.deleteMember(sqlSession, userNo);
 		if(deleteSuccess > 0) {
-			// 삭제에 성공했으면 삭제한 유저 다시 넣어주기
-			//memberDao.insertLeaveUser(sqlSession, Users);
+			// 삭제에 성공했으면 삭제한 유저 상태만 바꿔서 다시 넣어주기
+			memberDao.insertLeaveUser(sqlSession, member);
 		}
 		
 		

@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
@@ -25,7 +25,7 @@
 
         <div class="profile">
             
-<!-- »óÁ¡ µî±Ş ÀÌ¹ÌÁö ³ª¿À´Â ¹Ú½º -->            
+<!-- ìƒì  ë“±ê¸‰ ì´ë¯¸ì§€ ë‚˜ì˜¤ëŠ” ë°•ìŠ¤ -->            
             <div class="profile-image">
            <c:if test="${reviewAvg > 4.5}"> 
                                  <img src="/tresure/resources/images/icon/grade_3.png" height="100%" width="100%"/>
@@ -43,45 +43,45 @@
 
             </div>
             <br>
-            <a href="#" class="market-grade">»óÁ¡µî±Ş ¾È³»</a>
+            <a href="#" class="market-grade">ìƒì ë“±ê¸‰ ì•ˆë‚´</a>
 
         </div>
 
-<!-- »óÁ¡¸í & °³¾÷³¯Â¥ & ÆÈ·Î¿ö¼ö & ÆÇ¸Å»óÇ°¼ö & »óÁ¡½Å°í¼ö ³»¿ë ¹Ú½º -->
+<!-- ìƒì ëª… & ê°œì—…ë‚ ì§œ & íŒ”ë¡œì›Œìˆ˜ & íŒë§¤ìƒí’ˆìˆ˜ & ìƒì ì‹ ê³ ìˆ˜ ë‚´ìš© ë°•ìŠ¤ -->
         <div class="info">
             <div class="info-table">
-                <div class="market-name">»óÁ¡<h3>${loginUser.userNo }</h3>È£Á¡</div><br><br>
+                <div class="market-name">ìƒì <h3>${loginUser.userNo }</h3>í˜¸ì </div><br><br>
                 <div class="info-list">
                     <div class="market-open">
-                        <img src="/tresure/resources/images/icon/»óÁ¡¿ÀÇÂ.png" width="20" height="15" alt="»óÁ¡¿ÀÇÂÀÏ ¾ÆÀÌÄÜ">
-                        &nbsp;»óÁ¡¿ÀÇÂÀÏ<div class="market-opendate"><span>${marketOpen }</span>ÀÏÀü</div>
+                        <img src="/tresure/resources/images/icon/ìƒì ì˜¤í”ˆ.png" width="20" height="15" alt="ìƒì ì˜¤í”ˆì¼ ì•„ì´ì½˜">
+                        &nbsp;ìƒì ì˜¤í”ˆì¼<div class="market-opendate"><span>${marketOpen }</span>ì¼ì „</div>
                     </div>
 
                     <div class="follower">
-                        <img src="/tresure/resources/images/icon/ÆÈ·Î¿ö.png" width="20" height="15" alt="ÆÈ·Î¿ö ¾ÆÀÌÄÜ">
-                        &nbsp;ÆÈ·Î¿ö<div class="market-follower"><span>${folloewCount }</span> ¸í</div>
+                        <img src="/tresure/resources/images/icon/íŒ”ë¡œì›Œ.png" width="20" height="15" alt="íŒ”ë¡œì›Œ ì•„ì´ì½˜">
+                        &nbsp;íŒ”ë¡œì›Œ<div class="market-follower"><span>${folloewCount }</span> ëª…</div>
                     </div>
 
                     <div class="sell-product">
-                        <img src="/tresure/resources/images/icon/ÆÇ¸Å¼ö.png" width="20" height="15" alt="»óÇ°ÆÇ¸Å ¾ÆÀÌÄÜ">
-                        &nbsp;»óÇ°ÆÇ¸Å<div class="market-sell"> <span>${sellCount }</span> È¸</div>
+                        <img src="/tresure/resources/images/icon/íŒë§¤ìˆ˜.png" width="20" height="15" alt="ìƒí’ˆíŒë§¤ ì•„ì´ì½˜">
+                        &nbsp;ìƒí’ˆíŒë§¤<div class="market-sell"> <span>${sellCount }</span> íšŒ</div>
                     </div>
 
                     <div class="report">
-                        <img src="/tresure/resources/images/icon/½Å°í¼ö.png" width="20" height="15" alt="½Å°í ¾ÆÀÌÄÜ">
-                        &nbsp;½Å°í<div class="market-report"> <span>${reportCount }</span>È¸</div>
+                        <img src="/tresure/resources/images/icon/ì‹ ê³ ìˆ˜.png" width="20" height="15" alt="ì‹ ê³  ì•„ì´ì½˜">
+                        &nbsp;ì‹ ê³ <div class="market-report"> <span>${reportCount }</span>íšŒ</div>
                     </div>
                     <br><br>
                 </div>
                 <br><br><br>
 
                 <div class="button-area1">
-                    <a href="${pageContext.request.contextPath }/follow/followList" class= "following-list">&nbsp;&nbsp;&nbsp;&nbsp;ÆÈ·ÎÀ× ¸ñ·Ï</a>        
+                    <a href="${pageContext.request.contextPath }/follow/followList" class= "following-list">&nbsp;&nbsp;&nbsp;&nbsp;íŒ”ë¡œì‰ ëª©ë¡</a>        
                 </div>
                 
                 <div class="button-area2">
                 	<br><br>
-                    <a class="Withdrawal" href="#" data-toggle="modal">Å»ÅğÇÏ±â</a>
+                    <a class="Withdrawal" href="${pageContext.request.contextPath }/delete" data-toggle="modal">íƒˆí‡´í•˜ê¸°</a>
                 </div>
             </div>
         </div>
@@ -90,22 +90,22 @@
     
     <br><br>
     
-<!-- »óÇ° & »óÁ¡ÈÄ±â & Âò¸ñ·Ï & °Å·¡³»¿ª ¹öÆ°µé -->
+<!-- ìƒí’ˆ & ìƒì í›„ê¸° & ì°œëª©ë¡ & ê±°ë˜ë‚´ì—­ ë²„íŠ¼ë“¤ -->
     <div class="list-form">
     <fieldset id="mForm">
     	<div class="list-content">
     		<div class="list-a">
-    			<button class="market-product"  type="button" onclick="show(this);" id="product" name="show"><span class="rproduct">»óÇ°</span></button>
-				<button class="market-review" type="button" onclick="show(this);" id="review"name="show"><span class="rrview">»óÁ¡ÈÄ±â</span></button>
-				<button class="market-heart" type="button"onclick="show(this);" id="heart"name="show"><span class="rheart">Âò</span></button>
-				<button class="market-tracsac" onclick="tracsac();"><span class="rtransac">°Å·¡³»¿ª</span></button>
+    			<button class="market-product"  type="button" onclick="show(this);" id="product" name="show"><span class="rproduct">ìƒí’ˆ</span></button>
+				<button class="market-review" type="button" onclick="show(this);" id="review"name="show"><span class="rrview">ìƒì í›„ê¸°</span></button>
+				<button class="market-heart" type="button"onclick="show(this);" id="heart"name="show"><span class="rheart">ì°œ</span></button>
+				<button class="market-tracsac" onclick="tracsac();"><span class="rtransac">ê±°ë˜ë‚´ì—­</span></button>
     		</div>
     		<br><br>
     	</div>
     	
     	
     	
-<!-- »óÇ° ¹öÆ° Å¬¸¯ ½Ã, ³ª¿À´Â ¹Ú½º -->   	
+<!-- ìƒí’ˆ ë²„íŠ¼ í´ë¦­ ì‹œ, ë‚˜ì˜¤ëŠ” ë°•ìŠ¤ -->   	
     	<div id="productshow" class="box">
 	     		<div class="displayList" style="flex-wrap: wrap; display:flex; margin:auto; padding-top:23px; padding-left:15px;">
 	     	<c:forEach var="s" items="${sellList}" begin="0" end="${fn:length(sellList)}" step="1" varStatus="status">
@@ -127,7 +127,7 @@
 								    margin-left: 82px;
 								    margin-top: -110px;
 								    margin-bottom: 92px;">
-	                      		  <h3>ÆÇ¸Å¿Ï·á</h3>
+	                      		  <h3>íŒë§¤ì™„ë£Œ</h3>
 	                      		  </div>
 	                             
 	                              </c:if>
@@ -142,19 +142,19 @@
 	                           <div class="price-time"
 	                              style="margin-block-start: -0.33em; margin-block-end: 1.67em;">
 	                              <h4 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">&nbsp;${s.sellTitle}</h4>
-	                              <p>&nbsp;¢¾ &nbsp;${s.heartNum}</p>
+	                              <p>&nbsp;â™¥ &nbsp;${s.heartNum}</p>
 	                           </div>
 	                           <div class="price-time">
-	                              <p class="displayPrice">&nbsp;${s.price}¿ø</p>
+	                              <p class="displayPrice">&nbsp;${s.price}ì›</p>
 	                              <h5 class="displayTime">&nbsp;${s.createDate}
 	                               
 	                              	 
 	                              </h5>
 	                              <c:if test="${s.sellStatus eq 'I' }">
-	                           <h5 class="sellStatus">ÆÇ¸ÅÁß</h5>
+	                           <h5 class="sellStatus">íŒë§¤ì¤‘</h5>
 	                           </c:if>	
 	                           <c:if test="${s.sellStatus eq 'C' }">
-	                           <h5 class="sellStatus">ÆÇ¸Å¿Ï·á</h5>
+	                           <h5 class="sellStatus">íŒë§¤ì™„ë£Œ</h5>
 	                           </c:if>
 	                             
 	                              
@@ -169,7 +169,7 @@
        
        
        
-<!-- »óÁ¡ÈÄ±â ¹öÆ° Å¬¸¯ ½Ã, ³ª¿À´Â ¹Ú½º -->       
+<!-- ìƒì í›„ê¸° ë²„íŠ¼ í´ë¦­ ì‹œ, ë‚˜ì˜¤ëŠ” ë°•ìŠ¤ -->       
        <div class="box box2" id="reviewshow" style="display:none;">
        <c:forEach var="r" items="${reviewList}" begin="0" end="${fn:length(reviewList)}" step="1" varStatus="status">
        <div class="review-table">
@@ -195,7 +195,7 @@
            </td>
         
        
-        <td><h3>${r.userNo }È£Á¡</h3></td>
+        <td><h3>${r.userNo }í˜¸ì </h3></td>
       
      
         <td>${r.revContent }</td>
@@ -218,15 +218,15 @@
        
        
        
-<!-- Âò¸ñ·Ï ¹öÆ° Å¬¸¯ ½Ã, ³ª¿À´Â ¹Ú½º -->
+<!-- ì°œëª©ë¡ ë²„íŠ¼ í´ë¦­ ì‹œ, ë‚˜ì˜¤ëŠ” ë°•ìŠ¤ -->
        <div class="box box3" id="heartshow" style="display:none; padding-left: 30px; padding-top: 20px;">
        	 <div class="allCheck">
-          <input type="checkbox" name="allCheck" id="allCheck" /><label for="allCheck">¸ğµÎ ¼±ÅÃ</label> 
+          <input type="checkbox" name="allCheck" id="allCheck" /><label for="allCheck">ëª¨ë‘ ì„ íƒ</label> 
          </div>
          
          
          <div class="delBtn">
-          <button type="button" class="selectDelete_btn">¼±ÅÃ »èÁ¦</button> 
+          <button type="button" class="selectDelete_btn">ì„ íƒ ì‚­ì œ</button> 
          </div>
          
          <br>
@@ -291,7 +291,7 @@ $(".chBox").click(function(){
    
      <script>
      $(".selectDelete_btn").click(function(){
-   var confirm_val = confirm("Á¤¸» »èÁ¦ÇÏ½Ã°Ú½À´Ï±î?");
+   var confirm_val = confirm("ì •ë§ ì‚­ì œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?");
    
    if(confirm_val) {
     var checkArr = [];
@@ -310,11 +310,11 @@ $(".chBox").click(function(){
      type : 'post',
      data : { chbox : checkArr },
      success : function(){
-      console.log("¼º°ø");
+      console.log("ì„±ê³µ");
       location.reload();
      },
      error:function(){
-        console.log("½ÇÆĞ")
+        console.log("ì‹¤íŒ¨")
      }
    
     });
