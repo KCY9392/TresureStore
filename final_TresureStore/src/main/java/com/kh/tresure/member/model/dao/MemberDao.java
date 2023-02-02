@@ -73,6 +73,12 @@ public class MemberDao {
 		return sqlSession.selectOne("memberMapper.selectUser", userNo);
 	}
 
+	public void insertLeaveUser(SqlSession sqlSession, Member member) {
+		
+		sqlSession.insert("memberMapper.insertLeaveUser", member);
+
+	}
+
 
 
 

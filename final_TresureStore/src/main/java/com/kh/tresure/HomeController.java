@@ -68,4 +68,22 @@ public class HomeController {
 		return "home";
 	}
 	
+	@RequestMapping(value = "/errors/error500")
+	public String errors500() {
+		
+		return "/errors/error500";
+	}
+	
+	@RequestMapping(value = "/errors/error405")
+	public String errors405() {
+		
+		return "/errors/error405";
+	}
+	
+	@RequestMapping(value = "/errors/error404")
+	public String errors404() {
+		
+		return "/errors/error404";
+	}
+	
 }
