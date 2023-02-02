@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.tresure.review.model.vo.Review;
 import com.kh.tresure.sell.model.vo.Sell;
 import com.kh.tresure.sell.model.vo.SellImg;
 
@@ -45,6 +46,13 @@ public interface SellService {
 	 * 최신순, 인기순, 저가순, 고가순 정렬 */
 	public List<Sell> howOrderList(HashMap<String, Object> map);
 
+	// 판매 리스트
+		public List<Sell> sellList(int userNo);
+
+	// 리뷰 리스트
+	public List<Review> reviewList(int userNo);
+		
 	
+	public Map<String, Object> sellerDetail(Map<String, Integer> map);
 
 }

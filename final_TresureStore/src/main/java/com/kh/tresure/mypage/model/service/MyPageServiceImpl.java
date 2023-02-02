@@ -68,6 +68,8 @@ public class MyPageServiceImpl implements MyPageService{
 	public int marketOpen(int userNo) {
 		return mypageDao.marketOpen(sqlSession, userNo);
 	}
+	
+	
 	@Override
 	public int reviewAvg(int userNo) {
 		return mypageDao.reviewAvg(sqlSession, userNo);
@@ -102,8 +104,13 @@ public class MyPageServiceImpl implements MyPageService{
 	
 	
 	@Override
-	public int changeStatus(int sellNo) {
-		return mypageDao.changeStatus(sqlSession, sellNo);
+	public int changeStatus(HashMap<String, Object> map) {
+		return mypageDao.changeStatus(sqlSession, map);
+	}
+	
+	@Override
+	public List<Sell> mypagetSellList(int userNo){
+		return mypageDao.mypagetSellList(sqlSession, userNo);
 	}
 
 	/**
@@ -112,6 +119,11 @@ public class MyPageServiceImpl implements MyPageService{
 	@Override
 	public List<Sell> mypagePurchaseList(int userNo){
 		return mypageDao.mypagePurchaseList(sqlSession, userNo);
+	}
+	
+	@Override
+	public int heartCount(int userNo) {
+		return mypageDao.heartCount(sqlSession, userNo);
 	}
 	
 

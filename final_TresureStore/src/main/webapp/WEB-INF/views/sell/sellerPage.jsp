@@ -35,6 +35,12 @@
             cursor: pointer;
             border: 3px solid rgb(241, 238, 238);
         }
+        
+        #mForm{
+        	border: 1px !important;
+		    margin: auto !important;
+		    padding-left: 50px !important;
+        }
 </style>
 </head>
 <body>
@@ -50,16 +56,16 @@
 <!-- 상점 등급 이미지 나오는 박스 -->            
             <div class="profile-image">
            <c:if test="${reviewAvg > 4.5}"> 
-                                 <img src="/tresure/resources/images/icon/grade_3.png" height="100%" width="100%"/>
+                                 <img src="/tresure/resources/images/icon/backGray_grade3.png" height="100%" width="100%"/>
                               </c:if> 
                               <c:if test="${ 4 <= reviewAvg && reviewAvg < 4.5 }"> 
-                                 <img src="/tresure/resources/images/icon/grade2.png" height="100%" width="100%"/> 
+                                 <img src="/tresure/resources/images/icon/backGray_grade2.png" height="100%" width="100%"/> 
                               </c:if> 
                               <c:if test="${ 3.5 <= reviewAvg && reviewAvg < 4 }"> 
-                                 <img src="/tresure/resources/images/icon/grade1.png" height="100%" width="100%"/> 
+                                 <img src="/tresure/resources/images/icon/backGray_grade1.png" height="100%" width="100%"/> 
                               </c:if>
                               <c:if test="${ reviewAvg == null  || reviewAvg < 3.5 }">
-                                 <img src="/tresure/resources/images/icon/grade0.png" height="100%" width="100%"/>
+                                 <img src="/tresure/resources/images/icon/backGray_grade0.png" height="100%" width="100%"/>
                               </c:if>  
 
 
@@ -72,7 +78,8 @@
 <!-- 상점명 & 개업날짜 & 팔로워수 & 판매상품수 & 상점신고수 내용 박스 -->
         <div class="info">
             <div class="info-table">
-                <div class="market-name">상점<h3>${loginUser.userNo }</h3>호점</div><br><br>
+                <div class="market-name" style="margin-top: 55px;margin-bottom: 10px;"
+                >상점 ${loginUser.userNo } 호점</div>
                 <div class="info-list">
                     <div class="market-open">
                         <img src="/tresure/resources/images/icon/상점오픈.png" width="20" height="15" alt="상점오픈일 아이콘">
@@ -97,7 +104,7 @@
                 </div>
                 <br><br><br>
 
-                <div class="followAddOrSubBox">
+                <div class="followAddOrSubBox" style="margin-left: 290px;">
 					<c:if test="${loginUser.getUserNo() == null || s.follow_Is == 0}">
                            <button type="button" class="followBtn-sell" style="width:100%; height: 100%;"><img src="/tresure/resources/images/icon/followAddBtn.png" width="100%" height="70%"></button>
                     </c:if>
@@ -127,7 +134,7 @@
     	
 <!-- 상품 버튼 클릭 시, 나오는 박스 -->   	
     	<div id="productshow" class="box">
-	     		<div class="displayList" style="flex-wrap: wrap; display:flex; margin:auto; padding-top:23px; padding-left:15px;">
+	     		<div class="displayList" style="flex-wrap: wrap; display:flex; margin:auto; padding-top:23px; padding-left: 35px;">
 	     	<c:forEach var="s" items="${sellList}" begin="0" end="${fn:length(sellList)}" step="1" varStatus="status">
 	                  <div class="item col-3" style="cursor: pointer; height: 300px;
 	                                           width: 200px !important;

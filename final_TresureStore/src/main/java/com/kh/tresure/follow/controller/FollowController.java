@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -35,22 +36,20 @@ public class FollowController {
 		this.followService = followService;
 	}
 
+	// 팔로잉 목록
 	@RequestMapping(value = "/followList")
-	public String followList(HttpSession session, Model model) {
-		
-		Member loginUser = (Member) session.getAttribute("loginUser");
+	public String followList(Model model, HttpSession session) {
+		Member member = (Member) session.getAttribute("loginUser");
 		
 		Follow follow = new Follow();
-		follow.setFiId(loginUser.getUserNo());
+		follow.setFiId(member.getUserNo());
 		
-		List<Follow> followList = followService.selectFollowList(follow);
+		List <Follow> followList = followService.selectFollowList(follow);
 
 		model.addAttribute("followList", followList);
-		/* model.addAttribute("loginUser", followService.selectMember(follow)); */
-		
+		model.addAttribute("member", followService.selectMember(follow));		
 		return "follow/followingDetailForm";
 	}
-	
 	
 	public int selectFollow(Follow follow, HttpSession session) {
 		Member member = (Member) session.getAttribute("loginUser");
@@ -59,53 +58,47 @@ public class FollowController {
 		return followService.selectFollow(follow);
 	}
 
-	// 팔로우
+	// 팔로우 추가
 	@RequestMapping(value = "/addFollow")
 	@ResponseBody
 	public Map<String, Integer> addFollow(Follow follow, HttpSession session) {
 
-		HashMap<String, Integer> json = new HashMap<>();
+		HashMap<String, Integer> map = new HashMap<>();
 
 		try {
 
 			int count = selectFollow(follow, session);
 
 			if (count == 0) {
-				json.put("result", followService.insertFollow(follow));
+				map.put("result", followService.insertFollow(follow));
 			} else {
-				json.put("result", 2); // 이미 존재한다.
+				map.put("result", 2); // 이미 존재한다.
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
-			json.put("result", -1); // 오류 시에 -1로 세팅
-		} finally {
-			logger.debug("JSON : {}", json);
+			map.put("result", -1); // 오류 시에 -1로 세팅
 		}
-
-		return json;
+		return map;
 	}
 
 	// 팔로우
-	@RequestMapping(value = "/delFollow")
-	@ResponseBody
-	public Map<String, Integer> delFollow(Follow follow, HttpSession session) {
+		@RequestMapping(value = "/delFollow")
+		@ResponseBody
+		public Map<String, Integer> delFollow(Follow follow, HttpSession session) {
 
-		HashMap<String, Integer> json = new HashMap<>();
+			HashMap<String, Integer> map = new HashMap<>();
 
-		try {
+			try {
 
-			selectFollow(follow, session);
-			logger.debug("FOLLOW : {}", follow);
-			json.put("result", followService.deleteFollow(follow));
+				selectFollow(follow, session);
+				map.put("result", followService.deleteFollow(follow));
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			json.put("result", -1); // 오류 시에 -1로 세팅
-		} finally {
-			logger.debug("JSON : {}", json);
+			} catch (Exception e) {
+				e.printStackTrace();
+				map.put("result", -1); // 오류 시에 -1로 세팅
+			} finally {
+			}
+
+			return map;
 		}
-
-		return json;
-	}
 }

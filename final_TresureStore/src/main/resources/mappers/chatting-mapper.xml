@@ -81,7 +81,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                WHERE R.STATUS = 'Y'
                GROUP BY cr.USER_NO) PP2 ON (cr.USER_NO = PP2.USER_NO)
    WHERE CRJ.USER_NO = #{userNo} AND S.STATUS = 'Y'
-    ORDER BY CHAT_CREATE_DATE DESC, CREATE_DATE DESC;
+    ORDER BY CHAT_CREATE_DATE DESC, CREATE_DATE DESC
 </select>
  
 <!-- 채팅방 나가기(삭제) -->

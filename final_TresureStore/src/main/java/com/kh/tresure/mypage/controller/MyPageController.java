@@ -69,8 +69,6 @@ public class MyPageController {
 			//리뷰 평점
 			int reviewAvg = mypageService.reviewAvg(loginUser.getUserNo());
 			
-			
-			
 			//판매상품 리스트
 			List<Sell> sellList = mypageService.mypageSellList(loginUser.getUserNo());
 			//찜 상품 리스트
@@ -85,9 +83,6 @@ public class MyPageController {
 			m.addAttribute("heartList", heartList);
 			m.addAttribute("reviewList", reviewList);
 			m.addAttribute("reviewAvg", reviewAvg);
-
-			
-			System.out.println();
 			
 			return "member/myPage";
 		}
@@ -102,9 +97,9 @@ public class MyPageController {
 		HttpSession session = request.getSession();
 		Member loginUser = (Member)session.getAttribute("loginUser");	
 		
-		//판매내역
-		List<Sell> sellList = mypageService.mypageSellList(loginUser.getUserNo());
+		List<Sell> sellList = mypageService.mypagetSellList(loginUser.getUserNo());
 		m.addAttribute("sellList", sellList);
+
 		
 		//구매내역
 		List<Sell> purchaseList = mypageService.mypagePurchaseList(loginUser.getUserNo());
@@ -115,44 +110,27 @@ public class MyPageController {
 
 	
 	
+
 	@ResponseBody
 	@RequestMapping("changeStatus")
-	public int changeStatus(@PathVariable("sellNo") int sellNo) {
+	public int changeStatus(@RequestParam("sellNo") int sellNo) {
 		int result = 0;
+		
+		Sell s = new Sell();
+		
+		String sellStatus = s.getSellStatus();
+		 
+		 HashMap<String, Object> map = new HashMap<>();
+		 map.put("sellNo", sellNo);
+		 map.put("sellStatus", sellStatus);
 		if(result==0) {
 			
-			mypageService.changeStatus(sellNo);
-			result =1;
-		}
-		return result;
-	}
-	
-	
-	
-	
-	
-	@ResponseBody
-	@RequestMapping("changeStatus")
-	public int changeStatus(@PathVariable("sellNo") int sellNo) {
-		int result = 0;
-		if(result==0) {
-			
-			mypageService.changeStatus(sellNo);
+			mypageService.changeStatus(map);
 			result =1;
 		}
 		return result;
 		
-		
-		
-		
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 
 }
