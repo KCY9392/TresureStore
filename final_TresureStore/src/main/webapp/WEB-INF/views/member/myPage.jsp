@@ -22,7 +22,7 @@
   	}
   	
   	.search2{
-  		margin-top: 4px !important;
+  		margin-top: 0px !important;
   	}
   	
   	.nfavorites{
