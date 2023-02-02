@@ -136,6 +136,12 @@ public class ChatDao {
 		return sqlSession.selectOne("chattingMapper.blockCheck", block);
 	}
 
+	// 탈퇴한 사람있는지 찾기
+	public int selectMemberFind(SqlSession sqlSession, int chatRoomNo) {
+		
+		return sqlSession.selectOne("chattingMapper.selectMemberFind", chatRoomNo);
+	}
+
 
 
 

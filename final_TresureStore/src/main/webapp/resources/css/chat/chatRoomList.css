@@ -1,0 +1,87 @@
+@charset "UTF-8";
+
+.main-section
+{ 
+	width: 67%;
+	margin: auto;
+	font-size: 25px; 
+} 
+
+.innerOuter{
+	padding: 10%;
+}
+
+/*보물톡 text*/
+.innerOuter span {
+	font-weight: bold;
+	font-size: 40px;
+}
+
+/*차단목록 a태그*/
+.block-list {
+    text-decoration: none;
+    color: gold;
+    float: right;
+    font-size: 22px;
+    border: 2px solid gold;
+    width: 90px;
+    text-align: center;
+    height: 30px;
+    padding-top: 12px;
+    margin-right: 10px;
+    border-radius: 15px;
+}
+  
+.block-list:hover{
+   background-color:gold;
+   color:white;
+}
+  
+.table{
+	border: 2px solid #dedede;
+	width: 1000px;
+	margin: auto;
+	border-radius: 15px;
+} 
+
+table th{
+   font-size:22px !important;
+}
+
+table tr{
+   margin: auto;
+}
+
+thead {
+	color: rgb(248, 212, 12);
+    text-align: center;
+}
+
+tbody {
+    text-align: center;
+}
+  
+table .chat-exit{
+	font-family: 'koverwatch';
+	padding:0px;
+	background-color:gold;
+	color:grey;
+	border:none;
+	border-radius : 8%;
+	cursor: pointer;
+	width:40px;
+	hegith : 40px;
+	font-size: 20px;
+	border: 2px solid;
+	width: 60px;
+	height: 30px;
+}
+.chat-exit:hover{
+   cursor:ponter;
+}
+
+table .storeName:hover td:not(:last-child){
+   background-color : #ebeae7;
+   cursor:pointer;
+   border-radius : 5px;
+}

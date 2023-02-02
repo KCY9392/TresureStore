@@ -194,7 +194,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	   		 JOIN SELL S ON(R.SELL_NO = S.SELL_NO)
 	   		 GROUP BY S.USER_NO) 
 	   		 PP ON (PP.USER_NO = S.USER_NO)
-	   WHERE CR.CHATROOM_NO = #{chatRoomNo} AND S.STATUS = 'Y' AND M.STATUS = 'Y'
+	   WHERE CR.CHATROOM_NO = #{chatRoomNo}
 	</select>
 	
 	

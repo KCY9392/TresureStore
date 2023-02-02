@@ -74,26 +74,25 @@ public class ChatServiceImpl implements ChatService{
       roomJoin.setChatRoomNo(room.getChatRoomNo());
       roomJoin.setUserNo(room.getUserNo());
       
-      // 채팅방 참여
+      // 채팅방 참여 (o)
       int result2 = chatDao.joinCheck(sqlSession, roomJoin);
       if(result2 == 0) {
          chatDao.inChatRoomJoin(sqlSession, roomJoin);
       }
       
-      // 판매게시글 가져오기
+      // 판매게시글 가져오기 (o)
       Sell product = SellDao.selectSellProduct(sqlSession, room.getChatRoomNo());
       if(product != null) {
          AllList.put("product", product);
       }
       
-      // 메세지 가져오기
+      // 메세지 가져오기 (o)
       List<ChatMessage> roomMessageList = chatDao.selectChatMessageList(sqlSession, roomJoin);
       if(roomMessageList.size() != 0) {
          AllList.put("roomMessageList", roomMessageList);
-         logger.info(roomMessageList+"");
       }
       
-      // 구매자 번호, 평점 가져오기
+      // 구매자 번호, 평점 가져오기 (x) 이거 왜 실패냐
       ChatRoom purchaseInfo = chatDao.selectUserNoByChatRoomNo(sqlSession, room.getChatRoomNo());
       AllList.put("purchaseInfo", purchaseInfo);
       
@@ -113,6 +112,13 @@ public class ChatServiceImpl implements ChatService{
 
       AllList.put("puTose", puTose);
       AllList.put("seTopu", seTopu);
+      
+      // 탈퇴한 사람있는지 찾기
+      int state = chatDao.selectMemberFind(sqlSession, chatRoomNo);
+      if(state == 0) { // 탈퇴한 사람이 있으면 0
+    	  AllList.put("state", state);
+      }
+      
       
       // 첨부파일 가져오기
          

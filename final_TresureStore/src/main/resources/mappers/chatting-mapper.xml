@@ -199,18 +199,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    WHERE CHATROOM_NO = #{chatRoomNo}
 </select>
 
-<!-- 채팅방 만든 유저번호, 구매자? 번호 가져오기 -->
+<!-- 채팅방 만든 (구매자)유저번호, 구매자의 평점 가져오기 -->
 <select id="selectUserNoByChatRoomNo" parameterType="int" resultMap="chatResultSet">
-    SELECT AVG(REV_SCORE) "PURCHASEUSER_AVG",
-           PP.USER_NO
-    FROM REVIEW R
-    JOIN SELL S ON (S.SELL_NO = R.SELL_NO)
-    JOIN MEMBER M ON (S.USER_NO = M.USER_NO)
-    RIGHT JOIN (SELECT USER_NO
-            FROM CHAT_ROOM
-            WHERE CHATROOM_NO = #{chatRoomNo}) PP ON (PP.USER_NO = M.USER_NO)
-    WHERE S.STATUS = 'Y' AND R.STATUS = 'Y'
-    GROUP BY PP.USER_NO
+	SELECT AVG(REV_SCORE) AS "PURCHASEUSER_AVG",
+	      PP.USER_NO AS "USER_NO"
+	FROM REVIEW R
+	FULL OUTER JOIN SELL S ON (S.SELL_NO = R.SELL_NO)
+	RIGHT JOIN (
+	        SELECT USER_NO
+	        FROM CHAT_ROOM
+	        WHERE CHATROOM_NO = #{chatRoomNo} ) PP ON  (PP.USER_NO = S.USER_NO)
+	GROUP BY PP.USER_NO
 </select>
 
 <!-- 현재 채팅방에서 누군가 차단했는지 확인하기 -->
@@ -241,6 +240,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	SELECT COUNT(*)
 	FROM BLOCK
 	WHERE BLOCKER_NO = #{blockerNo} AND BLOCKED_NO = #{blockedNo}
+</select>
+
+<!-- 회원탈퇴 했는지 찾아보기 -->
+<select id="selectMemberFind" parameterType="int" resultType="int">
+	SELECT COUNT(*)
+	FROM CHAT_ROOM CR
+	JOIN SELL S ON (S.SELL_NO = CR.SELL_NO)
+	JOIN MEMBER M1 ON (S.USER_NO = M1.USER_NO)
+	JOIN MEMBER M2 ON (CR.USER_NO = M2.USER_NO)
+	WHERE CHATROOM_NO = #{chatRoomNo} AND M1.STATUS = 'Y' AND M2.STATUS = 'Y'
 </select>
 
 
