@@ -17,9 +17,23 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     
   <style>
-     .market-open img{
-        margin-top: 5px;
-     }
+  	.market-open img{
+  		margin-top: 5px;
+  	}
+  	
+  	.search2{
+  		margin-top: 4px !important;
+  	}
+  	
+  	.nfavorites{
+  			padding: 5px 0px !important;
+  		    padding-top: 10px !important;
+  		    height: 80px !important;
+  	}
+  	
+  	.ntheTop{
+  		height: 40px !important;
+  	}
   </style>
 
 </head>
@@ -36,16 +50,16 @@
 <!-- 상점 등급 이미지 나오는 박스 -->            
             <div class="profile-image">
            <c:if test="${reviewAvg > 4.5}"> 
-                                 <img src="/tresure/resources/images/icon/grade_3.png" height="100%" width="100%"/>
+                                 <img src="/tresure/resources/images/icon/backGray_grade3.png" height="100%" width="100%"/>
                               </c:if> 
                               <c:if test="${ 4 <= reviewAvg && reviewAvg < 4.5 }"> 
-                                 <img src="/tresure/resources/images/icon/grade2.png" height="100%" width="100%"/> 
+                                 <img src="/tresure/resources/images/icon/backGray_grade2.png" height="100%" width="100%"/> 
                               </c:if> 
                               <c:if test="${ 3.5 <= reviewAvg && reviewAvg < 4 }"> 
-                                 <img src="/tresure/resources/images/icon/grade1.png" height="100%" width="100%"/> 
+                                 <img src="/tresure/resources/images/icon/backGray_grade1.png" height="100%" width="100%"/> 
                               </c:if>
                               <c:if test="${ reviewAvg == null  || reviewAvg < 3.5 }">
-                                 <img src="/tresure/resources/images/icon/grade0.png" height="100%" width="100%"/>
+                                 <img src="/tresure/resources/images/icon/backGray_grade0.png" height="100%" width="100%"/>
                               </c:if>  
 
 
@@ -56,6 +70,7 @@
              <div class="modal-dialog modal-xl modal-dialog-centered">
              
             <div class="modal-content" style="width:700px;height:700px; margin: auto;">
+
               <!-- Modal Header -->
               <div class="modal-header">
                 <h4 class="modal-title">등급 안내</h4>
@@ -167,10 +182,7 @@
                                  </div>
                                 
                                  </c:if>
-                           
-                              
-                             
-                                 
+
                               </c:if>
                               <c:if test="${s.imgSrc == null}">
                               

@@ -51,6 +51,7 @@ public interface SellService {
 
 	// 리뷰 리스트
 	public List<Review> reviewList(int userNo);
+  
 	
 	public Map<String, Object> sellerDetail(Map<String, Integer> map);
 

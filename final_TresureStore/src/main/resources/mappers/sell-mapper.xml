@@ -67,11 +67,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="IS_FOLLOW" property="isFollow" />
 	</resultMap>
 
-
 	<!-- 상품목록조회(메인페이지) -->
 	<select id="sellListselect" resultMap="sellResultSet">
 		SELECT 
-	    	SELL_NO, CATEGORY_NO, SELL_TITLE, IMAGE_SRC, PRICE, HEART_NUM, CRAWL, S.CREATE_DATE AS "CREATE_DATE"
+	    	SELL_NO, CATEGORY_NO, SELL_TITLE, IMAGE_SRC, PRICE, 
+	    	(SELECT COUNT(*) FROM HEART H WHERE H.SELL_NO = S.SELL_NO) AS "HEART_NUM", CRAWL, S.CREATE_DATE AS "CREATE_DATE"
 		FROM SELL S 
         LEFT JOIN MEMBER M ON(S.USER_NO=M.USER_NO)
 		WHERE S.STATUS = 'Y' 
@@ -198,14 +198,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	
-	
-	<!-- 마이페이지 판매목록 -->
+	<!-- 마이페이지 판매목록  -->
 	<select id="mypageSellList" resultMap="sellResultSet" parameterType="Integer">
-	
-	SELECT 
+   
+   SELECT 
            S.SELL_NO, 
             S.CRAWL,
-             S.CATEGORY_NO, 
+            S.CATEGORY_NO, 
+               S.CRAWL,
              S.SELL_TITLE, 
              S.IMAGE_SRC, 
              S.PRICE, 
@@ -215,9 +215,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             FROM SELL S
             JOIN MEMBER M ON M.USER_NO = S.USER_NO
             WHERE M.USER_NO=#{userNo}
+
              ORDER BY CREATE_DATE DESC
-	</select>
-	
+   </select>
 	<select id="mypagetSellList" resultMap="sellResultSet" parameterType="Integer">
 	
 	 SELECT 
@@ -233,6 +233,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             FROM SELL S
             JOIN MEMBER M ON M.USER_NO = S.USER_NO
             WHERE M.USER_NO=#{userNo}
+
             ORDER BY SELL_STATUS DESC, CREATE_DATE DESC
             
 	</select>

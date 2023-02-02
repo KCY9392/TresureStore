@@ -97,28 +97,28 @@
 							<!-- 판매자 정보 -->
                            <div class="sellerInfo">
 
-	                                    <c:set var="sellerUrl" value="${pageContext.request.contextPath }/member/myPage" />
+									<c:set var="sellerUrl" value="${pageContext.request.contextPath }/member/myPage" />
 	                                    <c:if test="${loginUser.userNo != s.userNo }">
 	                                    	<c:set var="sellerUrl" value="${pageContext.request.contextPath }/sell/seller/${s.userNo }" />
 	                                    </c:if>
-								<a href="${sellerUrl }">
+									<a href="${sellerUrl }">
                                 <div class="sellGradeAndNameBox">
                                     <div class="sellerGradeImg">
-	                                    	
-	                                        <c:if test="${s.avg > 4.5}"> 
-												<img src="/tresure/resources/images/icon/grade_3.png" width="100%" height="100%"/>
-											</c:if> 
-											<c:if test="${ 4 <= s.avg && s.avg < 4.5 }"> 
-												<img src="/tresure/resources/images/icon/grade_3.png" width="100%" height="100%"/> 
-											</c:if> 
-											<c:if test="${ 3.5 <= s.avg && s.avg < 4 }"> 
-												<img src="/tresure/resources/images/icon/grade_3.png" width="100%" height="100%"/> 
-											</c:if>
-											<c:if test="${ s.avg == null  || s.avg < 3.5 }">
-												<img src="/tresure/resources/images/icon/grade_3.png" width="100%" height="100%"/>
-											</c:if>
-											
+                                        <c:if test="${s.avg > 4.5}"> 
+											<img src="/tresure/resources/images/icon/backGray_grade3.png" width="100%" height="100%"/>
+										</c:if> 
+										<c:if test="${ 4 <= s.avg && s.avg < 4.5 }"> 
+											<img src="/tresure/resources/images/icon/backGray_grade2.png" width="100%" height="100%"/> 
+										</c:if> 
+										<c:if test="${ 3.5 <= s.avg && s.avg < 4 }"> 
+											<img src="/tresure/resources/images/icon/backGray_grade1.png" width="100%" height="100%"/> 
+										</c:if>
+										<c:if test="${ s.avg == null  || s.avg < 3.5 }">
+											<img src="/tresure/resources/images/icon/backGray_grade0.png" width="100%" height="100%"/>
+										</c:if>
+
                                     </div>
+                                    
                                     <div class="sellerNameInfoBox">
                                         <div class="sellerName">
                                                 <p style="font-size:24px;">상점 ${s.userNo}호점</p>&nbsp;<img src="https://m.bunjang.co.kr/pc-static/resource/0acf058f19649d793382.png" width="15px" height="15px" style="margin-left:15px;">&nbsp;<p>${s.report_Num}</p>

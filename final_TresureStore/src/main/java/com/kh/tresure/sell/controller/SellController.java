@@ -315,6 +315,7 @@ public class SellController {
 
 	}
 	
+
 	// 상세페이지에서 판매자 이미지 클릭 시 판매자 상점으로 이동
 	@RequestMapping(value = "/seller/{userNo}")
 	public String sellerPage(@PathVariable("userNo") int userNo, Model model, Sell sell, HttpSession session) {
