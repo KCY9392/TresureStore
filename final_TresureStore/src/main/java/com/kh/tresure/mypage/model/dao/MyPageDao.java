@@ -64,12 +64,21 @@ public class MyPageDao {
 	
 	public int changeStatus(SqlSession sqlSession, HashMap<String, Object> map) {
 		return sqlSession.update("mypageMapper.changeStatus", map);
+
+	}
+	
+	public List<Sell> mypagetSellList(SqlSession sqlSession, int userNo){
+		return (List)sqlSession.selectList("sellMapper.mypagetSellList", userNo);
 	}
 
 	/**
 	 * 마이페이지 구매목록 */
 	public List<Sell> mypagePurchaseList(SqlSession sqlSession, int userNo) {
 		return sqlSession.selectList("sellMapper.mypagePurchaseList",userNo);
+	}
+	
+	public int heartCount(SqlSession sqlSession, int userNo) {
+		return sqlSession.selectOne("heartMapper.heartCount", userNo);
 	}
 
 }

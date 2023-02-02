@@ -105,6 +105,11 @@ public class MyPageServiceImpl implements MyPageService{
 	public int changeStatus(HashMap<String, Object> map) {
 		return mypageDao.changeStatus(sqlSession, map);
 	}
+	
+	@Override
+	public List<Sell> mypagetSellList(int userNo){
+		return mypageDao.mypagetSellList(sqlSession, userNo);
+	}
 
 	/**
 	 * 마이페이지 구매목록
@@ -112,6 +117,11 @@ public class MyPageServiceImpl implements MyPageService{
 	@Override
 	public List<Sell> mypagePurchaseList(int userNo){
 		return mypageDao.mypagePurchaseList(sqlSession, userNo);
+	}
+	
+	@Override
+	public int heartCount(int userNo) {
+		return mypageDao.heartCount(sqlSession, userNo);
 	}
 	
 

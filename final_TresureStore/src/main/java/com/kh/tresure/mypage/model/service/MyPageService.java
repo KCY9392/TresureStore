@@ -46,11 +46,17 @@ public interface MyPageService{
 	 * 마이페이지 상점후기 목록 */
 	public List<Review> mypageReviewList(int userNo);
 	
+  
 	public int changeStatus(HashMap<String, Object> map);
+	
+	public List<Sell> mypagetSellList(int userNo);
 
 	
 	/**
 	 * 마이페이지 구매목록 */
 	public List<Sell> mypagePurchaseList(int userNo);
+	
+	public int heartCount(int userNo);
+
 
 }

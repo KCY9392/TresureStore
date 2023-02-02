@@ -49,3 +49,12 @@
     font-size: 30px;
     padding-left: 175px;
 }
+.follow-cancel {
+	height: 50px;
+    align-items: center;
+    border: 1px solid gold;
+    background-color: gold;
+    font-size: 20px;
+    border-radius: 15px;
+    width: 120px;
+}

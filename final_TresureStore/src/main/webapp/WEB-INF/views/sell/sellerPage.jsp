@@ -91,7 +91,7 @@
 
                     <div class="report">
                         <img src="/tresure/resources/images/icon/신고수.png" width="20" height="15" alt="신고 아이콘">
-                        &nbsp;신고<div class="market-report"> <span>${member.reportCount }</span>회</div>
+                        &nbsp;신고<div class="market-report"> <span>${member.reporterCount }</span>회</div>
                     </div>
                     <br><br>
                 </div>
@@ -99,10 +99,10 @@
 
                 <div class="followAddOrSubBox">
 					<c:if test="${member.isFollow == 0}">
-                           <button type="button" class="followBtn-sell" style="width:100%; height: 100%;"><img src="/tresure/resources/images/icon/followAddBtn.png" width="100%" height="70%"></button>
+                           <button type="button" class="followBtn-sell" style="width:100%; height: 100%;"><img class="followBtm" src="/tresure/resources/images/icon/followAddBtn.png" width="100%" height="70%"></button>
                     </c:if>
                     <c:if test="${member.isFollow != 0}">
-                           <button type="button" class="followBtn-sell" style="width:100%; height: 100%;"><img src="/tresure/resources/images/icon/followSubBtn.png" width="100%" height="70%"></button>
+                           <button type="button" class="followBtn-sell" style="width:100%; height: 100%;"><img class="followBtm" src="/tresure/resources/images/icon/followSubBtn.png" width="100%" height="70%"></button>
                     </c:if>                
                 </div>
             </div>
@@ -125,50 +125,71 @@
     	
     	
     	
-<!-- 상품 버튼 클릭 시, 나오는 박스 -->   	
-    	<div id="productshow" class="box">
-	     		<div class="displayList" style="flex-wrap: wrap; display:flex; margin:auto; padding-top:23px; padding-left:15px;">
-	     	<c:forEach var="s" items="${sellList}" begin="0" end="${fn:length(sellList)}" step="1" varStatus="status">
-	                  <div class="item col-3" style="cursor: pointer; height: 300px;
-	                                           width: 200px !important;
-	                                           padding: 0px 20px !important;
-	                                           margin-bottom:10px !important;">
-	                     <div class="item" onclick="sellDetail(${s.sellNo});">
-	                        <div id="itemSolid" class="slist-items" style="border: 1px solid rgb(238, 238, 238)">
-	                           <c:if test="${s.imgSrc != null}">
-	                           <img src="${s.imgSrc}" width="100%" height="150px;"
-	                              class="rounded float-start" alt="" style="">
-	                           </c:if>
-	                           <c:if test="${s.imgSrc == null}">
-	                           
-	                           </c:if>
-	                           <div class="price-time"
-	                              style="margin-block-start: -0.33em; margin-block-end: 1.67em;">
-	                              <h4 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">&nbsp;${s.sellTitle}</h4>
-	                              <p>&nbsp;♥ &nbsp;${s.heartNum}</p>
-	                           </div>
-	                           <div class="price-time">
-	                              <p class="displayPrice">&nbsp;${s.price}원</p>
-	                              <h5 class="displayTime">&nbsp;${s.createDate}
-	                               
-	                              	 
-	                              </h5>
-	                              <c:if test="${s.sellStatus eq 'I' }">
-	                           <h5 class="sellStatus">판매중</h5>
-	                           </c:if>	
-	                           <c:if test="${s.sellStatus eq 'C' }">
-	                           <h5 class="sellStatus">판매완료</h5>
-	                           </c:if>
-	                             
-	                              
-	                           </div>
-	                           
-	                        </div>
-	                     </div>
-	                  </div>
-	       </c:forEach> 
-	      </div>
+<!-- 상품 버튼 클릭 시, 나오는 박스 -->      
+       <div id="productshow" class="box">
+              <div class="displayList" style="flex-wrap: wrap; display:flex; margin:auto; padding-top:23px; padding-left:15px;">
+           <c:forEach var="s" items="${sellList}" begin="0" end="${fn:length(sellList)}" step="1" varStatus="status">
+                     <div class="item col-3" style="cursor: pointer; height: 300px;
+                                              width: 200px !important;
+                                              padding: 0px 20px !important;
+                                              margin-bottom:10px !important;">
+                        <div class="item" onclick="sellDetail(${s.sellNo})">
+                           <div id="itemSolid" class="slist-items" style="border: 1px solid rgb(238, 238, 238)">
+                              <c:if test="${s.imgSrc != null}">
+                                 <c:if test="${s.crawl.equals('Y')}">
+                                 <img src="${s.imgSrc}" width="100%" height="150px;"
+                                 class="rounded float-start" alt="">
+                              </c:if>
+                              <c:if test="${s.crawl.equals('N')}">
+                              <img src="${pageContext.request.contextPath}${s.imgSrc}" width="100%" height="150px;"
+                                 class="rounded float-start" alt="">
+                              </c:if>
+                              
+                               
+                                 <c:if test="${s.sellStatus eq 'C' }">
+                                 <div class="over-img">
+                                 </div>
+                                 <div class="text-c" style="color: white;
+                            margin-left: 60px;
+                            margin-top: -93px;
+                            margin-bottom: 75px;">
+                                 <h3>판매완료</h3>
+                                 </div>
+                                 </c:if>
+                              </c:if>
+                              <c:if test="${s.imgSrc == null}">
+                              
+                              </c:if>
+                              <div class="price-time"
+                                 style="margin-block-start: 0.33em; margin-block-end: -1.33em;">
+                                 <h5 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">&nbsp;${s.sellTitle}</h5>
+                                 <p>&nbsp;♥ &nbsp;${s.heartNum}</p>
+                              </div>
+                              <div class="price-time">
+                                 <p class="displayPrice" style="margin-top: 0;
+    margin-bottom: 1rem;">&nbsp;${s.price}원</p>
+                                 <h5 class="displayTime">&nbsp;${s.createDate}
+                                  
+                                     
+                                 </h5>
+                                 <c:if test="${s.sellStatus eq 'I' }">
+                              <h5 class="sellStatus" style="font-size: 1rem;">판매중</h5>
+                              </c:if>   
+                              <c:if test="${s.sellStatus eq 'C' }">
+                              <h5 class="sellStatus"style="font-size: 1rem;">판매완료</h5>
+                              </c:if>
+                                
+                                 
+                              </div>
+                              
+                           </div>
+                        </div>
+                     </div>
+          </c:forEach> 
+         </div>
        </div>
+       
+       
        
        
        
@@ -213,60 +234,63 @@
      <jsp:include page="../common/footer.jsp"/>
      
      <script>
- 	$(document).on("click", ".followBtn-sell", (e) => {
-		if ("${loginUser.userNo}" == "${s.userNo}") {
-			alert("내가 나 자신을 팔로우 할 수는 없습니다.");
-			return;
-		}
-
-		$(e.target).parent().removeClass("followBtn-sell"); // 중복 이벤트 방지를 위해 class를 제거하자. (class를 제거하면 더 이상 이벤트 발생 안함)
-		$.ajax({
-			url : '${pageContext.request.contextPath}/follow/addFollow',
-			type : "post",
-			data : {fwId : "${s.userNo}"},
-			dataType : "json",
-			success : function(data) {
-				let result = Number(data.result);
-				if (result == 1) {
-					$(".followBtm").attr("src", $(".followBtm").attr("src").replace("followAddBtn.png", "followSubBtn.png"));
-					alert("팔로우 되었습니다.");
-				} else if (result == 2) {
-					if (confirm("이미 팔로우 했습니다.\n팔로우를 취소하시겠습니까?")) {
-						$.ajax({
-							url : '${pageContext.request.contextPath}/follow/delFollow',
-							type : "post",
-							data : {fwId : "${s.userNo}"},
-							dataType : "json",
-							success : function(data) {
-								let count = Number(data.result)
-								if (count == 1) {
-									alert("팔로우가 취소되었습니다.");
-									$(".followBtm").attr("src", $(".followBtm").attr("src").replace("followSubBtn.png", "followAddBtn.png"));
-								} else {
-									alert("팔로우 취소에 실패하었습니다.");
-								}
-							},
-							error : function() {
-								alert("오류!!!");
-								console.log("오류");
-							}
-						});
-					}
-				} else {
-					alert("오류가 발생!!")
-				}
-				console.log(data);
-			},
-			error : function() {
-				alert("오류가 발생.");
-				console.log("오류");
-			},
-			complete : function () {
-				$(e.target).parent().addClass("followBtn-sell");
+	 	$(document).on("click", ".followBtn-sell", (e) => {
+			if ("${loginUser.userNo}" == "${s.userNo}") {
+				alert("내가 나 자신을 팔로우 할 수는 없습니다.");
+				return;
 			}
-		})
-
-	    });
+	
+			$(e.target).parent().removeClass("followBtn-sell"); // 중복 이벤트 방지를 위해 class를 제거. (class를 제거하면 더 이상 이벤트 발생 안함)
+			let fwId = ${member.userNo};
+			$.ajax({
+				url : '${pageContext.request.contextPath}/follow/addFollow',
+				type : "post",
+				data : {fwId : fwId},
+				dataType : "json",
+				success : function(data) {
+					let result = Number(data.result);
+					if (result == 1) {
+						$(".followBtm").attr("src", $(".followBtm").attr("src").replace("followAddBtn.png", "followSubBtn.png"));
+						alert("팔로우 되었습니다.");
+						location.reload();
+					} else if (result == 2) {
+						if (confirm("이미 팔로우 했습니다.\n팔로우를 취소하시겠습니까?")) {
+							$.ajax({
+								url : '${pageContext.request.contextPath}/follow/delFollow',
+								type : "post",
+								data : {fwId : fwId},
+								dataType : "json",
+								success : function(data) {
+									let count = Number(data.result)
+									if (count == 1) {
+										alert("팔로우가 취소되었습니다.");
+										$(".followBtm").attr("src", $(".followBtm").attr("src").replace("followSubBtn.png", "followAddBtn.png"));
+										location.reload();
+									} else {
+										alert("팔로우 취소에 실패하었습니다.");
+									}
+								},
+								error : function() {
+									alert("오류!!!");
+									console.log("오류");
+								}
+							});
+						}
+					} else {
+						alert("오류가 발생!!")
+					}
+					console.log(data);
+				},
+				error : function() {
+					alert("오류가 발생.");
+					console.log("오류");
+				},
+				complete : function () {
+					$(e.target).parent().addClass("followBtn-sell");
+				}
+			})
+	
+		    });
 
      </script>
      

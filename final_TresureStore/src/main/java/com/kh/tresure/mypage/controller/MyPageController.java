@@ -69,8 +69,6 @@ public class MyPageController {
 			//리뷰 평점
 			int reviewAvg = mypageService.reviewAvg(loginUser.getUserNo());
 			
-			
-			
 			//판매상품 리스트
 			List<Sell> sellList = mypageService.mypageSellList(loginUser.getUserNo());
 			//찜 상품 리스트
@@ -102,9 +100,9 @@ public class MyPageController {
 		HttpSession session = request.getSession();
 		Member loginUser = (Member)session.getAttribute("loginUser");	
 		
-		//판매내역
-		List<Sell> sellList = mypageService.mypageSellList(loginUser.getUserNo());
+		List<Sell> sellList = mypageService.mypagetSellList(loginUser.getUserNo());
 		m.addAttribute("sellList", sellList);
+
 		
 		//구매내역
 		List<Sell> purchaseList = mypageService.mypagePurchaseList(loginUser.getUserNo());
@@ -115,18 +113,7 @@ public class MyPageController {
 
 	
 	
-	@ResponseBody
-	@RequestMapping("changeStatus")
-	public int changeStatus(@PathVariable("sellNo") int sellNo) {
-		int result = 0;
-		if(result==0) {
-			
-			mypageService.changeStatus(sellNo);
-			result =1;
-		}
-		return result;
-	}
-	
+
 	
 	
 	
@@ -149,9 +136,6 @@ public class MyPageController {
 			result =1;
 		}
 		return result;
-		
-		
-		
 		
 	}
 	

@@ -116,6 +116,21 @@ article {
   padding:2em;
 }
 
+.over-img {  
+
+    opacity: 0.6;
+    background-color: gray;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    /* margin-left: 40%; */
+    top: 0;
+    position: absolute;
+    left: 0;
+
+}
+
 
 	
 	

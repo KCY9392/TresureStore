@@ -15,6 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="COUNT" property="count"></result>
 	<result column="CREATE_DATE" property="createDate"></result>
 	<result column="STATUS" property="status"></result>
+	<result column="HEART_COUNT" property="heartCount"></result>
 </resultMap>
 
 <!-- 입력한 정보로 가입한 회원여부 확인 -->

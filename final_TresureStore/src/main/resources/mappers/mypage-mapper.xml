@@ -80,9 +80,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="reportCount" resultType="Integer" parameterType="Integer">
 	SELECT
-	COUNT(REPORT_NO)
+		COUNT(REPORTED_NO)
 	FROM REPORT
-	JOIN MEMBER ON USER_NO = REPORT_NO
+	JOIN MEMBER ON USER_NO = REPORTED_NO
 	WHERE USER_NO = #{userNo}
 
 	
@@ -104,7 +104,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="marketOpen" resultType="Integer" parameterType="Integer">
 	SELECT
-	ROUND(TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDD')) - CREATE_DATE)
+	ROUND(SYSDATE - CREATE_DATE)
 	FROM MEMBER
 	WHERE USER_NO = #{userNo}
 
@@ -123,10 +123,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<update id="changeStatus" parameterType="map">
-	 UPDATE SELL SET
-	  SELL_STATUS = DECODE((SELECT SELL_STATUS FROM SELL WHERE SELL_NO = #{sellNo}),'C','I','I','C') 
+    UPDATE SELL SET
+     SELL_STATUS = DECODE((SELECT SELL_STATUS FROM SELL WHERE SELL_NO = #{sellNo}),'C','I','I','C') 
     WHERE SELL_NO = #{sellNo}
-	</update>
+   </update>
+
 	
 	
 	<!-- 마이페이지 구매목록 -->

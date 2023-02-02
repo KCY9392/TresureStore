@@ -17,7 +17,7 @@
 				<p id="ntoFavorites" class="ntoFavorites">
 					<i class="nfas fa-heart"><img
 						src="https://cdn-icons-png.flaticon.com/512/833/833472.png" width="20">
-					<p>100</p></i>
+					<p></p></i>
 				</p>
 			</div>
 			<!-- favoritesCount -->
@@ -28,7 +28,7 @@
 		<div class="nrecently">
 			<div class="nrecentlyText">최근본상품</div>
 			<div class="nrecentlyProduct">
-				<span id="nrecentlyCnt"></span>
+				<div id="nrecentlyCnt">1</div>
 				<div id="nrecentlyArea">
 					<a id="nrecentlyList"> 
 					<!-- 최근본상품  --> 
