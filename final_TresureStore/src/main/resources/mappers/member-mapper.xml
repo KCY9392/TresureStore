@@ -21,13 +21,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <select id="selectExistenceStatus" parameterType="member" resultType="int">
 	SELECT COUNT(*)
 	FROM MEMBER
-	WHERE STATUS = 'Y' 
+	WHERE STATUS = 'Y'
 	AND
 	<choose>
-		<when test="phone != null">
+		<when test="phone != null and email == null">
 			PHONE = #{phone}
 		</when>
-		<when test="email != null">
+		<when test="phone == null and email != null">
 			EMAIL = #{email}
 		</when>
 	</choose>
@@ -45,19 +45,64 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</if>
 </insert>
 
-<!-- 로그인한 회원객체 select -->
-<select id="loginAndMemberEnroll" parameterType="member" resultMap="memberResultSet">
+<!-- 카카오로 로그인한 회원객체 select -->
+<select id="loginAndMemberEnrollKaKako" parameterType="member" resultMap="memberResultSet">
 	SELECT *
 	FROM MEMBER
 	WHERE STATUS = 'Y' 
-	AND 
-	<if test="phone != null">
-			PHONE = #{phone}
-	</if>
-	<if test="email != null">
-			EMAIL = #{email}
-	</if>
+	AND EMAIL = #{email}
 </select>
 
+<!-- 본인인증으로 회원객체 select -->
+<select id="loginAndMemberEnrollauAuthentication" parameterType="member" resultMap="memberResultSet">
+	SELECT *
+	FROM MEMBER
+	WHERE STATUS = 'Y' 
+	AND PHONE = #{phone}
+</select>
+
+<!-- 회원탈퇴  -->
+<update id="deleteMember" parameterType="int">
+	DELETE
+	FROM MEMBER
+	WHERE USER_NO = #{userNo}
+</update>
+
+<!-- 회원탈퇴한 사람인지 확인해보기 -->
+<select id="selectUserState" parameterType="member" resultType="int">
+	SELECT COUNT(*)
+	FROM MEMBER
+	WHERE STATUS = 'N'
+	AND
+	<choose>
+		<when test="phone != null and email == null">
+			PHONE = #{phone}
+		</when>
+		<when test="phone == null and email != null">
+			EMAIL = #{email}
+		</when>
+	</choose>
+</select>
+
+<update id="updateUserState" parameterType="member">
+	UPDATE MEMBER
+	SET STATUS = 'Y' , USER_NO = SEQ_MNO.NEXTVAL
+	WHERE STATUS = 'N'
+	AND
+	<choose>
+		<when test="phone != null and email == null">
+			PHONE = #{phone}
+		</when>
+		<when test="phone == null and email != null">
+			EMAIL = #{email}
+		</when>
+	</choose>
+</update>
+
+<select id="selectUser" parameterType="int" resultType="member">
+	SELECT *
+	FROM MEMBER
+	WHERE USER_NO = #{userNo}
+</select>
    
 </mapper>

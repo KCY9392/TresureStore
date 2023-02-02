@@ -49,6 +49,8 @@ public class HomeController {
 		
 		
 		String access_Token = (String)session.getAttribute("access_Token");
+		
+		
 		if(access_Token != null) {
 			
 			Member member = kakao.getUserInfo(access_Token);
