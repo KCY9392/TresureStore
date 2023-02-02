@@ -23,6 +23,7 @@
 		<typeAlias type="com.kh.tresure.heart.model.vo.Heart" alias="heart"/>
 		<typeAlias type="com.kh.tresure.review.model.vo.Review" alias="review"/>
 		<typeAlias type="com.kh.tresure.follow.model.vo.Follow" alias="follow"/>
+		<typeAlias type="com.kh.tresure.report.model.vo.Report" alias="report"/>
 	</typeAliases>
 	
 	<!-- 메퍼 파일 등록 -->
@@ -34,6 +35,7 @@
 		<mapper resource="/mappers/heart-mapper.xml"/>
 		<mapper resource="/mappers/review-mapper.xml"/>
 		<mapper resource="/mappers/follow-mapper.xml"/>
+		<mapper resource="/mappers/report-mapper.xml"/>
 		
 	</mappers>
 

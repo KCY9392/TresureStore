@@ -209,44 +209,55 @@
 
      <script>
      
-   		//신고버튼 클릭 시
+	   //신고버튼 클릭 시
 		 $('#addReport').on('click', function(){
 			 
 	 		Swal.fire({
 	 		  title: '상점신고',
 	 		  input: 'radio',
 	 		  inputOptions: {
-		 			주류_담배 : '주류, 담배',
-		 			전문의약품_의료기기 : '전문 의약품, 의료기기',
+		 			주류_담배 : '주류/담배',
+		 			전문의약품_의료기기 : '전문 의약품/의료기기',
 		 			개인정보거래 : '개인정보 거래',
 		 			음란물_성인용품 : '음란물/성인용품',
 		 			위조상품 : '위조상품',
-		 			총포도검류 : '총포 도검류',
+		 			총포_도검류 : '총포/도검류',
 		 			게임계정 : '게임 계정',
-		 			동물분양_입양글 : '동물 분양/입양글',
+		 			동물분양_입양글 : '동물 분양, 입양글',
 		 			기타 : '기타'
 	 		  },
 	 		  customClass: {
 	 			    input: 'inline-flex',
 	 			    inputLabel: 'inline-block'
 	 		  }
-			}).then(function(addReport) {
-			    if (addReport.value) {
-			    	Swal.fire(addReport.value, addReport.value+" 로 신고하셨습니다.", "success");
-			        console.log("Result: " + addReport.value);
-			        
-			        if(addReport){
-						location.href='${pageContext.request.contextPath}/chat/chatRoomList';
-					}
-			        
+			}).then(function(reportContent) {
+			    if (reportContent.value) {
+			    	Swal.fire('상점신고 완료', reportContent.value+" (으)로 신고하셨습니다.", "success");
+			        reportAdd(reportContent.value);
+			        console.log("Result: " + reportContent.value);
 			    }
-			}).then(function(result) {
-			    	
-			    })
-			});
+			})
 	 	
+		 });
+	   
+	   
+		//신고추가
+		 function reportAdd(value){
+				$.ajax({
+					url : "${pageContext.request.contextPath}/report/addReport",
+					data : {reportContent : value,
+							sellUserNo : ${AllList.get('product').userNo }},
+					success : function(result){
+						if(result == 1){
+							location.reload();
+						}
+					},
+					error : function(){
+						console.log("통신실패");
+					}
+				});
+	    };
 
-   		
 		 
 	     
      	//차단버튼 클릭 시 

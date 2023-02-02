@@ -20,4 +20,6 @@ public class Report {
 	private Date createDate;
 	private String status;
 	
+	//신고당한 전체 횟수
+	private int reportCount;
 }
