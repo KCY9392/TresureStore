@@ -59,7 +59,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
           CM.CREATE_DATE AS "CHAT_CREATE_DATE",
           SUBSTR(S.SELL_TITLE, 1, 15)AS "SELL_TITLE",
           PP.AVG,
-          pp2.avg
+          pp2.avg AS "PURCHASEUSER_AVG"
    FROM CHAT_ROOM CR
    JOIN CHAT_ROOM_JOIN CRJ ON (CRJ.CHATROOM_NO = CR.CHATROOM_NO)
     LEFT JOIN (SELECT MAX(CREATE_DATE) AS CREATE_DATE, 
@@ -118,11 +118,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    VALUES (SEQ_BLNO.NEXTVAL, #{blockerNo}, #{blockedNo})
 </insert>
 
-<!-- 차단 리스트에서 삭제(해제) -->
+<!-- 차단 풀기, 차단 리스트에서 삭제(해제) -->
 <delete id="deleteBlock" parameterType="block">
 	DELETE
-    FROM BLOCK B
-    WHERE BLOCKER_NO = #{blockerNo} AND BLOCKED_NO= #{blockedNo}
+	FROM BLOCK
+	WHERE BLOCKER_NO = #{blockerNo} AND BLOCKED_NO = #{blockedNo}
 </delete>
 
 <!-- 채팅보내기 -->
@@ -199,19 +199,59 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    WHERE CHATROOM_NO = #{chatRoomNo}
 </select>
 
-<!-- 채팅방 만든 유저번호, 구매자? 번호 가져오기 -->
+<!-- 채팅방 만든 (구매자)유저번호, 구매자의 평점 가져오기 -->
 <select id="selectUserNoByChatRoomNo" parameterType="int" resultMap="chatResultSet">
-    SELECT AVG(REV_SCORE) "PURCHASEUSER_AVG",
-           PP.USER_NO
-    FROM REVIEW R
-    JOIN SELL S ON (S.SELL_NO = R.SELL_NO)
-    JOIN MEMBER M ON (S.USER_NO = M.USER_NO)
-    RIGHT JOIN (SELECT USER_NO
-            FROM CHAT_ROOM
-            WHERE CHATROOM_NO = #{chatRoomNo}) PP ON (PP.USER_NO = M.USER_NO)
-    WHERE S.STATUS = 'Y' AND R.STATUS = 'Y'
-    GROUP BY PP.USER_NO
+	SELECT AVG(REV_SCORE) AS "PURCHASEUSER_AVG",
+	      PP.USER_NO AS "USER_NO"
+	FROM REVIEW R
+	FULL OUTER JOIN SELL S ON (S.SELL_NO = R.SELL_NO)
+	RIGHT JOIN (
+	        SELECT USER_NO
+	        FROM CHAT_ROOM
+	        WHERE CHATROOM_NO = #{chatRoomNo} ) PP ON  (PP.USER_NO = S.USER_NO)
+	GROUP BY PP.USER_NO
 </select>
+
+<!-- 현재 채팅방에서 누군가 차단했는지 확인하기 -->
+<select id="selectUsers" parameterType="int" resultMap="chatResultSet">
+	SELECT S.USER_NO AS "SELLUSER_NO",
+	       CR.USER_NO AS "USER_NO"
+	FROM CHAT_ROOM CR
+	JOIN SELL S ON (S.SELL_NO = CR.SELL_NO)
+	WHERE CHATROOM_NO = #{chatRoomNo}
+</select>
+
+<!-- 경우1) 구매자가 판매자 차단한경우 찾기 -->
+<select id="selectBlockFind1" parameterType="block" resultType="int">
+	SELECT COUNT(*)
+	FROM BLOCK
+	WHERE BLOCKER_NO = #{blockerNo} AND BLOCKED_NO = #{blockedNo}
+</select>
+
+<!-- 경우2) 판매자가 구매자 차단한경우 찾기 -->
+<select id="selectBlockFind2" parameterType="block" resultType="int">
+	SELECT COUNT(*)
+	FROM BLOCK
+	WHERE BLOCKER_NO = #{blockerNo} AND BLOCKED_NO = #{blockedNo}
+</select>
+
+<!-- 메세지 보낼때 상대방 차단 확인 -->
+<select id="blockCheck" parameterType="block" resultType="int">
+	SELECT COUNT(*)
+	FROM BLOCK
+	WHERE BLOCKER_NO = #{blockerNo} AND BLOCKED_NO = #{blockedNo}
+</select>
+
+<!-- 회원탈퇴 했는지 찾아보기 -->
+<select id="selectMemberFind" parameterType="int" resultType="int">
+	SELECT COUNT(*)
+	FROM CHAT_ROOM CR
+	JOIN SELL S ON (S.SELL_NO = CR.SELL_NO)
+	JOIN MEMBER M1 ON (S.USER_NO = M1.USER_NO)
+	JOIN MEMBER M2 ON (CR.USER_NO = M2.USER_NO)
+	WHERE CHATROOM_NO = #{chatRoomNo} AND M1.STATUS = 'Y' AND M2.STATUS = 'Y'
+</select>
+
 
 
 

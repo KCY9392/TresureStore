@@ -35,7 +35,7 @@
     		</div>
     		<br><br>
     	</div>
- 
+      
 	    <div id="sshow" class="box">   
 	      <div class="list-area">
 	               
@@ -165,7 +165,7 @@
 												aria-label="Close"></button>
 										</div>
 										<div class="modal-body" style="text-align: center;">
-								
+
 											<form id="reviewForm">
 								
 												<div class="star-rating" style="margin-top: 25px;">
@@ -213,6 +213,7 @@
            </div>
       </div>
    </div>
+
 	
 	<script>
       function sellDetail(sellNo){
@@ -317,11 +318,7 @@
 		}
 	</script>
 
-
-
 	<jsp:include page="../common/footer.jsp" />
-
-
 
 </body>
 </html>

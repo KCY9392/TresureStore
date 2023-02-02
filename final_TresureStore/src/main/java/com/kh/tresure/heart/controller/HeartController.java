@@ -74,6 +74,7 @@ public class HeartController {
 		 if(loginUser != null) {
 			  heart.setUserNo(loginUser.getUserNo());
 			  heartService.addHeart(heart);
+			  
 			  result = 1;
 			 }
 			 

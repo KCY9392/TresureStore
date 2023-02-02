@@ -11,107 +11,17 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <!-- 헤더 js -->
     <script type="text/javascript" src="/tresure/resources/js/header.js"></script>
+    <!-- 해당페이지 Js -->
+     <script type="text/javascript" src="/tresure/resources/js/chatRoomList.js"></script>
     <!-- Alert 창  -->
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-	<!-- alertify -->
-	<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-	<!-- alertify css -->
-	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <!-- alertify -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <!-- alertify css -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
     <title>보물상점</title>
-
-    <style>
-       
-
-       
-         .main-section
-         { 
-          	    width: 67%;
-			    margin: auto;
-			    font-size: 25px; 
-         } 
-
-        .innerOuter{
-        	padding: 10%;
-        }
-
-        /*보물톡 text*/
-        .innerOuter span {
-            font-weight: bold;
-            font-size: 40px;
-        }
-
-        /*차단목록 a태그*/
-        .block-list {
-            text-decoration: none;
-		    color: gold;
-		    float: right;
-		    font-size: 22px;
-		    border: 2px solid gold;
-		    width: 90px;
-		    text-align: center;
-		    height: 30px;
-		    padding-top: 12px;
-		    margin-right: 10px;
-		    border-radius: 15px;
-        }
-        
-        .block-list:hover{
-        	background-color:gold;
-        	color:white;
-        }
-        
-         .table{
-        	    border: 2px solid #dedede;
-			    width: 1000px;
-			    margin: auto;
-			    border-radius: 15px;
-        } 
-
-		table th{
-			font-size:22px !important;
-		}
-		
-		table tr{
-			margin: auto;
-		}
-		
-        thead {
-            color: rgb(248, 212, 12);
-            text-align: center;
-        }
-
-        tbody {
-            text-align: center;
-        }
-        
-        table .chat-exit{
-        	font-family: 'koverwatch';
-        	padding:0px;
-        	background-color:gold;
-            color:grey;
-        	border:none;
-        	border-radius : 8%;
-        	cursor: pointer;
-        	width:40px;
-        	hegith : 40px;
-        	font-size: 20px;
-		    border: 2px solid;
-		    width: 60px;
-		    height: 30px;
-        }
-        .chat-exit:hover{
-        	cursor:ponter;
-        }
-        
-        table .storeName:hover td:not(:last-child){
-        	background-color : #ebeae7;
-        	cursor:pointer;
-        	border-radius : 5px;
-        }
-
-    </style>
-
-
+    <!-- css 링크 -->
+    <link rel="stylesheet" href="/tresure/resources/css/chat/chatRoomList.css">    
 </head>
 
 <body>
@@ -119,13 +29,13 @@
     <jsp:include page="../common/sideBar.jsp" />
     
    
-    	<div class="main-section">
+       <div class="main-section">
             <div class="innerOuter">
                 <img src="/tresure/resources/images/icon/mainLogo.png" width="40" style="margin-left: 20px;">&nbsp;<span>보물톡</span>
                 <a class="block-list" href="${pageContext.request.contextPath}/chat/chatBlockList">차단목록</a>
 
                 <c:choose>
-                    <%--조회한 채팅 목록이 없을 때	 --%>
+                    <%--조회한 채팅 목록이 없을 때    --%>
                     <c:when test="${empty chatRoomList}">
                         <div style="text-align: center;">새로운 채팅을 시작해주세요 </div>
                     </c:when>
@@ -143,40 +53,40 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <%--조회한 채팅 목록이 있을 때	 --%>
+                                <%--조회한 채팅 목록이 있을 때    --%>
                                 <c:forEach var="chatRoom" items="${chatRoomList }">
                                     <tr  class="storeName" >
                                         <td class="storeName${chatRoom.chatRoomNo } list">${chatRoom.chatRoomNo }</td>
                                         <td class="storeName${chatRoom.chatRoomNo } list">
-                                        	<!-- 로그인사람과 구매한사람이 같은경우  -->
-                                        	<c:if test="${chatRoom.userNo eq loginUser.userNo}">
-	                                            <c:if test="${chatRoom.avg > 4.5}">
-	                                                <img src="/tresure/resources/images/icon/grade3.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.sellUserNo }호 점
-	                                            </c:if>
-	                                            <c:if test="${ 4 <= chatRoom.avg && chatRoom.avg < 4.5 }">
-	                                                <img src="/tresure/resources/images/icon/grade2.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.sellUserNo }호 점
-	                                            </c:if>
-	                                            <c:if test="${ 3.5 <= chatRoom.avg && chatRoom.avg < 4 }">
-	                                                <img src="/tresure/resources/images/icon/grade1.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.sellUserNo }호 점
-	                                            </c:if>
-	                                            <c:if test="${ null == chatRoom.avg || chatRoom.avg < 3.5 }">
-	                                                <img src="/tresure/resources/images/icon/grade0.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.sellUserNo }호 점
-	                                            </c:if>
+                                           <!-- 로그인사람과 구매한사람이 같은경우  -->
+                                           <c:if test="${chatRoom.userNo eq loginUser.userNo}">
+                                               <c:if test="${chatRoom.avg > 4.5}">
+                                                   <img src="/tresure/resources/images/icon/grade3.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.sellUserNo }호 점
+                                               </c:if>
+                                               <c:if test="${ 4 <= chatRoom.avg && chatRoom.avg < 4.5 }">
+                                                   <img src="/tresure/resources/images/icon/grade2.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.sellUserNo }호 점
+                                               </c:if>
+                                               <c:if test="${ 3.5 <= chatRoom.avg && chatRoom.avg < 4 }">
+                                                   <img src="/tresure/resources/images/icon/grade1.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.sellUserNo }호 점
+                                               </c:if>
+                                               <c:if test="${ null == chatRoom.avg || chatRoom.avg < 3.5 }">
+                                                   <img src="/tresure/resources/images/icon/grade0.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.sellUserNo }호 점
+                                               </c:if>
                                             </c:if>
                                             <!-- 로그인한 사람과 판매하는 사람이 같은경우 -->
                                             <c:if test="${chatRoom.sellUserNo eq loginUser.userNo}">
-	                                            <c:if test="${chatRoom.avg > 4.5}">
-	                                                <img src="/tresure/resources/images/icon/grade3.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.userNo }호 점
-	                                            </c:if>
-	                                            <c:if test="${ 4 <= chatRoom.avg && chatRoom.avg < 4.5 }">
-	                                                <img src="/tresure/resources/images/icon/grade2.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.userNo }호 점
-	                                            </c:if>
-	                                            <c:if test="${ 3.5 <= chatRoom.avg && chatRoom.avg < 4 }">
-	                                                <img src="/tresure/resources/images/icon/grade1.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.userNo }호 점
-	                                            </c:if>
-	                                            <c:if test="${ null == chatRoom.avg || chatRoom.avg < 3.5 }">
-	                                                <img src="/tresure/resources/images/icon/grade0.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.userNo }호 점
-	                                            </c:if>
+                                               <c:if test="${chatRoom.purchaseUserAvg >= 4.5}">
+                                                   <img src="/tresure/resources/images/icon/grade3.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.userNo }호 점
+                                               </c:if>
+                                               <c:if test="${ 4 <= chatRoom.purchaseUserAvg && chatRoom.purchaseUserAvg < 4.5 }">
+                                                   <img src="/tresure/resources/images/icon/grade2.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.userNo }호 점
+                                               </c:if>
+                                               <c:if test="${ 3.5 <= chatRoom.purchaseUserAvg && chatRoom.purchaseUserAvg < 4 }">
+                                                   <img src="/tresure/resources/images/icon/grade1.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.userNo }호 점
+                                               </c:if>
+                                               <c:if test="${ null == chatRoom.purchaseUserAvg || chatRoom.purchaseUserAvg < 3.5 }">
+                                                   <img src="/tresure/resources/images/icon/grade0.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.userNo }호 점
+                                               </c:if>
                                             </c:if>
 
                                         </td>
@@ -196,8 +106,8 @@
 
                                     <script>
                                         $(".storeName${chatRoom.chatRoomNo }").click(function() {
-                                        	
-                                        	
+                                           
+                                           
 
                                             let form = document.createElement('form');
                                             form.setAttribute('method', 'post');
@@ -228,6 +138,7 @@
                                         
                                         
                                         $("#chatExit${chatRoom.chatRoomNo }").click(function() {
+
                                         	
                                	            function reload(){
                             	            	location.reload();
@@ -260,6 +171,7 @@
                                         		}
                                         		
                                         	})
+
                                         });
                                     </script>
                                 </c:forEach>
@@ -267,7 +179,7 @@
                         </table>
                     </c:otherwise>
                 </c:choose>
-			  </div>
+           </div>
             </div>
    
     <jsp:include page="../common/footer.jsp" />

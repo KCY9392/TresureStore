@@ -47,11 +47,11 @@ public interface SellService {
 	public List<Sell> howOrderList(HashMap<String, Object> map);
 
 	// 판매 리스트
-		public List<Sell> sellList(int userNo);
+	public List<Sell> sellList(int userNo);
 
 	// 리뷰 리스트
 	public List<Review> reviewList(int userNo);
-		
+  
 	
 	public Map<String, Object> sellerDetail(Map<String, Integer> map);
 

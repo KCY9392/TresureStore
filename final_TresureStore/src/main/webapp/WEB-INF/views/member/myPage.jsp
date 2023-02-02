@@ -70,21 +70,22 @@
              <div class="modal-dialog modal-xl modal-dialog-centered">
              
             <div class="modal-content" style="width:700px;height:700px; margin: auto;">
-		        <!-- Modal Header -->
-		        <div class="modal-header">
-		          <h4 class="modal-title">등급 안내</h4>
-		          <button type="button" class="close" data-dismiss="modal">&times;</button>
-		        </div>
-		        
-		        <!-- Modal body -->
-		        <div class="modal-body">
-		            <img class="card-img-top rounded img-fluid" src="/tresure/resources/images/icon/그림1.png">
-		        </div>
-		        
-		        <!-- Modal footer -->
-		        <div class="modal-footer">
-		          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-		        </div>
+
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">등급 안내</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              
+              <!-- Modal body -->
+              <div class="modal-body">
+                  <img class="card-img-top rounded img-fluid" src="/tresure/resources/images/icon/그림1.png">
+              </div>
+              
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
            </div>
     </div>
 </div>
@@ -125,7 +126,7 @@
                 
                 <div class="button-area2">
                    <br><br>
-                    <a class="Withdrawal" href="#" data-toggle="modal">탈퇴하기</a>
+                    <a class="Withdrawal" href="${pageContext.request.contextPath }/delete" data-toggle="modal">탈퇴하기</a>
                 </div>
             </div>
         </div>
@@ -181,6 +182,7 @@
                                  </div>
                                 
                                  </c:if>
+
                               </c:if>
                               <c:if test="${s.imgSrc == null}">
                               

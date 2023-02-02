@@ -1,0 +1,112 @@
+@charset "UTF-8";
+
+body {
+    margin: 0;
+    padding: 0 px;
+    box - sizing: border - box;
+    background - color: lightgray;
+}
+.main - area {
+    width: 40 % ;
+    height: 370 px;
+    margin: auto;
+    background - color: rgb(255, 255, 255);
+    box - shadow: -1 px 2 px 10 px - 3 px black;
+    border - radius: 5 px;
+    margin - bottom: 20 px;
+}
+.bottom - margin {
+    margin - bottom: 50 px;
+    color: red;
+}
+.number - form {
+    position: relative;
+    font - family: 'Noto Sans KR',
+    sans - serif;
+    background - color: rgb(255, 255, 255);
+    display: flex;
+    flex - wrap: wrap;
+    flex - direction: column; /*수직 정렬*/
+    align - items: center;
+    justify - content: center;
+}
+.int - area {
+    width: 400 px;
+    position: relative;
+    margin - top: 60 px;
+}
+.int - area: first - child {
+    margin - top: 0;
+}
+.int - area.inputType1 {
+
+    width: 100 % ;
+    padding: 20 px 10 px 10 px;
+    background - color: transparent;
+    border: none;
+    border - bottom: 1 px solid #999;
+    font-size : 18px;
+    outline: none;
+}
+.int-area label{
+
+   position: absolute;
+   left: 10px;
+   top: 15px;
+   font-size: 18px;
+   color:# 999;
+   transition: all 0.5 s ease;
+}
+.int - area label.warning {
+    color: red!important;
+    animation: warning 0.3 s ease;
+    animation - iteration - count: 3;
+}
+@keyframes warning {
+    0 % {
+        transform: translateX(-8 px);
+    }
+    25 % {
+        transform: translateX(8 px);
+    }
+    50 % {
+        transform: translateX(-8 px);
+    }
+    75 % {
+        transform: translateX(8 px);
+    }
+}
+
+.int - area input: focus {
+        transition: all 0.2 s ease - in -out;
+        border - bottom: 2 px solid rgb(0, 0, 0);
+    }
+
+.int - area input: focus + label,
+.int - area input: valid + label {
+    top: -2 px;
+    font - size: 13 px;
+    color: blue;
+
+}
+.submitButton {
+    margin - top: 40 px;
+    background - color: black;
+    border: none;
+    color: white;
+    width: 200 px;
+    height: 40 px;
+    border - radius: 10 px;
+}
+.submitButton: hover {
+    background - color: rgb(54, 54, 54);
+    cursor: pointer;
+}
+#timer {
+    margin: auto;
+    width: 50 % ;
+    height: 30 px;
+    color: lightBlue;
+    margin - top: 20 px;
+    font - weight: 700;
+}

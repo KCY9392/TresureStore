@@ -109,7 +109,6 @@ public class MyPageController {
 	}
 
 	
-	
 
 	@ResponseBody
 	@RequestMapping("changeStatus")

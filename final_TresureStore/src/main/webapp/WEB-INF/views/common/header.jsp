@@ -39,14 +39,14 @@
 					  <!-- 본인인증 방법 로그인 O && 카카오로그인 X -->
 						<c:if test="${loginUser.phone != null && access_Token == null}">
 							<a href="/tresure/logout" class="items">
-								${loginUser.userName}님 환영합니다^ㅁ^ <br> 로그아웃
+								${loginUser.userName}님 환영합니다^ㅁ^<br> 로그아웃
 							</a>
 						</c:if>
 						
 					  <!-- 본인인증 로그인 X && 카카오로그인 O -->	
 					  	<c:if test="${loginUser.phone == null && access_Token != null}">
 					  		<a href="https://kauth.kakao.com/oauth/logout?client_id=2f3c85098b01f4c1919eb4761e43a541&logout_redirect_uri=http://localhost:8888/tresure/logout/kakao" class="items">
-					  			${loginUser.userName}님 환영합니다^ㅁ^ <br> 로그아웃
+					  			${loginUser.userName}님 환영합니다^ㅁ^<br> 로그아웃
 					  		</a>
 					    </c:if>
 					    

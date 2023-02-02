@@ -103,13 +103,14 @@ public class SellDao {
 	public List<Sell> sellList(SqlSession sqlSession, int userNo) {
 		return sqlSession.selectList("sellMapper.sellList", userNo);
 	}
+
 	
 	public List<Review> reviewList(SqlSession sqlSession, int userNo) {
 		return sqlSession.selectList("sellMapper.reviewList", userNo);
+
 	}
 	
 	public Map<String, Object> sellerDetail(SqlSession sqlSession, Map<String, Integer> map) {
 		return sqlSession.selectOne("sellMapper.sellerDetail", map);
 	}
-	
 }

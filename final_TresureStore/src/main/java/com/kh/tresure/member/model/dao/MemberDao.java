@@ -1,13 +1,19 @@
 package com.kh.tresure.member.model.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.kh.tresure.member.model.vo.Member;
+import com.kh.tresure.sell.controller.SellController;
+
 
 @Repository
 public class MemberDao {
-
+	private Logger logger = LoggerFactory.getLogger(MemberDao.class);
 //본인인증 방법 & kakao 
 	
 	/**
@@ -25,11 +31,57 @@ public class MemberDao {
 	}
 
 	/**
-	 * 로그인한 member객체 가져오는 메소드 */
-	public Member loginAndMemberEnroll(SqlSession sqlSession, Member member) {
+	 * 카카오로 로그인한 member객체 가져오는 메소드 */
+	public Member loginAndMemberEnrollKaKako(SqlSession sqlSession, Member member) {
 		
-		return sqlSession.selectOne("memberMapper.loginAndMemberEnroll", member);
+		return sqlSession.selectOne("memberMapper.loginAndMemberEnrollKaKako", member);
 	}
+	
+	/**
+	 * 본인인증으로 로그인한 member객체 가져오는 메소드 */
+	public Member loginAndMemberEnrollauAuthentication(SqlSession sqlSession, Member member) {
+		
+		return sqlSession.selectOne("memberMapper.loginAndMemberEnrollauAuthentication", member);
+	}
+	
+
+	/**
+	 *  회원 탈퇴 메소드 */
+	public int deleteMember(SqlSession sqlSession, int userNo) {
+
+		return sqlSession.delete("memberMapper.deleteMember", userNo);
+	}
+
+	/**
+	 *  유저가 다시 로그인할라할때 때 탈퇴한 회원인지 확인하는 메소드 */
+	public int selectUserState(SqlSession sqlSession, Member member) {
+		
+		return sqlSession.selectOne("memberMapper.selectUserState", member);
+	}
+
+	/**
+	 *  탈퇴한 회원 새롭게 로그인하는 메소드 */
+	public void updateUserState(SqlSession sqlSession, Member member) {
+		
+		sqlSession.update("memberMapper.updateUserState", member);
+	}
+	
+	/**
+	 *  회원번호로 그 사람 객체 가져오기 */
+	public Member selectUser(SqlSession sqlSession, int userNo) {
+		
+		return sqlSession.selectOne("memberMapper.selectUser", userNo);
+	}
+
+	public void insertLeaveUser(SqlSession sqlSession, Member member) {
+		
+		sqlSession.insert("memberMapper.insertLeaveUser", member);
+
+	}
+
+
+
+
 
 
 }

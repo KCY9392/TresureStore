@@ -16,7 +16,7 @@
 	<jsp:include page="../common/sideBar.jsp"/>
 
 	<div class="main-section">
-			
+
 		<div class="following_box">
 			<h2 class="following_title">팔로잉 목록</h2>
 			<ul class="following_body">

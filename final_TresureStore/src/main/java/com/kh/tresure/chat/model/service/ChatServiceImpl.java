@@ -22,7 +22,6 @@ import com.kh.tresure.sell.model.vo.Sell;
 
 @Service
 public class ChatServiceImpl implements ChatService{
-
    private ChatDao chatDao;
    private SqlSession sqlSession;
    private Logger logger = LoggerFactory.getLogger(ChatServiceImpl.class);
@@ -43,7 +42,7 @@ public class ChatServiceImpl implements ChatService{
    // 채팅하기 (방생성 > 입장하기 or 입장하기)
    @Override
    @Transactional
-   public HashMap<Object, Object> createAndEnterChatRoom(ChatRoom room, String sellUserNo, ChatRoomJoin roomJoin) {
+   public HashMap<Object, Object> createAndEnterChatRoom(ChatRoom room, String sellUserNo, ChatRoomJoin roomJoin, Block block) {
       
       HashMap<Object,Object> AllList = new HashMap<>();
       int chatRoomNo = 0;
@@ -75,32 +74,54 @@ public class ChatServiceImpl implements ChatService{
       roomJoin.setChatRoomNo(room.getChatRoomNo());
       roomJoin.setUserNo(room.getUserNo());
       
-      // 채팅방 참여
-      int result2 = ChatDao.joinCheck(sqlSession, roomJoin);
+      // 채팅방 참여 (o)
+      int result2 = chatDao.joinCheck(sqlSession, roomJoin);
       if(result2 == 0) {
-         ChatDao.inChatRoomJoin(sqlSession, roomJoin);
+         chatDao.inChatRoomJoin(sqlSession, roomJoin);
       }
       
-      // 판매게시글 가져오기
+      // 판매게시글 가져오기 (o)
       Sell product = SellDao.selectSellProduct(sqlSession, room.getChatRoomNo());
       if(product != null) {
          AllList.put("product", product);
       }
       
-      // 메세지 가져오기
+      // 메세지 가져오기 (o)
       List<ChatMessage> roomMessageList = chatDao.selectChatMessageList(sqlSession, roomJoin);
       if(roomMessageList.size() != 0) {
          AllList.put("roomMessageList", roomMessageList);
-         logger.info(roomMessageList+"");
       }
       
-      // 구매자 번호, 평점 가져오기
+      // 구매자 번호, 평점 가져오기 (x) 이거 왜 실패냐
       ChatRoom purchaseInfo = chatDao.selectUserNoByChatRoomNo(sqlSession, room.getChatRoomNo());
       AllList.put("purchaseInfo", purchaseInfo);
       
+      // 현재 채팅방에서 누군가 차단했는지 확인하기
+      ChatRoom Users = chatDao.selectUsers(sqlSession, chatRoomNo);
+      
+      // 경우1) 구매자가 판매자 차단한경우 찾기
+      block.setBlockerNo(Users.getUserNo());
+      block.setBlockedNo(Users.getSellUserNo());
+      int puTose = chatDao.selectBlockFind1(sqlSession, block);
+      
+      // 경우2) 판매자가 구매자 차단한경우 찾기
+      block.setBlockerNo(Users.getSellUserNo());
+      block.setBlockedNo(Users.getUserNo());
+      int seTopu = chatDao.selectBlockFind2(sqlSession, block);
+      
+
+      AllList.put("puTose", puTose);
+      AllList.put("seTopu", seTopu);
+      
+      // 탈퇴한 사람있는지 찾기
+      int state = chatDao.selectMemberFind(sqlSession, chatRoomNo);
+      if(state == 0) { // 탈퇴한 사람이 있으면 0
+    	  AllList.put("state", state);
+      }
+      
+      
       // 첨부파일 가져오기
          
-
 
       
       return AllList; 
@@ -126,23 +147,6 @@ public class ChatServiceImpl implements ChatService{
       
    }
    
-   
-   //차단 목록에 추가
-   @Override
-   public int addBlock(Block block) {
-
-      return chatDao.addBlock(sqlSession, block);
-   }
-   
-   //차단 목록에서 삭제
-   public int deleteBlock( String chatRoomNo, String userNo, Block block) {
-      
-      block.setChatRoomNo(Integer.parseInt(chatRoomNo));
-      block.setUserNo(Integer.parseInt(userNo));
-      
-      return chatDao.deleteBlock(sqlSession, block);
-   
-   }
 
    
    // 채팅방 메세지 보내기
@@ -152,6 +156,8 @@ public class ChatServiceImpl implements ChatService{
       int sendUserNo = Message.getUserNo();
       int result = 0;
       ChatRoomJoin roomJoin = new ChatRoomJoin();
+      Block block = new Block();
+      
       roomJoin.setChatRoomNo(chatRoomNo);
       
       
@@ -159,23 +165,40 @@ public class ChatServiceImpl implements ChatService{
       
       // 보내는 사람이 판매자유저번호와같으면 
       if(sendUserNo == room.getSellUserNo()) {
+    	  
          roomJoin.setUserNo(room.getUserNo());
-         result = ChatDao.joinCheck(sqlSession, roomJoin);
+         
+         // 보내는 사람이 차단 당했는지 확인
+         block.setBlockedNo(sendUserNo);
+         block.setBlockerNo(room.getUserNo());
+         
+         int blockCheck = chatDao.blockCheck(sqlSession, block);
+         if(blockCheck != 0) {
+        	 return 0;
+         }
+         
+         result = chatDao.joinCheck(sqlSession, roomJoin);
       } 
       
       // 보내는 사람이 구매자 유저와같으면
       if(sendUserNo == room.getUserNo() ){
          roomJoin.setUserNo(room.getSellUserNo());
-         result = ChatDao.joinCheck(sqlSession, roomJoin);
+         
+         // 보내는 사람이 차단 당했는지 확인
+         block.setBlockedNo(sendUserNo);
+         block.setBlockerNo(room.getSellUserNo());
+         
+         int blockCheck = chatDao.blockCheck(sqlSession, block);
+         if(blockCheck != 0) {
+        	 return 0;
+         }
+         
+         result = chatDao.joinCheck(sqlSession, roomJoin);
       }
       
       if( result == 0 ) {
-         logger.info(">> 채팅방은? : " + roomJoin.getChatRoomNo());
-         logger.info(">> 보내는사람은? : " + sendUserNo);
-         logger.info(">> 구매자는?? 나?: " + room.getUserNo());
-         logger.info(">> 판매자자는? 상대방!?: " + room.getSellUserNo());
          
-         ChatDao.inChatRoomJoin(sqlSession, roomJoin);
+         chatDao.inChatRoomJoin(sqlSession, roomJoin);
       }
       
       
@@ -185,9 +208,8 @@ public class ChatServiceImpl implements ChatService{
    
    // 네고 가격결정
    @Override
-   public int insertNegoPrice(int negoPrice, int sellNo, int chatRoomNo) {
-      
-      Sell nego = new Sell();
+   public int insertNegoPrice(int negoPrice, int sellNo, int chatRoomNo, Sell nego) {
+
       nego.setNegoPrice(negoPrice);
       nego.setSellNo(sellNo);
       nego.setChatRoomNo(chatRoomNo);
@@ -196,7 +218,81 @@ public class ChatServiceImpl implements ChatService{
       
    }
    
+   // 로그인한 유저가 상대방 차단 하기
+   public int addBlock(int sellUserNo, int chatRoomNo, int purchaseUserNo, int userNo, Block block) {
+	   
+	   
+	   
+	   block.setBlockerNo(userNo);
+	   
+	   // 로그인한 유저가 구매자인 경우
+	   if(userNo == purchaseUserNo) {
+		   block.setBlockedNo(sellUserNo);
+		   
+	   } else if ( userNo == sellUserNo ) {	// 로그인한 유저가 판매자인경우
+		   block.setBlockedNo(purchaseUserNo);  
+	   }
+	   
+	   int result = chatDao.addBlock(sqlSession, block);
+	   
+	   return result;
+   }
 
+   // 로그인한 유저가 상대방 차단 풀기
+   public int deleteBlock(int sellUserNo, int chatRoomNo, int purchaseUserNo, int userNo, Block block) {
+	   
+	   block.setBlockerNo(userNo);
+	   
+	   // 로그인한 유저가 구매자인 경우
+	   if(userNo == purchaseUserNo) {
+		   block.setBlockedNo(sellUserNo);
+		   
+	   } else if ( userNo == sellUserNo ) {	// 로그인한 유저가 판매자인경우
+		   block.setBlockedNo(purchaseUserNo);  
+	   }
+	   
+	   int result = chatDao.deleteBlock(sqlSession, block);
+	   
+	   
+	   return result;
+   }
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
 }
