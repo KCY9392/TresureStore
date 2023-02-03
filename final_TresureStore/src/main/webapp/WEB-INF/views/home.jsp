@@ -7,14 +7,15 @@
 	<title>Home</title>
 	<link rel="stylesheet" href="/tresure/resources/css/common/font.css">
 	<link rel="stylesheet" href="/tresure/resources/css/common/home.css">
-	
+	<!-- 홈페이지 아이콘 -->
+	<link rel="icon" href="/tresure/resources/images/icon/mainLogo.png" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 	<script type="text/javascript" src="/tresure/resources/js/header.js"></script>
 	<script type="text/javascript" src="/tresure/resources/js/thbogi.js"></script>
 	 <!-- alertify -->
-<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-<!-- alertify css -->
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+	<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+	<!-- alertify css -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
    <!-- Default theme -->
    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
    <!-- Semantic UI theme -->

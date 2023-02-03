@@ -94,6 +94,12 @@
       border-radius : 8%;
       cursor: pointer;
 	}
+	.report-search-button:hover{
+	 color: gold;
+     background-color: white;
+     cursor : pointer;
+     border:solid 1px gold;
+    }
 	
 	.searchBoxReport{
 		    position: relative;
@@ -112,22 +118,36 @@
 			<div class="report-top-text"> 신고 조회</div>
         	<div class="report-line"></div>
         	<div class="searchBoxReport" style="position:relative">
-        		<span class="report-icon"><i class="fa-solid fa-circle-exclamation fa-lg"></i></span><br>
+        		<span class="report-icon"><img src="   https://cdn-icons-png.flaticon.com/512/4420/4420318.png " width="60px;"></span><br>
 				<div class="report-middle-text">판매자의 상점 번호, 계좌번호로 피해 사례 조회를 이용해 보세요.</div><br>
-				<div class="report-inner">
-					<select class="report-option">
-						<option>상점명</option>
-						<option>계좌번호</option>
-					</select>
-					<input type="text" class="report-search-text" placeholder=" @포함해서 상점번호를 입력해주세요.">
-					<button type="submit" class="report-search-button" onclick="location.href='${pageContext.request.contextPath}/report/reportSearchResult'">조회</button>
-				</div>
+				<form id="searchForm" action="reportSearchResult" method="get">
+					<div class="report-inner">
+						<select class="report-option" name="condition">
+							<option value="sellNumber">상점번호</option>
+							<option>계좌번호</option>
+						</select>
+						<input type="text" class="report-search-text" name="search" id="searchReport" placeholder="@를 포함하여 상점번호를 입력해주세요.">
+						<button type="submit" class="report-search-button" id="resultButton" >조회</button>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
 	
 	
 	<jsp:include page="../common/footer.jsp"/>
+	
+	<script>
+			
+		 /* //조회 버튼 클릭 시
+		 $('#resultButton').click(function(){
+		    if($('#searchReport').val == ''){
+		    	alert("다시 입력");
+		    	return false;
+		      }
+		    return true;
+		 });  */
+	</script>
 
 </body>
 </html>
