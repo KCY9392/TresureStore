@@ -1,6 +1,7 @@
 package com.kh.tresure.mypage.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,6 +42,8 @@ public class MyPageController {
 		this.mypageService = mypageService;
 	}
 	
+	
+	
 	@RequestMapping(value = "member/myPage", method = RequestMethod.GET)
 	public String myPage(HttpServletRequest request,Model m) {
 		HttpSession session = request.getSession();
@@ -66,8 +69,6 @@ public class MyPageController {
 			//리뷰 평점
 			int reviewAvg = mypageService.reviewAvg(loginUser.getUserNo());
 			
-			
-			
 			//판매상품 리스트
 			List<Sell> sellList = mypageService.mypageSellList(loginUser.getUserNo());
 			//찜 상품 리스트
@@ -82,31 +83,53 @@ public class MyPageController {
 			m.addAttribute("heartList", heartList);
 			m.addAttribute("reviewList", reviewList);
 			m.addAttribute("reviewAvg", reviewAvg);
-
-			
-			System.out.println();
 			
 			return "member/myPage";
 		}
 		
 	}
 	
+	
+	
 	@RequestMapping(value = "member/tracsac", method = RequestMethod.GET)
 	public String tracsac(Model m,HttpServletRequest request) {
 		
 		HttpSession session = request.getSession();
-		
-		
 		Member loginUser = (Member)session.getAttribute("loginUser");	
-		List<Sell> sellList = mypageService.mypageSellList(loginUser.getUserNo());
+		
+		List<Sell> sellList = mypageService.mypagetSellList(loginUser.getUserNo());
 		m.addAttribute("sellList", sellList);
+
+		
+		//구매내역
+		List<Sell> purchaseList = mypageService.mypagePurchaseList(loginUser.getUserNo());
+		m.addAttribute("purchaseList", purchaseList);
+		
 		return "member/tracsac";
 	}
+
 	
-	
-	
-	
-	
+
+	@ResponseBody
+	@RequestMapping("changeStatus")
+	public int changeStatus(@RequestParam("sellNo") int sellNo) {
+		int result = 0;
+		
+		Sell s = new Sell();
+		
+		String sellStatus = s.getSellStatus();
+		 
+		 HashMap<String, Object> map = new HashMap<>();
+		 map.put("sellNo", sellNo);
+		 map.put("sellStatus", sellStatus);
+		if(result==0) {
+			
+			mypageService.changeStatus(map);
+			result =1;
+		}
+		return result;
+		
+	}
 	
 
 }

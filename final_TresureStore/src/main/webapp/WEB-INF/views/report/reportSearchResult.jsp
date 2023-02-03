@@ -14,7 +14,7 @@
 <style>
 	.main-section{
 	 width: 70%;
-	 height: 600px;
+	 height: auto;
      margin: auto;
      font-size:18px;
 	}
@@ -39,6 +39,7 @@
   	.report-line{
      border-bottom: 1px solid gray;
      margin:auto;
+     margin-bottom:50px;
      padding: 20px;
   	}
 
@@ -50,46 +51,16 @@
      top: 50%;
 	}
 	
-	/*사기조회 select, text, button묶음 div*/
-	.report-inner{
-     position:absolute;
-     
-	}
-	
-	.report-number{
-	 font-size:25px;
-	 padding-top: 5%;
-	 padding-left: 15%;
-	}
-	
-	.report-text{
-	 font-size:18px;
-	 padding-left: 15%;
-	}
-	
-	.report-line2{
-	 border-bottom: 1px solid gray;
-     margin:auto;
-     padding: 20px;
-	
-	}
-	
-	.report-inner{
-	 padding-left: 15%;
-	 margin-top: 5%;
-	}
-	
-	.tresure-report{
-	 display:inline;
-	 float:left;
-	 margin-left: -65px;
-	}
-	.report-content{
-	 display:inline;
-	 float:left;
-	 margin-left: 70px;
-	}
-	
+	.report-table{
+     width: 100%;
+    } 
+    .report-thead{
+     color: rgb(248, 212, 12);
+     text-align:center;
+    }
+    .report-tbody{
+     text-align: center;
+    }
 	.report-search-button{
 	  font-family: 'koverwatch';
       padding:12px 20px;
@@ -102,12 +73,14 @@
       right: 49%;
       top: 100%;
 	}
+
 	.report-search-button:hover{
      color: gold;
      background-color: white;
      cursor : pointer;
      border:solid 1px gold;
 	}
+
 	.text-report{
 		text-align:center;
 		color:gray;
@@ -128,37 +101,38 @@
 		<div class="main-box">
 			<div class="report-top-text"> 사기 조회 결과</div>
         	<div class="report-line"></div>
-
                   <c:choose>
 	                    <%-- 신고 목록이 없을 때	 --%>
-	                    <c:when test="${reportList == null }">
+	                    <c:when test="${reportList == null}">
+
 	                        <div style="text-align: center;">
 	                        <img src="https://cdn-icons-png.flaticon.com/512/7405/7405619.png " width="50px;"> <br><br>
 	                        사기조회 결과가 없습니다. <br><br> 다시 검색해주세요.  </div>
 	                    </c:when>
 	                    <c:otherwise>
-		                    <div class="text-report">검색하신 <span class="result-text-color">${search}호 점</span>의 
-		                    			총 신고 횟수는 <span class="result-text-color">${reportNum}</span> 회 입니다.</div>
-			                <table class="report-table">
-			                  <thead class="report-thead">
+		                   
+	                    <div class="text-report">검색하신 <span class="result-text-color">${search}호 점</span>의 
+	                    			총 신고 횟수는 <span class="result-text-color">${reportNum}</span> 회 입니다.</div>
+		                <table class="report-table">
+		                  <thead class="report-thead">
+		                    <tr>
+		                      <th></th>
+		                      <th>신고 내용</th>
+		                      <th>신고된 날짜</th>
+		                      <th></th>
+		                    </tr>
+		                  </thead>
+		                  <tbody class="report-tbody">
+					          <c:forEach var="report" items="${reportList }">
 			                    <tr>
-			                      <th></th>
-			                      <th>신고 내용</th>
-			                      <th>신고된 날짜</th>
-			                      <th></th>
+			                      <td></td>
+			                      <td><c:out value="${report.reportContent}" /></td>
+			                      <td><c:out value="${report.createDate}" /></td>
+			                      <td></td>
 			                    </tr>
-			                  </thead>
-			                  <tbody class="report-tbody">
-						          <c:forEach var="report" items="${reportList }">
-				                    <tr>
-				                      <td></td>
-				                      <td><c:out value="${report.reportContent}" /></td>
-				                      <td><c:out value="${report.createDate}" /></td>
-				                      <td></td>
-				                    </tr>
-						          </c:forEach>
-			                  </tbody>
-			                </table>
+					          </c:forEach>
+		                  </tbody>
+		                </table>
               	 	</c:otherwise>
               </c:choose>
               <button class="report-search-button" onclick="location.href='${pageContext.request.contextPath}/report/reportSearch'">다시 조회하기</button>

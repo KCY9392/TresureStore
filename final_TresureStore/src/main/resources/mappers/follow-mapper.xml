@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="followMapper">
+	<resultMap id="member" type="hashmap">
+		<result column="USER_NO" property="userNo" />
+		<result column="MARKET_OPEN" property="marketOpen" />
+		<result column="SELL_COUNT" property="sellCount" />
+		<result column="FOLLOW_COUNT" property="followCount" />
+		<result column="REPOTER_COUNT" property="repoterCount" />
+		<result column="REVIEW_AVG" property="reviewAvg" />
+	</resultMap>
+
+	<select id="selectMember" parameterType="follow" resultMap="member">
+		SELECT M.USER_NO, ROUND(SYSDATE - M.CREATE_DATE) AS MARKET_OPEN,
+		( SELECT COUNT (*)
+		FROM FOLLOW
+		WHERE FW_ID = M.USER_NO) AS FOLLOW_COUNT,
+		( SELECT COUNT (*)
+		FROM SELL
+		WHERE USER_NO = M.USER_NO ) AS SELL_COUNT,
+		( SELECT COUNT (*)
+		FROM REPORT
+		WHERE REPORTED_NO = M.USER_NO) AS REPOTER_COUNT
+		FROM MEMBER M
+		WHERE M.USER_NO = #{fiId}
+	</select>
+	
+	<select id="selectFollowList" parameterType="follow" resultType="follow">
+		SELECT F.FW_ID
+		    , COUNT(FI_ID) AS SELL_COUNT
+		    , NVL(R.AVG, 0) AS AVG
+		FROM FOLLOW F, SELL S,
+		    (SELECT AVG(REV_SCORE) AS AVG, S.USER_NO
+		    FROM REVIEW R, SELL S
+		    WHERE R.SELL_NO = S.SELL_NO
+		    GROUP BY S.USER_NO) R
+		WHERE F.FW_ID = S.USER_NO
+		    AND F.FW_ID = R.USER_NO(+)
+		    AND F.FI_ID = #{fiId}
+		GROUP BY F.FW_ID, R.AVG
+		ORDER BY F.FW_ID ASC
+	</select>
+
+	<select id="selectFollow" parameterType="follow" resultType="int">
+		SELECT COUNT (*)
+		FROM FOLLOW
+		WHERE FI_ID = #{fiId}
+		  AND FW_ID = #{fwId}
+	</select>
+
+	<insert id="insertFollow" parameterType="follow">
+		INSERT INTO FOLLOW (FI_ID, FW_ID, CREATE_DATE)
+		VALUES (#{fiId}, #{fwId}, SYSDATE)
+	</insert>
+
+	<delete id="deleteFollow" parameterType="follow">
+		DELETE FOLLOW
+		 WHERE FI_ID = #{fiId}
+		   AND FW_ID = #{fwId}
+	</delete>
+</mapper>

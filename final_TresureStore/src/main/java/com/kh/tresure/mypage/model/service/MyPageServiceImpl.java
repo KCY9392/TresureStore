@@ -1,6 +1,7 @@
 package com.kh.tresure.mypage.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -67,6 +68,8 @@ public class MyPageServiceImpl implements MyPageService{
 	public int marketOpen(int userNo) {
 		return mypageDao.marketOpen(sqlSession, userNo);
 	}
+	
+	
 	@Override
 	public int reviewAvg(int userNo) {
 		return mypageDao.reviewAvg(sqlSession, userNo);
@@ -88,18 +91,40 @@ public class MyPageServiceImpl implements MyPageService{
 	public List<Heart> mypageHeartList(int userNo){
 		return mypageDao.mypageHeartList(sqlSession, userNo);
 	}
+	
+	/**
+	 * 마이페이지 상점후기 목록
+	 */
 	@Override
 	public List<Review> mypageReviewList(int userNo) {
 		
 		return mypageDao.mypageReviewList(sqlSession, userNo);
 		}
 	
+	
+	
 	@Override
-	public int changeStatus(int sellNo) {
-		return mypageDao.changeStatus(sqlSession, sellNo);
+	public int changeStatus(HashMap<String, Object> map) {
+		return mypageDao.changeStatus(sqlSession, map);
+	}
+	
+	@Override
+	public List<Sell> mypagetSellList(int userNo){
+		return mypageDao.mypagetSellList(sqlSession, userNo);
 	}
 
+	/**
+	 * 마이페이지 구매목록
+	 */
+	@Override
+	public List<Sell> mypagePurchaseList(int userNo){
+		return mypageDao.mypagePurchaseList(sqlSession, userNo);
+	}
 	
+	@Override
+	public int heartCount(int userNo) {
+		return mypageDao.heartCount(sqlSession, userNo);
+	}
 	
 
 }

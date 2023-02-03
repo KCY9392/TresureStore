@@ -49,6 +49,8 @@ public class HomeController {
 		
 		
 		String access_Token = (String)session.getAttribute("access_Token");
+		
+		
 		if(access_Token != null) {
 			
 			Member member = kakao.getUserInfo(access_Token);
@@ -64,6 +66,24 @@ public class HomeController {
 		model.addAttribute("sellList", sList);
 		
 		return "home";
+	}
+	
+	@RequestMapping(value = "/errors/error500")
+	public String errors500() {
+		
+		return "/errors/error500";
+	}
+	
+	@RequestMapping(value = "/errors/error405")
+	public String errors405() {
+		
+		return "/errors/error405";
+	}
+	
+	@RequestMapping(value = "/errors/error404")
+	public String errors404() {
+		
+		return "/errors/error404";
 	}
 	
 }

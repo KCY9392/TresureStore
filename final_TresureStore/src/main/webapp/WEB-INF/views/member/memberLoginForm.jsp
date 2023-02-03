@@ -5,59 +5,9 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인하기</title>
-<style>
-	body{
-		box-sizing : border-box;
-		margin : 0;
-		padding : 0;
-	}
-	.wrap{
-		display: flex;
-	}
-	
-	.wrap .middle-top{
-		background: #ffdac8;
-	    width: 40%;
-	    height: 50.9vw;
-	}
-	.image-area{
-	 	padding-top: 25%;
-    	padding-left: 25%;
-	}
-	
-	.middle-bottom{
-		width: 60%;
-	}
-	
-	#imglogo{
-		padding-top: 15%;
-	    padding-left: 23%;
-	    width: 50%;
-	    height: 270px;
-	}
-	.middle-bottom .loginType{
-		text-align : center;
-	}
-	.loginType {
-		margin-top : 40px;
-	}
-	.myAuthentication-button{
-		border: none;
-  		border-radius: 6px;
-		width : 400px;
-		background : black;
-		color : white;
-		cursor : pointer;
-		height : 60px;
-		font-size : 1.2em;
-		font-weight: 500;
-	}
-	
-	.loginType .back{
-		text-decoration: underline;
-		color : blue;
-	}
-</style>
+<!-- css 링크 -->
+<link rel="stylesheet" href="/tresure/resources/css/member/memberLoginForm.css">   
+
 </head>
 <body>
 	<div class="wrap">

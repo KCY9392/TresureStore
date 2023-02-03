@@ -55,17 +55,17 @@
 	/*사기조회 이용 text*/
 	.report-middle-text{
 	 display: inline;
-    position: absolute;
-    right: 26%;
-    top: 50%;
-    font-size: 24px;
+     position: absolute;
+     right: 26%;
+     top: 50%;
+     font-size: 24px;
 	}
 	
 	/*사기조회 select, text, button묶음 div*/
 	.report-inner{
      position:absolute;
      top: 80%;
-    right: 20%;
+     right: 20%;
 	}
 	
 	select{
@@ -102,9 +102,9 @@
     }
 	
 	.searchBoxReport{
-		    position: relative;
-		    width: 1000px;
-		    height: 300px;
+      position: relative;
+      width: 1000px;
+      height: 300px;
 	}
 	
 </style>
@@ -126,6 +126,7 @@
 							<option value="sellNumber">상점번호</option>
 							<option>계좌번호</option>
 						</select>
+
 						<input type="text" class="report-search-text" name="search" id="searchReport" placeholder="@를 포함하여 상점번호를 입력해주세요.">
 						<button type="submit" class="report-search-button" id="resultButton" >조회</button>
 					</div>

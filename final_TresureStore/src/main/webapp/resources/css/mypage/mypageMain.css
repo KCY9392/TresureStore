@@ -3,285 +3,346 @@
 
  /* 위에 상점 ~호점 div */
 .main-section {
-	   width: 1100px;
-	   padding-top: 60px;
-	   margin: auto;
-	   padding-right: 20px;
-    }	 
-	 
-	 .content2{
-	 	display: flex;
-	    width: 900px;
-	    padding-left: 50px;
-	    margin-left: 90px;
-	    margin-top: 20px;
-	    padding-top: 40px;
-	    border:1px solid lightgray;
-	    border-radius: 15px;
-	    padding-bottom: 25px;
-	 }
+      width: 1100px;
+      padding-top: 60px;
+      margin: auto;
+      padding-right: 20px;
+    }    
     
     .content2{
-    	display: flex;
-	}
+       padding-left: 90px;
+    margin-left: 50px;
+    margin-top: 20px;
+    padding-top: 40px;
+    border: 3px solid #e9e5e5;
+    border-radius: 15px;
+    padding-bottom: 25px;
+    }
+    
+    .content2{
+       display: flex;
+   }
 
-	
+   
 /* 상점 정보 */
-	.profile-image{
-	   
-	    width: 200px;
-	    height: 200px;
-	    margin-top: 20px;
-	    margin-left: 40px;
-	    margin-right: 20px;
-	}
-	
-	.review-profile{
-	   
-	    width: 50px;
-	    height: 50px;
-	    margin-top: 20px;
-	    margin-left: 40px;
-	    margin-right: 20px;
-	}
-	
-	.market-grade{
-	    font-size: 11px;
-	    margin-left: 112px;
-	    text-decoration: underline;
-	
-	}
+   .profile-image{
+      
+       width: 200px;
+       height: 200px;
+       margin-top: 20px;
+       margin-left: 40px;
+       margin-right: 20px;
+   }
+   
+   .review-profile{
+      
+       width: 50px;
+       height: 50px;
+       margin-top: 20px;
+       margin-left: 40px;
+       margin-right: 20px;
+   }
+   
+   .market-grade{
+       font-size: 18px;
+       margin-left: 112px;
+       text-decoration: underline;
+   	
+   }
 
 
-	.info-table{
-	    flex: 1 0 0%;
-	    padding: 0px 30px;
-	    display: flex;
-	    height: 310px;
-	    flex-direction: column;
-	}
-	
-	.market-name {
-	    display: flex;
-	    align-items: center;
-	    font-size: 30px;
-	}
+   .info-table{
+       flex: 1 0 0%;
+       padding: 0px 30px;
+       display: flex;
+       height: 310px;
+       flex-direction: column;
+   }
+   
+   .market-name {
+       display: flex;
+       align-items: center;
+       font-size: 40px;
+       margin-top: 25px;
+   }
 
 
-	.info-list {
-	    display: flex;
-	    align-items: center;
-	    border-top: 1px solid rgb(236 231 231);
-	    border-bottom: 1px solid rgb(236 231 231);
+   .info-list {
+       display: flex;
+       align-items: center;
+       border-top: 1px solid rgb(236 231 231);
+       border-bottom: 1px solid rgb(236 231 231);
     }
 
-	.market-open{
-	    margin-right: 45px;
-	    font-size: 20px;
-	    color: rgb(136, 136, 136);
-	    display: flex;
-	}
-	
-	.market-opendate{
-	    margin-left: 5px;
-	    color: rgb(33, 33, 33);
-	    
-	}
+   .market-open{
+       margin-right: 45px;
+       font-size: 17px;
+       color: rgb(136, 136, 136);
+       display: flex;
+   }
+   
+   .market-opendate{
+       margin-left: 5px;
+       color: rgb(33, 33, 33);
+       
+   }
 
-	.follower{
-	    margin-right: 45px;
-	    font-size: 20px;
-	    color: rgb(136, 136, 136);
-	    display: flex;
-	
-	}
-	
-	.market-follower{
-	    margin-left: 5px;
-	    color: rgb(33, 33, 33);
-	
-	}
-	.sell-product{
-	    margin-right: 45px;
-	    font-size: 20px;
-	    color: rgb(136, 136, 136);
-	    display: flex;
-	
-	}
-	
-	.market-sell{
-	    margin-left: 5px;
-	    color: rgb(33, 33, 33);
-	
-	}
-	
-	.report{
-	
-	    margin-right: 0px;
-	    font-size: 20px;
-	    color: rgb(136, 136, 136);
-	    display: flex;
-	}
-	.market-report{
-	
-	    margin-left: 5px;
-	    color: rgb(33, 33, 33);
-	}
-	
-	.button-area1{
-	
-	    height: 56px;
-	    display: flex;
-	    -webkit-box-align: center;
-	    align-items: center;
-	    flex-shrink: 0;
-	    flex-direction: row-reverse;
-	    
-	
-	
-	}
-	.button-area2{
-	
-	
-	display: flex;
-	-webkit-box-align: center;
-	align-items: center;
-	flex-shrink: 0;
-	flex-direction: row-reverse;
-	
-	
-	
-	}
-	
-	.following-list {
-	    height: 50px;
+   .follower{
+       margin-right: 45px;
+       font-size: 17px;
+       color: rgb(136, 136, 136);
+       display: flex;
+   
+   }
+   
+   .market-follower{
+       margin-left: 5px;
+       color: rgb(33, 33, 33);
+   
+   }
+   .sell-product{
+       margin-right: 45px;
+       font-size: 17px;
+       color: rgb(136, 136, 136);
+       display: flex;
+   
+   }
+   
+   .market-sell{
+       margin-left: 5px;
+       color: rgb(33, 33, 33);
+   
+   }
+   
+   .report{
+   
+       margin-right: 0px;
+       font-size: 17px;
+       color: rgb(136, 136, 136);
+       display: flex;
+   }
+   .market-report{
+   
+       margin-left: 5px;
+       color: rgb(33, 33, 33);
+   }
+   
+   .button-area1{
+   
+       height: 56px;
+       display: flex;
+       -webkit-box-align: center;
+       align-items: center;
+       flex-shrink: 0;
+       flex-direction: row-reverse;
+       
+   
+   
+   }
+   .button-area2{
+   
+   
+   display: flex;
+   -webkit-box-align: center;
+   align-items: center;
+   flex-shrink: 0;
+   flex-direction: row-reverse;
+   
+   
+   
+   }
+   
+   .following-list {
+        height: 50px;
 	    display: flex;
 	    align-items: center;
 	    color: black;
 	    border: 1px solid gold;
 	    background-color: gold;
-	    font-size: 20px;
+	    font-size: 22px;
 	    border-radius: 15px;
-	    width: 100px;
-	}
-	
-	.Withdrawal{
-	    color: rgb(136, 136, 136);
-	}
-	
-	.navi-list{
-	            list-style-type: none;/* ul속성 없애줌*/
-	            margin: 0;
-	            padding :0;
-	            height: 100%;
-	
-	        }
-	        .navi-list>li{
-	            float: left;
-	            width: 15%;
-	            height: 100%;
-	            text-align: center;
-	        }
-	        .navi-list a{
-	            text-decoration: none;
-	            color :black;
-	            font-size: 14px;
-	            font-weight: 600;
-	            width: 100%;
-	            height: 100%;
-	            display: block;
-	            line-height: 35px;
-	            transform: scale(1)
-	
-	        }
-	        
+	    width: 130px;
+	    padding-left: 10px;
+   }
+   
+   .Withdrawal{
+       color: rgb(136, 136, 136);
+   }
+   
+   .Withdrawal:hover{
+   	   color:red !important;
+   }
+   
+   .navi-list{
+               list-style-type: none;/* ul속성 없애줌*/
+               margin: 0;
+               padding :0;
+               height: 100%;
+   
+           }
+           .navi-list>li{
+               float: left;
+               width: 15%;
+               height: 100%;
+               text-align: center;
+           }
+           .navi-list a{
+               text-decoration: none;
+               color :black;
+               font-size: 14px;
+               font-weight: 600;
+               width: 100%;
+               height: 100%;
+               display: block;
+               line-height: 35px;
+               transform: scale(1)
+   
+           }
+           
+
 /* 상점 정보 밑에 div css*/
-	#mForm{
-		    width: 1000px;
-		    padding-left: 70px;
-		    border: 1px;
-	}
-	
-	 .mform{
-		    padding: initial;
-		    margin-left: auto;
-		    margin-right: auto;
-		}
-	
-	/*버튼들*/
-		.list-a{
-		    display: flex;
-		    height: 50px;
-		    text-align:center;
-    	}
-    	
-		.list-content button{
-		    flex: 1 1 0%;
-		    align-items: center;
-		    justify-content: center;
-		    display: flex;
-		    border: 1px solid rgb(253, 233, 231);
-		    background: rgb(253, 233, 231);
-		    border-radius:15px;
-		    font-size:17px;
-		    font-weight:800;
-		}
+   #mForm{
+              width: 1050px;
+			    padding-right: 30px;
+			    border: 1px;
+   }
+   
+    .mform{
+          padding: initial;
+          margin-left: auto;
+          margin-right: auto;
+      }
+   
+   /*버튼들*/
+      .list-a{
+          display: flex;
+          height: 50px;
+          text-align:center;
+       }
+       
+      .list-content button{
+          flex: 1 1 0%;
+          align-items: center;
+          justify-content: center;
+          display: flex;
+          border: 1px solid rgb(253, 233, 231);
+          background: rgb(253, 233, 231);
+          border-radius:15px;
+          font-size:17px;
+          font-weight:800;
+      }
         
         .list-content button>span{
-        	font-family: 'koverwatch';
-        	font-size: 20px;
+           font-family: 'koverwatch';
+           font-size: 20px;
         }
         .sellStatus{
-        margin-left:159px;
-        margin-top:-35px;
+        margin-left:138px;
+        margin-top:-30px;
         }
         
-        
+    .review-table{
+    	    margin: auto;
+		    margin-top: 10px;
+		    margin-bottom: 10px;
+    }    
      
-    	
-	   
+       
+      
 
-	#productshow{
-			border: 1px solid lightgray;
-		    margin-right: 0 !important;
-		    margin-left: 40 !important;
-		    display: flex;
-		    flex-wrap: wrap;
-	}  
-	
-	.over-img {  
+   #productshow{
+          margin-right: 0 !important;
+          margin-left: 40 !important;
+          display: flex;
+          flex-wrap: wrap;
+          border-radius: 12px;
+    	  border: 4px solid #ffe8cb;
+   }  
+   
+   .over-img {  
 
     opacity: 0.6;
     background-color: gray;
     position: relative;
     height: 100px;
     /* height: 100%; */
-       height: 153px;
+       height: 150px;
     color: white;
-       margin-top: -154px;
+       margin-top: -150px;
     text-align: center;
     /* border: 1px solid rgb(238, 238, 238); */
-        margin-bottom: 17px;
+       
     background: rgb(55, 55, 55, 0.5) opacity:0.7;
 
 }
-		
-/* 찜 목록 버튼 관련 css */		
-		
-.allCheck { float:left; width:200px;     margin-left: 181px;}
+      
+/* 찜 목록 버튼 관련 css */      
+      
+.allCheck { float:left; width:200px; padding-left:10px;}
 .allCheck input { width:16px; height:16px; }
 .allCheck label { margin-left:10px; }
 
 .delBtn {  width:300px;      margin-left: auto;}
-.delBtn button { font-size:18px; padding:5px 10px; border:1px solid #eee; background:#eee;}
+.delBtn button { 
+	font-size:18px; 
+	float:right; 
+	padding-right:10px;
+	border:1px solid #eee; 
+	background:#eee;
+	width:100px;
+	height:40px;
+	border-radius: 12px;
+	text-align:center;
+	}
 
 
-.list-box{border: 1px solid; width: 600px; height: 106px;     margin: auto;}
-.checkBox { float:left; width:25px;  float: left; margin-top: 42px; margin-left: 40px; }
-.checkBox input { width:16px; height:16px; }
+.list-box{
+	border: 4px solid #ffe8cb;
+    width: 900px;
+    height: 170px;
+    margin: auto;
+    border-radius: 12px;
+    }
+    
+ .list-box:hover{
+ 	background-color: #f0ebe4;
+ }
 
-.thumb{float: left; margin-left: 95px; margin-top: 29px;}
-.gdsInfo{margin-left: 350px;}
+    
+    .thumb img{
+	    width: 150px;
+	    height: 140px;
+	    border: 2px solid #efe6e6;
+	    margin-top: -15px;
+	    border-radius: 10px;
+	    margin-left: -25px;
+    }
+    
+.checkBox { 
+	width: 5px;
+    float: left;
+    margin-top: 70px;
+    margin-left: 40px; 
+	}
+	
+.checkBox input { 
+	width:16px; 
+	height:16px; 
+	}
+
+.thumb{
+	float: left;
+    margin-left: 95px;
+    margin-top: 29px;
+    }
+    
+    
+.gdsInfo{
+    margin: auto;
+    margin-left: 350px;
+    font-size: 20px;
+    padding-top: 10px;
+	}
 
 
 

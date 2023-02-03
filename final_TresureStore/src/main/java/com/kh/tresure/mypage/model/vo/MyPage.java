@@ -24,5 +24,7 @@ public class MyPage {
 	
 	private String sellTitle;
 	private double ravg;
+	
+	private String sellStatus;
 
 }

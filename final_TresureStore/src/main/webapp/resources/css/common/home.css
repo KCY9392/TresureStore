@@ -6,10 +6,12 @@
 		    margin: auto;
 		}
 		
+		
 		.slist-items{
 			margin:auto;
 			height:90%;
 		}
+		
 		
 		.main-Title{
 			font-size:30px;
@@ -49,15 +51,14 @@
   			border-radius: 12px;
 		}
 		
-		#itemSolid:hover img{
-		  transform: scale(1.4);
-		}
 		
 		.price-time{
-			margin-block-start: -0.33em; 
-			margin-block-end: 1.67em;
-			margin-top: 10px;
-    		font-size: 20px;
+			margin-block-start: -0.33em;
+		    margin-block-end: 1.67em;
+		    margin-top: 15px;
+		    font-size: 20px;
+		    margin-right: 10px;
+		    margin-left: 10px;
 		}
 		
 		.price-time p{

@@ -121,53 +121,56 @@ public class SellController {
 			s.setImgList(imgList);
 			s.setTimeago(s.getCreateDate());
 			
-			logger.info("imgList : "+imgList);
-			
-			logger.info("s : "+s);
-			
-			Cookie[] cookies = req.getCookies();
-		    Cookie viewCookie = null;  // 비교하기 위해 새로운 쿠키
- 
-		    if (cookies != null && cookies.length > 0) { // 쿠키가 있을 경우
-		        for (int i = 0; i < cookies.length; i++) {
-		            // Cookie의 name이 cookie + sellNo와 일치하는 쿠키를 viewCookie에 넣어줌 
-		            if (cookies[i].getName().equals("cookie"+sellNo)){ 
-		                viewCookie = cookies[i];
-		            }
-		        }
-		    }
 		    
 		    if (s != null) {
 		        logger.info("System - 해당 상세페이지로 넘어감");
 		        
-		        mv.addObject("s", s);
-
-		        if(loginUser != null) {
-		        // 만일 viewCookie가 null일 경우 쿠키를 생성해서 조회수 증가 로직을 처리함.
-				if (viewCookie == null /* && s.getUserNo() != userNo */) {
-		            
-		            // 쿠키 생성(이름, 값)
-		            Cookie newCookie = new Cookie("cookie"+sellNo, "|" + sellNo + "|");
-		            // 쿠키 추가
-		            res.addCookie(newCookie);
-		            // 쿠키를 추가 시키고 조회수 증가시킴
-		            int result = sellService.increaseCount(sellNo);
-		            
-		            if(result>0) {
-		                logger.info("조회수 증가");
-		            }else {
-		            	logger.info("조회수 증가 에러");
-		            }
-		        }
-		        // viewCookie가 null이 아닐경우 쿠키가 있으므로 조회수 증가 로직을 처리하지 않음.
-		        else {
-		            // 쿠키 값 받아옴.
-		            String value = viewCookie.getValue();
-		            logger.info("cookie 값 : " + value);
+		        Cookie[] cookies = req.getCookies();
+		        Cookie viewCookie = null;  // 비교하기 위해 새로운 쿠키
+		        
+		        if (cookies != null && cookies.length > 0) { // 쿠키가 있을 경우
+		        	for (int i = 0; i < cookies.length; i++) {
+		        		// Cookie의 name이 cookie + sellNo와 일치하는 쿠키를 viewCookie에 넣어줌 
+		        		if (cookies[i].getName().equals("cookie"+sellNo)){ 
+		        			viewCookie = cookies[i];
+		        		}
 		        	}
 		        }
+
+		        if(loginUser != null) {
+		        	
+			        // 만일 viewCookie가 null일 경우 쿠키를 생성해서 조회수 증가 로직을 처리함.
+					if (viewCookie == null /* && s.getUserNo() != userNo */) {
+			            
+			            // 쿠키 생성(이름, 값)
+			            Cookie newCookie = new Cookie("cookie"+sellNo, "|" + sellNo + "|");
+			            // 쿠키 추가
+			            res.addCookie(newCookie);
+			            // 쿠키를 추가 시키고 조회수 증가시킴
+			            int result = sellService.increaseCount(sellNo);
+			            
+			            if(result>0) {
+			                logger.info("조회수 증가");
+			                s = sellService.selectSellDetail(map);
+			                s.setImgList(imgList);
+			    			s.setTimeago(s.getCreateDate());
+			                
+			            }else {
+			            	logger.info("조회수 증가 에러");
+			            }
+			        }
+				
+					// viewCookie가 null이 아닐경우 쿠키가 있으므로 조회수 증가 로직을 처리하지 않음.
+			        else {
+			            // 쿠키 값 받아옴.
+			            String value = viewCookie.getValue();
+			            logger.info("cookie 값 : " + value);
+			        }
+		        }
+		        mv.addObject("s", s);
 		        mv.setViewName("sell/sellDetailForm");
-		    } 
+		        
+		    } //상세정보 없음 -> 에러페이지 이동
 		    
 		 return mv;
 	}
@@ -312,9 +315,22 @@ public class SellController {
 
 	}
 	
-	
-	
-	
-	
+
+	// 상세페이지에서 판매자 이미지 클릭 시 판매자 상점으로 이동
+	@RequestMapping(value = "/seller/{userNo}")
+	public String sellerPage(@PathVariable("userNo") int userNo, Model model, Sell sell, HttpSession session) {
+		Member member = (Member) session.getAttribute("loginUser");
+		
+		Map <String, Integer> map = new HashMap<>();
+		map.put("userNo", member.getUserNo());
+		map.put("sellerNo", userNo);
+		model.addAttribute("member", sellService.sellerDetail(map));
+		// 판매 리스트
+		model.addAttribute("sellList", sellService.sellList(userNo));
+		// 리뷰 리스트
+		model.addAttribute("reviewList", sellService.reviewList(userNo));
+		
+		return "sell/sellerPage";
+	}
 }
 	

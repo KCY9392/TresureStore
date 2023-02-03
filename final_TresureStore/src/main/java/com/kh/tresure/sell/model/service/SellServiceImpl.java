@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.tresure.common.Image;
+import com.kh.tresure.review.model.vo.Review;
 import com.kh.tresure.sell.model.dao.SellDao;
 import com.kh.tresure.sell.model.vo.Sell;
 import com.kh.tresure.sell.model.vo.SellImg;
@@ -170,5 +171,20 @@ public class SellServiceImpl implements SellService  {
 	 * 최신순, 인기순, 저가순, 고가순 정렬 */
 	public List<Sell> howOrderList(HashMap<String, Object> map){
 		return sellDao.howOrderLIst(map, sqlSession);
+	}
+	
+	@Override
+	public List<Sell> sellList(int userNo) {
+		return sellDao.sellList(sqlSession, userNo);
+	}
+	
+	@Override
+	public List<Review> reviewList(int userNo) {
+		return sellDao.reviewList(sqlSession, userNo);
+	}
+	
+	@Override
+	public Map<String, Object> sellerDetail(Map<String, Integer> map) {
+		return sellDao.sellerDetail(sqlSession, map);
 	}
 }

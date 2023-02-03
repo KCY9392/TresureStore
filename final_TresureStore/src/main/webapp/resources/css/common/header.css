@@ -77,7 +77,6 @@ a {
 
 /* search start */
 .search1 {
-    border: 2px solid black;
     width: 550px;
     height: 40px;
     box-sizing: border-box;
@@ -97,6 +96,9 @@ a {
     align-items: center;
     background-color: white;
     width: 100%;
+    border: 2px solid lightgray;
+    border-radius: 10px;
+    margin-top: 7px;
 }
 .search3 {
     line-height: 1.15;

@@ -19,6 +19,7 @@
     border: 1px solid gray;
     justify-content: center;
     align-items: center;
+    border-radius: 10px;
 }
 
 .nfavoritesText {
@@ -74,6 +75,7 @@
     padding: 10px 0px;
     width: 120px;
     border: 1px solid gray;
+    border-radius: 10px;
 }
 
 .nrecentlyText {
@@ -104,6 +106,7 @@
     border: 1px solid gray;
     background-color: white;
     height: 20px;
+    border-radius: 10px;
 }
 
 .ntopText {

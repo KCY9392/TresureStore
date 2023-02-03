@@ -16,6 +16,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="STATUS" property="status"></result>
 	<result column="SELL_TITLE" property="sellTitle"></result>
 	<result column="RAVG" property="ravg"></result>
+
+	<result column="SELL_STATUS" property="sellStatus"></result>
 	
 </resultMap>
 
@@ -38,7 +40,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="HEART_NUM" property="heartNum"></result>
 	<result column="CRAWL" property="crawl"></result>
 	
-	</resultMap>
+	
+	<result column="CHATROOM_NO" property="chatRoomNo"></result>
+	<result column="CATEGORY_NAME" property="categoryName"></result>
+	<result column="AVG" property="avg"></result>
+	<result column="NEGO_PRICE" property="negoPrice"></result>
+	<result column="NEGO_STATUS" property="negoStatus"></result>
+
+	<result column="REPORT_NUM" property="report_Num"></result>
+	<result column="FOLLOWER_NUM" property="follower_Num"></result>
+	<result column="SELL_NUM" property="sell_Num"></result>
+	<result column="FOLLOW_IS" property="follow_Is"></result>
+	<result column="HEART_IS" property="heart_Is"></result>
+	
+	
+	<collection property="imgList" resultMap="sellImgResultSet"/>
+
+</resultMap>
+
+
+
 
 <select id="sellCount" resultType="Integer" parameterType="Integer">
 		SELECT 
@@ -59,9 +80,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="reportCount" resultType="Integer" parameterType="Integer">
 	SELECT
-	COUNT(REPORT_NO)
+		COUNT(REPORTED_NO)
 	FROM REPORT
-	JOIN MEMBER ON USER_NO = REPORT_NO
+	JOIN MEMBER ON USER_NO = REPORTED_NO
 	WHERE USER_NO = #{userNo}
 
 	
@@ -83,7 +104,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="marketOpen" resultType="Integer" parameterType="Integer">
 	SELECT
-	ROUND(TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDD')) - CREATE_DATE)
+	ROUND(SYSDATE - CREATE_DATE)
 	FROM MEMBER
 	WHERE USER_NO = #{userNo}
 
@@ -96,17 +117,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELL_TITLE
 		FROM SELL
 		JOIN MEMBER USING(USER_NO)
-		WHERE USER_NO = #{uno}
+		WHERE USER_NO = #{uno}	
 		
 		
 	</select>
 	
-	<update id="changeStatus" parameterType="sell">
-	 UPDATE SELL SET
-    SELL_STATUS = 'C'
-    WHERE SELL_NO = #{sellNo};
+	<update id="changeStatus" parameterType="map">
+    UPDATE SELL SET
+     SELL_STATUS = DECODE((SELECT SELL_STATUS FROM SELL WHERE SELL_NO = #{sellNo}),'C','I','I','C') 
+    WHERE SELL_NO = #{sellNo}
+   </update>
+
 	
-	</update>
+	
+	<!-- 마이페이지 구매목록 -->
+	<select id="mypagePurchaseList" parameterType="int" resultMap="mypageResultSet">
+		SELECT S.IMAGE_SRC AS "IMAGE_SRC", 
+			   S.SELL_TITLE AS "SELL_TITLE",
+			   S.PRICE AS "PRICE",
+			   S.UPDATE_DATE AS "CREATE_DATE" 
+	    FROM PURCHASE P
+	    LEFT JOIN SELL S USING(SELL_NO)
+	    LEFT JOIN MEMBER M ON (S.USER_NO = M.USER_NO)
+	    WHERE S.SELL_STATUS = 'C' AND M.USER_NO = #{userNo}
+	</select>
 	
 
 </mapper>
