@@ -153,19 +153,24 @@
    }
    
    .following-list {
-       height: 50px;
-       display: flex;
-       align-items: center;
-       color: black;
-       border: 1px solid gold;
-       background-color: gold;
-       font-size: 20px;
-       border-radius: 15px;
-       width: 100px;
+        height: 50px;
+	    display: flex;
+	    align-items: center;
+	    color: black;
+	    border: 1px solid gold;
+	    background-color: gold;
+	    font-size: 22px;
+	    border-radius: 15px;
+	    width: 130px;
+	    padding-left: 10px;
    }
    
    .Withdrawal{
        color: rgb(136, 136, 136);
+   }
+   
+   .Withdrawal:hover{
+   	   color:red !important;
    }
    
    .navi-list{
