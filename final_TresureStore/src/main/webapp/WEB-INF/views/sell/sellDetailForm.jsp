@@ -121,7 +121,8 @@
                                     
                                     <div class="sellerNameInfoBox">
                                         <div class="sellerName">
-                                                <p style="font-size:24px;">상점 ${s.userNo}호점</p>&nbsp;<img src="https://m.bunjang.co.kr/pc-static/resource/0acf058f19649d793382.png" width="15px" height="15px" style="margin-left:15px;">&nbsp;<p>${s.report_Num}</p>
+                                                <p style="font-size:30px;">상점 ${s.userNo}호점</p>&nbsp;<img src="https://m.bunjang.co.kr/pc-static/resource/0acf058f19649d793382.png" width="15px" height="18px" style="margin-left:15px; margin-bottom:3px;">&nbsp;
+                                                <p style="font-size: 20px;">${s.report_Num}</p>
                                         </div>
 
                                         <div class="sellNumAndFollowerBox">
@@ -221,7 +222,7 @@
                                 	<button class="chattingbtn-sellDetail" id="chatting-start">삭제하기</button>
                                 </c:if>
                                 <c:if test="${loginUser.userNo!=s.userNo }">
-                                <button class="chattingbtn-sellDetail" id="chatting-start">채팅하기</button>
+                                <button class="chattingbtn-sellDetail" id="chatting-start">채 팅 하 기</button>
                                 </c:if>
                                 <c:if test="${s.sellStatus eq 'C' }">
                                 	<button class="sell-comp" id="sell-comp">삭제하기</button>

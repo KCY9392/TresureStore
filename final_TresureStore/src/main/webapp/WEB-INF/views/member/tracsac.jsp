@@ -18,6 +18,54 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
+<style>
+
+	.sun_wrap_li > ul img{
+  		margin-top: 5px !important;
+  	}
+	
+	.catebox3{
+		width: 1000px !important;
+	}
+
+	.inner-menu{
+		width: 700px !important;
+	}
+	
+	.catebox.cate1, .catebox.cate2, .catebox.cate3, .catebox.cate4{
+		margin-right: 40px;
+	}
+	
+	.catebox.cate7, .catebox.cate9, .catebox.cate10{
+		margin-left: 30px;
+	}
+	
+	.catebox.cate8{
+		margin-left: 50px;
+	}
+	
+	
+	.market-open img{
+  		margin-top: 5px;
+  	}
+  	
+  	.search2{
+  		margin-top: 0px !important;
+  	}
+  	
+  	.nfavorites{
+  			padding: 5px 0px !important;
+  		    padding-top: 10px !important;
+  		    height: 80px !important;
+  	}
+  	
+  	.ntheTop{
+  		height: 40px !important;
+  	}
+  	
+  	
+</style>
+
 </head>
 <body>
    <jsp:include page="../common/header.jsp"/>

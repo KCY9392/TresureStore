@@ -17,6 +17,35 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     
   <style>
+  
+  	a:hover{
+  		text-decoration: none !important;
+  	}
+  	.sun_wrap_li > ul img{
+  		margin-top: 5px !important;
+  	}
+  	
+  	.catebox3{
+		width: 1000px !important;
+	}
+
+	.inner-menu{
+		width: 700px !important;
+	}
+	
+	.catebox.cate1, .catebox.cate2, .catebox.cate3, .catebox.cate4{
+		margin-right: 40px;
+	}
+	
+	.catebox.cate7, .catebox.cate9, .catebox.cate10{
+		margin-left: 30px;
+	}
+	
+	.catebox.cate8{
+		margin-left: 50px;
+	}
+  
+  
   	.market-open img{
   		margin-top: 5px;
   	}
@@ -69,23 +98,21 @@
             <div class="modal fade" id="myModal" data-backdrop="static" data-keyboard="false">
              <div class="modal-dialog modal-xl modal-dialog-centered">
              
-            <div class="modal-content" style="width:700px;height:700px; margin: auto;">
+            <div class="modal-content" style="width:700px;height: 580px; margin: auto;">
 
               <!-- Modal Header -->
               <div class="modal-header">
                 <h4 class="modal-title">등급 안내</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close" data-dismiss="modal">
+                <img src="/tresure/resources/images/icon/x-modalImage.png" width="35px" height="30px" style="margin-top:5px;">
+                </button>
               </div>
               
               <!-- Modal body -->
-              <div class="modal-body">
+              <div class="modal-body" style="position: relative;flex: 1 1 auto;padding: 2rem;">
                   <img class="card-img-top rounded img-fluid" src="/tresure/resources/images/icon/그림1.png">
               </div>
               
-              <!-- Modal footer -->
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              </div>
            </div>
     </div>
 </div>
@@ -221,7 +248,7 @@
        <div class="box box2" id="reviewshow" style="display:none; border: 4px solid #ffe8cb; border-radius: 12px;">
        <c:forEach var="r" items="${reviewList}" begin="0" end="${fn:length(reviewList)}" step="1" varStatus="status">
        <div class="review-table">
-    <table style="width: 800px;">
+    <table style="width: 800px;margin-left: 140px;">
     
         <tr>
        

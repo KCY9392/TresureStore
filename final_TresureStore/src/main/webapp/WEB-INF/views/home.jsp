@@ -53,7 +53,7 @@
 
 	<div class="main-section">
 		<div id="displayHeader">
-			<p class="main-Title" ><b>오늘의 추천상품♡</b></p>
+			<p class="main-Title" ><b style="padding-left: 45%;">Tresure</b></p>
 			<hr>
 			<br>
 		</div>
