@@ -92,7 +92,7 @@
                                 	<!-- 로그인사람과 구매한사람이 같은경우  -->
                                    	<c:if test="${AllList.get('purchaseInfo').userNo eq loginUser.userNo}">
                                         <c:if test="${AllList.get('product').avg  >= 4.5}">
-                                            <img src="/tresure/resources/images/icon/grade3.png" width="40px" /> <span class="store-text">상점 ${AllList.get('product').userNo }호 점</span>
+                                            <img src="/tresure/resources/images/icon/grade3.png" width="40px" /> <span class="store-text">상점 <p class="dd">${AllList.get('product').userNo }</p>호 점</span>
                                         </c:if>
                                         <c:if test="${ 4 <= AllList.get('product').avg && AllList.get('product').avg < 4.5 }">
                                             <img src="/tresure/resources/images/icon/grade2.png" width="40px" /> <span class="store-text">상점 ${AllList.get('product').userNo }호 점</span>
@@ -239,14 +239,17 @@
 			})
 	 	
 		 });
-	   
+		   
+		   
 	   
 		//신고추가
 		 function reportAdd(value){
+				var reportedUserNo = $('#dd').innerText();
+				
 				$.ajax({
 					url : "${pageContext.request.contextPath}/report/addReport",
 					data : {reportContent : value,
-							sellUserNo : ${AllList.get('product').userNo }},
+							reportedUserNo : reportedUserNo} ,
 					success : function(result){
 						if(result == 1){
 							location.reload();

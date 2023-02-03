@@ -122,9 +122,6 @@ public class ChatController {
       List<Block> blockList = chatService.selectBlockList(userNo);
       model.addAttribute("blockList", blockList);
       
-      logger.info(blockList+ ">> 차단 리스트 조회");
-      logger.info(">> 차단 리스트로 이동");
-      
       return "chat/chatBlockList";
    }
    
@@ -165,8 +162,13 @@ public class ChatController {
 	   int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
 	   
 	   int result = chatService.deleteBlock(sellUserNo, chatRoomNo, purchaseUserNo, userNo,block);
-
-       return String.valueOf(result);
+	   if(result == 1) {
+		   return String.valueOf(result);
+	   } else {
+		   return "0";
+	   }
+	   	
+       
       
     }
 
