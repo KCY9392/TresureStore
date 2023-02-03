@@ -94,6 +94,12 @@
       border-radius : 8%;
       cursor: pointer;
 	}
+	.report-search-button:hover{
+	 color: gold;
+     background-color: white;
+     cursor : pointer;
+     border:solid 1px gold;
+    }
 	
 	.searchBoxReport{
       position: relative;
@@ -120,7 +126,8 @@
 							<option value="sellNumber">상점번호</option>
 							<option>계좌번호</option>
 						</select>
-						<input type="text" class="report-search-text" name="search" placeholder="@를 포함하여 상점번호를 입력해주세요.">
+
+						<input type="text" class="report-search-text" name="search" id="searchReport" placeholder="@를 포함하여 상점번호를 입력해주세요.">
 						<button type="submit" class="report-search-button" id="resultButton" >조회</button>
 					</div>
 				</form>
@@ -130,6 +137,18 @@
 	
 	
 	<jsp:include page="../common/footer.jsp"/>
+	
+	<script>
+			
+		 /* //조회 버튼 클릭 시
+		 $('#resultButton').click(function(){
+		    if($('#searchReport').val == ''){
+		    	alert("다시 입력");
+		    	return false;
+		      }
+		    return true;
+		 });  */
+	</script>
 
 </body>
 </html>

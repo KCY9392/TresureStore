@@ -16,7 +16,11 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/header.js"></script>
 	<!-- 웹소켓 js -->
 	<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-	 <!-- alertify -->
+	<!-- 결제 js -->
+	<script type="text/javascript" src="/tresure/resources/js/payment.js?ver=1"></script>
+	<!-- iamport.payment.js -->
+	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+	<!-- alertify -->
 	<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 	<!-- alertify css -->
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
@@ -147,7 +151,11 @@
                                      		
                                 </li>
                                 <li style="float: right;">
-                                    <button class="buttonCss2">계좌이체</button>
+                                    <button type="submit" class="buttonCss2" id="tresurePay" 
+                                    onclick="requestPay('${AllList.get('product').sellTitle }',
+                                    					'${AllList.get('product').price }',
+                                    					'${AllList.get('purchaseInfo').userNo}',
+                                    					'${pageContext.request.contextPath}')">결제하기</button>
                                 </li>
                             </ul>
                             
