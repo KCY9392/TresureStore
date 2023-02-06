@@ -9,12 +9,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.tresure.common.Image;
 import com.kh.tresure.review.model.vo.Review;
+import com.kh.tresure.sell.controller.SellController;
 import com.kh.tresure.sell.model.dao.SellDao;
 import com.kh.tresure.sell.model.vo.Sell;
 import com.kh.tresure.sell.model.vo.SellImg;
@@ -25,6 +28,7 @@ public class SellServiceImpl implements SellService  {
 	
 	private SellDao sellDao;
 	private SqlSession sqlSession;
+	private Logger logger = LoggerFactory.getLogger(SellController.class);
 	
 	// 기본생성자
 	public SellServiceImpl() {
@@ -37,6 +41,27 @@ public class SellServiceImpl implements SellService  {
 		this.sqlSession = sqlSession;
 	}
 	
+	/**
+	 * 판매목록 더보기 */
+	@Override
+	public List<Sell> sellListTheBogi(int lastSellNo){
+		
+		int lastSNo = lastSellNo + 40;
+		logger.info("fistSellNo : "+lastSellNo);
+		logger.info("lastSellNo : "+lastSNo);
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("lastSellNo", lastSNo);
+		map.put("firstSellNo", lastSellNo);
+		
+		return sellDao.sellListTheBogi(sqlSession, map);
+	}
+	
+	/**
+	 * 제일 마지막 Sell 번호 조회 */
+	public int finishSellNo() {
+		return sellDao.finishSellNo(sqlSession);
+	}
 	
 	/**
 	 * 판매목록 조회(메인페이지)

@@ -19,9 +19,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kh.tresure.common.Image;
 import com.kh.tresure.member.model.vo.Member;
 import com.kh.tresure.sell.model.service.SellService;
@@ -48,6 +51,24 @@ public class SellController {
 		this.sellService = sellService;
 	}
 
+	
+	/**
+	 * 더보기 (메인페이지) */
+	@ResponseBody
+	@RequestMapping(value="/theBogi")
+	public List<Sell> theBogi(HttpServletResponse response, @RequestParam("eleCount") int lastSellNo){
+		
+		logger.info("lastSellNo : "+lastSellNo);
+		
+		List<Sell> sList = sellService.sellListTheBogi(lastSellNo);
+		for(int i=0; i<sList.size(); i++) {
+			sList.get(i).setTimeago(sList.get(i).getCreateDate());
+		}
+		
+		logger.info("TheBogi List : "+sList);
+		
+		return sList;
+	}
 	
 	/**
 	 * 검색 시 -> 상품이면 시세조회하면서 해당 상품리스트, 상점이면 해당 상점페이지 */

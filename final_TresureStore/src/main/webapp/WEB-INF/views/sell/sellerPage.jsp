@@ -110,7 +110,7 @@
 
 
                 <div class="followAddOrSubBox" style="margin-left: 290px;">
-					<c:if test="${loginUser.getUserNo() == null || s.follow_Is == 0}">
+					<c:if test="${loginUser.getUserNo() == null || member.isFollow == 0}">
                            <button type="button" class="followBtn-sell" style="width:100%; height: 100%;"><img src="/tresure/resources/images/icon/followAddBtn.png" width="100%" height="70%"></button>
 
                     </c:if>

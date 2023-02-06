@@ -100,7 +100,7 @@ public class ReportController {
 		
 		logger.info(">> 신고 리스트에 추가");
 		
-		return "redirect:reportSearch";
+		return "redirect:/";
 	}
 	
 	
