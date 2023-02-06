@@ -70,7 +70,7 @@ public class ReportController {
 			
 		}else {
 			//session.setAttribute("alertMsg", "@ 포함하여 다시 입력해주세요.");
-			return "redirect:reportSearch";
+			return "redirect:/reportSearch";
 		}
 		
 		return "report/reportSearchResult";
@@ -82,13 +82,13 @@ public class ReportController {
 	@RequestMapping(value = "report/addReport", method =  RequestMethod.GET)
 	public String addReport (HttpSession session,
 							@RequestParam(value="sellUserNo", required=false) int sellUserNo,
-							@RequestParam(value="reportContent", required=false) String reportContent) {
+							@RequestParam(value="reportContent", required=false) String reportContent,
+							Report report) {
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		
 		int reportNo = loginUser.getUserNo();
 		
-		Report report = new Report();
 		report.setReporterNo(reportNo);
 		report.setReportedNo(sellUserNo);
 		report.setReportContent(reportContent);

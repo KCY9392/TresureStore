@@ -42,7 +42,7 @@
 			                    <tr>
 			                      <td>${block.blockNo}</td>
 		                      		<td>
-		                                  <c:if test="${block.avg > 4.5}">
+		                                  <c:if test="${block.avg >= 4.5}">
 		                                      <img src="/tresure/resources/images/icon/grade3.png" width="20px" /> &nbsp;&nbsp;상점 ${block.blockedNo }호 점
 		                                  </c:if>
 		                                  <c:if test="${ 4 <= block.avg && block.avg < 4.5 }">
@@ -55,7 +55,7 @@
 		                                      <img src="/tresure/resources/images/icon/grade0.png" width="20px" /> &nbsp;&nbsp;상점 ${block.blockedNo }호 점
 		                                  </c:if>
                               		</td>                      
-			                      <td><button type="button" class="block-clear" id="deleteBlock">해제</button></td>
+			                      <td><button type="button" class="block-clear" onclick="deleteBlock();">해제</button></td>
 			                    </tr>
 					          </c:forEach>
 		                  </tbody>
@@ -66,6 +66,24 @@
             </div>
           </div>
         
-   <jsp:include page="../common/footer.jsp"/>
+    <jsp:include page="../common/footer.jsp"/>
+    <script>
+		function deleteBlock(){
+			$.ajax({
+				url : "${pageContext.request.contextPath}/chat/chatBlockremove",
+				type : "post",
+				success : function(result){
+					if(result == 1){
+						location.reload();
+					}
+					
+				},
+				error : function(){
+					console.log("통신실패");
+				}
+				
+			})
+		}	
+    </script>
 </body>
 </html>

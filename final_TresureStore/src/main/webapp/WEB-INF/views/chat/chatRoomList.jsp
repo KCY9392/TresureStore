@@ -32,7 +32,7 @@
        <div class="main-section">
             <div class="innerOuter">
                 <img src="/tresure/resources/images/icon/mainLogo.png" width="40" style="margin-left: 20px;">&nbsp;<span>보물톡</span>
-                <a class="block-list" href="${pageContext.request.contextPath}/chat/chatBlockList">차단목록</a>
+                <a class="block-list" onclick="methodPost();">차단목록</a>
 
                 <c:choose>
                     <%--조회한 채팅 목록이 없을 때    --%>
@@ -180,10 +180,19 @@
                     </c:otherwise>
                 </c:choose>
            </div>
-            </div>
+           </div>
    
     <jsp:include page="../common/footer.jsp" />
-
+	<script>
+		function methodPost() {
+			let form = document.createElement('form');
+			form.setAttribute('method', 'post');
+			form.setAttribute('action', '${pageContext.request.contextPath}/chat/chatBlockList');
+			document.body.appendChild(form);
+			form.submit();
+			
+		}
+	</script>
 
 
 </body>
