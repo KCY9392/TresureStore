@@ -125,8 +125,6 @@ $(document).ready(function() {
 	}
 });
 </script>
-	
-	<jsp:include page="../common/theBoGi.jsp" />
 
 	<jsp:include page="../common/footer.jsp" />
 </body>

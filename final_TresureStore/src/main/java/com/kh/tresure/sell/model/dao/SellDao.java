@@ -113,4 +113,17 @@ public class SellDao {
 	public Map<String, Object> sellerDetail(SqlSession sqlSession, Map<String, Integer> map) {
 		return sqlSession.selectOne("sellMapper.sellerDetail", map);
 	}
+
+	
+	/**
+	 * 상품목록 더보기 */
+	public List<Sell> sellListTheBogi(SqlSession sqlSession, HashMap<String, Object> map) {
+		return sqlSession.selectList("sellMapper.sellListTheBogi", map);
+	}
+
+	/**
+	 * 제일 마지막 Sell 번호 조회 */
+	public int finishSellNo(SqlSession sqlSession) {
+		return sqlSession.selectOne("sellMapper.finishSellNo");
+	}
 }

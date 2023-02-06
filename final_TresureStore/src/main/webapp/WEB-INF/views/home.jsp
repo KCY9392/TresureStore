@@ -7,13 +7,17 @@
 	<title>Home</title>
 	<link rel="stylesheet" href="/tresure/resources/css/common/font.css">
 	<link rel="stylesheet" href="/tresure/resources/css/common/home.css">
+
 	<!-- 홈페이지 아이콘 -->
 	<link rel="icon" href="/tresure/resources/images/icon/mainLogo.png" />
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 	<script type="text/javascript" src="/tresure/resources/js/header.js"></script>
-	<script type="text/javascript" src="/tresure/resources/js/thbogi.js"></script>
+	<script type="text/javascript" src="/tresure/resources/js/theBogi.js"></script>
+	
 	 <!-- alertify -->
 	<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
 	<!-- alertify css -->
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
    <!-- Default theme -->
@@ -25,8 +29,6 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	
 </head>
-<!-- 아 김채영 -->
-<!-- 왱 -->
 <body>
 	<jsp:include page="./common/header.jsp"/>
 	<jsp:include page="./common/sideBar.jsp"/>
@@ -86,21 +88,74 @@
 								</div>
 							</div>
 						</div>
-		 </c:forEach> 
+		 	</c:forEach> 
 		 </div>
-	
 	</div>
-	<!-- 왜 -->
 	<br>
+	<div id="moreShow">
+		<button class="TheBogiBtn" onclick="theBogi();" style="margin: auto;">더보기</button>
+	</div>
+	<div id="theBogi_body">
+	</div>
+	<jsp:include page="./common/footer.jsp" />
+	
 	
 	<script>
 		function sellDetail(sellNo){
 			location.href = "${pageContext.request.contextPath}/sell/sellDetail/"+sellNo;
 		}
+		
+		function theBogi(){
+			
+			var ele = document.getElementById('display-list');
+			var eleCount = ele.childElementCount;
+			
+			console.log("startNum : "+eleCount);
+			
+			$.ajax({
+				url : "${pageContext.request.contextPath}/sell/theBogi",
+				type : "POST",
+			    dataType : "json",
+			    data : {eleCount : eleCount},
+			    success : function(data) {
+			    			
+			            	var sellList = data;
+			            	
+			        		if(sellList !== null){
+			        	
+				        	if(${finishSellNo} < eleCount + 40){ 
+				           		$("#moreShow").remove();
+				        	}
+				            
+				            	console.log(data);
+					            $(sellList).each(function(index, s){
+					            	  
+					            	$(".row").append('<div class="item col-3">'
+					                  +'<div class="item" onclick="sellDetail('+ s.sellNo +')">'
+					                  +'<div id="itemSolid" class="slist-items">'+
+					                  
+					                	  (s.crawl === "Y" ? '<img src="'+ s.imgSrc + '" width="100%" height="150px;" class="rounded float-start" alt="">' :
+					                	  					 '<img src="${pageContext.request.contextPath}'+ s.imgSrc +'" width="100%" height="150px;" class="rounded float-start" alt="">')
+					                  
+					                  +'<div class="price-time">'
+					                  +'<span>&nbsp;'+ s.sellTitle+'</span><br><br>'
+					              	  +'<div class="price-time2"><br>'
+					              	  +'&nbsp;<img src="/tresure/resources/images/icon/heart.png" width="15px" height="15px" style="margin-top:2px;">&nbsp;'
+					              	  + s.heartNum
+					              	  +'&nbsp;&nbsp;&nbsp;'
+					              	  + s.timeago 
+					              	  +'<br><span style="font-size: 33px; color:black;">'
+					              	  + s.price +'원</span>'
+					              	  +'</div></div></div></div></div>');
+				    			  });	
+				              }
+				           },
+						error : function(data){
+							alert("오류");
+			        	}
+			    });
+		}
 	</script>
-	
-	<jsp:include page="./common/theBoGi.jsp" />
 
-	<jsp:include page="./common/footer.jsp" />
 </body>
 </html>

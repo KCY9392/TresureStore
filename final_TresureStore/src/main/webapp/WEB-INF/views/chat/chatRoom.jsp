@@ -260,7 +260,7 @@
 							reportedUserNo : reportedUserNo} ,
 					success : function(result){
 						if(result == 1){
-							location.reload();
+							location.href = "${pageContext.request.contextPath}/report/reportSearch";
 						}
 					},
 					error : function(){

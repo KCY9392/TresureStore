@@ -58,26 +58,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </resultMap>
 
 <resultMap id="seller" type="hashmap">
-		<result column="USER_NO" property="userNo" />
-		<result column="MARKET_OPEN" property="marketOpen" />
-		<result column="SELL_COUNT" property="sellCount" />
-		<result column="FOLLOW_COUNT" property="followCount" />
-		<result column="REPORT_COUNT" property="reportCount" />
-		<result column="REVIEW_AVG" property="reviewAvg" />
-		<result column="IS_FOLLOW" property="isFollow" />
-	</resultMap>
+      <result column="USER_NO" property="userNo" />
+      <result column="MARKET_OPEN" property="marketOpen" />
+      <result column="SELL_COUNT" property="sellCount" />
+      <result column="FOLLOW_COUNT" property="followCount" />
+      <result column="REPORT_COUNT" property="reportCount" />
+      <result column="REVIEW_AVG" property="reviewAvg" />
+      <result column="IS_FOLLOW" property="isFollow" />
+   </resultMap>
+
 
 	<!-- 상품목록조회(메인페이지) -->
 	<select id="sellListselect" resultMap="sellResultSet">
-		SELECT 
-	    	SELL_NO, CATEGORY_NO, SELL_TITLE, IMAGE_SRC, PRICE, 
-	    	(SELECT COUNT(*) FROM HEART H WHERE H.SELL_NO = S.SELL_NO) AS "HEART_NUM", CRAWL, S.CREATE_DATE AS "CREATE_DATE"
-		FROM SELL S 
-        LEFT JOIN MEMBER M ON(S.USER_NO=M.USER_NO)
-		WHERE S.STATUS = 'Y' 
-		AND SELL_STATUS = 'I' 
-		AND M.STATUS = 'Y' 
-		AND ROWNUM <![CDATA[ <= ]]> 40
+		SELECT SELL_NO, CATEGORY_NO, SELL_TITLE, IMAGE_SRC, PRICE, HEART_NUM, CRAWL, CREATE_DATE
+        from (select SELL_NO, CATEGORY_NO, SELL_TITLE, IMAGE_SRC, PRICE, 
+                (SELECT COUNT(*) FROM HEART H WHERE H.SELL_NO = S.SELL_NO) AS "HEART_NUM", CRAWL, S.CREATE_DATE AS "CREATE_DATE"
+            FROM SELL S 
+            LEFT JOIN MEMBER M ON(S.USER_NO=M.USER_NO)
+            WHERE S.STATUS = 'Y' 
+            AND SELL_STATUS = 'I' 
+            AND M.STATUS = 'Y') 
+        where SELL_NO BETWEEN 1 AND 41
 	</select>
 
 	<!-- 상품검색 -->
@@ -387,45 +388,74 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			  AND M.USER_NO = #{userNo}
 	</select>
 	
-	<select id="sellerDetail" parameterType="hashmap" resultMap="seller">
-		SELECT M.USER_NO
-		     , ROUND(SYSDATE - M.CREATE_DATE) AS MARKET_OPEN
-		     , (
-		        SELECT COUNT(*)
-		          FROM SELL
-		         WHERE USER_NO = M.USER_NO
-		       ) AS SELL_COUNT
-		    , (
-		       SELECT COUNT(*)
-		         FROM FOLLOW
-		        WHERE FW_ID = M.USER_NO
-		      ) AS FOLLOW_COUNT
-		    , (
-		       SELECT COUNT(*)
-		         FROM REPORT
-		        WHERE REPORT_NO = M.USER_NO
-		      ) AS REPORT_COUNT
-		    , (
-		        SELECT NVL(AVG(REV_SCORE), 0)
-		          FROM SELL S
-		             , REVIEW R
-		         WHERE S.SELL_NO = R.SELL_NO
-		           AND S.USER_NO = M.USER_NO
-		      ) AS REVIEW_AVG
-		    , (
-		       SELECT COUNT(*)
-		         FROM FOLLOW
-		        WHERE FI_ID = M.USER_NO
-		          AND FW_ID = #{fwId}
-		      )
-		    , (
-		       SELECT COUNT(*)
-		         FROM FOLLOW
-		        WHERE FI_ID = #{userNo}
-		          AND FW_ID = M.USER_NO
-		      ) AS IS_FOLLOW
-		  FROM MEMBER M
-		 WHERE M.USER_NO = #{sellerNo}
+	<!-- 상점 정보 조회 -->
+   <select id="sellerDetail" parameterType="hashmap" resultMap="seller">
+      SELECT M.USER_NO
+           , ROUND(SYSDATE - M.CREATE_DATE) AS MARKET_OPEN
+           , (
+              SELECT COUNT(*)
+                FROM SELL
+               WHERE USER_NO = M.USER_NO
+             ) AS SELL_COUNT
+          , (
+             SELECT COUNT(*)
+               FROM FOLLOW
+              WHERE FW_ID = M.USER_NO
+            ) AS FOLLOW_COUNT
+          , (
+             SELECT COUNT(*)
+               FROM REPORT
+              WHERE REPORTED_NO = M.USER_NO
+            ) AS REPORT_COUNT
+          , (
+              SELECT NVL(AVG(REV_SCORE), 0)
+                FROM SELL S
+                   , REVIEW R
+               WHERE S.SELL_NO = R.SELL_NO
+                 AND S.USER_NO = M.USER_NO
+            ) AS REVIEW_AVG
+          , (
+             SELECT COUNT(*)
+               FROM FOLLOW
+              WHERE FI_ID = M.USER_NO
+                AND FW_ID = #{fwId}
+            )
+          , (
+             SELECT COUNT(*)
+               FROM FOLLOW
+              WHERE FI_ID = #{userNo}
+                AND FW_ID = M.USER_NO
+            ) AS IS_FOLLOW
+        FROM MEMBER M
+       WHERE M.USER_NO = #{sellerNo}
+   </select>
+
+	
+	
+	<!-- 상품목록 더보기 -->
+	<select id="sellListTheBogi" resultMap="sellResultSet">
+		SELECT SELL_NO, CATEGORY_NO, SELL_TITLE, IMAGE_SRC, PRICE, HEART_NUM, CRAWL, CREATE_DATE
+        from (select ROWNUM AS "R", SELL_NO, CATEGORY_NO, SELL_TITLE, IMAGE_SRC, PRICE, 
+                (SELECT COUNT(*) FROM HEART H WHERE H.SELL_NO = S.SELL_NO) AS "HEART_NUM", CRAWL, S.CREATE_DATE AS "CREATE_DATE"
+            FROM SELL S 
+            LEFT JOIN MEMBER M ON(S.USER_NO=M.USER_NO)
+            WHERE S.STATUS = 'Y' 
+            AND SELL_STATUS = 'I' 
+            AND M.STATUS = 'Y') 
+        where SELL_NO BETWEEN #{firstSellNo} AND #{lastSellNo}
+	</select>
+	
+	
+	<!-- 제일 마지막 Sell 번호 조회 -->
+	<select id="finishSellNo" resultType="int">
+		select SELL_NO
+            FROM SELL S 
+            LEFT JOIN MEMBER M ON(S.USER_NO=M.USER_NO)
+            WHERE S.STATUS = 'Y' 
+            AND SELL_STATUS = 'I' 
+            AND M.STATUS = 'Y' 
+            AND ROWNUM = 1
+            ORDER BY SELL_NO DESC
 	</select>
 	
 </mapper>
