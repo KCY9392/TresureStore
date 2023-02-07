@@ -218,8 +218,14 @@
                             <!-- 채팅하기 버튼 -->
                             <div class="purchaseGobtnBox">
                                <c:if test="${s.sellStatus eq 'I' && loginUser.userNo==s.userNo }">
-                                	<button class="chattingbtn-sellDetail" id="chatting-start">수정하기</button>
-                                	<button class="chattingbtn-sellDetail" id="chatting-start">삭제하기</button>
+                               		<c:if test="${s.crawl.equals('N')}">
+                                	<button class="chattingbtn-sellDetail"  onclick="sellUpdateForm(${s.sellNo})">수정하기</button>
+                                	</c:if>
+                                	<c:if test="${s.crawl.equals('Y')}">
+                                	<button class="chattingbtn-sellDetail">수정하기</button>
+                                	</c:if>
+                                	<button class="chattingbtn-sellDetail">삭제하기</button>
+
                                 </c:if>
                                 <c:if test="${loginUser.userNo!=s.userNo }">
                                 <button class="chattingbtn-sellDetail" id="chatting-start">채 팅 하 기</button>
@@ -242,6 +248,12 @@
             </div>
         </div>
     </div>
+    
+     <script>
+		function sellUpdateForm(sellNo){
+			location.href = "${pageContext.request.contextPath}/sell/sellUpdateForm/"+sellNo;
+		}
+	</script>
 
 	<script>
 	$(document).on("click", ".followBtn-sell", (e) => {
@@ -333,7 +345,7 @@
  	   	                type : 'post',
  	   	                data : {sellNo : "${s.sellNo}"},
  	   	                success : function(result){
- 	   	    				if(result == 1) {
+ 	   	    				if(result=="c") {
  	   	     					alert("찜하기 성공");
  	   	     					
  	   	     				$likeBtn.toggleClass('active');
@@ -368,7 +380,7 @@
  				     data : { sellNo : "${s.sellNo}" },
  				     success : function(result){
  				    	 
- 				    	 if(result==1){
+ 				    	 if(result=="f"){
  				    	 alert("찜하기 취소");
  				    	 
  				    	 

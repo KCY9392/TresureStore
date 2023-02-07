@@ -23,7 +23,13 @@
 		<typeAlias type="com.kh.tresure.heart.model.vo.Heart" alias="heart"/>
 		<typeAlias type="com.kh.tresure.review.model.vo.Review" alias="review"/>
 		<typeAlias type="com.kh.tresure.follow.model.vo.Follow" alias="follow"/>
+
+
 		<typeAlias type="com.kh.tresure.report.model.vo.Report" alias="report"/>
+		<typeAlias type="com.kh.tresure.sell.model.vo.Category" alias="category"/>
+		
+
+
 	</typeAliases>
 	
 	<!-- 메퍼 파일 등록 -->

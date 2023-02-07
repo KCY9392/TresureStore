@@ -20,6 +20,7 @@
 
 <style>
 
+
 	.sun_wrap_li > ul img{
   		margin-top: 5px !important;
   	}
@@ -64,6 +65,7 @@
   	}
   	
   	
+
 </style>
 
 </head>
@@ -74,6 +76,7 @@
    <div class="main-section">
    <div class="content2">
    
+
 
 	
 	<div class="list-content">
@@ -158,6 +161,7 @@
 	         </div>
 			
 			<div id="pshow" class="box" style="display:none;">   
+
             <div class="list-area">
                   
                     
@@ -196,6 +200,7 @@
                               </tr>
                               
                               <div class="modal fade" id="review" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
 					            <div class="modal-dialog">
 					             	<div class="modal-content" style="width: 800px; height: 670px; margin-top: 150px; margin-left: -125px;">
 										<div class="modal-header" style="background-color: #fff5ba;">
@@ -254,6 +259,7 @@
 									</div>
 					             </div>
 					          </div>
+
                         </c:forEach>
                      </tbody>
                   </table>
@@ -367,6 +373,7 @@
 	</script>
 
 	<jsp:include page="../common/footer.jsp" />
+
 
 </body>
 </html>
