@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +18,10 @@
 				<p id="ntoFavorites" class="ntoFavorites">
 					<i class="nfas fa-heart"><img
 						src="https://cdn-icons-png.flaticon.com/512/833/833472.png" width="20">
-					<p></p></i>
+						
+					<p>${loginUser.heartCount }</p>
+					
+					</i>
 				</p>
 			</div>
 			<!-- favoritesCount -->
@@ -44,5 +48,11 @@
 			<a href="#" class="ntopText">TOP</a>
 		</div>
 	</div>
+	
+	<script>
+		
+	</script>
+	
+	
 </body>
 </html>

@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kh.tresure.common.Image;
 import com.kh.tresure.review.model.vo.Review;
 import com.kh.tresure.sell.model.dao.SellDao;
+import com.kh.tresure.sell.model.vo.Category;
 import com.kh.tresure.sell.model.vo.Sell;
 import com.kh.tresure.sell.model.vo.SellImg;
 
@@ -187,4 +188,21 @@ public class SellServiceImpl implements SellService  {
 	public Map<String, Object> sellerDetail(Map<String, Integer> map) {
 		return sellDao.sellerDetail(sqlSession, map);
 	}
+	
+	@Override
+	public List<Category> cateList(){
+		return sellDao.cateList(sqlSession);
+	}
+	
+	@Override
+	public List<SellImg> selectSellUpImgList(Map<String, Integer> map) {
+		return sellDao.selectSellUpImgList(map, sqlSession);
+	}
+	
+	@Override
+	public int updateSell(Sell s) {
+
+		return sellDao.updateSell(sqlSession, s);
+	}
+	
 }

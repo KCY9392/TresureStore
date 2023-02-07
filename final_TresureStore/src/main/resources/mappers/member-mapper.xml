@@ -58,6 +58,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<if test="email != null">
 			EMAIL = #{email}
 	</if>
+
+</select>
+
+
+
+<select id="selectMem" parameterType="member" resultType="member">
+	SELECT *
+	FROM MEMBER
+	WHERE USER_NO = #{userNo} AND STATUS = 'Y' 
 </select>
 
    

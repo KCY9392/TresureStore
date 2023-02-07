@@ -53,6 +53,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 </select>
 
+
+
 <delete id="deleteHeart">
  DELETE HEART
  WHERE HEART_NO = #{heartNo}  AND
@@ -71,6 +73,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  WHERE SELL_NO = #{sellNo}  AND
  	   USER_NO = #{userNo}
 </delete>
+
+<update id="addHeartCount" parameterType="heart">
+	UPDATE MEMBER
+	SET HEART_COUNT = HEART_COUNT +1
+	WHERE USER_NO = #{userNo}
+</update>
+
+<update id="minusHeartCount" parameterType="map">
+	UPDATE MEMBER
+	SET HEART_COUNT = HEART_COUNT -1
+	WHERE USER_NO = #{userNo}
+</update>
+
+
+
 
 	
 

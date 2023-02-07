@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.kh.tresure.review.model.vo.Review;
+import com.kh.tresure.sell.model.vo.Category;
 import com.kh.tresure.sell.model.vo.Sell;
 import com.kh.tresure.sell.model.vo.SellImg;
 
@@ -111,4 +112,41 @@ public class SellDao {
 	public Map<String, Object> sellerDetail(SqlSession sqlSession, Map<String, Integer> map) {
 		return sqlSession.selectOne("sellMapper.sellerDetail", map);
 	}
+
+
+	
+	/**
+	 * 상품목록 더보기 */
+	public List<Sell> sellListTheBogi(SqlSession sqlSession, HashMap<String, Object> map) {
+		return sqlSession.selectList("sellMapper.sellListTheBogi", map);
+	}
+
+	/**
+	 * 제일 마지막 Sell 번호 조회 */
+	public int finishSellNo(SqlSession sqlSession) {
+		return sqlSession.selectOne("sellMapper.finishSellNo");
+	}
+	
+	public List<Category> cateList(SqlSession sqlSession){
+		return sqlSession.selectList("sellMapper.cateList");
+	}
+	
+	public List<SellImg> selectSellUpImgList(Map<String, Integer> map, SqlSession sqlSession) {
+		return sqlSession.selectList("sellMapper.selectSellUpImgList", map);
+	}
+	
+	/**
+	 * 상품 수정 */
+	public int updateSell(SqlSession sqlSession, Sell s) {
+		return sqlSession.update("sellMapper.updateSell", s);
+		
+		
+
+	}
+	/**
+	 * 상품 이미지 수정 */
+	public int updateSellImgList(SqlSession sqlSession, List<SellImg> sellImageList) {
+		return sqlSession.update("sellMapper.updateSellImgList", sellImageList);
+	}
+
 }

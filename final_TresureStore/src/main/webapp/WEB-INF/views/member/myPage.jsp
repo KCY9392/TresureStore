@@ -1,11 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="/tresure/resources/css/mypage/mypageMain.css">
 <link rel="stylesheet" href="/tresure/resources/css/common/font.css">
@@ -16,99 +16,144 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     
-      
+  <style>
+  
+     a:hover{
+        text-decoration: none !important;
+     }
+     .sun_wrap_li > ul img{
+        margin-top: 5px !important;
+     }
+     
+     .catebox3{
+      width: 1000px !important;
+   }
+
+   .inner-menu{
+      width: 700px !important;
+   }
+   
+   .catebox.cate1, .catebox.cate2, .catebox.cate3, .catebox.cate4{
+      margin-right: 40px;
+   }
+   
+   .catebox.cate7, .catebox.cate9, .catebox.cate10{
+      margin-left: 30px;
+   }
+   
+   .catebox.cate8{
+      margin-left: 50px;
+   }
+  
+  
+     .market-open img{
+        margin-top: 5px;
+     }
+     
+     .search2{
+        margin-top: 0px !important;
+     }
+     
+     .nfavorites{
+           padding: 5px 0px !important;
+            padding-top: 10px !important;
+            height: 80px !important;
+     }
+     
+     .ntheTop{
+        height: 40px !important;
+     }
+  </style>
 
 </head>
 <body>
-	<jsp:include page="../common/header.jsp"/>
-	<jsp:include page="../common/sideBar.jsp"/>
-	 	 
-	<div class="main-section">
+   <jsp:include page="../common/header.jsp"/>
+   <jsp:include page="../common/sideBar.jsp"/>
+        
+   <div class="main-section">
         
     <div class="content2">
 
         <div class="profile">
             
-<!-- ªÛ¡° µÓ±ﬁ ¿ÃπÃ¡ˆ ≥™ø¿¥¬ π⁄Ω∫ -->            
+<!-- ÏÉÅÏ†ê Îì±Í∏â Ïù¥ÎØ∏ÏßÄ ÎÇòÏò§Îäî Î∞ïÏä§ -->            
             <div class="profile-image">
            <c:if test="${reviewAvg > 4.5}"> 
-                                 <img src="/tresure/resources/images/icon/grade_3.png" height="100%" width="100%"/>
+                                 <img src="/tresure/resources/images/icon/backGray_grade3.png" height="100%" width="100%"/>
                               </c:if> 
                               <c:if test="${ 4 <= reviewAvg && reviewAvg < 4.5 }"> 
-                                 <img src="/tresure/resources/images/icon/grade2.png" height="100%" width="100%"/> 
+                                 <img src="/tresure/resources/images/icon/backGray_grade2.png" height="100%" width="100%"/> 
                               </c:if> 
                               <c:if test="${ 3.5 <= reviewAvg && reviewAvg < 4 }"> 
-                                 <img src="/tresure/resources/images/icon/grade1.png" height="100%" width="100%"/> 
+                                 <img src="/tresure/resources/images/icon/backGray_grade1.png" height="100%" width="100%"/> 
                               </c:if>
                               <c:if test="${ reviewAvg == null  || reviewAvg < 3.5 }">
-                                 <img src="/tresure/resources/images/icon/grade0.png" height="100%" width="100%"/>
+                                 <img src="/tresure/resources/images/icon/backGray_grade0.png" height="100%" width="100%"/>
                               </c:if>  
 
 
             </div>
             <br>
-            <a href="#" class="market-grade" data-toggle="modal" data-target="#myModal">ªÛ¡°µÓ±ﬁ æ»≥ª</a>
+            <a class="market-grade" data-toggle="modal" data-target="#myModal">ÏÉÅÏ†êÎì±Í∏â ÏïàÎÇ¥</a>
             <div class="modal fade" id="myModal" data-backdrop="static" data-keyboard="false">
-    			<div class="modal-dialog modal-xl modal-dialog-centered">
-     		 <div class="modal-content">
-      
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">µÓ±ﬁ æ»≥ª</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        
-        <!-- Modal body -->
-        <div class="modal-body">
-            <img class="card-img-top rounded img-fluid" src="/tresure/resources/images/icon/±◊∏≤1.png">
-        </div>
-        
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-        
-      </div>
+             <div class="modal-dialog modal-xl modal-dialog-centered">
+             
+            <div class="modal-content" style="width:700px;height: 580px; margin: auto;">
+
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">Îì±Í∏â ÏïàÎÇ¥</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                <img src="/tresure/resources/images/icon/x-modalImage.png" width="35px" height="30px" style="margin-top:5px;">
+                </button>
+              </div>
+              
+              <!-- Modal body -->
+              <div class="modal-body" style="position: relative;flex: 1 1 auto;padding: 2rem;">
+                  <img class="card-img-top rounded img-fluid" src="/tresure/resources/images/icon/Í∑∏Î¶º1.png">
+              </div>
+              
+           </div>
     </div>
 </div>
 
         </div>
 
-<!-- ªÛ¡°∏Ì & ∞≥æ˜≥Ø¬• & ∆»∑Œøˆºˆ & ∆«∏≈ªÛ«∞ºˆ & ªÛ¡°Ω≈∞Ìºˆ ≥ªøÎ π⁄Ω∫ -->
+<!-- ÏÉÅÏ†êÎ™Ö & Í∞úÏóÖÎÇ†Ïßú & ÌåîÎ°úÏõåÏàò & ÌåêÎß§ÏÉÅÌíàÏàò & ÏÉÅÏ†êÏã†Í≥†Ïàò ÎÇ¥Ïö© Î∞ïÏä§ -->
         <div class="info">
             <div class="info-table">
-                <div class="market-name">ªÛ¡°<h3>${loginUser.userNo }</h3>»£¡°</div><br><br>
+                <div class="market-name">ÏÉÅÏ†ê ${loginUser.userNo} Ìò∏Ï†ê</div>
                 <div class="info-list">
                     <div class="market-open">
-                        <img src="/tresure/resources/images/icon/ªÛ¡°ø¿«¬.png" width="20" height="15" alt="ªÛ¡°ø¿«¬¿œ æ∆¿Ãƒ‹">
-                        &nbsp;ªÛ¡°ø¿«¬¿œ<div class="market-opendate"><span>${marketOpen }</span>¿œ¿¸</div>
+                        <img src="/tresure/resources/images/icon/ÏÉÅÏ†êÏò§Ìîà.png" width="20" height="15" alt="ÏÉÅÏ†êÏò§ÌîàÏùº ÏïÑÏù¥ÏΩò" style="margin-top: 5px;">
+                        &nbsp;ÏÉÅÏ†êÏò§ÌîàÏùº<div class="market-opendate"><span>${marketOpen }</span>ÏùºÏ†Ñ</div>
                     </div>
 
                     <div class="follower">
-                        <img src="/tresure/resources/images/icon/∆»∑Œøˆ.png" width="20" height="15" alt="∆»∑Œøˆ æ∆¿Ãƒ‹">
-                        &nbsp;∆»∑Œøˆ<div class="market-follower"><span>${followCount }</span> ∏Ì</div>
+                        <img src="/tresure/resources/images/icon/ÌåîÎ°úÏõå.png" width="20" height="15" alt="ÌåîÎ°úÏõå ÏïÑÏù¥ÏΩò" style="margin-top: 5px;">
+                        &nbsp;ÌåîÎ°úÏõå<div class="market-follower"><span>${followCount }</span> Î™Ö</div>
                     </div>
 
                     <div class="sell-product">
-                        <img src="/tresure/resources/images/icon/∆«∏≈ºˆ.png" width="20" height="15" alt="ªÛ«∞∆«∏≈ æ∆¿Ãƒ‹">
-                        &nbsp;ªÛ«∞∆«∏≈<div class="market-sell"> <span>${sellCount }</span> »∏</div>
+                        <img src="/tresure/resources/images/icon/ÌåêÎß§Ïàò.png" width="20" height="15" alt="ÏÉÅÌíàÌåêÎß§ ÏïÑÏù¥ÏΩò" style="margin-top: 5px;"> 
+                        &nbsp;ÏÉÅÌíàÌåêÎß§<div class="market-sell"> <span>${sellCount }</span> Ìöå</div>
                     </div>
 
                     <div class="report">
-                        <img src="/tresure/resources/images/icon/Ω≈∞Ìºˆ.png" width="20" height="15" alt="Ω≈∞Ì æ∆¿Ãƒ‹">
-                        &nbsp;Ω≈∞Ì<div class="market-report"> <span>${reportCount }</span>»∏</div>
+                        <img src="/tresure/resources/images/icon/Ïã†Í≥†Ïàò.png" width="20" height="15" alt="Ïã†Í≥† ÏïÑÏù¥ÏΩò" style="margin-top: 5px;">
+                        &nbsp;Ïã†Í≥†<div class="market-report"> <span>${reportCount }</span>Ìöå</div>
                     </div>
                     <br><br>
                 </div>
                 <br><br><br>
 
                 <div class="button-area1">
-                    <a href="${pageContext.request.contextPath }/follow/followList" class= "following-list">&nbsp;&nbsp;&nbsp;&nbsp;∆»∑Œ¿◊ ∏Ò∑œ</a>        
+                    <a href="${pageContext.request.contextPath }/follow/followList" class= "following-list">&nbsp;&nbsp;&nbsp;&nbsp;ÌåîÎ°úÏûâ Î™©Î°ù</a>        
                 </div>
                 
                 <div class="button-area2">
-                	<br><br>
-                    <a class="Withdrawal" href="#" data-toggle="modal">≈ª≈«œ±‚</a>
+                   <br><br>
+                    <a class="Withdrawal" href="${pageContext.request.contextPath }/delete" data-toggle="modal">ÌÉàÌá¥ÌïòÍ∏∞</a>
                 </div>
             </div>
         </div>
@@ -117,97 +162,93 @@
     
     <br><br>
     
-<!-- ªÛ«∞ & ªÛ¡°»ƒ±‚ & ¬Ú∏Ò∑œ & ∞≈∑°≥ªø™ πˆ∆∞µÈ -->
-    <div class="list-form">
+<!-- ÏÉÅÌíà & ÏÉÅÏ†êÌõÑÍ∏∞ & Ï∞úÎ™©Î°ù & Í±∞ÎûòÎÇ¥Ïó≠ Î≤ÑÌäºÎì§ -->
+    <div class="list-form" style="margin: auto;padding-left: 50px;">
     <fieldset id="mForm">
-    	<div class="list-content">
-    		<div class="list-a">
-    			<button class="market-product"  type="button" onclick="show(this);" id="product" name="show"><span class="rproduct">ªÛ«∞</span></button>
-				<button class="market-review" type="button" onclick="show(this);" id="review"name="show"><span class="rrview">ªÛ¡°»ƒ±‚</span></button>
-				<button class="market-heart" type="button"onclick="show(this);" id="heart"name="show"><span class="rheart">¬Ú</span></button>
-				<button class="market-tracsac" onclick="tracsac();"><span class="rtransac">∞≈∑°≥ªø™</span></button>
-    		</div>
-    		<br><br>
-    	</div>
-    	
-    	
-    	
-<!-- ªÛ«∞ πˆ∆∞ ≈¨∏Ø Ω√, ≥™ø¿¥¬ π⁄Ω∫ -->   	
-    	<div id="productshow" class="box">
-	     		<div class="displayList" style="flex-wrap: wrap; display:flex; margin:auto; padding-top:23px; padding-left:15px;">
-	     	<c:forEach var="s" items="${sellList}" begin="0" end="${fn:length(sellList)}" step="1" varStatus="status">
-	                  <div class="item col-3" style="cursor: pointer; height: 300px;
-	                                           width: 200px !important;
-	                                           padding: 0px 20px !important;
-	                                           margin-bottom:10px !important;">
-	                     <div class="item" onclick="sellDetail(${s.sellNo})">
-	                        <div id="itemSolid" class="slist-items" style="border: 1px solid rgb(238, 238, 238)">
-	                           <c:if test="${s.imgSrc != null}">
-	                           	<c:if test="${s.crawl.equals('Y')}">
-											<img src="${s.imgSrc}" width="100%" height="150px;"
-											class="rounded float-start" alt="">
-										</c:if>
-										<c:if test="${s.crawl.equals('N')}">
-										<img src="${pageContext.request.contextPath}${s.imgSrc}" width="100%" height="150px;"
-											class="rounded float-start" alt="">
-										</c:if>
-	                           
-	                            
-	                              <c:if test="${s.sellStatus eq 'C' }">
-	                              <div class="over-img">
-	                      		  </div>
-	                      		  <div class="text-c" style="color: white;
-								    margin-left: 60px;
-								    margin-top: -93px;
-								    margin-bottom: 75px;">
-	                      		  <h3>∆«∏≈øœ∑·</h3>
-	                      		  </div>
-	                             
-	                              </c:if>
-	                        
-	                           
-	                          
-	                              
-	                           </c:if>
-	                           <c:if test="${s.imgSrc == null}">
-	                           
-	                           </c:if>
-	                           <div class="price-time"
-	                              style="margin-block-start: 0.33em; margin-block-end: -1.33em;">
-	                              <h5 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">&nbsp;${s.sellTitle}</h5>
-	                              <p>&nbsp;¢æ &nbsp;${s.heartNum}</p>
-	                           </div>
-	                           <div class="price-time">
-	                              <p class="displayPrice" style="margin-top: 0;
-    margin-bottom: 1rem;">&nbsp;${s.price}ø¯</p>
-	                              <h5 class="displayTime">&nbsp;${s.createDate}
-	                               
-	                              	 
-	                              </h5>
-	                              <c:if test="${s.sellStatus eq 'I' }">
-	                           <h5 class="sellStatus" style="font-size: 1rem;">∆«∏≈¡ﬂ</h5>
-	                           </c:if>	
-	                           <c:if test="${s.sellStatus eq 'C' }">
-	                           <h5 class="sellStatus"style="font-size: 1rem;">∆«∏≈øœ∑·</h5>
-	                           </c:if>
-	                             
-	                              
-	                           </div>
-	                           
-	                        </div>
-	                     </div>
-	                  </div>
-	       </c:forEach> 
-	      </div>
+       <div class="list-content">
+          <div class="list-a">
+             <button class="market-product"  type="button" onclick="show(this);" id="product" name="show"><span class="rproduct">ÏÉÅÌíà</span></button>
+            <button class="market-review" type="button" onclick="show(this);" id="review"name="show"><span class="rrview">ÏÉÅÏ†êÌõÑÍ∏∞</span></button>
+            <button class="market-heart" type="button"onclick="show(this);" id="heart"name="show"><span class="rheart">Ï∞ú</span></button>
+            <button class="market-tracsac" onclick="tracsac();"><span class="rtransac">Í±∞ÎûòÎÇ¥Ïó≠</span></button>
+          </div>
+          <br><br>
        </div>
        
        
        
-<!-- ªÛ¡°»ƒ±‚ πˆ∆∞ ≈¨∏Ø Ω√, ≥™ø¿¥¬ π⁄Ω∫ -->       
-       <div class="box box2" id="reviewshow" style="display:none;">
+<!-- ÏÉÅÌíà Î≤ÑÌäº ÌÅ¥Î¶≠ Ïãú, ÎÇòÏò§Îäî Î∞ïÏä§ -->      
+       <div id="productshow" class="box">
+              <div class="displayList" style="flex-wrap: wrap; display:flex; margin:auto; padding-top:23px; padding-left:15px;">
+           <c:forEach var="s" items="${sellList}" begin="0" end="${fn:length(sellList)}" step="1" varStatus="status">
+                     <div class="item col-3" style="cursor: pointer; height: 300px;
+                                              width: 200px !important;
+                                              padding: 0px 20px !important;
+                                              margin-bottom:10px !important;">
+                        <div class="item" onclick="sellDetail(${s.sellNo})">
+                           <div id="itemSolid" class="slist-items" style="border: 1px solid rgb(238, 238, 238)">
+                              <c:if test="${s.imgSrc != null}">
+                                 <c:if test="${s.crawl.equals('Y')}">
+                                 <img src="${s.imgSrc}" width="100%" height="150px;"
+                                 class="rounded float-start" alt="">
+                              </c:if>
+                              <c:if test="${s.crawl.equals('N')}">
+                              <img src="${pageContext.request.contextPath}${s.imgSrc}" width="100%" height="150px;"
+                                 class="rounded float-start" alt="">
+                              </c:if>
+                              
+                               
+                                 <c:if test="${s.sellStatus eq 'C' }">
+                                 <div class="over-img">
+                                 </div>
+                                 <div class="text-c" style="color: white;
+                            margin-left: 60px;
+                            margin-top: -93px;
+                            margin-bottom: 75px;">
+                                 <h3>ÌåêÎß§ÏôÑÎ£å</h3>
+                                 </div>
+                                
+                                 </c:if>
+
+                              </c:if>
+                              <c:if test="${s.imgSrc == null}">
+                              
+                              </c:if>
+                              <div class="price-time"
+                                 style="margin-block-start: 0.33em; margin-block-end: -1.33em;">
+                                 <h5 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">&nbsp;${s.sellTitle}</h5>
+                                 <p style="font-size:18px;">&nbsp;<img src="/tresure/resources/images/icon/heart.png" width="15px" height="15px" style="margin-top:2px;"> &nbsp;${s.heartNum}</p>
+                              </div>
+                              <div class="price-time">
+                                 <p class="displayPrice" style="margin-top: 0;margin-bottom: 1rem; font-size:20px;">&nbsp;${s.price}Ïõê</p>
+                                 <h5 class="displayTime">&nbsp;${s.createDate}
+                                  
+                                     
+                                 </h5>
+                                 <c:if test="${s.sellStatus eq 'I' }">
+                              <h5 class="sellStatus" style="font-size: 1rem;">ÌåêÎß§Ï§ë</h5>
+                              </c:if>   
+                              <c:if test="${s.sellStatus eq 'C' }">
+                              <h5 class="sellStatus"style="font-size: 1rem;">ÌåêÎß§ÏôÑÎ£å</h5>
+                              </c:if>
+                                
+                                 
+                              </div>
+                              
+                           </div>
+                        </div>
+                     </div>
+          </c:forEach> 
+         </div>
+       </div>
+       
+       
+       
+<!-- ÏÉÅÏ†êÌõÑÍ∏∞ Î≤ÑÌäº ÌÅ¥Î¶≠ Ïãú, ÎÇòÏò§Îäî Î∞ïÏä§ -->       
+       <div class="box box2" id="reviewshow" style="display:none; border: 4px solid #ffe8cb; border-radius: 12px;">
        <c:forEach var="r" items="${reviewList}" begin="0" end="${fn:length(reviewList)}" step="1" varStatus="status">
        <div class="review-table">
-    <table>
+    <table style="width: 800px;margin-left: 140px;">
     
         <tr>
        
@@ -229,7 +270,7 @@
            </td>
         
        
-        <td><h3>${r.userNo }»£¡°</h3></td>
+        <td><h3>${r.userNo }Ìò∏Ï†ê</h3></td>
       
      
         <td>${r.revContent }</td>
@@ -252,39 +293,38 @@
        
        
        
-<!-- ¬Ú∏Ò∑œ πˆ∆∞ ≈¨∏Ø Ω√, ≥™ø¿¥¬ π⁄Ω∫ -->
+<!-- Ï∞úÎ™©Î°ù Î≤ÑÌäº ÌÅ¥Î¶≠ Ïãú, ÎÇòÏò§Îäî Î∞ïÏä§ -->
        <div class="box box3" id="heartshow" style="display:none; padding-left: 30px; padding-top: 20px;">
-       	 <div class="allCheck">
-          <input type="checkbox" name="allCheck" id="allCheck" /><label for="allCheck">∏µŒ º±≈√</label> 
+           <div class="allCheck">
+          <input type="checkbox" name="allCheck" id="allCheck" /><label for="allCheck">Î™®Îëê ÏÑ†ÌÉù</label> 
          </div>
-         
-         
          <div class="delBtn">
-          <button type="button" class="selectDelete_btn">º±≈√ ªË¡¶</button> 
+          <button type="button" class="selectDelete_btn">ÏÑ†ÌÉù ÏÇ≠Ï†ú</button> 
          </div>
          
+         <br>
          <br>
          <br>
         
         <c:forEach items="${heartList}" var="h" begin="0" end="${fn:length(heartList)}" step="1" varStatus="status">
         
-	        <div class="list-box">
-		         <div class="checkBox">
-		           <input type="checkbox" name="chBox" class="chBox" data-heartNum="${h.heartNo}" />
-		         </div>
-		        
-		         <div class="thumb" onclick="sellDetail(${h.sellNo})">
-		           <img src="${h.imgSrc}"  width="78px" height="78px" style="margin-top: -15px;"/>
-		         </div>
-		         
-		         <div class="gdsInfo" onclick="sellDetail(${h.sellNo})">
-		           <p style="margin-top: 18px;">
-		             <span>${h.sellTitle}</span><br>
-		             <span>${h.price }ø¯</span><br>
-		             <span>${h.createDate }</span><br>
-		           </p>
-		         </div>  
-		    </div> 
+           <div class="list-box">
+               <div class="checkBox">
+                 <input type="checkbox" name="chBox" class="chBox" data-heartNum="${h.heartNo}" />
+               </div>
+              
+               <div class="thumb" onclick="sellDetail(${h.sellNo})">
+                 <img src="${h.imgSrc}"  width="78px" height="78px" style="margin-top: -15px;"/>
+               </div>
+               
+               <div class="gdsInfo" onclick="sellDetail(${h.sellNo})">
+                 <p style="margin-top: 18px;">
+                   <span>${h.sellTitle}</span><br><br>
+                   <span style="float: left;color: #bdb7b7;font-size: 21px;">${h.createDate }</span>
+                   <span style="font-size:30px; float:right; margin-right:100px;">${h.price }Ïõê</span><br>
+                 </p>
+               </div>  
+          </div> 
         </c:forEach>
        </div>
    </fieldset>
@@ -292,16 +332,16 @@
 
 </div>
 <script>
-		function sellDetail(sellNo){
-			location.href = "${pageContext.request.contextPath}/sell/sellDetail/"+sellNo;
-		}
-	</script>
-	
-	<script>
-		function tracsac(){
-			location.href = "${pageContext.request.contextPath}/member/tracsac";
-		}
-	</script>
+      function sellDetail(sellNo){
+         location.href = "${pageContext.request.contextPath}/sell/sellDetail/"+sellNo;
+      }
+   </script>
+   
+   <script>
+      function tracsac(){
+         location.href = "${pageContext.request.contextPath}/member/tracsac";
+      }
+   </script>
 <script>
 
 $("#allCheck").click(function(){
@@ -325,7 +365,7 @@ $(".chBox").click(function(){
    
      <script>
      $(".selectDelete_btn").click(function(){
-   var confirm_val = confirm("¡§∏ª ªË¡¶«œΩ√∞⁄Ω¿¥œ±Ó?");
+   var confirm_val = confirm("Ï†ïÎßê ÏÇ≠Ï†úÌïòÏãúÍ≤†ÏäµÎãàÍπå?");
    
    if(confirm_val) {
     var checkArr = [];
@@ -344,11 +384,11 @@ $(".chBox").click(function(){
      type : 'post',
      data : { chbox : checkArr },
      success : function(){
-      console.log("º∫∞¯");
+      console.log("ÏÑ±Í≥µ");
       location.reload();
      },
      error:function(){
-        console.log("Ω«∆–")
+        console.log("Ïã§Ìå®")
      }
    
     });
