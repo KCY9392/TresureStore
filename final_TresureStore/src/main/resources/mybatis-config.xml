@@ -24,9 +24,11 @@
 		<typeAlias type="com.kh.tresure.review.model.vo.Review" alias="review"/>
 		<typeAlias type="com.kh.tresure.follow.model.vo.Follow" alias="follow"/>
 
+
 		<typeAlias type="com.kh.tresure.report.model.vo.Report" alias="report"/>
 		<typeAlias type="com.kh.tresure.sell.model.vo.Category" alias="category"/>
 		
+
 
 	</typeAliases>
 	
@@ -39,6 +41,7 @@
 		<mapper resource="/mappers/heart-mapper.xml"/>
 		<mapper resource="/mappers/review-mapper.xml"/>
 		<mapper resource="/mappers/follow-mapper.xml"/>
+		<mapper resource="/mappers/report-mapper.xml"/>
 		
 	</mappers>
 

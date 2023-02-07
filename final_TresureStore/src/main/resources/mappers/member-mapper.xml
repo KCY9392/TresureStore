@@ -22,13 +22,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <select id="selectExistenceStatus" parameterType="member" resultType="int">
 	SELECT COUNT(*)
 	FROM MEMBER
-	WHERE STATUS = 'Y' 
+	WHERE STATUS = 'Y'
 	AND
 	<choose>
-		<when test="phone != null">
+		<when test="phone != null and email == null">
 			PHONE = #{phone}
 		</when>
-		<when test="email != null">
+		<when test="phone == null and email != null">
 			EMAIL = #{email}
 		</when>
 	</choose>
@@ -46,18 +46,41 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</if>
 </insert>
 
-<!-- 로그인한 회원객체 select -->
-<select id="loginAndMemberEnroll" parameterType="member" resultMap="memberResultSet">
+<!-- 카카오로 로그인한 회원객체 select -->
+<select id="loginAndMemberEnrollKaKako" parameterType="member" resultMap="memberResultSet">
 	SELECT *
 	FROM MEMBER
 	WHERE STATUS = 'Y' 
-	AND 
-	<if test="phone != null">
+	AND EMAIL = #{email}
+</select>
+
+<!-- 본인인증으로 회원객체 select -->
+<select id="loginAndMemberEnrollauAuthentication" parameterType="member" resultMap="memberResultSet">
+	SELECT *
+	FROM MEMBER
+	WHERE STATUS = 'Y' 
+	AND PHONE = #{phone}
+</select>
+
+<!-- 회원탈퇴  -->
+<update id="deleteMember" parameterType="int">
+	DELETE
+	FROM MEMBER
+	WHERE USER_NO = #{userNo}
+</update>
+
+<!-- 회원탈퇴한 사람인지 확인해보기 -->
+<select id="selectUserState" parameterType="member" resultType="int">
+	SELECT COUNT(*)
+	FROM MEMBER
+	WHERE STATUS = 'N'
+	AND
+	<choose>
+		<when test="phone != null and email == null">
 			PHONE = #{phone}
-	</if>
-	<if test="email != null">
+		</when>
+		<when test="phone == null and email != null">
 			EMAIL = #{email}
-	</if>
 
 </select>
 
@@ -67,7 +90,41 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	SELECT *
 	FROM MEMBER
 	WHERE USER_NO = #{userNo} AND STATUS = 'Y' 
+
 </select>
 
+<!-- 탈퇴한 회원 새롭게 로그인하는 메소드 -->
+<update id="updateUserState" parameterType="member">
+	UPDATE MEMBER
+	SET STATUS = 'Y' , USER_NO = SEQ_MNO.NEXTVAL
+	WHERE STATUS = 'N'
+	AND
+	<choose>
+		<when test="phone != null and email == null">
+			PHONE = #{phone}
+		</when>
+		<when test="phone == null and email != null">
+			EMAIL = #{email}
+		</when>
+	</choose>
+</update>
+
+<!-- 회원번호로 그 사람 객체 가져오기 -->
+<select id="selectUser" parameterType="int" resultType="member">
+	SELECT *
+	FROM MEMBER
+	WHERE USER_NO = #{userNo}
+</select>
+
+<insert id="insertLeaveUser" parameterType="member">
+	<if test="phone != null">
+		INSERT INTO MEMBER (USER_NO, USER_NAME, PHONE, BIRTH, STATUS) 
+		VALUES (#{userNo} ,#{userName}, #{phone}, #{birth}, 'N')
+	</if>
+	<if test="email != null">
+		INSERT INTO MEMBER (USER_NO, USER_NAME, EMAIL , BIRTH, STATUS) 
+		VALUES (#{userNo} ,#{userName}, #{email}, #{birth}, 'N')
+	</if>
+</insert>
    
 </mapper>

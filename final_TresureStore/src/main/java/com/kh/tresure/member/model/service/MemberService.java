@@ -10,4 +10,7 @@ public interface MemberService {
 
 	// 로그인 및 회원가입 하는 메소드
 	public Member loginAndMemberEnroll(Member member);
+
+	// 회원 탈퇴하기
+	public void deleteMember(int userNo);
 }

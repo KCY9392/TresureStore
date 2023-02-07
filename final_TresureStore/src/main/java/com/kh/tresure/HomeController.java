@@ -1,8 +1,10 @@
 package com.kh.tresure;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -12,11 +14,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kh.tresure.member.model.service.KakaoAPI;
 import com.kh.tresure.member.model.service.MemberService;
 import com.kh.tresure.member.model.vo.Member;
+import com.kh.tresure.review.model.vo.Review;
 import com.kh.tresure.sell.model.service.SellService;
 import com.kh.tresure.sell.model.vo.Sell;
 
@@ -49,6 +56,8 @@ public class HomeController {
 		
 		
 		String access_Token = (String)session.getAttribute("access_Token");
+		
+		
 		if(access_Token != null) {
 			
 			Member member = kakao.getUserInfo(access_Token);
@@ -61,9 +70,34 @@ public class HomeController {
 	    	}
 		}
 		
+		int finishSellNo = sellService.finishSellNo();
+		
 		model.addAttribute("sellList", sList);
+		model.addAttribute("finishSellNo", finishSellNo);
 		
 		return "home";
+	}
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/errors/error500")
+	public String errors500() {
+		
+		return "/errors/error500";
+	}
+	
+	@RequestMapping(value = "/errors/error405")
+	public String errors405() {
+		
+		return "/errors/error405";
+	}
+	
+	@RequestMapping(value = "/errors/error404")
+	public String errors404() {
+		
+		return "/errors/error404";
 	}
 	
 }

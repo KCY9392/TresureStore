@@ -69,13 +69,15 @@
        
        
     #updateBtn{
-       margin: auto;
-       width: 300px;
-       height: 60px;
-       background-color: #f9c0a2;
-       font-size: 23px;
-       border: 2px solid;
-       border-radius: 12px;
+
+    	margin: auto;
+	    width: 300px;
+	    height: 60px;
+	    background-color: #f9c0a2;
+	    font-size: 23px;
+	    border: 2px solid;
+	    border-radius: 12px;
+
     }   
    
    /* 리뷰 별점 */     
@@ -155,4 +157,5 @@ article {
     position: absolute;
     left: 0;
 }
+
 

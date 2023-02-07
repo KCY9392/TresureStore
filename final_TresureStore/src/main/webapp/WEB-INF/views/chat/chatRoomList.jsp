@@ -11,106 +11,17 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <!-- 헤더 js -->
     <script type="text/javascript" src="/tresure/resources/js/header.js"></script>
+    <!-- 해당페이지 Js -->
+     <script type="text/javascript" src="/tresure/resources/js/chatRoomList.js"></script>
     <!-- Alert 창  -->
-   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-   <!-- alertify -->
-   <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-   <!-- alertify css -->
-   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <!-- alertify -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <!-- alertify css -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
     <title>보물상점</title>
-
-    <style>
-
-       
-         .main-section
-         { 
-                 width: 67%;
-             margin: auto;
-             font-size: 25px; 
-         } 
-
-        .innerOuter{
-           padding: 10%;
-        }
-
-        /*보물톡 text*/
-        .innerOuter span {
-            font-weight: bold;
-            font-size: 40px;
-        }
-
-        /*차단목록 a태그*/
-        .block-list {
-            text-decoration: none;
-          color: gold;
-          float: right;
-          font-size: 22px;
-          border: 2px solid gold;
-          width: 90px;
-          text-align: center;
-          height: 30px;
-          padding-top: 12px;
-          margin-right: 10px;
-          border-radius: 15px;
-        }
-        
-        .block-list:hover{
-           background-color:gold;
-           color:white;
-        }
-        
-         .table{
-               border: 2px solid #dedede;
-             width: 1000px;
-             margin: auto;
-             border-radius: 15px;
-        } 
-
-      table th{
-         font-size:22px !important;
-      }
-      
-      table tr{
-         margin: auto;
-      }
-      
-        thead {
-            color: rgb(248, 212, 12);
-            text-align: center;
-        }
-
-        tbody {
-            text-align: center;
-        }
-        
-        table .chat-exit{
-           font-family: 'koverwatch';
-           padding:0px;
-           background-color:gold;
-            color:grey;
-           border:none;
-           border-radius : 8%;
-           cursor: pointer;
-           width:40px;
-           hegith : 40px;
-           font-size: 20px;
-          border: 2px solid;
-          width: 60px;
-          height: 30px;
-        }
-        .chat-exit:hover{
-           cursor:ponter;
-        }
-        
-        table .storeName:hover td:not(:last-child){
-           background-color : #ebeae7;
-           cursor:pointer;
-           border-radius : 5px;
-        }
-
-    </style>
-
-
+    <!-- css 링크 -->
+    <link rel="stylesheet" href="/tresure/resources/css/chat/chatRoomList.css">    
 </head>
 
 <body>
@@ -121,7 +32,7 @@
        <div class="main-section">
             <div class="innerOuter">
                 <img src="/tresure/resources/images/icon/mainLogo.png" width="40" style="margin-left: 20px;">&nbsp;<span>보물톡</span>
-                <a class="block-list" href="${pageContext.request.contextPath}/chat/chatBlockList">차단목록</a>
+                <a class="block-list" onclick="methodPost();">차단목록</a>
 
                 <c:choose>
                     <%--조회한 채팅 목록이 없을 때    --%>
@@ -269,10 +180,19 @@
                     </c:otherwise>
                 </c:choose>
            </div>
-            </div>
+           </div>
    
     <jsp:include page="../common/footer.jsp" />
-
+	<script>
+		function methodPost() {
+			let form = document.createElement('form');
+			form.setAttribute('method', 'post');
+			form.setAttribute('action', '${pageContext.request.contextPath}/chat/chatBlockList');
+			document.body.appendChild(form);
+			form.submit();
+			
+		}
+	</script>
 
 
 </body>

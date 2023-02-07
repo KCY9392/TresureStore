@@ -14,6 +14,10 @@ import com.kh.tresure.sell.model.vo.SellImg;
 public interface SellService {
 	
 	/**
+	 * 상품목록 더보기 */
+	public List<Sell> sellListTheBogi(int lastSellNo);
+
+	/**
 	 * 상품목록 조회 */
 	public List<Sell> sellListselect();
 	
@@ -53,6 +57,7 @@ public interface SellService {
 	// 리뷰 리스트
 	public List<Review> reviewList(int userNo);
 
+
 	
 	public List<Category> cateList();
 	
@@ -62,7 +67,12 @@ public interface SellService {
 
   
 
+
 	
 	public Map<String, Object> sellerDetail(Map<String, Integer> map);
+
+	/**
+	 * 제일 마지막 sell 번호 조회 */
+	public int finishSellNo();
 
 }

@@ -171,7 +171,8 @@ public class MemberController {
 		
 		//받은 code로 access_token 가져오기
 		String access_Token = kakao.getAccessToken(code); 
-	    
+		
+		
 	    //access_token으로 user정보 가져오기 (닉네임, 이메일계정)
 	    Member member = kakao.getUserInfo(access_Token);
 	    logger.info("login Controller : " + member.toString());
@@ -218,14 +219,32 @@ public class MemberController {
 	 */
 	@RequestMapping(value="/kakaounlink")
 	public String unlink(HttpSession session) {
-		kakao.unlink((String)session.getAttribute("access_token"));
+		kakao.unlink((String)session.getAttribute("access_Token"));
 		session.invalidate();
+		session.removeAttribute("loginUser");
 		session.setAttribute("alertMsg", "다음에 또 오세요 ^ㅁ^");
 		return "redirect:/";
 	}
 	
 	
-	
+	// 회원탈퇴
+	@RequestMapping(value = "delete", method = RequestMethod.GET)
+	public String deleteMember(HttpSession session) {
+	      
+		int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
+
+		memberService.deleteMember(userNo);
+		
+		if((String)session.getAttribute("access_Token") != null) {
+			kakao.unlink((String)session.getAttribute("access_Token"));
+			session.removeAttribute("access_Token");
+			session.removeAttribute("loginUser");
+			session.setAttribute("alertMsg", "감사했습니다 ^_^7");
+		}
+      
+		return "redirect:/";
+	}
+	   
 	
 	
 	

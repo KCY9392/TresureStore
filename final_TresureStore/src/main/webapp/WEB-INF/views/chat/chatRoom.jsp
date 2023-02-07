@@ -16,7 +16,11 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/header.js"></script>
 	<!-- 웹소켓 js -->
 	<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-	 <!-- alertify -->
+	<!-- 결제 js -->
+	<script type="text/javascript" src="/tresure/resources/js/payment.js?ver=1"></script>
+	<!-- iamport.payment.js -->
+	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+	<!-- alertify -->
 	<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 	<!-- alertify css -->
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
@@ -26,385 +30,9 @@
    	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
 	<!-- Alert 창  -->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	<!-- css 링크 -->
+    <link rel="stylesheet" href="/tresure/resources/css/chat/chatRoom.css">   
 
-
-    <style>
-        /* ---전체 div --- */
-        .main-section{
-            margin-top: 80px;
-        }
-        .inner-section{
-            box-sizing: border-box;
-            height: 1000px;
-            width: 80%;
-            margin : auto;
-            padding:1%;
-            position: static;/*기준*/
-
-        }
-
-        /*왼,오 박스 공통 css*/
-        .main-section .leftBox, .main-section .rightBox {
-            float : left;
-            width: 45%;
-            margin-right: 3%;
-        }
-
-        /* 왼쪽 박스 */
-        .sell_pic{
-            width: 59%;
-            height: 400px;
-            float: left;
-        }
-        .sell_detail{
-            width: 38%;
-
-            float: right;
-            height: 400px;
-        }
-        .sell_detail .sell_category{
-            margin-left: 10%;
-            margin-top: 13%;
-            color: #666;
-            font-size: 1.1em;
-        }
-        .sell_detail .sell_title,
-        .sell_detail .sell_price{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 10px;
-            box-shadow: 1px 1px lightgray;
-
-        }
-        .sell_detail .sell_title{
-
-            font-size: 1.4em;
-            width: 90%;
-            margin: 10% auto;
-            font-weight: 600;
-            overflow: hidden;
-            white-space: normal;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            word-break: keep-all;
-            padding : 3%;
-            cursor : pointer;
-            
-        }
-        .sell_detail .sell_price{
-            width: 90%;
-            margin: 10% auto;
-            font-size: 2em;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            word-break: break-all;
-
-        }
-        .mark{
-            color: rgb(249, 115, 57);
-            text-decoration: underline;
-        }
-        .btn-area{
-            width: 70%;
-            margin: auto;
-        }
-        .negoBtn{
-            width: 100%;
-            color: #000;
-            background-color: gold;
-            border: none;
-            border-radius: 5px;
-            height: 30px;
-            font-weight: 600;
-            cursor: pointer;
-
-            box-shadow: 1px 1px rgb(255, 205, 113);
-        }
-        .negoBtn2{
-            width: 100%;
-            color: #000;
-            background-color: grey;
-            border: none;
-            border-radius: 5px;
-            height: 30px;
-            font-weight: 600;
-
-        }
-        .negoBtn:hover{
-            color: white;
-            background-color: orange;
-        }
-
-        .sell_content{
-            float: left;
-            margin: auto;
-            padding: 5%;
-            border-radius: 10px;
-            box-shadow: 1px 1px lightgray;
-            font-weight: 600;
-            font-size: 1.1em;
-        }
-
-
-
-        /* 오른쪽 박스 */
-        .rightBox .box{
-            position: relative;
-            width: 100%;
-            height: 900px;
-            background: rgb(107, 107, 107);
-            border-radius: 50px;
-        }
-        .inner{
-            position: absolute;
-            inset: 3px;
-            background: url();  /* 배경화면 */
-            background-size: cover;
-            background-position: center;
-            border-radius: 48px;
-            border: 10px solid #000;
-            display: flex;
-            justify-content: center;
-            background-color: white;
-        }
-        /* 채팅방 헤더 */
-        .box-header{
-            position: relative;
-            width: 90%;
-            margin: auto;
-            height: 10%;
-            overflow: hidden;
-        }
-        .box-header .chatmenubar{
-            width: 100%;
-            height: 100%;
-            padding-top:10px;
-        }
-        .store-text{
-            font-size: 1.3em;
-            font-weight: 600;
-        }
-        .header-list{
-            list-style: none;
-            
-        }
-        .header-list li{
-             float: left;
-             margin-right: 3%;
-        }
-        .buttonCss{
-            text-decoration: none;
-            color: gold;
-            font-size: 1.2em;
-            padding: 5px;
-            padding-left: 10px;
-            padding-right: 10px;
-            border-radius: 15px;
-            margin-top:10px;
-        }
-        .buttonCss:hover{
-            color: black;
-            background-color: gold;
-        }
-        .buttonCss2{
-            border: none;
-            padding: 15px;
-            margin-top: 10px;
-            background-color: gold;
-            font-weight: 600;
-            border-radius: 10px;
-        }
-        .buttonCss2:hover{
-            background-color: orange;
-            cursor: pointer;
-            color: white;
-        }
-
-        /* 채팅방 내용 */
-        .box-body{
-            position: relative;
-            width: 90%;
-            margin: auto;
-            height: 80%;
-            margin-bottom: 2%;
-        }
-
-
-        /* 채팅방 바텀  */
-        .box-footer{
-            position: relative;
-            overflow: hidden;
-            width: 90%;
-            margin: auto;
-            height: 10%;
-        }
-        .footer-area{
-            width: 100%;
-            height: 60%;
-            
-        }
-        .messageInput-area{
-            width: 71%;
-            height: 70%;
-            resize: none;
-            font-size: 1.3em;
-            border: none;
-            background-color: rgb(243, 243, 243);
-            border-bottom-left-radius: 20px;
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
-            border-bottom-right-radius: 20px;
-            line-height: 2em;
-            padding-left: 20px;
-            float: left;
-            margin-right: 1%;
-        }
-        .messageInput-area:valid,
-        .messageInput-area:focus{
-            border: none;
-            outline: none;
-        }
-        .messageInput-area2{
-            width: 71%;
-            height: 70%;
-            resize: none;
-            font-size: 1.3em;
-            border: none;
-            color : white;
-            background-color: red;
-            border-bottom-left-radius: 20px;
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
-            border-bottom-right-radius: 20px;
-            line-height: 2em;
-            padding-left: 20px;
-            float: left;
-            margin-right: 1%;
-        }
-        .messageInput-area2:valid,
-        .messageInput-area2:focus{
-            border: none;
-            outline: none;
-        }
-        
-
-        .float-left{
-            float: left;
-        }
-        .pricture{
-            margin-right: 1%;
-            cursor: pointer;
-        }
-        .MessageSubmitBtn{
-            border: none;
-            padding: 10px;
-            background-color: gold;
-            font-weight: 600;
-            border-radius: 10px;
-            cursor : pointer;
-        }
-
-        
-        .rightBox .btn{
-            position: absolute;
-            top: 110px;
-            left: -2px;
-            width: 3px;
-            height: 26px;
-            border-top-left-radius: 4px;
-            border-bottom-left-radius: 4px;
-            background: radial-gradient(#ccc, #666, #222);
-
-        }
-        .rightBox .btn.btn2{
-            top :160px;
-            height: 40px;
-        }
-        .rightBox .btn.btn3{
-            top :220px;
-            height: 40px;
-        }
-        .rightBox .rightSideBtn{
-            position: absolute;
-            top: 170px;
-            right: -2px;
-            width: 3px;
-            height: 70px;
-            border-top-left-radius: 4px;
-            border-bottom-left-radius: 4px;
-            background: radial-gradient(#ccc, #666, #222);
-        }
-        ul{
-            padding-inline-start: 10px;
-        }
-        p{
-            margin:6px;
-        }
-
-        /* 채팅 대화창 */
-        .display-chatting-area{
-            height: 96%;
-            list-style : none;
-            overflow : auto; /*스크롤처럼*/
-            padding : 5px 5px;
-            background-color: rgb(248, 246, 235);
-            position: absoulte;
-        }
-        .display-chatting{
-            list-style:none;
-        }
-            
-        /* 구매자 판매자 모든 대화바 */
-        .chat{
-            display: inline-block;
-            border-radius: 5px;
-            padding : 5px;
-            background-color: rgb(102, 96, 96);
-            color:whitesmoke;
-        }
-            
-        /*내 대화바*/
-        .myChat{
-            text-align: right;
-        }
-        /*내 대화바*/
-        .myChat > p{
-            background-color: rgb(248, 212, 5);
-            color: black;
-        }
-        .chatDate{
-          font-size:12px;
-            color: darkgrey;
-            padding: 5px 5px;
-
-	    }
-	    
-	   /*신고 alert 내부 css*/
-	    .inline-flex {
-		    display: inline-grid !important;
-		    margin: .5em !important;
-		}
-		
-		/*신고 alert 내부 css radio버튼*/
-		.swal2-radio label {
-		    margin: 0 0.6em;
-		    font-size: 1.125em;
-		    padding: 5px;
-		}
-		/*신고 alert 내부 css ok버튼*/
-		.swal2-actions .swal2-confirm {
-		    border: 0;
-		    border-radius: 0.25em;
-		    background: initial;
-		    background-color: gold;
-		    color: #fff;
-		    font-size: 1em;
-		}
-    </style>
 </head>
 <body>
     <jsp:include page="../common/header.jsp"/>
@@ -468,7 +96,7 @@
                                 	<!-- 로그인사람과 구매한사람이 같은경우  -->
                                    	<c:if test="${AllList.get('purchaseInfo').userNo eq loginUser.userNo}">
                                         <c:if test="${AllList.get('product').avg  >= 4.5}">
-                                            <img src="/tresure/resources/images/icon/grade3.png" width="40px" /> <span class="store-text">상점 ${AllList.get('product').userNo }호 점</span>
+                                            <img src="/tresure/resources/images/icon/grade3.png" width="40px" /> <span class="store-text">상점 <p class="dd">${AllList.get('product').userNo }</p>호 점</span>
                                         </c:if>
                                         <c:if test="${ 4 <= AllList.get('product').avg && AllList.get('product').avg < 4.5 }">
                                             <img src="/tresure/resources/images/icon/grade2.png" width="40px" /> <span class="store-text">상점 ${AllList.get('product').userNo }호 점</span>
@@ -523,7 +151,11 @@
                                      		
                                 </li>
                                 <li style="float: right;">
-                                    <button class="buttonCss2">계좌이체</button>
+                                    <button type="submit" class="buttonCss2" id="tresurePay" 
+                                    onclick="requestPay('${AllList.get('product').sellTitle }',
+                                    					'${AllList.get('product').price }',
+                                    					'${AllList.get('purchaseInfo').userNo}',
+                                    					'${pageContext.request.contextPath}')">결제하기</button>
                                 </li>
                             </ul>
                             
@@ -564,12 +196,12 @@
                             <div class="float-left pricture"><img src="https://cdn-icons-png.flaticon.com/512/739/739249.png" width="40"/>&nbsp;&nbsp;
                             </div>
                             <!-- 차단 아무도 없을 때 -->
-                            <c:if test="${AllList.get('puTose') == 0 && AllList.get('seTopu') == 0}">
+                            <c:if test="${AllList.get('puTose') == 0 && AllList.get('seTopu') == 0 && AllList.get('state') != 0}" >
                             	<input class="messageInput-area" id="inputChatting" placeholder="메세지를 입력하세요!" onkeypress="if(event.keyCode == 13) {massageEnterSend();}"/>
                             	<button class="float-left MessageSubmitBtn" id="send" type="button" >보내기</button>
                             </c:if>
                             <!-- 차단 한명이라도 했을 때 -->
-                            <c:if test="${AllList.get('puTose') >= 1 || AllList.get('seTopu') >= 1}">
+                            <c:if test="${AllList.get('puTose') >= 1 || AllList.get('seTopu') >= 1 || AllList.get('state') == 0}">
                             	<input class="messageInput-area2" id="nonoinputChatting" placeholder="상점에게 메세지를 보낼 수 없습니다." disabled/>
                             	<button class="float-left MessageSubmitBtn" id="send" type="button" disabled >보내기</button>
                             </c:if>
@@ -585,44 +217,58 @@
 
      <script>
      
-   		//신고버튼 클릭 시
+	   //신고버튼 클릭 시
 		 $('#addReport').on('click', function(){
 			 
 	 		Swal.fire({
 	 		  title: '상점신고',
 	 		  input: 'radio',
 	 		  inputOptions: {
-		 			주류_담배 : '주류, 담배',
-		 			전문의약품_의료기기 : '전문 의약품, 의료기기',
+		 			주류_담배 : '주류/담배',
+		 			전문의약품_의료기기 : '전문 의약품/의료기기',
 		 			개인정보거래 : '개인정보 거래',
 		 			음란물_성인용품 : '음란물/성인용품',
 		 			위조상품 : '위조상품',
-		 			총포도검류 : '총포 도검류',
+		 			총포_도검류 : '총포/도검류',
 		 			게임계정 : '게임 계정',
-		 			동물분양_입양글 : '동물 분양/입양글',
+		 			동물분양_입양글 : '동물 분양, 입양글',
 		 			기타 : '기타'
 	 		  },
 	 		  customClass: {
 	 			    input: 'inline-flex',
 	 			    inputLabel: 'inline-block'
 	 		  }
-			}).then(function(addReport) {
-			    if (addReport.value) {
-			    	Swal.fire(addReport.value, addReport.value+" 로 신고하셨습니다.", "success");
-			        console.log("Result: " + addReport.value);
-			        
-			        if(addReport){
-						location.href='${pageContext.request.contextPath}/chat/chatRoomList';
-					}
-			        
+			}).then(function(reportContent) {
+			    if (reportContent.value) {
+			    	Swal.fire('상점신고 완료', reportContent.value+" (으)로 신고하셨습니다.", "success");
+			        reportAdd(reportContent.value);
+			        console.log("Result: " + reportContent.value);
 			    }
-			}).then(function(result) {
-			    	
-			    })
-			});
+			})
 	 	
+		 });
+		   
+		   
+	   
+		//신고추가
+		 function reportAdd(value){
+				var reportedUserNo = $('#dd').innerText();
+				
+				$.ajax({
+					url : "${pageContext.request.contextPath}/report/addReport",
+					data : {reportContent : value,
+							reportedUserNo : reportedUserNo} ,
+					success : function(result){
+						if(result == 1){
+							location.href = "${pageContext.request.contextPath}/report/reportSearch";
+						}
+					},
+					error : function(){
+						console.log("통신실패");
+					}
+				});
+	    };
 
-   		
 		 
 	     
      	//차단버튼 클릭 시 
@@ -692,7 +338,9 @@
       const email = "${loginUser.email}";
       const chatRoomNo = "${chatRoomNo}";
       const contextPath = "${pageContext.request.contextPath}";
-        const regNum = /^[0-9]+$/;
+      const regNum = /^[0-9]+$/;
+      
+      
       
       // /chat이라는 요청주소로 통신할 수 있는 webSocket 객체생성
       let chatSocket = new SockJS(contextPath + "/chat");
@@ -716,7 +364,7 @@
        
        function negoStart(value){
           $.ajax({
-             url : "${pageContext.request.contextPath}/join/nego",
+             url : "contextPath/join/nego",
              data : {negoPrice : value,
                    sellNo : ${AllList.get('product').sellNo },
                    chatRoomNo :chatRoomNo},

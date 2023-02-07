@@ -1,0 +1,133 @@
+@charset "UTF-8";
+
+	.main-section{	
+		width : 50%;
+		margin : auto;
+	}
+	.error-Image{
+		margin-top : 100px;
+		height : 500px;
+		display: flex;
+	      justify-content: center;
+	      align-items: center;
+	}
+	.font {
+		margin-top : 15px;
+		text-align : center;
+	}
+	.myOuter{
+	  margin-top : 15px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 7vh;
+      width: 100%;
+  }
+  .backTotheHome {
+      position: relative;
+      width: 30%;
+      /* 버튼 밖 회색 네모 크키조절 */
+      height: 50px;
+      background: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: rgba(255, 255, 255, 0.5);
+      text-decoration: none;
+      letter-spacing: 0.2em;
+      font-size: 1.25em;
+      text-transform: uppercase;
+      font-weight: 500;
+      z-index: 1;
+      border-radius: 10px;
+  }
+
+  .backTotheHome::before{
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #359ad8;
+      transform: scaleX(0);
+      transition: transform 0.5s ease-in-out;
+      /* hover할때 덮어씌워지는거 들어가는 방향? */
+      transform-origin: right;
+  }
+  /* 둥글둥글하게 하기위한것 없애도된다! */
+  .backTotheHome:hover::after, 
+  .backTotheHome:hover, 
+  .backTotheHome:hover::before, 
+  .backTotheHome::before, 
+  .backTotheHome::after{
+      border-radius: 10px;
+  }
+
+  .backTotheHome:hover::before{
+      transform: scale(1);
+      /* hover할때 덮어씌워지는거 나오는 방향 */
+      transform-origin: left;
+  }
+  .backTotheHome span {
+      display: inline-block;
+
+      z-index: 2;
+      transition: 0.5s ease-in-out;
+  }
+  .backTotheHome:hover span {
+      color : #333;
+
+  }
+  .backTotheHome i {
+      position: relative;
+      display: inline-block;
+      width: 2px;
+      height: 30px;
+      background: #d3d636;
+      transition: 0.5s, width 0.5s, height 0.5s;
+      transition-delay: 0s, 0.5s, 1s;
+  }
+  .backTotheHome:hover i {
+      width: 30px;
+      height: 2px;
+      background: #333;
+      transition-delay: 0s, 1s, 0.5s;
+  }
+  .backTotheHome i::before{
+      content: '';
+      position: absolute;
+      top: 0.5px;
+      right: 0;
+      width: 50%;
+      height: 2px;
+      background: transparent;
+      rotate: 0;
+      transform-origin: right;
+      transition: 1s;
+  }
+  .backTotheHome:hover i::before{
+      background: #333;
+      rotate: 45deg;
+      transition-delay: 1s;
+  }
+
+  .backTotheHome i::after{
+      content: '';
+      position: absolute;
+      top: -0.5px;
+      right: 0;
+      width: 50%;
+      height: 2px;
+      background: transparent;
+      rotate: 0;
+      transform-origin: right;
+      transition: 1s;
+  }
+  .backTotheHome:hover i::after{
+      background: #333;
+      rotate: -45deg;
+      transition-delay: 1s;
+  }

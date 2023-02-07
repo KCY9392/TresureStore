@@ -104,9 +104,11 @@ public class SellDao {
 	public List<Sell> sellList(SqlSession sqlSession, int userNo) {
 		return sqlSession.selectList("sellMapper.sellList", userNo);
 	}
+
 	
 	public List<Review> reviewList(SqlSession sqlSession, int userNo) {
 		return sqlSession.selectList("sellMapper.reviewList", userNo);
+
 	}
 	
 	public Map<String, Object> sellerDetail(SqlSession sqlSession, Map<String, Integer> map) {
@@ -126,6 +128,7 @@ public class SellDao {
 	public int finishSellNo(SqlSession sqlSession) {
 		return sqlSession.selectOne("sellMapper.finishSellNo");
 	}
+
 	
 	public List<Category> cateList(SqlSession sqlSession){
 		return sqlSession.selectList("sellMapper.cateList");
@@ -148,5 +151,6 @@ public class SellDao {
 	public int updateSellImgList(SqlSession sqlSession, List<SellImg> sellImageList) {
 		return sqlSession.update("sellMapper.updateSellImgList", sellImageList);
 	}
+
 
 }

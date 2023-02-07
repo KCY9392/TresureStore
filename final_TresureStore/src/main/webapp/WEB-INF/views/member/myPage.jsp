@@ -18,6 +18,7 @@
     
   <style>
   
+
      a:hover{
         text-decoration: none !important;
      }
@@ -63,6 +64,8 @@
      .ntheTop{
         height: 40px !important;
      }
+
+
   </style>
 
 </head>
@@ -173,10 +176,11 @@
             <button class="market-tracsac" onclick="tracsac();"><span class="rtransac">거래내역</span></button>
           </div>
           <br><br>
-       </div>
+
        
        
        
+
 <!-- 상품 버튼 클릭 시, 나오는 박스 -->      
        <div id="productshow" class="box">
               <div class="displayList" style="flex-wrap: wrap; display:flex; margin:auto; padding-top:23px; padding-left:15px;">
@@ -244,6 +248,7 @@
        
        
        
+
 <!-- 상점후기 버튼 클릭 시, 나오는 박스 -->       
        <div class="box box2" id="reviewshow" style="display:none; border: 4px solid #ffe8cb; border-radius: 12px;">
        <c:forEach var="r" items="${reviewList}" begin="0" end="${fn:length(reviewList)}" step="1" varStatus="status">
