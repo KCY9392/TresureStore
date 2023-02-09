@@ -244,12 +244,14 @@
 	   
 		//신고추가
 		 function reportAdd(value){
-				var reportedUserNo = $('#dd').innerText();
-				
+			 	const sellUserNo = 	"${AllList.get('product').userNo }";
+			 	const purchaseUserNo = "${AllList.get('purchaseInfo').userNo }";
+			
 				$.ajax({
 					url : "${pageContext.request.contextPath}/report/addReport",
 					data : {reportContent : value,
-							reportedUserNo : reportedUserNo} ,
+							sellUserNo : sellUserNo,
+							purchaseUserNo : purchaseUserNo
 					success : function(result){
 						if(result == 1){
 							location.reload();

@@ -2,12 +2,12 @@
 
 /*전체 공통 div*/
    .main-section-blockList{
-     width: 67%;
+     width: 77%;
      margin: auto;
      font-size:18px;
    }
   .innerOuter-blockList {
-     padding: 15%;
+     padding: 7%;
    }
    /*차단목록 text*/
    .innerOuter-blockList span{
@@ -30,24 +30,59 @@
      background-color:gold;
    	 color:white;
    }
-   
-   .chatBlockList-table{
-     width: 100%;
-   } 
-   .chatBlockList-thead{
-     color: rgb(248, 212, 12);
-     text-align:center;
+   ul{
+	   padding-inline-start:10px;
+	   margin : auto;
+	   width:70%;
    }
-   .chatBlockList-tbody{
-     text-align: center;
-   }
-   /*해제 버튼*/
-   .block-clear{
-   	 font-family: 'koverwatch';
-     padding:8%;
-     background-color:grey;
-     color:white;
-     border:none;
-     border-radius : 8%;
-     cursor: pointer;
-   }
+    .block_list:hover{
+    	background-color: rgb(241 241 241);
+    }
+   .block_list {
+		width: 100%;
+	    display: flex;
+	    padding: 1rem 0px;
+	    justify-content: space-between;
+	    border-bottom: 2px solid rgb(220, 219, 228);
+
+	}
+	.profile-image1 {
+		border: #e5dfdf solid 3px;
+	    width: 100px;
+	    height: 100px;
+	    border-radius:10px;
+	    margin : auto;
+	}
+	.market-name0 {
+	    align-items: center;
+	    font-size: 35px;
+	    padding-top: 30px;
+	    padding-left: 0px;
+	    font-weight: 600;
+	    width : 400px;
+	    text-align : center;
+	    margin : auto;
+	}
+	.market-name2 {
+		width: 100%;
+		height: 100%;
+		display: flex;
+	    align-items: center;
+	    font-size: 30px;
+	    width: 150px;
+	    padding-left: 150px;
+	
+	}
+	.block-clear{
+			height: 50px;
+		    align-items: center;
+		    border: 1px solid gold;
+		    background-color: gold;
+		    font-size: 20px;
+		    border-radius: 15px;
+		    width: 120px;
+		    font-family: 'koverwatch';
+	}
+	.block-clear:hover{
+		cursor:pointer;
+	}
