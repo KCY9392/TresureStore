@@ -181,33 +181,6 @@
                                               
                         </div>
                     </div>
-                    <div class="box-body">
-                        
-                        <!-- 채팅창 대화 -->
-                        <div class="display-chatting-area">
-                            <ul class="display-chatting">
-                              <c:forEach items="${AllList.get('roomMessageList') }" var="msg">
-                                 <fmt:formatDate var="chatDate" value="${msg.createDate }" pattern="yyyy년 MM월 dd일 HH:mm" />
-                                 <%-- 1) 내가 보낸 메세지 --%>
-                                 <c:if test="${msg.userNo == loginUser.userNo }">
-                                     <li class="myChat">
-                                        <p class="chat">${msg.chatContent }</p><br>
-                                        <span class="chatDate">${chatDate }</span>
-                                         
-                                     </li>
-                                 </c:if>
-                                 <%-- 2) 남(이름)이 보낸 메세지 --%>
-                                 <c:if test="${msg.userNo != loginUser.userNo }">
-                                     <li>
-                                         <p class="chat">${msg.chatContent }</p><br>
-                                         <span class="chatDate">${chatDate }</span>
-                                     </li>
-                                 </c:if>
-                              </c:forEach>
-                            </ul>
-
-						</div>
-					</div>
 					<div class="box-body">
 
 						<!-- 채팅창 대화 -->
