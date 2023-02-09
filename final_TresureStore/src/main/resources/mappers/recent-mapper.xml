@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="recentMapper">
+
+	<update id="updateProduct" parameterType="recent">
+		<!-- USER_NO와 SELL_NO가 이미 존재하면 UPDATE, 없으면 INSERT 한다. -->
+		
+		MERGE 
+			INTO RECENT
+		USING DUAL <!-- 직접 값을 넣고자 한다면 DAUL 사용 -->
+			ON ( <!-- 조건절 -->
+					SELL_NO = #{sellNo}
+				AND USER_NO = #{userNo}
+				)
+			WHEN MATCHED THEN <!-- 일치하는 경우 UPDATE | DELETE -->
+				UPDATE
+					SET CREATE_DATE = TO_DATE(#{createDate}, 'YYYY-MM-DD HH24:MI:SS')
+			WHEN NOT MATCHED THEN <!-- 불일치하는 경우 INSERT -->
+				INSERT (
+					RECENT_NO
+					, SELL_NO
+					, USER_NO
+					, CREATE_DATE
+				) VALUES (
+					SEQ_RCNO.NEXTVAL
+					, #{sellNo}
+					, #{userNo}
+					, TO_DATE(#{createDate}, 'YYYY-MM-DD HH24:MI:SS')
+				)
+	</update>
+	
+	<select id="viewProduct" parameterType="recent" resultType="recent">
+		<!-- 최근 본 상품 리스트를 리턴한다. -->
+		<!-- 개별 Recent 객체로 리턴하여 컨트롤러에서 List로 담아서 리턴한다. -->
+		
+		SELECT 
+			R.SELL_NO
+			, R.USER_NO
+			, S.IMAGE_SRC AS imgSrc
+			, S.CRAWL
+			, R.CREATE_DATE
+		FROM RECENT R, SELL S
+		WHERE R.SELL_NO = S.SELL_NO
+			AND R.USER_NO = #{userNo}
+		ORDER BY CREATE_DATE DESC
+	</select>
+
+	<delete id="deleteProduct" parameterType="recent">
+		DELETE
+		FROM RECENT
+		WHERE RECENT_NO IN (
+							SELECT RECENT_NO
+							FROM (
+									SELECT ROW_NUMBER() OVER(ORDER BY CREATE_DATE DESC) RNUM
+										, RECENT_NO
+									FROM RECENT
+									WHERE USER_NO = #{userNo}
+								)
+								WHERE RNUM > 20
+							)
+	</delete>
+
+
+
+
+
+</mapper>
