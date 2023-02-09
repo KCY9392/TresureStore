@@ -126,6 +126,8 @@ public class MemberController {
 		session.setAttribute("loginUser", loginUser);
 		session.setAttribute("alertMsg", loginUser.getUserName()+"님 환영합니다");
 		
+		logger.info("loginUser ? "+loginUser);
+		
 		return "redirect:/";
 	}
 	

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.tresure.heart.model.dao.HeartDao;
 import com.kh.tresure.heart.model.vo.Heart;
+import com.kh.tresure.member.model.vo.Member;
 
 @Service
 public class HeartServiceImpl implements HeartService{
@@ -30,19 +31,34 @@ public class HeartServiceImpl implements HeartService{
 	@Override
 	public void deleteHeart(Heart heart) {
 		 heartDao.deleteHeart(sqlSession, heart);
-		System.out.println("서비스 : "+heart);
+		 
+		 
+		
 	}
 	
 	@Override
 	public void addHeart(Heart heart) {
 		heartDao.addHeart(sqlSession, heart);
 		
+		heartDao.addHeartCount(sqlSession, heart);
+		
+		
+		
+		
+	}
+	
+	@Override
+	public  Member selectMem(Member m){
+		return heartDao.selectMem(sqlSession, m);
 	}
 	
 	@Override
 	public void mypageDeleteHeart(HashMap<String, Object> map) {
 		heartDao.mypageDeleteHeart(sqlSession, map);
+		
+		heartDao.minusHeartCount(sqlSession, map);
 	}
+	
 	
 	
 	

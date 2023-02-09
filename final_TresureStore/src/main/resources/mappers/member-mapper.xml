@@ -87,8 +87,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</when>
 		<when test="phone == null and email != null">
 			EMAIL = #{email}
-		</when>
-	</choose>
+
+</select>
+
+
+
+<select id="selectMem" parameterType="member" resultType="member">
+	SELECT *
+	FROM MEMBER
+	WHERE USER_NO = #{userNo} AND STATUS = 'Y' 
+
+</select>
+
+
+
+<select id="selectMem" parameterType="member" resultType="member">
+	SELECT *
+	FROM MEMBER
+	WHERE USER_NO = #{userNo} AND STATUS = 'Y' 
+
 </select>
 
 

@@ -53,10 +53,13 @@ public class ChatWebsocketHandler extends TextWebSocketHandler {
 	    // Jackson-databind : ObjectMapper 를 이용해서 JSON형태로 넘어온 데이터를 특정VO필드에 맞게 자동매핑
 	    ObjectMapper objectMapper = new ObjectMapper();
 
+	    
 	    ChatMessage chatMessage = objectMapper.readValue(message.getPayload(), ChatMessage.class);
 	    chatMessage.setCreateDate(new Date(System.currentTimeMillis()));
 
+	    
 	    int result = chatService.insertMessage(chatMessage);
+	    
 	    if(result > 0) {
 	        // 같은방에 접속중인 클라이언트에게 전달받은 메세지를 보내기
 	        for(WebSocketSession s : sessions) {
