@@ -389,10 +389,10 @@ $(".chBox").click(function(){
      type : 'post',
      data : { chbox : checkArr },
      success : function(result){
-       if(result==1){
+    	if(result==1){
       console.log("성공");
       location.reload();
-       }
+    	}
      },
      error:function(){
         console.log("실패")
