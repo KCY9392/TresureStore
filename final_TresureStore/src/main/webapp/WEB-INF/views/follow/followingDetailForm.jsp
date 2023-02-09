@@ -16,78 +16,7 @@
 	<jsp:include page="../common/sideBar.jsp"/>
 
 	<div class="main-section">
-		<div class="content2">
-			<div class="profile">
-				<!-- 상점 등급 이미지 나오는 박스 -->
-				<div class="profile-image">
-					<c:if test="${member.avg > 4.5}">
-						<img src="/tresure/resources/images/icon/grade3.png" height="100%" width="100%" />
-					</c:if>
-					<c:if test="${ 4 <= member.avg && member.avg < 4.5 }">
-						<img src="/tresure/resources/images/icon/grade2.png" height="100%" width="100%" />
-					</c:if>
-					<c:if test="${ 3.5 <= member.avg && member.avg < 4 }">
-						<img src="/tresure/resources/images/icon/grade1.png" height="100%" width="100%" />
-					</c:if>
-					<c:if test="${	member.avg  == null  || member.avg  < 3.5 }">
-						<img src="/tresure/resources/images/icon/grade0.png" height="100%" width="100%" />
-					</c:if>
-				</div>
-				<br> <a href="#" class="market-grade">상점등급 안내</a>
 
-			</div>
-
-			<!-- 상점명 & 개업날짜 & 팔로워수 & 판매상품수 & 상점신고수 내용 박스 -->
-			<div class="info">
-				<div class="info-table">
-					<div class="market-name">
-						상점
-						<h3>${member.userNo }</h3>
-						호점
-					</div>
-					<br>
-					<br>
-					<div class="info-list">
-						<div class="market-open">
-							<img src="/tresure/resources/images/icon/상점오픈.png" width="20"
-								height="15" alt="상점오픈일 아이콘"> &nbsp;상점오픈일
-							<div class="market-opendate">
-								<span>${member.marketOpen }</span>일전
-							</div>
-						</div>
-
-						<div class="follower">
-							<img src="/tresure/resources/images/icon/팔로워.png" width="20"
-								height="15" alt="팔로워 아이콘"> &nbsp;팔로워
-							<div class="market-follower">
-								<span>${member.followCount }</span> 명
-							</div>
-						</div>
-
-						<div class="sell-product">
-							<img src="/tresure/resources/images/icon/판매수.png" width="20"
-								height="15" alt="상품판매 아이콘"> &nbsp;상품판매
-							<div class="market-sell">
-								<span>${member.sellCount }</span> 회
-							</div>
-						</div>
-
-						<div class="report">
-							<img src="/tresure/resources/images/icon/신고수.png" width="20"
-								height="15" alt="신고 아이콘"> &nbsp;신고
-							<div class="market-report">
-								<span>${member.repoterCount }</span>회
-							</div>
-						</div>
-						<br>
-						<br>
-					</div>
-					<br>
-					<br>
-					<br>
-				</div>
-			</div>
-		</div>
 		<div class="following_box">
 			<h2 class="following_title">팔로잉 목록</h2>
 			<ul class="following_body">
@@ -108,15 +37,14 @@
 						</c:if>
 					</div>
 					<div data-seller-no='${follow.fwId}'>
-						<div class="market-name1">
-						상점
-						<h3>${follow.fwId }</h3>
-						호점
+						<div class="market-name0">
+						상점 ${follow.fwId } 호점
 						</div>
 					</div>
 					<div data-seller-no='${follow.fwId}'>
 						<div class="market-name1">
-							<h3>상품 ${follow.sellCount }개</h3>
+							<img src="/tresure/resources/images/icon/판매수.png" width="20" height="15" alt="상품판매 아이콘" style="margin-top: 5px;"> 
+                        &nbsp;상품판매 ${follow.sellCount }회
 						</div>
 					</div>
 					<div class="follow-cancel-box">
@@ -162,7 +90,6 @@
 					}
 				});
 			}
-	
 		});
 	</script>
 </body>

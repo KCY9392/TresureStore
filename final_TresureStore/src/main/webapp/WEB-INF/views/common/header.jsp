@@ -39,14 +39,14 @@
 					  <!-- 본인인증 방법 로그인 O && 카카오로그인 X -->
 						<c:if test="${loginUser.phone != null && access_Token == null}">
 							<a href="/tresure/logout" class="items">
-								${loginUser.userName}님 환영합니다^ㅁ^ <br> 로그아웃
+								${loginUser.userName}님 환영합니다^ㅁ^<br> 로그아웃
 							</a>
 						</c:if>
 						
 					  <!-- 본인인증 로그인 X && 카카오로그인 O -->	
 					  	<c:if test="${loginUser.phone == null && access_Token != null}">
 					  		<a href="https://kauth.kakao.com/oauth/logout?client_id=2f3c85098b01f4c1919eb4761e43a541&logout_redirect_uri=http://localhost:8888/tresure/logout/kakao" class="items">
-					  			${loginUser.userName}님 환영합니다^ㅁ^ <br> 로그아웃
+					  			${loginUser.userName}님 환영합니다^ㅁ^<br> 로그아웃
 					  		</a>
 					    </c:if>
 					    
@@ -85,35 +85,35 @@
 				<div class="catebox3">
 
 					<ul class="inner-menu">
-						<li class="catebox"><a href="${pageContext.request.contextPath}/sell/category/1"><img
+						<li class="catebox cate1"><a href="${pageContext.request.contextPath}/sell/category/1"><img
 								src="/tresure/resources/images/icon/star.png" width="40px"
 								height="35px"><br>인기매물</a></li>
-						<li class="catebox"><a href="${pageContext.request.contextPath}/sell/category/10"><img
+						<li class="catebox cate2"><a href="${pageContext.request.contextPath}/sell/category/10"><img
 								src="/tresure/resources/images/icon/디지털기기.png" width="40px"
 								height="35px"><br>디지털기기</a></li>
-						<li class="catebox"><a href="${pageContext.request.contextPath}/sell/category/20"><img
+						<li class="catebox cate3"><a href="${pageContext.request.contextPath}/sell/category/20"><img
 								src="/tresure/resources/images/icon/가전제품.png" width="40px"
 								height="35px"><br>생활가전</a></li>
-						<li class="catebox"><a href="${pageContext.request.contextPath}/sell/category/30"><img
+						<li class="catebox cate4"><a href="${pageContext.request.contextPath}/sell/category/30"><img
 								src="/tresure/resources/images/icon/유아용품.png" width="40px"
 								height="35px"><br>유아용품</a></li>
-						<li class="catebox"><a href="${pageContext.request.contextPath}/sell/category/40"><img
+						<li class="catebox cate5"><a href="${pageContext.request.contextPath}/sell/category/40"><img
 								src="/tresure/resources/images/icon/패션.png" width="40px"
 								height="35px"><br>패션</a></li>
-						<li class="catebox"><a href="${pageContext.request.contextPath}/sell/category/50"><img
+						<li class="catebox cate6"><a href="${pageContext.request.contextPath}/sell/category/50"><img
 								src="/tresure/resources/images/icon/도서.png" width="40px"
 								height="35px"><br>도서</a></li>
-						<li class="catebox"><a href="${pageContext.request.contextPath}/sell/category/60"><img
+						<li class="catebox cate7"><a href="${pageContext.request.contextPath}/sell/category/60"><img
 								src="/tresure/resources/images/icon/반려동물용품.png" width="40px"
 								height="35px"><br>반려동물용품</a></li>
-						<li class="catebox"><a href="${pageContext.request.contextPath}/sell/category/70">&nbsp;&nbsp;<img
+						<li class="catebox cate8"><a href="${pageContext.request.contextPath}/sell/category/70">&nbsp;&nbsp;<img
 								src="/tresure/resources/images/icon/스포츠.png" width="40px"
 								height="35px"><br>스포츠
 						</a></li>
-						<li class="catebox"><a href="${pageContext.request.contextPath}/sell/category/80"><img
+						<li class="catebox cate9"><a href="${pageContext.request.contextPath}/sell/category/80"><img
 								src="/tresure/resources/images/icon/뷰티.png" width="40px"
 								height="35px"><br>뷰티</a></li>
-						<li class="catebox"><a href="${pageContext.request.contextPath}/sell/category/90"><img
+						<li class="catebox cate10"><a href="${pageContext.request.contextPath}/sell/category/90"><img
 								src="/tresure/resources/images/icon/교환권.png" width="40px"
 								height="35px"><br>교환권</a></li>
 					</ul>

@@ -1,7 +1,11 @@
 package com.kh.tresure.chat.controller;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,13 +22,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.tresure.chat.model.service.ChatService;
 import com.kh.tresure.chat.model.vo.Block;
+import com.kh.tresure.chat.model.vo.ChatFiles;
 import com.kh.tresure.chat.model.vo.ChatRoom;
 import com.kh.tresure.chat.model.vo.ChatRoomJoin;
+import com.kh.tresure.common.Image;
 import com.kh.tresure.member.model.vo.Member;
+import com.kh.tresure.sell.model.vo.Sell;
 
 @Controller
 @SessionAttributes({"chatRoomNo", "loginUser"})
@@ -81,7 +89,9 @@ public class ChatController {
                          @RequestParam(value="chatRoomNo", required=false) String chatRoomNo,
                          ChatRoom room,
                          ChatRoomJoin roomJoin,
-                         Model model) {
+                         Model model,
+                         Block block,
+                         HttpSession session) {
       
       room.setSellNo(Integer.parseInt(sellNo));
       room.setUserNo(Integer.parseInt(userNo));
@@ -93,7 +103,7 @@ public class ChatController {
       
       
       HashMap<Object,Object> AllList = new HashMap<>();
-      AllList =  chatService.createAndEnterChatRoom(room, sellUserNo, roomJoin);
+      AllList =  chatService.createAndEnterChatRoom(room, sellUserNo, roomJoin, block);
       model.addAttribute("chatRoomNo", room.getChatRoomNo() );
       
       if(AllList.size() > 0) {
@@ -120,32 +130,53 @@ public class ChatController {
       List<Block> blockList = chatService.selectBlockList(userNo);
       model.addAttribute("blockList", blockList);
       
-      logger.info(blockList+ ">> 차단 리스트 조회");
-      logger.info(">> 차단 리스트로 이동");
-      
       return "chat/chatBlockList";
    }
    
    
    
-   //차단 리스트에 추가
+   //차단 리스트에 추가, 차단하기
    @RequestMapping(value="chat/chatBlockAdd", method = RequestMethod.POST)
+   @ResponseBody
    public String addBlock(@RequestParam(value="sellUserNo", required=false) int sellUserNo,
                      	  @RequestParam(value="chatRoomNo", required=false) int chatRoomNo,
+                     	  @RequestParam(value="purchaseUserNo", required=false) int purchaseUserNo,
                      	  Model model,
-                     	  HttpSession session) {
+                     	  HttpSession session,
+                     	  Block block) {
+	   
 	   
 	   // 로그인 한유저
 	   int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
 	   
-	   
-	   
-	   
-	   
+	   int result = chatService.addBlock(sellUserNo, chatRoomNo, purchaseUserNo, userNo,block);
+
+       return String.valueOf(result);
       
-	  
+    }
+   
+   // 차단 풀기
+   @RequestMapping(value="chat/chatBlockremove", method = RequestMethod.POST)
+   @ResponseBody
+   public String deleteBlock(@RequestParam(value="sellUserNo", required=false) int sellUserNo,
+                     	  @RequestParam(value="chatRoomNo", required=false) int chatRoomNo,
+                     	  @RequestParam(value="purchaseUserNo", required=false) int purchaseUserNo,
+                     	  Model model,
+                     	  HttpSession session,
+                     	  Block block) {
 	   
-      return "redirect:chatBlockList";
+	   
+	   // 로그인 한유저
+	   int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
+	   
+	   int result = chatService.deleteBlock(sellUserNo, chatRoomNo, purchaseUserNo, userNo,block);
+	   if(result == 1) {
+		   return String.valueOf(result);
+	   } else {
+		   return "0";
+	   }
+	   	
+       
       
     }
 
@@ -170,14 +201,71 @@ public class ChatController {
    @ResponseBody
    public int insertNegoPrice(@RequestParam int negoPrice,
                         @RequestParam int sellNo,
-                        @RequestParam int chatRoomNo
+                        @RequestParam int chatRoomNo,
+                        Sell nego
                                  ) {
       
-      int result = chatService.insertNegoPrice(negoPrice, sellNo, chatRoomNo);
+      int result = chatService.insertNegoPrice(negoPrice, sellNo, chatRoomNo, nego);
       
       return result;
       
    }
+   
+   
+	// 채팅첨부파일
+	@ResponseBody
+	@RequestMapping(value = "chat/chatFile/insert", method = RequestMethod.POST)
+	public Map<String, String> insertFile(MultipartFile uploadfile, @RequestParam(value = "chatRoomNo") int chatRoomNo,
+			ChatFiles chatfiles, HttpSession session) {
+
+		List<ChatFiles> chatFilesList = new ArrayList<>();
+
+		int result = 0;
+
+		if (!uploadfile.isEmpty()) {
+
+			String webPath = "/resources/images/chat/";
+			String serverFolderPath = session.getServletContext().getRealPath(webPath);
+
+			File file = null;
+
+			// 폴더 생성
+			if (!uploadfile.getOriginalFilename().equals("")) {
+				String savePath = session.getServletContext().getRealPath("/resources/images/chat/");
+
+				file = new File(savePath);
+				if (!file.exists()) {
+					file.mkdirs();
+				}
+
+				String changeName = Image.saveFile(uploadfile, savePath);
+
+				System.out.println("chat savePath ." + savePath);
+				System.out.println("chat ChangeName 2." + changeName);
+
+				chatfiles.setChatRoomNo(chatRoomNo);
+				chatfiles.setOriginName(uploadfile.getOriginalFilename());
+				chatfiles.setChangeName(changeName);
+				chatfiles.setFilePath(savePath);
+				chatfiles.setUserNo(((Member) session.getAttribute("loginUser")).getUserNo());
+			}
+
+			result = chatService.insertchatImage(chatfiles);
+
+		}
+
+		Map<String, String> map = new HashMap<>();
+				
+		if (result > 0) {
+			
+			 map.put("originName",chatfiles.getOriginName());
+		     map.put("changeName",chatfiles.getChangeName());
+					
+		}
+		
+		return map;
+	}
+   
    
 
 }

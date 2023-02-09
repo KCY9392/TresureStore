@@ -20,4 +20,5 @@ public class Member {
 	private int count;
 	private Date createDate;
 	private String status;
+	private int heartCount;
 }

@@ -120,9 +120,22 @@
 											class="rounded float-start" alt="">
 									</c:if>
 									<c:if test="${s.crawl.equals('N')}">
-										<img src="${pageContext.request.contextPath}${s.imgSrc}" width="100%" height="100%"
+
+										<img src="${pageContext.request.contextPath}${s.imgSrc}" width="100%" height="400px;"
+
 										class="rounded float-start" alt="">
 								</c:if>
+								<c:if test="${s.sellStatus eq 'C' }">
+					                              <div class="over-img">
+					                              <div class="text-c" style="color: white;
+												   
+												    margin-top: 180px;
+												    margin-bottom: 195px;">
+					                      		  <h1>판매완료</h1>
+					                      		  </div>
+					                      		  </div>
+					                      		  
+			                   </c:if>
                         	</div>
                         	<c:if test="${s.imgList != null}">
 							<div class="sellImg3_Box">
@@ -141,31 +154,32 @@
 							<!-- 판매자 정보 -->
                            <div class="sellerInfo">
 
-	                                    <c:set var="sellerUrl" value="${pageContext.request.contextPath }/member/myPage" />
+									<c:set var="sellerUrl" value="${pageContext.request.contextPath }/member/myPage" />
 	                                    <c:if test="${loginUser.userNo != s.userNo }">
 	                                    	<c:set var="sellerUrl" value="${pageContext.request.contextPath }/sell/seller/${s.userNo }" />
 	                                    </c:if>
-								<a href="${sellerUrl }">
+									<a href="${sellerUrl }">
                                 <div class="sellGradeAndNameBox">
                                     <div class="sellerGradeImg">
-	                                    	
-	                                        <c:if test="${s.avg > 4.5}"> 
-												<img src="/tresure/resources/images/icon/grade_3.png" width="100%" height="100%"/>
-											</c:if> 
-											<c:if test="${ 4 <= s.avg && s.avg < 4.5 }"> 
-												<img src="/tresure/resources/images/icon/grade_3.png" width="100%" height="100%"/> 
-											</c:if> 
-											<c:if test="${ 3.5 <= s.avg && s.avg < 4 }"> 
-												<img src="/tresure/resources/images/icon/grade_3.png" width="100%" height="100%"/> 
-											</c:if>
-											<c:if test="${ s.avg == null  || s.avg < 3.5 }">
-												<img src="/tresure/resources/images/icon/grade_3.png" width="100%" height="100%"/>
-											</c:if>
-											
+                                        <c:if test="${s.avg > 4.5}"> 
+											<img src="/tresure/resources/images/icon/backGray_grade3.png" width="100%" height="100%"/>
+										</c:if> 
+										<c:if test="${ 4 <= s.avg && s.avg < 4.5 }"> 
+											<img src="/tresure/resources/images/icon/backGray_grade2.png" width="100%" height="100%"/> 
+										</c:if> 
+										<c:if test="${ 3.5 <= s.avg && s.avg < 4 }"> 
+											<img src="/tresure/resources/images/icon/backGray_grade1.png" width="100%" height="100%"/> 
+										</c:if>
+										<c:if test="${ s.avg == null  || s.avg < 3.5 }">
+											<img src="/tresure/resources/images/icon/backGray_grade0.png" width="100%" height="100%"/>
+										</c:if>
+
                                     </div>
+                                    
                                     <div class="sellerNameInfoBox">
                                         <div class="sellerName">
-                                                <p style="font-size:24px;">상점 ${s.userNo}호점</p>&nbsp;<img src="https://m.bunjang.co.kr/pc-static/resource/0acf058f19649d793382.png" width="15px" height="15px" style="margin-left:15px;">&nbsp;<p>${s.report_Num}</p>
+                                                <p style="font-size:30px;">상점 ${s.userNo}호점</p>&nbsp;<img src="https://m.bunjang.co.kr/pc-static/resource/0acf058f19649d793382.png" width="15px" height="18px" style="margin-left:15px; margin-bottom:3px;">&nbsp;
+                                                <p style="font-size: 20px;">${s.report_Num}</p>
                                         </div>
 
                                         <div class="sellNumAndFollowerBox">
@@ -215,12 +229,7 @@
                                         </a>
                                       </div> 
                                       </c:if>
-                                      <c:if test="${loginUser.userNo==s.userNo }">
-                                      <div class="sellBtn">
-                                      <button type="button" class="sellUpdateBtn">수정하기</button>
-                                      <button type="button" class="sellDeleteBtn">삭제하기</button>
-                                      </div>
-                                      </c:if>
+                                      
                                 </div>
                             </div>
                             <!-- 찜수, 조회수, 몇분전 게시 출력 -->
@@ -247,7 +256,8 @@
                                                 <span>${s.createDate}</span>
                                             </div>    
                                         </div>
-                                        
+                                            <c:if test="${loginUser.userNo!=s.userNo }">
+                          
                                         <div class="sellInfoTextBox">
                                             <div class="sellInfoTextBoxReport">
                                                 <img src="https://m.bunjang.co.kr/pc-static/resource/0acf058f19649d793382.png" width="16" height="16" alt="상품 몇분전 아이콘">
@@ -256,6 +266,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        </c:if>
                                     </div>
                                 </div>
                             </div>
@@ -263,7 +274,22 @@
 
                             <!-- 채팅하기 버튼 -->
                             <div class="purchaseGobtnBox">
-                                <button class="chattingbtn-sellDetail" id="chatting-start">채팅하기</button>
+                               <c:if test="${s.sellStatus eq 'I' && loginUser.userNo==s.userNo }">
+                               		<c:if test="${s.crawl.equals('N')}">
+                                	<button class="chattingbtn-sellDetail"  onclick="sellUpdateForm(${s.sellNo})">수정하기</button>
+                                	</c:if>
+                                	<c:if test="${s.crawl.equals('Y')}">
+                                	<button class="chattingbtn-sellDetail">수정하기</button>
+                                	</c:if>
+                                	<button class="chattingbtn-sellDetail">삭제하기</button>
+
+                                </c:if>
+                                <c:if test="${loginUser.userNo!=s.userNo }">
+                                <button class="chattingbtn-sellDetail" id="chatting-start">채 팅 하 기</button>
+                                </c:if>
+                                <c:if test="${s.sellStatus eq 'C' }">
+                                	<button class="sell-comp" id="sell-comp">삭제하기</button>
+                                </c:if>
                             </div>
 
                             <!-- 상품 설명 텍스트 -->
@@ -279,6 +305,12 @@
             </div>
         </div>
     </div>
+    
+     <script>
+		function sellUpdateForm(sellNo){
+			location.href = "${pageContext.request.contextPath}/sell/sellUpdateForm/"+sellNo;
+		}
+	</script>
 
 	<script>
 	$(document).on("click", ".followBtn-sell", (e) => {
@@ -370,7 +402,7 @@
  	   	                type : 'post',
  	   	                data : {sellNo : "${s.sellNo}"},
  	   	                success : function(result){
- 	   	    				if(result == 1) {
+ 	   	    				if(result=="c") {
  	   	     					alert("찜하기 성공");
  	   	     					
  	   	     				$likeBtn.toggleClass('active');
@@ -405,7 +437,7 @@
  				     data : { sellNo : "${s.sellNo}" },
  				     success : function(result){
  				    	 
- 				    	 if(result==1){
+ 				    	 if(result=="f"){
  				    	 alert("찜하기 취소");
  				    	 
  				    	 
