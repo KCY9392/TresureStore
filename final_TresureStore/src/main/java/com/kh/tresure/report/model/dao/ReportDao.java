@@ -28,5 +28,10 @@ public class ReportDao {
 		return sqlSession.selectOne("reportMapper.reportNumber", search);
 	}
 
+	public int selectReportCount(SqlSession sqlSession, Report report) {
+
+		return sqlSession.selectOne("reportMapper.selectReportCount", report);
+	}
+
 	
 }

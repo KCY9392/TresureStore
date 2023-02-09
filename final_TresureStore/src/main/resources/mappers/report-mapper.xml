@@ -44,6 +44,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     WHERE REPORTED_NO = #{search}
 </select>
 
+<!-- 신고당한 총 횟수2 -->
+<select id="selectReportCount" parameterType="report" resultType="int">
+	SELECT 
+		COUNT(REPORTED_NO) AS "REPORT_COUNT"
+	FROM REPORT
+    WHERE REPORTED_NO = #{reportedNo} 
+</select>
+
 
 
 </mapper>

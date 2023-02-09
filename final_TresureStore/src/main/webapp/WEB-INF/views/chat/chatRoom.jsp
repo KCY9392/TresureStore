@@ -416,11 +416,16 @@
 	   
 		//신고추가
 		 function reportAdd(value){
+    
+			 	const sellUserNo = 	"${AllList.get('product').userNo }";
+			 	const purchaseUserNo = "${AllList.get('purchaseInfo').userNo }";
+			
 				$.ajax({
 					url : "${pageContext.request.contextPath}/report/addReport",
 					data : {reportContent : value,
-
-							reportedUserNo : ${AllList.get('product').userNo }} ,
+							sellUserNo : sellUserNo,
+							purchaseUserNo : purchaseUserNo
+          },
 					success : function(result){
 						if(result == 1){
 							console.log(reportedUserNo+">> 차단당한 유저번호 조회");

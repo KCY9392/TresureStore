@@ -81,28 +81,31 @@ public class ReportController {
 	//신고 추가하기
 	@RequestMapping(value = "report/addReport", method =  RequestMethod.GET)
 	public String addReport (HttpSession session,
-							@RequestParam(value="reportedUserNo", required=false, defaultValue="0") int reportedUserNo,
-							@RequestParam(value="reportContent", required=false) String reportContent,
-							Report report) {
+							 @RequestParam(value="sellUserNo", required=false) int sellUserNo,
+							 @RequestParam(value="purchaseUserNo", required=false) int purchaseUserNo,
+							 @RequestParam(value="reportContent", required=false) String reportContent,
+							 Report report) {
+
 		
-		Member loginUser = (Member)session.getAttribute("loginUser");
-		
-		int reportNo = loginUser.getUserNo();
-		
-		report.setReporterNo(reportNo);
-		report.setReportedNo(reportedUserNo);
+		int reporterNo = ((Member)session.getAttribute("loginUser")).getUserNo();
+
 		report.setReportContent(reportContent);
 		
-		logger.info(reportedUserNo+" >> 신고당한 번호");
-		logger.info("신고 내용 >> "+ reportContent);
+		int state = reportService.addReport(report, sellUserNo, purchaseUserNo, reporterNo);
+
 		
-		int result = reportService.addReport(report);
+		if(state == 0) {
+			session.removeAttribute("loginUser");
+			if(session.getAttribute("access_Token") != null) {
+				session.removeAttribute("access_Token");
+			}
+		}
 		
 		logger.info(">> 신고 리스트에 추가");
 		
 		return "redirect:/";
-	}
 	
+	}
 	
 
 }

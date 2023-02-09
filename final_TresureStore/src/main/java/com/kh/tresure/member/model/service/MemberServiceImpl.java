@@ -36,7 +36,11 @@ public class MemberServiceImpl implements MemberService {
 	public Member loginAndMemberEnroll(Member member) {
 		Member loginUser = null;
 		
-		// 새로 하는 사람이면 result = 0
+		// 블랙리스트 유저인지 먼저 검사 (이거 뭔가 된것 같긴한데 컨트롤러를 손좀 봐야할듯)
+		int blackConsumer = memberDao.selectblackconsumer(sqlSession, member);
+		if(blackConsumer > 0 ) {
+			return loginUser;
+		}
 		
 		// 핸드폰번호와 이메일로 회원이 존재하는지 확인
 		int existUser = memberDao.selectExistenceStatus(sqlSession, member);
@@ -81,6 +85,26 @@ public class MemberServiceImpl implements MemberService {
 			// 삭제에 성공했으면 삭제한 유저 상태만 바꿔서 다시 넣어주기
 			memberDao.insertLeaveUser(sqlSession, member);
 		}
+
+	}
+	
+	// 본인인증에서 블랙리스트인지 검사
+	public int blackConsumer(Member m, String userName, String phone) {
+		
+		int userCount = 0;
+		m.setUserName(userName);
+		m.setPhone(phone);
+		
+		int result = memberDao.selectblackconsumer(sqlSession, m);
+		
+		if(result > 0) {
+			userCount = 1;
+		} else {
+			userCount = 0;
+		}
+		
+		return userCount;
+
 	}
 	
 	//계좌 추가하기

@@ -14,6 +14,9 @@ public interface MemberService {
 
 	// 회원 탈퇴하기
 	public void deleteMember(int userNo);
+	
+	// 본인인증 블랙리스트인지 검사
+	public int blackConsumer(Member m, String userName, String phone);
 
 	//계좌 추가
 	public int userAddAccount(Account accountInfo);

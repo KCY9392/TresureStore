@@ -16,6 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="CREATE_DATE" property="createDate"></result>
 	<result column="STATUS" property="status"></result>
 	<result column="HEART_COUNT" property="heartCount"></result>
+	<result column="BLACKLIST" property="blackListStatus"></result>
 </resultMap>
 
 <resultMap type="account" id="accountResultSet">
@@ -139,16 +140,44 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE USER_NO = #{userNo}
 </select>
 
+<!-- 회원탈퇴한 유저 상태변경으로 다시 넣기 -->
 <insert id="insertLeaveUser" parameterType="member">
 	<if test="phone != null">
-		INSERT INTO MEMBER (USER_NO, USER_NAME, PHONE, BIRTH, STATUS) 
-		VALUES (#{userNo} ,#{userName}, #{phone}, #{birth}, 'N')
+		INSERT INTO MEMBER (USER_NO, USER_NAME, PHONE, BIRTH, CREATE_DATE, STATU) 
+		VALUES (#{userNo} ,#{userName}, #{phone}, #{birth}, #{createDate} ,'N')
 	</if>
 	<if test="email != null">
-		INSERT INTO MEMBER (USER_NO, USER_NAME, EMAIL , BIRTH, STATUS) 
-		VALUES (#{userNo} ,#{userName}, #{email}, #{birth}, 'N')
+		INSERT INTO MEMBER (USER_NO, USER_NAME, EMAIL , BIRTH, CREATE_DATE ,STATUS) 
+		VALUES (#{userNo} ,#{userName}, #{email}, #{birth}, #{createDate} ,'N')
 	</if>
 </insert>
+
+<!-- 블랙리스트 유저인지 확인 -->
+<select id="selectblackconsumer" parameterType="member" resultType="int">
+	SELECT COUNT(*)
+	FROM MEMBER
+	WHERE BLACKLIST = 'Y' AND 
+	<choose>
+		<when test="phone != null and email == null">
+			PHONE = #{phone}
+		</when>
+		<when test="phone == null and email != null">
+			EMAIL = #{email}
+		</when>
+	</choose>
+</select>
+
+<!-- 블랙리스트 유저 값 다시 넣기 -->
+<select id="insertBlackListUser" parameterType="member">
+	<if test="phone != null">
+		INSERT INTO MEMBER (USER_NO, USER_NAME, PHONE, BIRTH, STATUS, CREATE_DATE, BLACKLIST) 
+		VALUES (#{userNo} ,#{userName}, #{phone}, #{birth}, 'N',#{createDate},  'Y')
+	</if>
+	<if test="email != null">
+		INSERT INTO MEMBER (USER_NO, USER_NAME, EMAIL , BIRTH, STATUS, CREATE_DATE, BLACKLIST) 
+		VALUES (#{userNo} ,#{userName}, #{email}, #{birth}, 'N',#{createDate},  'Y')
+	</if>
+</select>
 
 <!-- 계좌 추가하기 -->
 <insert id="userAddAccount" parameterType="account" >
@@ -162,5 +191,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	SET ACCOUNT = TRIM(#{account})
 	WHERE USER_NO = #{userNo}
 </update> 
+
    
 </mapper>
