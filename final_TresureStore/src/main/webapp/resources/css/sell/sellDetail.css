@@ -86,7 +86,7 @@
         .sellProductPriceText{
                 font-size: 45px;
 			    font-weight: 500;
-			    width: 120px;
+			    width: 140px;
 			    padding-left: 10px;
         }
 
@@ -158,6 +158,7 @@
             font-size: 30px;
             font-weight: 20px;
            	font-family: 'koverwatch';
+           	cursor: pointer;
         }
         /*판매완료 버튼*/
         .sell-comp{

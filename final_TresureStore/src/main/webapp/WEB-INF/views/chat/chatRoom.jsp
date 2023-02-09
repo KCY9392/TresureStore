@@ -17,7 +17,7 @@
 	<!-- 웹소켓 js -->
 	<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 	<!-- 결제 js -->
-	<script type="text/javascript" src="/tresure/resources/js/payment.js?ver=1"></script>
+	<!-- <script type="text/javascript" src="/tresure/resources/js/payment.js?ver=1"></script> -->
 	<!-- iamport.payment.js -->
 	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 	<!-- alertify -->
@@ -96,22 +96,22 @@
                                 	<!-- 로그인사람과 구매한사람이 같은경우  -->
                                    	<c:if test="${AllList.get('purchaseInfo').userNo eq loginUser.userNo}">
                                         <c:if test="${AllList.get('product').avg  >= 4.5}">
-                                            <img src="/tresure/resources/images/icon/grade3.png" width="40px" /> <span class="store-text">상점 <p class="dd">${AllList.get('product').userNo }</p>호 점</span>
+                                            <img src="/tresure/resources/images/icon/grade3.png" width="40px" /> <span class="store-text">상점 <span class="dd">${AllList.get('product').userNo }</span>호 점</span>
                                         </c:if>
                                         <c:if test="${ 4 <= AllList.get('product').avg && AllList.get('product').avg < 4.5 }">
-                                            <img src="/tresure/resources/images/icon/grade2.png" width="40px" /> <span class="store-text">상점 ${AllList.get('product').userNo }호 점</span>
+                                            <img src="/tresure/resources/images/icon/grade2.png" width="40px" /> <span class="store-text">상점 <span class="dd">${AllList.get('product').userNo }</span>호 점</span>
                                         </c:if>
                                         <c:if test="${ 3.5 <= AllList.get('product').avg && AllList.get('product').avg < 4 }">
-                                            <img src="/tresure/resources/images/icon/grade1.png" width="40px" /> <span class="store-text">상점 ${AllList.get('product').userNo }호 점</span>
+                                            <img src="/tresure/resources/images/icon/grade1.png" width="40px" /> <span class="store-text">상점 <span class="dd">${AllList.get('product').userNo }</span>호 점</span>
                                         </c:if>
                                         <c:if test="${ null == AllList.get('product').avg || AllList.get('product').avg < 3.5 }">
-                                            <img src="/tresure/resources/images/icon/grade0.png" width="40px" /> <span class="store-text">상점 ${AllList.get('product').userNo }호 점</span>
+                                            <img src="/tresure/resources/images/icon/grade0.png" width="40px" /> <span class="store-text">상점 <span class="dd">${AllList.get('product').userNo }</span>호 점</span>
                                         </c:if>
                                        </c:if>
                                        <!-- 로그인한 사람과 판매하는 사람이 같은경우 -->
                                        <c:if test="${AllList.get('product').userNo eq loginUser.userNo}">
                                         <c:if test="${AllList.get('purchaseInfo').purchaseUserAvg >= 4.5}">
-                                            <img src="/tresure/resources/images/icon/grade3.png" width="40px" />  <span class="store-text">상점 ${AllList.get('purchaseInfo').userNo }호 점</span>
+                                            <img src="/tresure/resources/images/icon/grade3.png" width="40px" /> <span class="store-text">상점 ${AllList.get('purchaseInfo').userNo }호 점</span>
                                         </c:if>
                                         <c:if test="${ 4 <= AllList.get('purchaseInfo').purchaseUserAvg && AllList.get('purchaseInfo').purchaseUserAvg < 4.5 }">
                                             <img src="/tresure/resources/images/icon/grade2.png" width="40px" /> <span class="store-text">상점 ${AllList.get('purchaseInfo').userNo }호 점</span>
@@ -155,6 +155,7 @@
                                     onclick="requestPay('${AllList.get('product').sellTitle }',
                                     					'${AllList.get('product').price }',
                                     					'${AllList.get('purchaseInfo').userNo}',
+                                    					'${AllList.get('product').userNo}',
                                     					'${pageContext.request.contextPath}')">결제하기</button>
                                 </li>
                             </ul>
@@ -217,6 +218,88 @@
 
      <script>
      
+     
+     //결제하기
+     function requestPay(sellTitle, price, userNo, userNo2, context) {
+	 		
+	 		console.log('상품명 :'+sellTitle);
+	 		console.log(price+'원');
+	 		console.log('구매자번호 :'+userNo); //구매자번호
+	 		console.log('판매자번호 :'+userNo2); //판매자번호
+	 		console.log(context);
+	 		
+			//var context = '${pageContext.request.contextPath}';
+
+			//주문번호 생성
+			const make_merchant_uid = () => {
+				const current_time = new Date();
+				const year = current_time.getFullYear().toString();
+				const month = (current_time.getMonth()+1).toString();
+				const day = current_time.getDate().toString();
+				const hour = current_time.getHours().toString();
+				const minute = current_time.getMinutes().toString();
+				const second = current_time.getSeconds().toString();
+				const merchant_uid = 'TRESURE' + year + month + day + hour + minute + second;
+			
+				return merchant_uid;
+			};
+			
+			//주문번호 
+			const merchant_uid = make_merchant_uid();
+	 
+	 
+	 
+			  IMP.init('imp14878074'); //iamport 대신 자신의 "가맹점 식별코드"를 사용
+			  
+			  IMP.request_pay({
+			    pg: "html5_inicis", //또는 ,kakaopay.TC0ONETIME
+			    pay_method: "card",
+			    merchant_uid : merchant_uid,    //'merchant_'+new Date().getTime(),
+			    name : sellTitle,
+			    amount : price,
+			    buyer_email : 'tresure@tresure.do',
+			    buyer_name : userNo
+			  }, function (rsp) {
+				console.log(rsp);
+					if (rsp.success) { // 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
+			                
+							// 주문정보 생성 및 테이블에 저장 
+							$.ajax({
+								url: "${pageContext.request.contextPath}/purchase/complete", 
+								type: "POST",
+								data : {
+									amount : price,
+									name : sellTitle,
+									buyer_name : userNo,
+									merchant_uid : merchant_uid,
+									sell_no:userNo2
+								},
+								success: function(result) {
+							          if (result) {
+							        	  Swal.fire('결제 완료', sellTitle+" 구매 완료", "success");
+							          } else {
+							              alert("전송된 값 없음");
+							          }
+							    },
+							    error: function() {
+							    	Swal.fire({
+										title: 'ajax실패',
+										text: '다시 결제해주세요.',
+										icon:'error',
+										timer:50000
+										})
+							    }
+							})
+						} else {
+						Swal.fire({
+								title: '결제 실패',
+								text: '다시 결제해주세요.',
+								icon:'error'
+								})
+						}
+				});
+		}
+     
 	   //신고버튼 클릭 시
 		 $('#addReport').on('click', function(){
 			 
@@ -257,9 +340,10 @@
 				$.ajax({
 					url : "${pageContext.request.contextPath}/report/addReport",
 					data : {reportContent : value,
-							reportedUserNo : reportedUserNo} ,
+							reportedUserNo : ${AllList.get('product').userNo }} ,
 					success : function(result){
 						if(result == 1){
+							console.log(reportedUserNo+">> 차단당한 유저번호 조회");
 							location.reload();
 						}
 					},

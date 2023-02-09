@@ -81,7 +81,7 @@ public class ReportController {
 	//신고 추가하기
 	@RequestMapping(value = "report/addReport", method =  RequestMethod.GET)
 	public String addReport (HttpSession session,
-							@RequestParam(value="sellUserNo", required=false) int sellUserNo,
+							@RequestParam(value="reportedUserNo", required=false, defaultValue="0") int reportedUserNo,
 							@RequestParam(value="reportContent", required=false) String reportContent,
 							Report report) {
 		
@@ -90,10 +90,10 @@ public class ReportController {
 		int reportNo = loginUser.getUserNo();
 		
 		report.setReporterNo(reportNo);
-		report.setReportedNo(sellUserNo);
+		report.setReportedNo(reportedUserNo);
 		report.setReportContent(reportContent);
 		
-		logger.info(sellUserNo+" >> 신고당한 번호");
+		logger.info(reportedUserNo+" >> 신고당한 번호");
 		logger.info("신고 내용 >> "+ reportContent);
 		
 		int result = reportService.addReport(report);

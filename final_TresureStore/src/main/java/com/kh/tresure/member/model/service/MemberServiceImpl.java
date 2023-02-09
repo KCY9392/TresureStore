@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.tresure.member.model.dao.MemberDao;
+import com.kh.tresure.member.model.vo.Account;
 import com.kh.tresure.member.model.vo.Member;
 import com.kh.tresure.sell.controller.SellController;
 
@@ -80,11 +81,20 @@ public class MemberServiceImpl implements MemberService {
 			// 삭제에 성공했으면 삭제한 유저 상태만 바꿔서 다시 넣어주기
 			memberDao.insertLeaveUser(sqlSession, member);
 		}
-		
-		
-		
-		
+	}
 	
+	//계좌 추가하기
+	@Override
+	public int userAddAccount(Account accountInfo) {
+		
+		return memberDao.userAddAccount(sqlSession, accountInfo);
+	}
+	
+	//계좌 수정하기
+	@Override
+	public void updateAccount(int account) {
+		
+		memberDao.updateAccount(sqlSession, account);
 	}
 	
 	

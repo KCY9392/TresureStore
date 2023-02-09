@@ -140,14 +140,19 @@
 	
 	<script>
 			
-		 /* //조회 버튼 클릭 시
+		//조회 버튼 클릭 시
 		 $('#resultButton').click(function(){
-		    if($('#searchReport').val == ''){
-		    	alert("다시 입력");
-		    	return false;
-		      }
-		    return true;
-		 });  */
+			 
+			 if($('#searchReport').val()==''){
+					Swal.fire({
+			                icon: 'warning',
+			                title: '검색어를 입력하세요'                  
+			            });	
+					return false;
+				}
+		 })
+		 
+		 
 	</script>
 
 </body>
