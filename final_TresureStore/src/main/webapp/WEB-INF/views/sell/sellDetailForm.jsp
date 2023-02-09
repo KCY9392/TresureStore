@@ -224,14 +224,14 @@
                                 	<c:if test="${s.crawl.equals('Y')}">
                                 	<button class="chattingbtn-sellDetail">수정하기</button>
                                 	</c:if>
-                                	<button class="chattingbtn-sellDetail">삭제하기</button>
+                                	<button class="chattingbtn-sellDetail" onclick="deleteSellDetail(${s.sellNo});">삭제하기</button>
 
                                 </c:if>
                                 <c:if test="${loginUser.userNo!=s.userNo }">
                                 <button class="chattingbtn-sellDetail" id="chatting-start">채 팅 하 기</button>
                                 </c:if>
                                 <c:if test="${s.sellStatus eq 'C' }">
-                                	<button class="sell-comp" id="sell-comp">삭제하기</button>
+                                	<button class="sell-comp" id="sell-comp" onclick="deleteSellDetail(${s.sellNo});">삭제하기</button>
                                 </c:if>
                             </div>
 
@@ -406,6 +406,35 @@
  	        
      });
 	       
+    </script>
+    
+    <script>
+    
+    function deleteSellDetail(sellNo){
+       
+    	if (confirm("판매상품을 정말로 삭제하시겠습니까?")){
+        
+        
+        $.ajax({
+           url : '${pageContext.request.contextPath}/sell/deleteSell',
+             type : 'post',
+            data : {sellNo :sellNo},
+            success : function(result){
+                   if(result == 1) {
+                      
+                       alert("삭제되었습니다.");
+                         location.href="${pageContext.request.contextPath}"
+                   }
+            
+             },
+        
+             error:function(){
+                  console.log("실패");
+               }
+        });
+    	}
+     };
+    	
     </script>
 	        
 	            	  

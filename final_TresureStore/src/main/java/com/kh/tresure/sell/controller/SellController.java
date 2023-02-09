@@ -26,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kh.tresure.common.Image;
+import com.kh.tresure.heart.model.vo.Heart;
 import com.kh.tresure.member.model.vo.Member;
 import com.kh.tresure.sell.model.service.SellService;
 import com.kh.tresure.sell.model.vo.Category;
@@ -355,6 +356,7 @@ public class SellController {
 		return "sell/sellerPage";
 	}
 	
+	// 업데이트 폼으로 이동
 	@RequestMapping(value = "/sellUpdateForm/{sellNo}" ,method = RequestMethod.GET)
 	public ModelAndView  sellUpdateForm(@PathVariable("sellNo") int sellNo, ModelAndView mv) {
 		
@@ -377,6 +379,8 @@ public class SellController {
 		
 		return mv;
 	}
+	
+	//상품 업데이트
 	
 	@RequestMapping(value = "/sellUpdate" ,method = RequestMethod.POST)
 	public String sellUpdate(Sell s, Model model, HttpSession session,HttpServletRequest request,
@@ -440,6 +444,27 @@ public class SellController {
 			return "common/errorPage";
 		}
 		
+	}
+	
+	//게시글 삭제
+	@ResponseBody
+	@RequestMapping(value="/deleteSell",method = RequestMethod.POST)
+	public int deleteHeart(HttpSession session,
+		     @RequestParam(value = "sellNo") int sellNo) {
+		int result = 0;
+		Sell s = new Sell();
+		s.setSellNo(sellNo);
+		if(result==0) {
+		sellService.sellDelete(s);
+		
+			result = 1;
+			
+		}
+		
+		
+		
+		return result;
+			
 	}
 
 }

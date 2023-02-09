@@ -266,7 +266,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              S.CREATE_DATE
             FROM SELL S
             JOIN MEMBER M ON M.USER_NO = S.USER_NO
-            WHERE M.USER_NO=#{userNo}
+            WHERE M.USER_NO=#{userNo} AND S.STATUS = 'Y'
 
              ORDER BY CREATE_DATE DESC
    </select>
@@ -284,7 +284,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              S.CREATE_DATE
             FROM SELL S
             JOIN MEMBER M ON M.USER_NO = S.USER_NO
-            WHERE M.USER_NO=#{userNo}
+            WHERE M.USER_NO=#{userNo}  AND S.STATUS = 'Y'
 
             ORDER BY SELL_STATUS DESC, CREATE_DATE DESC
             
@@ -412,7 +412,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		     , CRAWL
 		     , SELL_STATUS
 		  FROM SELL S
-		 WHERE USER_NO = #{userNo}
+		 WHERE USER_NO = #{userNo}  AND STATUS = 'Y'
 	</select>
 
 	<select id="reviewList" parameterType="int" resultType="review">
@@ -508,5 +508,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             AND ROWNUM = 1
             ORDER BY SELL_NO DESC
 	</select>
+	
+	<update id="deleteSell" parameterType="sell">
+		UPDATE SELL
+		SET STATUS='N'
+		WHERE SELL_NO = #{sellNo}
+	</update>
 	
 </mapper>

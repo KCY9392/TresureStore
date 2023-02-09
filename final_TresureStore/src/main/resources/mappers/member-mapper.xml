@@ -81,6 +81,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</when>
 		<when test="phone == null and email != null">
 			EMAIL = #{email}
+			</when>
+			
+			</choose>
 
 </select>
 

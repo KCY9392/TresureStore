@@ -388,9 +388,11 @@ $(".chBox").click(function(){
      url : '${pageContext.request.contextPath}/deleteHeart',
      type : 'post',
      data : { chbox : checkArr },
-     success : function(){
+     success : function(result){
+    	if(result==1){
       console.log("성공");
       location.reload();
+    	}
      },
      error:function(){
         console.log("실패")
