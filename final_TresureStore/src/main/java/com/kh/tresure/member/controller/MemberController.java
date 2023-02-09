@@ -15,10 +15,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.tresure.heart.model.vo.Heart;
 import com.kh.tresure.member.model.service.KakaoAPI;
 import com.kh.tresure.member.model.service.MemberService;
+import com.kh.tresure.member.model.vo.Account;
 import com.kh.tresure.member.model.vo.Member;
 import com.kh.tresure.mypage.model.service.MyPageService;
 import com.kh.tresure.review.model.vo.Review;
@@ -245,6 +247,39 @@ public class MemberController {
 		return "redirect:/";
 	}
 	   
+	
+	//계좌추가하기
+		@ResponseBody
+		@RequestMapping(value = "member/account", method = RequestMethod.POST)
+		public int userAddAccount (Account accountInfo, HttpSession session, String account, int userNo) {
+			
+			accountInfo.setUserNo(userNo);
+			accountInfo.setAccount(Integer.parseInt((String.valueOf(account))));
+			
+			//계좌 추가하기
+			int result = memberService.userAddAccount(accountInfo);
+				
+			long acc = accountInfo.getAccount();
+			if(acc != 0){
+				//계좌 수정하기
+				memberService.updateAccount(Integer.parseInt((String.valueOf(account))));
+			}
+			
+		   logger.info(" 계좌 >>"+ accountInfo);
+		   logger.info(" >> 계좌 리스트에 추가 완료");
+		   
+		   return result;
+		}
+		
+//		//계좌 수정하기
+//		@RequestMapping(value = "member/updAccount", method = RequestMethod.POST)
+//		public int updateAccount (Account account, Model model, int userNo) {
+//			
+//			
+//			int result = memberService.updateAccount(userNo);
+//			
+//			return result;
+//		}
 	
 	
 	
