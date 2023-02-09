@@ -34,7 +34,6 @@ public class Image {
 				logger.error("에러남");
 				e.printStackTrace();
 			}
-		
 
 		return changeName;
 	}
