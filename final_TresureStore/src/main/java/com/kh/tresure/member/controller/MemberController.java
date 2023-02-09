@@ -201,7 +201,7 @@ public class MemberController {
 	    	logger.info("member : "+member);
 	    	
 	    	if(member == null) {
-	    		kakao.kakaoLogout(access_Token);
+	    		kakao.unlink(access_Token);
 	    		session.setAttribute("alertMsg", "로그인 및 회원가입을 할 수 없는 유저입니다.");
 	    		return "redirect:/";
 	    	}
