@@ -1,7 +1,11 @@
 package com.kh.tresure.chat.controller;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,12 +22,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.tresure.chat.model.service.ChatService;
 import com.kh.tresure.chat.model.vo.Block;
+import com.kh.tresure.chat.model.vo.ChatFiles;
 import com.kh.tresure.chat.model.vo.ChatRoom;
 import com.kh.tresure.chat.model.vo.ChatRoomJoin;
+import com.kh.tresure.common.Image;
 import com.kh.tresure.member.model.vo.Member;
 import com.kh.tresure.sell.model.vo.Sell;
 
@@ -83,7 +90,8 @@ public class ChatController {
                          ChatRoom room,
                          ChatRoomJoin roomJoin,
                          Model model,
-                         Block block) {
+                         Block block,
+                         HttpSession session) {
       
       room.setSellNo(Integer.parseInt(sellNo));
       room.setUserNo(Integer.parseInt(userNo));
@@ -150,18 +158,23 @@ public class ChatController {
    // 차단 풀기
    @RequestMapping(value="chat/chatBlockremove", method = RequestMethod.POST)
    @ResponseBody
-   public String deleteBlock(@RequestParam(value="sellUserNo", required=false) int sellUserNo,
-                     	  @RequestParam(value="chatRoomNo", required=false) int chatRoomNo,
-                     	  @RequestParam(value="purchaseUserNo", required=false) int purchaseUserNo,
+   public String deleteBlock(@RequestParam(value="sellUserNo", required=false) String sellUserNo,
+                     	  @RequestParam(value="chatRoomNo", required=false) String chatRoomNo,
+                     	  @RequestParam(value="purchaseUserNo", required=false) String purchaseUserNo,
+                     	  @RequestParam(value="blockedUserNo", required=false) String blockedUserNo,
                      	  Model model,
                      	  HttpSession session,
                      	  Block block) {
 	   
+	   logger.info(purchaseUserNo+"");
+	   logger.info(blockedUserNo+"");
+	   logger.info(sellUserNo+"");
 	   
 	   // 로그인 한유저
 	   int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
 	   
-	   int result = chatService.deleteBlock(sellUserNo, chatRoomNo, purchaseUserNo, userNo,block);
+	   
+	   int result = chatService.deleteBlock(sellUserNo, chatRoomNo, purchaseUserNo, userNo, block, blockedUserNo);
 	   if(result == 1) {
 		   return String.valueOf(result);
 	   } else {
@@ -202,6 +215,62 @@ public class ChatController {
       return result;
       
    }
+   
+   
+	// 채팅첨부파일
+	@ResponseBody
+	@RequestMapping(value = "chat/chatFile/insert", method = RequestMethod.POST)
+	public Map<String, String> insertFile(MultipartFile uploadfile, @RequestParam(value = "chatRoomNo") int chatRoomNo,
+			ChatFiles chatfiles, HttpSession session) {
+
+		List<ChatFiles> chatFilesList = new ArrayList<>();
+
+		int result = 0;
+
+		if (!uploadfile.isEmpty()) {
+
+			String webPath = "/resources/images/chat/";
+			String serverFolderPath = session.getServletContext().getRealPath(webPath);
+
+			File file = null;
+
+			// 폴더 생성
+			if (!uploadfile.getOriginalFilename().equals("")) {
+				String savePath = session.getServletContext().getRealPath("/resources/images/chat/");
+
+				file = new File(savePath);
+				if (!file.exists()) {
+					file.mkdirs();
+				}
+
+				String changeName = Image.saveFile(uploadfile, savePath);
+
+				System.out.println("chat savePath ." + savePath);
+				System.out.println("chat ChangeName 2." + changeName);
+
+				chatfiles.setChatRoomNo(chatRoomNo);
+				chatfiles.setOriginName(uploadfile.getOriginalFilename());
+				chatfiles.setChangeName(changeName);
+				chatfiles.setFilePath(savePath);
+				chatfiles.setUserNo(((Member) session.getAttribute("loginUser")).getUserNo());
+			}
+
+			result = chatService.insertchatImage(chatfiles);
+
+		}
+
+		Map<String, String> map = new HashMap<>();
+				
+		if (result > 0) {
+			
+			 map.put("originName",chatfiles.getOriginName());
+		     map.put("changeName",chatfiles.getChangeName());
+					
+		}
+		
+		return map;
+	}
+   
    
 
 }

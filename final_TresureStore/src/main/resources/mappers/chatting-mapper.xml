@@ -47,6 +47,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 
+<resultMap type="chatfiles" id="chatFileResultSet">
+	<result column="CFILE_NO" property="cfileNo"/>
+	<result column="CHATROOM_NO" property="chatRoomNo"/>
+	<result column="ORIGIN_NAME" property="originName"/>
+	<result column="CHANGE_NAME" property="changeName"/>
+	<result column="UPLOAD_DATE" property="uploadDate"/>
+	<result column="FILE_PATH" property="filePath"/>
+	<result column="STATUS" property="status"/>
+	<result column="USER_NO" property="userNo"/>
+</resultMap>
+
+
 
 
 <!-- 채팅방 목록 조회 -->
@@ -253,7 +265,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select>
 
 
-
+<!-- 채팅 이미지 데베 저장 -->
+<insert id="insertchatImage" parameterType="chatfiles">
+	INSERT INTO CFILE (CFILE_NO, CHATROOM_NO, ORIGIN_NAME, CHANGE_NAME, FILE_PATH, USER_NO)
+	VALUES (SEQ_CFNO.NEXTVAL, #{chatRoomNo}, #{originName}, #{changeName}, #{filePath}, #{userNo})
+</insert>
 
 
 

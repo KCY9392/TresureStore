@@ -16,6 +16,7 @@
 		<typeAlias type="com.kh.tresure.chat.model.vo.ChatRoom" alias="chatRoom"/>
 		<typeAlias type="com.kh.tresure.chat.model.vo.ChatMessage" alias="chatMessage"/>
 		<typeAlias type="com.kh.tresure.chat.model.vo.ChatRoomJoin" alias="chatRoomJoin"/>
+		<typeAlias type="com.kh.tresure.chat.model.vo.ChatFiles" alias="chatFiles"/>
 		<typeAlias type="com.kh.tresure.chat.model.vo.Block" alias="block"/>
 		<typeAlias type="com.kh.tresure.sell.model.vo.Sell" alias="sell"/>
 		<typeAlias type="com.kh.tresure.sell.model.vo.SellImg" alias="sellImg"/>
@@ -23,13 +24,11 @@
 		<typeAlias type="com.kh.tresure.heart.model.vo.Heart" alias="heart"/>
 		<typeAlias type="com.kh.tresure.review.model.vo.Review" alias="review"/>
 		<typeAlias type="com.kh.tresure.follow.model.vo.Follow" alias="follow"/>
-
-
+		<typeAlias type="com.kh.tresure.recent.model.vo.Recent" alias="recent"/>
 		<typeAlias type="com.kh.tresure.report.model.vo.Report" alias="report"/>
+		<typeAlias type="com.kh.tresure.purchase.model.vo.Purchase" alias="purchase"/>
+		<typeAlias type="com.kh.tresure.member.model.vo.Account" alias="account"/>
 		<typeAlias type="com.kh.tresure.sell.model.vo.Category" alias="category"/>
-		
-
-
 	</typeAliases>
 	
 	<!-- 메퍼 파일 등록 -->
@@ -42,7 +41,8 @@
 		<mapper resource="/mappers/review-mapper.xml"/>
 		<mapper resource="/mappers/follow-mapper.xml"/>
 		<mapper resource="/mappers/report-mapper.xml"/>
-		
-	</mappers>
+		<mapper resource="/mappers/purchase-mapper.xml"/>
+		<mapper resource="/mappers/recent-mapper.xml"/>
+  </mappers>
 
 </configuration>

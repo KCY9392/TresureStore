@@ -274,7 +274,7 @@ public class SellController {
 	) {
 
 		String webPath = "/resources/images/sell/";
-		String serverFolderPath = session.getServletContext().getRealPath(webPath);
+	    String serverFolderPath = session.getServletContext().getRealPath(webPath);
 
 		int result = 0;
 		File file = null;
@@ -309,8 +309,6 @@ public class SellController {
 				e.printStackTrace();
 			}
 		}
-
-		System.out.println(s);
 
 //		if(mode.equals("insert")) {
 //			// db에 sell테이블에 데이터 추가
