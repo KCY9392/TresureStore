@@ -255,19 +255,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		       IMAGE_SRC,
 		       S.USER_NO AS "USER_NO",
 		       CRAWL,
-		       (SELECT COUNT(*) FROM REPORT R JOIN SELL S ON (R.REPORTED_NO=S.USER_NO)) AS "REPORT_NUM",
+		       (SELECT COUNT(*) FROM REPORT R JOIN SELL S ON (R.REPORTED_NO=S.USER_NO) WHERE S.SELL_NO = #{sellNo}) AS "REPORT_NUM",
 		       (SELECT COUNT(*) FROM FOLLOW F WHERE F.FW_ID=S.USER_NO ) AS "FOLLOWER_NUM",
 		       (SELECT COUNT(*) FROM SELL S2 WHERE S2.USER_NO = S.USER_NO AND S2.SELL_STATUS = 'I') AS "SELL_NUM",
+		       
 		       <if test="#{userNo} != null">
-		      (SELECT COUNT(*) FROM FOLLOW F WHERE F.FW_ID = S.USER_NO AND F.FI_ID = #{userNo}) AS "FOLLOW_IS", 
-		       (SELECT COUNT(*) 
-		       FROM HEART H 
-		       LEFT JOIN MEMBER M ON(H.USER_NO=M.USER_NO) 
-		       LEFT JOIN SELL S ON(H.SELL_NO=S.SELL_NO)
-		       WHERE M.USER_NO = #{userNo} AND S.SELL_NO = #{sellNo}) AS "HEART_IS", 
-
-
-		        </if>
+			      (SELECT COUNT(*) FROM FOLLOW F WHERE F.FW_ID = S.USER_NO AND F.FI_ID = #{userNo}) AS "FOLLOW_IS", 
+			       (SELECT COUNT(*) 
+			       FROM HEART H 
+			       LEFT JOIN MEMBER M ON(H.USER_NO=M.USER_NO) 
+			       LEFT JOIN SELL S ON(H.SELL_NO=S.SELL_NO)
+			       WHERE M.USER_NO = #{userNo} AND S.SELL_NO = #{sellNo}) AS "HEART_IS", 
+				</if>
 		        AVG
        FROM SELL S
        LEFT JOIN (SELECT AVG(REV_SCORE) AS "AVG", S.USER_NO FROM REVIEW RE JOIN SELL S ON (RE.SELL_NO=S.SELL_NO)
@@ -349,7 +348,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    WHERE S.SELL_STATUS = 'C' AND M.USER_NO =  #{userNo}
 	</select>
 	
-	<select id="sellList" parameterType="int" resultType="sell">
+	<select id="sellList" parameterType="int" resultMap="sellResultSet">
 		SELECT SELL_NO
 		     , CATEGORY_NO
 		     , SELL_TITLE

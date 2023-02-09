@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.tresure.chat.model.dao.ChatDao;
 import com.kh.tresure.chat.model.vo.Block;
+import com.kh.tresure.chat.model.vo.ChatFiles;
 import com.kh.tresure.chat.model.vo.ChatMessage;
 import com.kh.tresure.chat.model.vo.ChatRoom;
 import com.kh.tresure.chat.model.vo.ChatRoomJoin;
@@ -258,7 +259,11 @@ public class ChatServiceImpl implements ChatService{
    }
    
    
-   
+   //채팅 첨부파일 보내기
+   public int insertchatImage(ChatFiles chatfiles) {
+	   
+	   return chatDao.insertchatImage(sqlSession, chatfiles);
+   }
    
    
    

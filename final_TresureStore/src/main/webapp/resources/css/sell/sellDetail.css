@@ -86,7 +86,6 @@
         .sellProductPriceText{
                 font-size: 45px;
 			    font-weight: 500;
-			    width: 120px;
 			    padding-left: 10px;
         }
 
@@ -299,7 +298,7 @@
         }
         
         .right_area{
-            margin-left: 62%;
+            margin-left: 60%;
         }
 
         .right_area .icon{
