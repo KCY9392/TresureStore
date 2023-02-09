@@ -20,10 +20,10 @@ public class Sell {
 
 	private int sellNo;	
 	private int userNo;	
-	private int categoryNo;
+	private int categoryNo; // CATEGORY_NO -> categoryNo
 	private String sellTitle;		
 	private String sellContent;
-	private String imgSrc;
+	private String imgSrc; // IMAGE_SRC -> imageSrc
 	private int count;
 	private int price;
 	private String sellStatus;

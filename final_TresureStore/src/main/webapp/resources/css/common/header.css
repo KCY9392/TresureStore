@@ -54,7 +54,7 @@ a {
 }
 .etIgxm {
     display: flex;
-    flex-direction: row-reverse;
+    /* flex-direction: row-reverse; */
     align-items: center;
     -webkit-box-flex: 1;
     flex-grow: 1;
@@ -73,11 +73,19 @@ a {
     border: none;
     font-weight: lighter;
 }
+.accountBankButton{
+	display: flex;
+	all: unset; 
+		   width:73px;
+		   color:gray;
+		   margin:auto;
+           padding: 4px 4px;
+           cursor: pointer;
+}
 /* header end */
 
 /* search start */
 .search1 {
-    border: 2px solid black;
     width: 550px;
     height: 40px;
     box-sizing: border-box;
@@ -97,6 +105,9 @@ a {
     align-items: center;
     background-color: white;
     width: 100%;
+    border: 2px solid lightgray;
+    border-radius: 10px;
+    margin-top: 7px;
 }
 .search3 {
     line-height: 1.15;

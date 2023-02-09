@@ -38,6 +38,9 @@
 					<div class="etIgxm">
 					  <!-- 본인인증 방법 로그인 O && 카카오로그인 X -->
 						<c:if test="${loginUser.phone != null && access_Token == null}">
+							<a class="accountBankButton" id="tresureAccount">
+							<img src="https://cdn-icons-png.flaticon.com/512/1424/1424949.png " width="20px;"> 계좌 등록</a>
+							
 							<a href="/tresure/logout" class="items">
 								${loginUser.userName}님 환영합니다^ㅁ^<br> 로그아웃
 							</a>
@@ -45,6 +48,9 @@
 						
 					  <!-- 본인인증 로그인 X && 카카오로그인 O -->	
 					  	<c:if test="${loginUser.phone == null && access_Token != null}">
+					  		<a class="accountBankButton" id="tresureAccount">
+							<img src="https://cdn-icons-png.flaticon.com/512/1424/1424949.png " width="20px;"> 계좌 등록</a>
+					  	
 					  		<a href="https://kauth.kakao.com/oauth/logout?client_id=2f3c85098b01f4c1919eb4761e43a541&logout_redirect_uri=http://localhost:8888/tresure/logout/kakao" class="items">
 					  			${loginUser.userName}님 환영합니다^ㅁ^<br> 로그아웃
 					  		</a>
@@ -56,8 +62,8 @@
 								<p>로그인/회원가입</p>
 							</a>
 						</c:if>
-							
 						
+						<input type="hidden" value="${p.rev_is}" name="accStatus">
 					</div>
 
 				</div>
@@ -71,10 +77,12 @@
 					</div>
 					<div class="sun_wrap_li">
 						<ul id="sun_wrap_ul">
+							
 							<li><a href="${pageContext.request.contextPath}/chat/chatRoomList" onclick="chatGo()"><img
 									src="/tresure/resources/images/icon/번개.png" alt="채팅 이미지">채팅하기</a></li>
 							<li><a href="${pageContext.request.contextPath }/sell/sellInsertForm"><img
 									src="/tresure/resources/images/icon/원.png" alt="판매등록 이미지">판매하기</a></li>
+							
 							<li><a href="${pageContext.request.contextPath}/report/reportSearch"><img
 									src="/tresure/resources/images/icon/사기조회.png" alt="사기조회 이미지">사기조회</a></li>
 							<li><a href="${pageContext.request.contextPath}/member/myPage"><img
@@ -85,35 +93,35 @@
 				<div class="catebox3">
 
 					<ul class="inner-menu">
-						<li class="catebox"><a href="${pageContext.request.contextPath}/sell/category/1"><img
+						<li class="catebox cate1"><a href="${pageContext.request.contextPath}/sell/category/1"><img
 								src="/tresure/resources/images/icon/star.png" width="40px"
 								height="35px"><br>인기매물</a></li>
-						<li class="catebox"><a href="${pageContext.request.contextPath}/sell/category/10"><img
+						<li class="catebox cate2"><a href="${pageContext.request.contextPath}/sell/category/10"><img
 								src="/tresure/resources/images/icon/디지털기기.png" width="40px"
 								height="35px"><br>디지털기기</a></li>
-						<li class="catebox"><a href="${pageContext.request.contextPath}/sell/category/20"><img
+						<li class="catebox cate3"><a href="${pageContext.request.contextPath}/sell/category/20"><img
 								src="/tresure/resources/images/icon/가전제품.png" width="40px"
 								height="35px"><br>생활가전</a></li>
-						<li class="catebox"><a href="${pageContext.request.contextPath}/sell/category/30"><img
+						<li class="catebox cate4"><a href="${pageContext.request.contextPath}/sell/category/30"><img
 								src="/tresure/resources/images/icon/유아용품.png" width="40px"
 								height="35px"><br>유아용품</a></li>
-						<li class="catebox"><a href="${pageContext.request.contextPath}/sell/category/40"><img
+						<li class="catebox cate5"><a href="${pageContext.request.contextPath}/sell/category/40"><img
 								src="/tresure/resources/images/icon/패션.png" width="40px"
 								height="35px"><br>패션</a></li>
-						<li class="catebox"><a href="${pageContext.request.contextPath}/sell/category/50"><img
+						<li class="catebox cate6"><a href="${pageContext.request.contextPath}/sell/category/50"><img
 								src="/tresure/resources/images/icon/도서.png" width="40px"
 								height="35px"><br>도서</a></li>
-						<li class="catebox"><a href="${pageContext.request.contextPath}/sell/category/60"><img
+						<li class="catebox cate7"><a href="${pageContext.request.contextPath}/sell/category/60"><img
 								src="/tresure/resources/images/icon/반려동물용품.png" width="40px"
 								height="35px"><br>반려동물용품</a></li>
-						<li class="catebox"><a href="${pageContext.request.contextPath}/sell/category/70">&nbsp;&nbsp;<img
+						<li class="catebox cate8"><a href="${pageContext.request.contextPath}/sell/category/70">&nbsp;&nbsp;<img
 								src="/tresure/resources/images/icon/스포츠.png" width="40px"
 								height="35px"><br>스포츠
 						</a></li>
-						<li class="catebox"><a href="${pageContext.request.contextPath}/sell/category/80"><img
+						<li class="catebox cate9"><a href="${pageContext.request.contextPath}/sell/category/80"><img
 								src="/tresure/resources/images/icon/뷰티.png" width="40px"
 								height="35px"><br>뷰티</a></li>
-						<li class="catebox"><a href="${pageContext.request.contextPath}/sell/category/90"><img
+						<li class="catebox cate10"><a href="${pageContext.request.contextPath}/sell/category/90"><img
 								src="/tresure/resources/images/icon/교환권.png" width="40px"
 								height="35px"><br>교환권</a></li>
 					</ul>
@@ -123,9 +131,68 @@
 	</div>
 	
 	<script>
+		
+		//카테고리 클릭시 해당 카테고리로 이동
 		function Gocategory(categoryCode){
 			location.href = "${pageContext.request.contextPath}/sell/category/"+categoryCode;
 		}
+		
+		//계좌 미등록시 판매하기 버튼 막기
+		$('#sellDisabled').on('click', function(){
+			Swal.fire({
+				title: '',
+				text: '계좌 등록 완료 후에 판매글 등록이 가능합니다.',
+				icon: 'warning'
+			})
+		})
+		
+		
+		//계좌번호 등록 alert
+		 $('#tresureAccount').on('click', function(){
+			 Swal.fire({
+		 		  title: '계좌 등록하기',
+		 		  text: '등록할 계좌번호를 숫자만 입력해주세요.',
+		 		  input: 'text',
+		 		  showCancelButton: true,
+		 		  cancelButtonText: '취소',
+		 		  confirmButtonText: '등록',
+		 		  confirmButtonColor: 'gold',
+		 		 
+				}).then(function(account) {
+				    if (account.value) {
+				    	Swal.fire('계좌등록 완료!', "", "success");
+				    	accountAdd(account.value);
+				        console.log("Result: " + account.value);
+				    }
+				})
+		 });
+		 
+		
+		let userNo2 =  ${loginUser.userNo};
+		
+		 //계좌 추가
+		 function accountAdd(value){
+				
+				$.ajax({
+					url : "${pageContext.request.contextPath}/member/account",
+					type : "post",
+					data : {account : value,
+							userNo : userNo2},
+					success : function(result){
+						if(result){
+							console.log(userNo+">> 유저번호 조회");
+							console.log(account+">> 계좌번호 조회");
+							location.reload();
+						}
+					},
+					error : function(){
+						console.log("통신실패");
+					}
+				});
+	    }; 
+
+		
+		
 	</script>
 </body>
 </html>

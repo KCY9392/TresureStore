@@ -85,12 +85,14 @@ public class ReportController {
 							 @RequestParam(value="purchaseUserNo", required=false) int purchaseUserNo,
 							 @RequestParam(value="reportContent", required=false) String reportContent,
 							 Report report) {
+
 		
 		int reporterNo = ((Member)session.getAttribute("loginUser")).getUserNo();
-		
+
 		report.setReportContent(reportContent);
 		
 		int state = reportService.addReport(report, sellUserNo, purchaseUserNo, reporterNo);
+
 		
 		if(state == 0) {
 			session.removeAttribute("loginUser");

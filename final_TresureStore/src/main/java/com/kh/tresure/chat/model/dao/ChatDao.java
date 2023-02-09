@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.tresure.chat.model.service.ChatServiceImpl;
 import com.kh.tresure.chat.model.vo.Block;
+import com.kh.tresure.chat.model.vo.ChatFiles;
 import com.kh.tresure.chat.model.vo.ChatMessage;
 import com.kh.tresure.chat.model.vo.ChatRoom;
 import com.kh.tresure.chat.model.vo.ChatRoomJoin;
@@ -140,6 +141,12 @@ public class ChatDao {
 	public int selectMemberFind(SqlSession sqlSession, int chatRoomNo) {
 		
 		return sqlSession.selectOne("chattingMapper.selectMemberFind", chatRoomNo);
+	}
+
+	//채팅 첨부파일 데베 저장
+	public int insertchatImage(SqlSession sqlSession, ChatFiles chatfiles) {
+		
+		return sqlSession.insert("chattingMapper.insertchatImage", chatfiles);
 	}
 
 

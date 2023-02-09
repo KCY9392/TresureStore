@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.kh.tresure.chat.model.vo.Block;
+import com.kh.tresure.chat.model.vo.ChatFiles;
 import com.kh.tresure.chat.model.vo.ChatMessage;
 import com.kh.tresure.chat.model.vo.ChatRoom;
 import com.kh.tresure.chat.model.vo.ChatRoomJoin;
@@ -38,6 +39,9 @@ public interface ChatService {
 
    // 차단 풀기
    public int deleteBlock(String sellUserNo, String chatRoomNo, String purchaseUserNo, int userNo, Block block, String blockedUserNo);
+
+   // 채팅 첨부파일 데베 저장
+   public int insertchatImage(ChatFiles chatfiles);
 
 
 

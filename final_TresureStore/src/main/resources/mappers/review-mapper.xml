@@ -27,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 </resultMap>
 
-<select id="mypageReviewList" parameterType="int" resultMap="reviewResultSet">
+	<select id="mypageReviewList" parameterType="int" resultMap="reviewResultSet">
 		  select
        R.REV_NO,
        R.SELL_NO,
@@ -41,12 +41,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     LEFT JOIN (SELECT AVG(REV_SCORE) AS "RAVG", S.USER_NO FROM REVIEW RE JOIN SELL S ON (RE.USER_NO=S.USER_NO)
              GROUP BY S.USER_NO) A ON (A.USER_NO=S.USER_NO)
     WHERE R.STATUS = 'Y' AND M.USER_NO = #{userNo}
-   
-     
-     
-     
 	</select>
 	
-
+	<!-- 후기 등록 -->
+	<insert id="reviewInsert" parameterType="map">
+		INSERT INTO REVIEW (REV_NO, SELL_NO, USER_NO, REV_CONTENT, REV_SCORE)
+		VALUES(SEQ_RNO.NEXTVAL, #{sellNo}, #{userNo}, #{reviewContent}, #{score})
+	</insert>
+	
+	<!-- 후기 상세 -->
+	<select id="reviewDetail" parameterType="map" resultMap="reviewResultSet">
+		SELECT * FROM REVIEW R
+		LEFT JOIN MEMBER M ON(R.USER_NO = M.USER_NO)
+		WHERE M.USER_NO = #{userNo} AND R.SELL_NO = #{sellNo}
+	</select>
+	
+	<!-- 후기 수정 -->
+	<update id="reviewUpdate" parameterType="map">
+		UPDATE REVIEW
+		SET REV_SCORE = #{score},
+		    REV_CONTENT = #{reviewContent},
+		    CREATE_DATE = SYSDATE
+		WHERE SELL_NO = #{sellNo} AND USER_NO = #{userNo}
+	</update>
+	
+	
+	<!-- 후기 삭제 -->
+	<delete id="reviewDelete" parameterType="map">
+		DELETE FROM REVIEW
+		WHERE SELL_NO = #{sellNo} AND USER_NO = #{userNo}
+	</delete>
 
 </mapper>

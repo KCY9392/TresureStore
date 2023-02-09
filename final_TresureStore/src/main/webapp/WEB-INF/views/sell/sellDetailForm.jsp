@@ -14,6 +14,63 @@
 <script type="text/javascript" src="/tresure/resources/js/sellDetail.js"></script>
 </head>
 <body>
+	
+	<script>
+		// localStorage에서 "products" 키 값으로 가져온다.
+		let products = localStorage.getItem("products");
+	
+		// 만약 products가 undefined가 아니라면 list 변수에 JSON.parse(products)를 통해서 JSON Array를 만들고, 그게 아니라면 list 변수를 새로운 배열로 생성한다.
+		let list = products ? JSON.parse(products) : [];
+	
+		// 날짜를 실시간으로 얻기
+		let date = new Date();
+		let year = date.getFullYear(); // 2023출력
+	
+		let month = date.getMonth() + 1; // 0부터 시작하니 + 1 해줘서 현재 월을 출력
+		month = month < 10 ? "0" + month : month; // 4월 또는 8월을 04월 08월 출력
+	
+		let day = date.getDate();
+		day = day < 10 ? "0" + day : daty;
+	
+		let hour = date.getHours();
+		hour = hour < 10 ? "0" + hour : hour;
+	
+		let minute = date.getMinutes();
+		minute = minute < 10 ? "0" + minute : minute;
+	
+		let second = date.getSeconds();
+		second = second < 10 ? "0" + second : second;
+	
+		let dateString = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
+	
+		let item = {sellNo : ${s.sellNo}, imgSrc : "${s.imgSrc}", crawl : "${s.crawl}", createDate : dateString};
+	
+		<c:if test="${sessionScope.loginUser == null}">
+			// 로그인 하지 않은 상태
+			// 일단 아이템이 현재 로컬 스토리지의 상품들에 있지 않다는 가정
+			let exists = false; // 존재하지 않음을 설정
+			// localStorage의 상품을 for문으로 반복
+			for (let i = 0; i < list.length; i++) {
+				// 만약 상품들 중 현재 보는 item이 있다면
+				if (item.sellNo == list[i].sellNo) {
+					// list에서 제거하고
+					list.splice(i, i + 1);
+					// 존재함을 true로 변경 후에
+					exists = true;
+					// 반복문을 빠져나간다.
+					break;
+				}
+			}
+			// list의 첫번째 부분에 item을 추가함
+		</c:if>
+	
+		list.unshift(item); // 배열 맨 앞에 추가할 item.
+	
+		// localStorge에 "products" 키값으로 JSON 형태로 list를 파싱하여 넣는다.
+		localStorage.setItem("products", JSON.stringify(list));
+		
+	</script>
+	
 	<jsp:include page="../common/header.jsp"/>
 	<jsp:include page="../common/sideBar.jsp"/>
 	
@@ -97,31 +154,32 @@
 							<!-- 판매자 정보 -->
                            <div class="sellerInfo">
 
-	                                    <c:set var="sellerUrl" value="${pageContext.request.contextPath }/member/myPage" />
+									<c:set var="sellerUrl" value="${pageContext.request.contextPath }/member/myPage" />
 	                                    <c:if test="${loginUser.userNo != s.userNo }">
 	                                    	<c:set var="sellerUrl" value="${pageContext.request.contextPath }/sell/seller/${s.userNo }" />
 	                                    </c:if>
-								<a href="${sellerUrl }">
+									<a href="${sellerUrl }">
                                 <div class="sellGradeAndNameBox">
                                     <div class="sellerGradeImg">
-	                                    	
-	                                        <c:if test="${s.avg > 4.5}"> 
-												<img src="/tresure/resources/images/icon/grade_3.png" width="100%" height="100%"/>
-											</c:if> 
-											<c:if test="${ 4 <= s.avg && s.avg < 4.5 }"> 
-												<img src="/tresure/resources/images/icon/grade_3.png" width="100%" height="100%"/> 
-											</c:if> 
-											<c:if test="${ 3.5 <= s.avg && s.avg < 4 }"> 
-												<img src="/tresure/resources/images/icon/grade_3.png" width="100%" height="100%"/> 
-											</c:if>
-											<c:if test="${ s.avg == null  || s.avg < 3.5 }">
-												<img src="/tresure/resources/images/icon/grade_3.png" width="100%" height="100%"/>
-											</c:if>
-											
+                                        <c:if test="${s.avg > 4.5}"> 
+											<img src="/tresure/resources/images/icon/backGray_grade3.png" width="100%" height="100%"/>
+										</c:if> 
+										<c:if test="${ 4 <= s.avg && s.avg < 4.5 }"> 
+											<img src="/tresure/resources/images/icon/backGray_grade2.png" width="100%" height="100%"/> 
+										</c:if> 
+										<c:if test="${ 3.5 <= s.avg && s.avg < 4 }"> 
+											<img src="/tresure/resources/images/icon/backGray_grade1.png" width="100%" height="100%"/> 
+										</c:if>
+										<c:if test="${ s.avg == null  || s.avg < 3.5 }">
+											<img src="/tresure/resources/images/icon/backGray_grade0.png" width="100%" height="100%"/>
+										</c:if>
+
                                     </div>
+                                    
                                     <div class="sellerNameInfoBox">
                                         <div class="sellerName">
-                                                <p style="font-size:24px;">상점 ${s.userNo}호점</p>&nbsp;<img src="https://m.bunjang.co.kr/pc-static/resource/0acf058f19649d793382.png" width="15px" height="15px" style="margin-left:15px;">&nbsp;<p>${s.report_Num}</p>
+                                                <p style="font-size:30px;">상점 ${s.userNo}호점</p>&nbsp;<img src="https://m.bunjang.co.kr/pc-static/resource/0acf058f19649d793382.png" width="15px" height="18px" style="margin-left:15px; margin-bottom:3px;">&nbsp;
+                                                <p style="font-size: 20px;">${s.report_Num}</p>
                                         </div>
 
                                         <div class="sellNumAndFollowerBox">
@@ -217,11 +275,17 @@
                             <!-- 채팅하기 버튼 -->
                             <div class="purchaseGobtnBox">
                                <c:if test="${s.sellStatus eq 'I' && loginUser.userNo==s.userNo }">
-                                	<button class="chattingbtn-sellDetail" id="chatting-start">수정하기</button>
-                                	<button class="chattingbtn-sellDetail" id="chatting-start">삭제하기</button>
+                               		<c:if test="${s.crawl.equals('N')}">
+                                	<button class="chattingbtn-sellDetail"  onclick="sellUpdateForm(${s.sellNo})">수정하기</button>
+                                	</c:if>
+                                	<c:if test="${s.crawl.equals('Y')}">
+                                	<button class="chattingbtn-sellDetail">수정하기</button>
+                                	</c:if>
+                                	<button class="chattingbtn-sellDetail">삭제하기</button>
+
                                 </c:if>
                                 <c:if test="${loginUser.userNo!=s.userNo }">
-                                <button class="chattingbtn-sellDetail" id="chatting-start">채팅하기</button>
+                                <button class="chattingbtn-sellDetail" id="chatting-start">채 팅 하 기</button>
                                 </c:if>
                                 <c:if test="${s.sellStatus eq 'C' }">
                                 	<button class="sell-comp" id="sell-comp">삭제하기</button>
@@ -241,6 +305,12 @@
             </div>
         </div>
     </div>
+    
+     <script>
+		function sellUpdateForm(sellNo){
+			location.href = "${pageContext.request.contextPath}/sell/sellUpdateForm/"+sellNo;
+		}
+	</script>
 
 	<script>
 	$(document).on("click", ".followBtn-sell", (e) => {
@@ -332,7 +402,7 @@
  	   	                type : 'post',
  	   	                data : {sellNo : "${s.sellNo}"},
  	   	                success : function(result){
- 	   	    				if(result == 1) {
+ 	   	    				if(result=="c") {
  	   	     					alert("찜하기 성공");
  	   	     					
  	   	     				$likeBtn.toggleClass('active');
@@ -367,7 +437,7 @@
  				     data : { sellNo : "${s.sellNo}" },
  				     success : function(result){
  				    	 
- 				    	 if(result==1){
+ 				    	 if(result=="f"){
  				    	 alert("찜하기 취소");
  				    	 
  				    	 

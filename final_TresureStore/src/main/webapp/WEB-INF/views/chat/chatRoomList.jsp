@@ -11,8 +11,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <!-- 헤더 js -->
     <script type="text/javascript" src="/tresure/resources/js/header.js"></script>
-    <!-- 해당페이지 Js -->
-     <script type="text/javascript" src="/tresure/resources/js/chatRoomList.js"></script>
     <!-- Alert 창  -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <!-- alertify -->

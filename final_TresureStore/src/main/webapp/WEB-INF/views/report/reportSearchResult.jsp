@@ -73,6 +73,14 @@
       right: 49%;
       top: 100%;
 	}
+
+	.report-search-button:hover{
+     color: gold;
+     background-color: white;
+     cursor : pointer;
+     border:solid 1px gold;
+	}
+
 	.text-report{
 		text-align:center;
 		color:gray;
@@ -93,15 +101,16 @@
 		<div class="main-box">
 			<div class="report-top-text"> 사기 조회 결과</div>
         	<div class="report-line"></div>
-                  <c:set var="r" value="${r }"/>
                   <c:choose>
 	                    <%-- 신고 목록이 없을 때	 --%>
 	                    <c:when test="${reportList == null}">
+
 	                        <div style="text-align: center;">
 	                        <img src="https://cdn-icons-png.flaticon.com/512/7405/7405619.png " width="50px;"> <br><br>
 	                        사기조회 결과가 없습니다. <br><br> 다시 검색해주세요.  </div>
 	                    </c:when>
 	                    <c:otherwise>
+		                   
 	                    <div class="text-report">검색하신 <span class="result-text-color">${search}호 점</span>의 
 	                    			총 신고 횟수는 <span class="result-text-color">${reportNum}</span> 회 입니다.</div>
 		                <table class="report-table">
@@ -130,6 +139,7 @@
                 
             </div>
           </div>
+
 	
 	<jsp:include page="../common/footer.jsp"/>
 

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.tresure.member.model.dao.MemberDao;
+import com.kh.tresure.member.model.vo.Account;
 import com.kh.tresure.member.model.vo.Member;
 import com.kh.tresure.sell.controller.SellController;
 
@@ -103,7 +104,21 @@ public class MemberServiceImpl implements MemberService {
 		}
 		
 		return userCount;
+
+	}
+	
+	//계좌 추가하기
+	@Override
+	public int userAddAccount(Account accountInfo) {
 		
+		return memberDao.userAddAccount(sqlSession, accountInfo);
+	}
+	
+	//계좌 수정하기
+	@Override
+	public void updateAccount(int account) {
+		
+		memberDao.updateAccount(sqlSession, account);
 	}
 	
 	

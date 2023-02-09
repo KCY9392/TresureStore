@@ -68,6 +68,8 @@ public class MyPageServiceImpl implements MyPageService{
 	public int marketOpen(int userNo) {
 		return mypageDao.marketOpen(sqlSession, userNo);
 	}
+	
+	
 	@Override
 	public int reviewAvg(int userNo) {
 		return mypageDao.reviewAvg(sqlSession, userNo);

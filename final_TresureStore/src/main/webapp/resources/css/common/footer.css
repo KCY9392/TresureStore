@@ -13,7 +13,7 @@
     background-color: rgb(255 255 239);
 }
 
-.reviewB{
+.reviewB, .reviewA{
 	width: 100px;
     height: 40px;
     /* font-family: none; */
@@ -22,7 +22,6 @@
     background-color: #ffe6c4;
     border: 2px solid tan;
     border-radius: 12px;
-	
 }
 
 table{

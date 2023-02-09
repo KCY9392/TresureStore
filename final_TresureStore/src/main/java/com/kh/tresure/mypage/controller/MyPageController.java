@@ -83,9 +83,6 @@ public class MyPageController {
 			m.addAttribute("heartList", heartList);
 			m.addAttribute("reviewList", reviewList);
 			m.addAttribute("reviewAvg", reviewAvg);
-
-			
-			System.out.println();
 			
 			return "member/myPage";
 		}
@@ -112,12 +109,7 @@ public class MyPageController {
 	}
 
 	
-	
 
-	
-	
-	
-	
 	@ResponseBody
 	@RequestMapping("changeStatus")
 	public int changeStatus(@RequestParam("sellNo") int sellNo) {
@@ -138,13 +130,6 @@ public class MyPageController {
 		return result;
 		
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 
 }

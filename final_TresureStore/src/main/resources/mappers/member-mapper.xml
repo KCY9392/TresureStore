@@ -19,6 +19,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="BLACKLIST" property="blackListStatus"></result>
 </resultMap>
 
+<resultMap type="account" id="accountResultSet">
+   	<id column="ACCOUNT_ID" property="accountId"></id>
+	<result column="USER_NO" property="userNo"></result>
+	<result column="ACCOUNT" property="account"></result>
+</resultMap>
+
 <!-- 입력한 정보로 가입한 회원여부 확인 -->
 <select id="selectExistenceStatus" parameterType="member" resultType="int">
 	SELECT COUNT(*)
@@ -82,8 +88,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</when>
 		<when test="phone == null and email != null">
 			EMAIL = #{email}
-		</when>
-	</choose>
+
+</select>
+
+
+
+<select id="selectMem" parameterType="member" resultType="member">
+	SELECT *
+	FROM MEMBER
+	WHERE USER_NO = #{userNo} AND STATUS = 'Y' 
+
+</select>
+
+
+
+<select id="selectMem" parameterType="member" resultType="member">
+	SELECT *
+	FROM MEMBER
+	WHERE USER_NO = #{userNo} AND STATUS = 'Y' 
+
+</select>
+
+
+<select id="selectMem" parameterType="member" resultType="member">
+	SELECT *
+	FROM MEMBER
+	WHERE USER_NO = #{userNo} AND STATUS = 'Y' 
+
 </select>
 
 <!-- 탈퇴한 회원 새롭게 로그인하는 메소드 -->
@@ -147,6 +178,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES (#{userNo} ,#{userName}, #{email}, #{birth}, 'N',#{createDate},  'Y')
 	</if>
 </select>
+
+<!-- 계좌 추가하기 -->
+<insert id="userAddAccount" parameterType="account" >
+	INSERT INTO ACCOUNT(ACCOUNT_ID, USER_NO, ACCOUNT)
+	VALUES (SEQ_ANO.NEXTVAL, #{userNo}, TRIM(#{account}))
+</insert>
+
+<!-- 계좌 수정하기 -->
+<update id="updateAccount" parameterType="int">
+	UPDATE ACCOUNT
+	SET ACCOUNT = TRIM(#{account})
+	WHERE USER_NO = #{userNo}
+</update> 
 
    
 </mapper>

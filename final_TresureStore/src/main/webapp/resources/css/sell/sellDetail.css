@@ -54,7 +54,7 @@
             margin-right: 40px;
             flex-shrink: 0;
             width: 430px;
-            height: 1000px;
+            height: auto;
         }
 
         .sellDetailInfo{
@@ -84,9 +84,12 @@
             line-height: 1.4;
         }
         .sellProductPriceText{
-            font-size: 40px;
-            font-weight: 500;
-            width: 120px;
+                font-size: 45px;
+			    font-weight: 500;
+
+			    width: 140px;
+
+			    padding-left: 10px;
         }
 
         .sellProductPriceText span{
@@ -149,21 +152,22 @@
         .chattingbtn-sellDetail{
             width: 100%;
             height: 100%;
-            font-weight: 600;
-            background: rgb(246, 128, 193);
+            font-weight: 200;
+            background: rgb(255 217 176);
             border: 1px solid;
             border-radius: 10px;
             color: rgb(255, 255, 255);
             font-size: 30px;
             font-weight: 20px;
-           
+           	font-family: 'koverwatch';
+           	cursor: pointer;
         }
         /*판매완료 버튼*/
         .sell-comp{
             width: 100%;
             height: 100%;
             font-weight: 600;
-            background: rgb(246, 128, 193);
+            background: rgb(255 211 183);
             border: 1px solid;
             border-radius: 10px;
             color: rgb(255, 255, 255);
@@ -298,7 +302,7 @@
         }
         
         .right_area{
-            margin-left: 62%;
+            margin-left: 60%;
         }
 
         .right_area .icon{
