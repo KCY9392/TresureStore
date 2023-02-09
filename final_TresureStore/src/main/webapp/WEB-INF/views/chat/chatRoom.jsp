@@ -209,6 +209,14 @@
 
 
 						</div>
+						
+						
+						<!-- 채팅첨부파일 보낼때 미리보기창 div -->
+						<div class="chatImageBeforeSetImage" style="display:none;">
+								<img id="xBtn" src="/tresure/resources/images/icon/xx.png" width="20px" height="20px" style="margin-left:90%;margin-top: 3px;">
+								<img id="View" src="#" alt="이미지 미리보기"/>
+						</div>
+						
 
 					</div>
 					<div class="box-footer">
@@ -622,7 +630,7 @@
 		           
 		           
            
- /* 채팅 보내기 버튼 눌렀을 경우, */
+		   /* 채팅 보내기 버튼 눌렀을 경우, */
            $("#send").on('click',function(){
         	   $.ajax({
                    type: "POST",
@@ -647,6 +655,8 @@
                            $("#uploadfile").val("");
 //                         $(".fileView").toggle();
                            ws.send(JSON.stringify(wsJson));
+                           $(".chatImageBeforeSetImage").css('display','none');
+                           $('#View').attr('src', "");
                            return false;
                        }
 //                        }else{
@@ -668,10 +678,31 @@
                    }
                 });
            });
+ 
+           $("#uploadfile").on('change', function(){
+     		  readURL(this);
+     		});
+     		
+     		function readURL(input) {
+     		    if (input.files && input.files[0]) {
+     		        var reader = new FileReader();
+     		        reader.onload = function (e) {
+     		       	$(".chatImageBeforeSetImage").css('display','block');
+     		        $('#View').attr('src', e.target.result);
+     		        }
+     		        reader.readAsDataURL(input.files[0]);
+     		    }
+     		}
+     		
+     		$("#xBtn").on('click',function(){
+     			$(".chatImageBeforeSetImage").css('display','none');
+ 		        $('#View').attr('src', "");
+ 		       	$("#uploadfile").val("");
+     		})
        })
-       
-    </script>
-   
+  </script>
+  
+  
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
