@@ -58,6 +58,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </resultMap>
 
 <resultMap id="seller" type="hashmap">
+
       <result column="USER_NO" property="userNo" />
       <result column="MARKET_OPEN" property="marketOpen" />
       <result column="SELL_COUNT" property="sellCount" />
@@ -66,6 +67,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <result column="REVIEW_AVG" property="reviewAvg" />
       <result column="IS_FOLLOW" property="isFollow" />
    </resultMap>
+
+   
+   <resultMap type="category" id="cateResultSet">
+	<id column="CATEGORY_No" property="categoryNo"></id>
+	<id column="CATEGORY_NAME" property="categoryName"></id>
+	
+</resultMap>
+
+
 
 
 	<!-- 상품목록조회(메인페이지) -->
@@ -107,6 +117,47 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND S.SELL_TITLE like '%${keyword}%'
         AND ROWNUM <![CDATA[ <= ]]> 5
         ORDER BY P.CREATE_DATE DESC
+	</select>
+	
+	<!-- 판매글 수정 -->
+	<update id="updateSell" parameterType="sell">
+  		UPDATE SELL SET
+	  		CATEGORY_NO = #{categoryNo},
+	  		SELL_TITLE = #{sellTitle},
+	  		SELL_CONTENT = #{sellContent},
+	  		PRICE = #{price}
+  		WHERE SELL_NO = #{sellNo}
+  	</update>
+  	<!-- 판매글 이미지 수정 -->
+  	<update id="updateSellImgList" parameterType="list">
+  		UPDATE SFILE SET
+  			ORIGIN_NAME = #{originName},
+  			CHANGE_NAME = #{changeName},
+  		WHERE SFILE_NO=#{sfileNo} AND FILE_TYPE = #{fileType}
+  	
+  	</update>
+	
+<!-- 판매수정 이미지 리스트 -->
+	<select id="selectSellUpImgList" parameterType="hashmap" resultType="sellImg">
+		SELECT F.SFILE_NO
+		     , F.SELL_NO
+		     , F.ORIGIN_NAME
+		     , F.CHANGE_NAME
+		     , F.UPLOAD_DATE
+		     , F.FILE_PATH
+		     , F.FILE_TYPE
+		     , F.STATUS
+		  FROM SELL S
+		     , SFILE F
+		 WHERE S.SELL_NO = F.SELL_NO
+		  
+		   AND S.SELL_NO = #{sellNo}
+		ORDER BY F.FILE_TYPE ASC
+	</select>
+	
+	<select id="cateList" resultMap="cateResultSet">
+		SELECT CATEGORY_NO, CATEGORY_NAME
+	FROM CATEGORY
 	</select>
 	
 	
@@ -215,7 +266,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              S.CREATE_DATE
             FROM SELL S
             JOIN MEMBER M ON M.USER_NO = S.USER_NO
-            WHERE M.USER_NO=#{userNo}
+            WHERE M.USER_NO=#{userNo} AND S.STATUS = 'Y'
 
              ORDER BY CREATE_DATE DESC
    </select>
@@ -233,7 +284,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              S.CREATE_DATE
             FROM SELL S
             JOIN MEMBER M ON M.USER_NO = S.USER_NO
-            WHERE M.USER_NO=#{userNo}
+            WHERE M.USER_NO=#{userNo}  AND S.STATUS = 'Y'
 
             ORDER BY SELL_STATUS DESC, CREATE_DATE DESC
             
@@ -360,7 +411,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		     , CRAWL
 		     , SELL_STATUS
 		  FROM SELL S
-		 WHERE USER_NO = #{userNo}
+		 WHERE USER_NO = #{userNo}  AND STATUS = 'Y'
 	</select>
 
 	<select id="reviewList" parameterType="int" resultType="review">
@@ -456,5 +507,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             AND ROWNUM = 1
             ORDER BY SELL_NO DESC
 	</select>
+	
+	<update id="deleteSell" parameterType="sell">
+		UPDATE SELL
+		SET STATUS='N'
+		WHERE SELL_NO = #{sellNo}
+	</update>
 	
 </mapper>

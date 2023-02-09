@@ -11,8 +11,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <!-- 헤더 js -->
     <script type="text/javascript" src="/tresure/resources/js/header.js"></script>
-    <!-- 해당페이지 Js -->
-     <script type="text/javascript" src="/tresure/resources/js/chatRoomList.js"></script>
     <!-- Alert 창  -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <!-- alertify -->
@@ -60,7 +58,7 @@
                                         <td class="storeName${chatRoom.chatRoomNo } list">
                                            <!-- 로그인사람과 구매한사람이 같은경우  -->
                                            <c:if test="${chatRoom.userNo eq loginUser.userNo}">
-                                               <c:if test="${chatRoom.avg > 4.5}">
+                                               <c:if test="${chatRoom.avg >= 4.5}">
                                                    <img src="/tresure/resources/images/icon/grade3.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.sellUserNo }호 점
                                                </c:if>
                                                <c:if test="${ 4 <= chatRoom.avg && chatRoom.avg < 4.5 }">

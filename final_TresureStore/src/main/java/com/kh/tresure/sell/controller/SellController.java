@@ -26,8 +26,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kh.tresure.common.Image;
+import com.kh.tresure.heart.model.vo.Heart;
 import com.kh.tresure.member.model.vo.Member;
 import com.kh.tresure.sell.model.service.SellService;
+import com.kh.tresure.sell.model.vo.Category;
 import com.kh.tresure.sell.model.vo.Sell;
 import com.kh.tresure.sell.model.vo.SellImg;
 
@@ -351,5 +353,117 @@ public class SellController {
 		
 		return "sell/sellerPage";
 	}
+	
+	// 업데이트 폼으로 이동
+	@RequestMapping(value = "/sellUpdateForm/{sellNo}" ,method = RequestMethod.GET)
+	public ModelAndView  sellUpdateForm(@PathVariable("sellNo") int sellNo, ModelAndView mv) {
+		
+		Map<String, Integer> map = new HashMap<>();
+		map.put("sellNo", sellNo);
+		Sell s = sellService.selectSellDetail(map);
+		List<SellImg> imgList = sellService.selectSellUpImgList(map);
+		List<Category> cateList = sellService.cateList();
+		
+		s.setImgList(imgList);
+		
+		
+		mv.addObject("s", s);
+		mv.addObject("cateList", cateList);
+		mv.setViewName("sell/sellUpdateForm");
+		
+		
+		
+		
+		
+		return mv;
+	}
+	
+	//상품 업데이트
+	
+	@RequestMapping(value = "/sellUpdate" ,method = RequestMethod.POST)
+	public String sellUpdate(Sell s, Model model, HttpSession session,HttpServletRequest request,
+			@RequestParam(value = "mode", required = false, defaultValue = "update") String mode,
+			@RequestParam(value = "upfile", required = false) List<MultipartFile> imgList,
+			// 업로드용 이미지파일
+			MultipartFile upfile // 첨부파일) {
+	) {
+		
+		String webPath = "/resources/images/sell/";
+		String serverFolderPath = session.getServletContext().getRealPath(webPath);
+
+		
+
+		int result = 0;
+		File file = null;
+
+		// 폴더 생성
+		if (!upfile.getOriginalFilename().equals("")) {
+			String savePath = session.getServletContext().getRealPath("/resources/images/sell/");
+
+			file = new File(savePath);
+			if (!file.exists()) {
+				file.mkdirs();
+			}
+
+			String changeName = Image.saveFile(upfile, savePath);
+
+			System.out.println("s1." + savePath);
+			System.out.println("s2." + changeName);
+
+		}
+
+		
+
+		 
+
+		if (mode.equals("update")) {
+			
+			
+		
+
+			try {
+			
+				
+				
+				result = sellService.updateSell(s,imgList, webPath, serverFolderPath);
+			} catch (Exception e) {
+				logger.error("에러발생");
+				e.printStackTrace();
+			}
+		}
+
+		System.out.println(s);
+		
+		if (result > 0) {
+			session.setAttribute("alertMsg", "상품수정에 성공하셨습니다.");
+			  return "redirect:/";
+		} else { // errorPage
+			model.addAttribute("errorMsg", "상품수정에 실패하였습니다.");
+			return "common/errorPage";
+		}
+		
+	}
+	
+	//게시글 삭제
+	@ResponseBody
+	@RequestMapping(value="/deleteSell",method = RequestMethod.POST)
+	public int deleteHeart(HttpSession session,
+		     @RequestParam(value = "sellNo") int sellNo) {
+		int result = 0;
+		Sell s = new Sell();
+		s.setSellNo(sellNo);
+		if(result==0) {
+		sellService.sellDelete(s);
+		
+			result = 1;
+			
+		}
+		
+		
+		
+		return result;
+			
+	}
+
 }
 	

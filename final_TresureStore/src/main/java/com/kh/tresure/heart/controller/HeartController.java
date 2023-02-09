@@ -50,32 +50,57 @@ public class HeartController {
 			
 		if(loginUser != null){
 			heart.setUserNo(userNo);
-			
+			HashMap<String, Object> map = new HashMap<>();
 			for(String i : chArr) {
 				heartNum = Integer.parseInt(i);
+			
 				heart.setHeartNo(heartNum);
+				
 				heartService.deleteHeart(heart);
+				
+				result=1;
 			}
-			result = 1;
+			
+						
+			int sysHeartNum =  chArr.size();
+			map.put("userNo", userNo);
+			map.put("sysHeartNum", sysHeartNum);
+
+			logger.info("sysheart : "+sysHeartNum);
+			heartService.minusListCount(map);
+			
+			if(result==1) {
+				  Member updateMem = heartService.selectMem(loginUser);
+				  session.setAttribute("loginUser", updateMem);
+			  }
+			
 			
 		}
 		
 		logger.info(""+result);
 		
 		return result;
-		
+			
 	}
 	
 	@ResponseBody
 	@RequestMapping("addHeart")
-	public int addHeart(Heart heart, HttpSession session) {
-		 int result = 0;
+	public String addHeart(Member m, Heart heart, HttpSession session) {
+		String result = "";
 		 Member loginUser = (Member)session.getAttribute("loginUser");
 		 if(loginUser != null) {
 			  heart.setUserNo(loginUser.getUserNo());
+			   
 			  heartService.addHeart(heart);
 			  
-			  result = 1;
+			  result = "c";
+			  if(result.equals("c")) {
+				  
+				  Member updateMem = heartService.selectMem(loginUser);
+				  session.setAttribute("loginUser", updateMem);
+
+			
+			  }
 			 }
 			 
 			 return result;
@@ -84,9 +109,9 @@ public class HeartController {
 	
 	@ResponseBody
 	@RequestMapping("mypageDeleteHeart")
-	public int mypageDeleteHeart(HttpSession session,
+	public String mypageDeleteHeart(HttpSession session,
 								@RequestParam("sellNo") int sellNo) {
-		int result = 0;
+		String result = "";
 		
 		logger.info("sellNo : "+sellNo);
 		
@@ -100,7 +125,15 @@ public class HeartController {
 		 if(loginUser != null) {
 			  
 		  heartService.mypageDeleteHeart(map);
-			  result = 1;
+			  result = "f";
+			  
+			  if(result.equals("f")) {
+				  
+				  Member updateMem = heartService.selectMem(loginUser);
+				  session.setAttribute("loginUser", updateMem);
+
+			
+			  }
 			 }
 			 
 			 return result;

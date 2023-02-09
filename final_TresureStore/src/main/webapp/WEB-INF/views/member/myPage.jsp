@@ -18,51 +18,54 @@
     
   <style>
   
-  	a:hover{
-  		text-decoration: none !important;
-  	}
-  	.sun_wrap_li > ul img{
-  		margin-top: 5px !important;
-  	}
-  	
-  	.catebox3{
-		width: 1000px !important;
-	}
 
-	.inner-menu{
-		width: 700px !important;
-	}
-	
-	.catebox.cate1, .catebox.cate2, .catebox.cate3, .catebox.cate4{
-		margin-right: 40px;
-	}
-	
-	.catebox.cate7, .catebox.cate9, .catebox.cate10{
-		margin-left: 30px;
-	}
-	
-	.catebox.cate8{
-		margin-left: 50px;
-	}
+     a:hover{
+        text-decoration: none !important;
+     }
+     .sun_wrap_li > ul img{
+        margin-top: 5px !important;
+     }
+     
+     .catebox3{
+      width: 1000px !important;
+   }
+
+   .inner-menu{
+      width: 700px !important;
+   }
+   
+   .catebox.cate1, .catebox.cate2, .catebox.cate3, .catebox.cate4{
+      margin-right: 40px;
+   }
+   
+   .catebox.cate7, .catebox.cate9, .catebox.cate10{
+      margin-left: 30px;
+   }
+   
+   .catebox.cate8{
+      margin-left: 50px;
+   }
   
   
-  	.market-open img{
-  		margin-top: 5px;
-  	}
-  	
-  	.search2{
-  		margin-top: 0px !important;
-  	}
-  	
-  	.nfavorites{
-  			padding: 5px 0px !important;
-  		    padding-top: 10px !important;
-  		    height: 80px !important;
-  	}
-  	
-  	.ntheTop{
-  		height: 40px !important;
-  	}
+     .market-open img{
+        margin-top: 5px;
+     }
+     
+     .search2{
+        margin-top: 0px !important;
+     }
+     
+     .nfavorites{
+           padding: 5px 0px !important;
+            padding-top: 10px !important;
+            height: 80px !important;
+     }
+     
+     .ntheTop{
+        height: 40px !important;
+     }
+
+
   </style>
 
 </head>
@@ -173,10 +176,11 @@
             <button class="market-tracsac" onclick="tracsac();"><span class="rtransac">거래내역</span></button>
           </div>
           <br><br>
-       </div>
+
        
        
        
+
 <!-- 상품 버튼 클릭 시, 나오는 박스 -->      
        <div id="productshow" class="box">
               <div class="displayList" style="flex-wrap: wrap; display:flex; margin:auto; padding-top:23px; padding-left:15px;">
@@ -244,6 +248,7 @@
        
        
        
+
 <!-- 상점후기 버튼 클릭 시, 나오는 박스 -->       
        <div class="box box2" id="reviewshow" style="display:none; border: 4px solid #ffe8cb; border-radius: 12px;">
        <c:forEach var="r" items="${reviewList}" begin="0" end="${fn:length(reviewList)}" step="1" varStatus="status">
@@ -384,10 +389,10 @@ $(".chBox").click(function(){
      type : 'post',
      data : { chbox : checkArr },
      success : function(result){
-       if(result==1){
+    	if(result==1){
       console.log("성공");
       location.reload();
-       }
+    	}
      },
      error:function(){
         console.log("실패")

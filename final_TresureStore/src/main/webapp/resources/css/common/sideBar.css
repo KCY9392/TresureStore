@@ -57,16 +57,27 @@
     margin-bottom: 10px;
 }
 
-#nrecentlyList .nrecentlyImage {
-	height: 70px;
-    width: 70px;
+#nrecentlyList  {
     cursor: pointer;
     object-fit: cover;
     margin-top: 6px;
+    list-style: none;
+    padding: 0px;
 }
+.nrecentlyImage {
+	height: 70px;
+    width: 70px;
+	cursor: pointer;
+	margin-top: 6px;
+	overflow-y:hidden;
+    object-fit: cover;
+}
+
 
 #nrecentlyArea{
 	margin-bottom: 10px;
+	overflow-y: hidden;
+	height: 245px;
 }
 
 .nrecently {
