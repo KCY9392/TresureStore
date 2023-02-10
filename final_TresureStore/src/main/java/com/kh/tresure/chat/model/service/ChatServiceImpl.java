@@ -1,5 +1,6 @@
 package com.kh.tresure.chat.model.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -272,8 +273,14 @@ public class ChatServiceImpl implements ChatService{
 	   return chatDao.insertchatImage(sqlSession, chatfiles);
    }
    
-   
-   
+	// 스케줄링 실행할 채팅창 첨부파일 가져오기
+   public ArrayList<ChatFiles> selectAttachment(){
+	   
+	   ArrayList<ChatFiles> list= chatDao.selectAttachment(sqlSession);
+	   
+	   return list;
+	   
+   }
    
    
    
