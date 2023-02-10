@@ -1,5 +1,6 @@
 package com.kh.tresure.chat.model.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import java.util.List;
@@ -42,6 +43,9 @@ public interface ChatService {
 
    // 채팅 첨부파일 데베 저장
    public int insertchatImage(ChatFiles chatfiles);
+
+   // 스케줄링 실행할 채팅창 첨부파일 가져오기
+   public ArrayList<ChatFiles> selectAttachment();
 
 
 

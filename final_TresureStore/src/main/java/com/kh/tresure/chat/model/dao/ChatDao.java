@@ -1,5 +1,6 @@
 package com.kh.tresure.chat.model.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -147,6 +148,12 @@ public class ChatDao {
 	public int insertchatImage(SqlSession sqlSession, ChatFiles chatfiles) {
 		
 		return sqlSession.insert("chattingMapper.insertchatImage", chatfiles);
+	}
+
+	// 스케줄링 실행할 채팅창 첨부파일 가져오기
+	public ArrayList<ChatFiles> selectAttachment(SqlSession sqlSession) {
+		
+		return (ArrayList)sqlSession.selectList("chattingMapper.selectAttachment");
 	}
 
 
