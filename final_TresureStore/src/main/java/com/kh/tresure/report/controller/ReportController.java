@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.tresure.member.model.vo.Member;
 import com.kh.tresure.report.model.service.ReportService;
@@ -80,9 +81,10 @@ public class ReportController {
 	
 	//신고 추가하기
 	@RequestMapping(value = "report/addReport", method =  RequestMethod.GET)
+	@ResponseBody
 	public String addReport (HttpSession session,
 							 @RequestParam(value="sellUserNo", required=false) int sellUserNo,
-							 @RequestParam(value="purchaseUserNo", required=false) int purchaseUserNo,
+							 @RequestParam(value="purchaseUserNo", required=false) String purchaseUserNo,
 							 @RequestParam(value="reportContent", required=false) String reportContent,
 							 Report report) {
 
@@ -103,7 +105,7 @@ public class ReportController {
 		
 		logger.info(">> 신고 리스트에 추가");
 		
-		return "redirect:/";
+		return state+"";
 	
 	}
 	
