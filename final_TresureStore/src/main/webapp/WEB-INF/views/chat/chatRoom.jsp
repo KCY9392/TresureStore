@@ -425,11 +425,12 @@
 					data : {reportContent : value,
 							sellUserNo : sellUserNo,
 							purchaseUserNo : purchaseUserNo
-          },
+          		},
 					success : function(result){
 						if(result == 1){
-							console.log(reportedUserNo+">> 차단당한 유저번호 조회");
-							location.reload();
+							setTimeout(function() {
+          	            	  location.reload();
+          	            	}, 2000);
 
 						}
 					},
@@ -519,7 +520,7 @@
       
        function negoStart(value){
           $.ajax({
-             url : "contextPath/join/nego",
+             url : "${pageContext.request.contextPath}/join/nego",
              data : {negoPrice : value,
                    sellNo : ${AllList.get('product').sellNo },
                    chatRoomNo :chatRoomNo},
