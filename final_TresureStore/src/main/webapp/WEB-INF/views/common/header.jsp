@@ -78,14 +78,14 @@
 					<div class="sun_wrap_li">
 						<ul id="sun_wrap_ul">
 							
-							<li><a href="${pageContext.request.contextPath}/chat/chatRoomList" onclick="chatGo()"><img
+							<li><a href="${pageContext.request.contextPath}/chat/chatRoomList" class="checkUserNo"><img
 									src="/tresure/resources/images/icon/번개.png" alt="채팅 이미지">채팅하기</a></li>
-							<li><a href="${pageContext.request.contextPath }/sell/sellInsertForm"><img
+							<li><a href="${pageContext.request.contextPath }/sell/sellInsertForm" class="checkUserNo"><img
 									src="/tresure/resources/images/icon/원.png" alt="판매등록 이미지">판매하기</a></li>
 							
 							<li><a href="${pageContext.request.contextPath}/report/reportSearch"><img
 									src="/tresure/resources/images/icon/사기조회.png" alt="사기조회 이미지">사기조회</a></li>
-							<li><a href="${pageContext.request.contextPath}/member/myPage"><img
+							<li><a href="${pageContext.request.contextPath}/member/myPage" class="checkUserNo"><img
 									src="/tresure/resources/images/icon/내상점.png" alt="내상점 이미지">내상점</a></li>
 						</ul>
 					</div>
@@ -168,7 +168,7 @@
 		 });
 		 
 		
-		let userNo2 =  ${loginUser.userNo};
+		let userNo2 =  "${loginUser.userNo}";
 		
 		 //계좌 추가
 		 function accountAdd(value){
@@ -192,6 +192,17 @@
 	    }; 
 
 		
+	    $(".checkUserNo").on('click',function(){
+	    	if(!userNo2){
+	    		
+	    		Swal.fire({
+	                icon: 'error',
+	                title: '로그인 후 가능합니다.'                  
+	            });		
+	    		return false;
+	    		
+	    	}
+	    });
 		
 	</script>
 </body>

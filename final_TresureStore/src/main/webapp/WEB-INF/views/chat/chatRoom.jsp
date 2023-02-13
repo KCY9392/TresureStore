@@ -57,26 +57,22 @@
 		<div class="inner-section">
 			<!-- 채팅 왼쪽창(상품상세) -->
 			<div class="leftBox">
-				<div class="sell_pic">
-					<img src="${AllList.get('product').imgSrc }" width="100%"
-						height="100%" />
-				</div>
 				<div class="sell_detail">
-					<div class="sell_category">카테고리 >
-						${AllList.get('product').categoryName }</div>
+					<div class="sell_category"><p>카테고리&nbsp;&nbsp;&nbsp; ></p>
+						<p style="color: black;font-weight: 500;">${AllList.get('product').categoryName }</p></div>
 
 					<div class="sell_title"
-						onclick="sellDetail(${AllList.get('product').sellNo })">
+						onclick="sellDetail(${AllList.get('product').sellNo })" style="margin-top: 15px;">
 						${AllList.get('product').sellTitle }</div>
 
 					<div class="sell_price">
 						<p class="mark">
 							<c:choose>
 								<c:when test="${AllList.get('product').negoStatus ne null }">
-                                 ${AllList.get('product').negoPrice }
+                                 ${AllList.get('product').negoPrice } 원
                               </c:when>
 								<c:otherwise>
-                                 ${AllList.get('product').price }
+                                 ${AllList.get('product').price } 원
                               </c:otherwise>
 							</c:choose>
 					</div>
@@ -96,7 +92,19 @@
 					</c:if>
 
 				</div>
-				<div class="sell_content">${AllList.get('product').sellContent }</div>
+				
+				<div class="imgdddddd">
+					<c:if test="${AllList.get('product').imgSrc != null}">
+						<c:if test="${AllList.get('product').crawl.equals('Y')}">
+							<img src="${AllList.get('product').imgSrc}" width="100%" height="100%" class="rounded float-start" alt="">
+						</c:if>
+						<c:if test="${AllList.get('product').crawl.equals('N')}">
+							<img src="${pageContext.request.contextPath}${AllList.get('product').imgSrc}" width="100%" height="100%" class="rounded float-start" alt="">
+						</c:if>
+					</c:if>
+				</div>
+				
+				<div class="sell_content">${fn:replace(AllList.get('product').sellContent , replaceChar, "<br/>")}</div>
 			</div>
 			<!-- leftBox 끝 -->
 
@@ -110,22 +118,31 @@
 						<div class="chatmenubar">
 
                             <ul class="header-list">
-                                <li>
+                                <li style="float: left; width: 200px; padding-top: 5px;">
                                 	<!-- 로그인사람과 구매한사람이 같은경우  -->
                                    	<c:if test="${AllList.get('purchaseInfo').userNo eq loginUser.userNo}">
-                                        <c:if test="${AllList.get('product').avg  >= 4.5}">
-                                            <img src="/tresure/resources/images/icon/grade3.png" width="40px" /> <span class="store-text">상점 <span class="dd">${AllList.get('product').userNo }</span>호 점</span>
-                                        </c:if>
-                                        <c:if test="${ 4 <= AllList.get('product').avg && AllList.get('product').avg < 4.5 }">
-                                            <img src="/tresure/resources/images/icon/grade2.png" width="40px" /> <span class="store-text">상점 <span class="dd">${AllList.get('product').userNo }</span>호 점</span>
-                                        </c:if>
-                                        <c:if test="${ 3.5 <= AllList.get('product').avg && AllList.get('product').avg < 4 }">
-                                            <img src="/tresure/resources/images/icon/grade1.png" width="40px" /> <span class="store-text">상점 <span class="dd">${AllList.get('product').userNo }</span>호 점</span>
-                                        </c:if>
-                                        <c:if test="${ null == AllList.get('product').avg || AllList.get('product').avg < 3.5 }">
-                                            <img src="/tresure/resources/images/icon/grade0.png" width="40px" /> <span class="store-text">상점 <span class="dd">${AllList.get('product').userNo }</span>호 점</span>
-                                        </c:if>
-                                       </c:if>
+	                                        
+	                                        <c:if test="${AllList.get('product').avg  >= 4.5}">
+	                                            <img src="/tresure/resources/images/icon/grade3.png" width="40px" style="float: left;"/>
+	                                        </c:if>
+	                                        
+	                                        <c:if test="${ 4 <= AllList.get('product').avg && AllList.get('product').avg < 4.5 }">
+	                                            <img src="/tresure/resources/images/icon/grade2.png" width="40px" style="float: left;"/>
+	                                        </c:if>
+	                                        
+	                                        <c:if test="${ 3.5 <= AllList.get('product').avg && AllList.get('product').avg < 4 }">
+	                                            <img src="/tresure/resources/images/icon/grade1.png" width="40px"style="float: left;" />
+	                                        </c:if>
+	                                        
+	                                        <c:if test="${ null == AllList.get('product').avg || AllList.get('product').avg < 3.5 }">
+	                                            <img src="/tresure/resources/images/icon/grade0.png" width="40px" style="float: left;"/>
+	                                        </c:if>
+                                         <div class="storeNameTextClass" style="margin-bottom:10px;">
+                                         <span class="store-text">상점 <span class="dd">${AllList.get('product').userNo }</span>호 점</span>
+                                         </div>
+                                      </c:if>
+                                       
+                                       
                                        <!-- 로그인한 사람과 판매하는 사람이 같은경우 -->
                                        <c:if test="${AllList.get('product').userNo eq loginUser.userNo}">
                                         <c:if test="${AllList.get('purchaseInfo').purchaseUserAvg >= 4.5}">
@@ -169,12 +186,14 @@
                                      		
                                 </li>
                                 <li style="float: right;">
-                                    <button type="submit" class="buttonCss2" id="tresurePay" 
+<%--                                 	<c:if test="${loginUser.userNo eq AllList.get('product').userNo}"> --%>
+                                    	<button type="submit" class="buttonCss2" id="tresurePay" 
                                     onclick="requestPay('${AllList.get('product').sellTitle }',
                                     					'${AllList.get('product').price }',
                                     					'${AllList.get('purchaseInfo').userNo}',
                                     					'${AllList.get('product').userNo}',
                                     					'${pageContext.request.contextPath}')">결제하기</button>
+<%--                                 	</c:if> --%>
                                 </li>
                             </ul>
                             
@@ -238,9 +257,11 @@
 								<!-- 차단 아무도 없을 때 -->
 								<c:if
 									test="${AllList.get('puTose') == 0 && AllList.get('seTopu') == 0 && AllList.get('state') != 0}">
-									<input class="messageInput-area" id="inputChatting"
-										placeholder="메세지를 입력하세요!"
-										 />
+									<input class="messageInput-area" id="inputChatting" style="font-family: 'koverwatch';
+																							   font-size: 25px;
+																							   width: 555px;
+																							   height: 40px;"			
+										placeholder="메세지를 입력하세요!"/>
 									<button class="float-left MessageSubmitBtn" id="send"
 										type="button">보내기</button>
 								</c:if>
