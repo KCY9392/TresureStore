@@ -357,4 +357,14 @@
     margin-right: -42px;
     margin-left: -430px;
 }
+
+.reportBtn{
+	cursor:pointer;
+}
+.reportBtn:hover{
+	color:#666;
+}
+.inline-flex {
+    display: inline-grid !important;
+    margin: .5em !important;
 }

@@ -33,15 +33,15 @@ public class ReportServiceImpl implements ReportService {
 	
 	//신고리스트에 추가
 	@Override
-	public int addReport(Report report, int sellUserNo, int purchaseUserNo , int reporterNo) {
+	public int addReport(Report report, int sellUserNo, String purchaseUserNo, int reporterNo) {
 		
 		report.setReporterNo(reporterNo);
 		int state = 1;
 		// 신고자와 판매자가 같은 경우
 		if(reporterNo == sellUserNo) {
-			report.setReportedNo(purchaseUserNo);
+			report.setReportedNo(Integer.parseInt(purchaseUserNo));
 			
-		} else if(reporterNo == purchaseUserNo) {	// 신고자와 구매자가 같은경우
+		} else {	// 신고자와 구매자가 같은경우
 			report.setReportedNo(sellUserNo);
 		}
 		

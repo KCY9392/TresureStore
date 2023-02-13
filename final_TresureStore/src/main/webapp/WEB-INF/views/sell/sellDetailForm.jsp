@@ -266,7 +266,7 @@
                                             <div class="sellInfoTextBoxReport">
                                                 <img src="https://m.bunjang.co.kr/pc-static/resource/0acf058f19649d793382.png" width="16" height="16" alt="상품 몇분전 아이콘">
                                                 <div class="sellHeartNumText">
-                                                    <span>신고하기</span>
+                                                    <span id="addReport" class="reportBtn">신고하기</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -544,13 +544,13 @@
     	
     </script>
     
-    <script>
+	<script>
 	   //신고버튼 클릭 시
 		 $('#addReport').on('click', function(){
 			if( !(${loginUser.userNo >= 0}) ){
 				alert("로그인하고 신고해주세요");
 				return;
-			}
+			 }
 			 
 	 		Swal.fire({
 	 		  title: '상점신고',
@@ -605,7 +605,7 @@
 					}
 				});
 	    };
-	</script>            
+	</script>  
 	              
 
 	<jsp:include page="../common/footer.jsp"/>
