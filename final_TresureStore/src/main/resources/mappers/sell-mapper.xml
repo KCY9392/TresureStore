@@ -234,7 +234,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	          HEART_NUM,
 	          AVG,
               NEGO_PRICE,
-              NEGO_STATUS
+              NEGO_STATUS,
+              S.CRAWL
 	   FROM CHAT_ROOM CR
 	   LEFT JOIN SELL S ON (S.SELL_NO = CR.SELL_NO)
        LEFT JOIN CATEGORY C ON (S.CATEGORY_NO = C.CATEGORY_NO)

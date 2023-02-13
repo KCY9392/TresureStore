@@ -258,7 +258,7 @@ public class SellController {
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");	
 		if(loginUser==null) {
-			session.setAttribute("alertMsg", "로그인 후 이용가능");
+			session.setAttribute("errorMsg", "로그인 후 이용가능");
 			return "redirect:/";
 		}else {
 			return "sell/sellInsertForm";
