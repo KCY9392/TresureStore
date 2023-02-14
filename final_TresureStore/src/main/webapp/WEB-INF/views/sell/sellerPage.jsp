@@ -7,42 +7,21 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 <link rel="stylesheet" href="/tresure/resources/css/common/home.css">
-<link rel="stylesheet"
-	href="/tresure/resources/css/mypage/mypageMain.css">
+<link rel="stylesheet" href="/tresure/resources/css/mypage/mypageMain.css">
 <link rel="stylesheet" href="/tresure/resources/css/common/font.css">
+<link rel="stylesheet" href="/tresure/resources/css/sell/sellerPage.css">
+
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script type="text/javascript" src="/tresure/resources/js/header.js"></script>
 <script type="text/javascript" src="/tresure/resources/js/mypageMain.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 
 
-
-<style>
-.followAddOrSubBox {
-	margin: auto;
-	border: 1px solid rgb(211, 206, 206);
-	width: 270px;
-	height: 60px;
-	margin-left: 260px
-}
-
-.followBtn-sell {
-	border: none;
-	background-color: white;
-}
-
-.followBtn-sell:hover {
-	cursor: pointer;
-	border: 3px solid rgb(241, 238, 238);
-}
-
-#mForm {
-	border: 1px !important;
-	margin: auto !important;
-	padding-left: 50px !important;
-}
-</style>
 </head>
 <body>
 	<jsp:include page="../common/header.jsp" />
@@ -77,8 +56,34 @@
 
 
 				</div>
-				<br> <a href="#" class="market-grade">상점등급 안내</a>
+				<br> <a class="market-grade" data-toggle="modal" data-target="#myModal">상점등급 안내</a>
+					<div class="modal fade" id="myModal" data-backdrop="static"
+					data-keyboard="false">
+					<div class="modal-dialog modal-xl modal-dialog-centered">
 
+						<div class="modal-content"
+							style="width: 700px; height: 580px; margin: auto;">
+
+							<!-- Modal Header -->
+							<div class="modal-header">
+								<h4 class="modal-title">등급 안내</h4>
+								<button type="button" class="close" data-dismiss="modal">
+									<img src="/tresure/resources/images/icon/x-modalImage.png"
+										width="35px" height="30px" style="margin-top: 5px;">
+								</button>
+							</div>
+
+							<!-- Modal body -->
+							<div class="modal-body"
+								style="position: relative; flex: 1 1 auto; padding: 2rem;">
+								<img class="card-img-top rounded img-fluid"
+									src="/tresure/resources/images/icon/그림1.png">
+							</div>
+
+						</div>
+					</div>
+				</div>
+					
 			</div>
 
 			<!-- 상점명 & 개업날짜 & 팔로워수 & 판매상품수 & 상점신고수 내용 박스 -->
@@ -118,7 +123,7 @@
 							<img src="/tresure/resources/images/icon/신고수.png" width="20"
 								height="15" alt="신고 아이콘"> &nbsp;신고
 							<div class="market-report">
-								<span>${member.reporterCount}</span>회
+								<span>${member.reportCount}</span>회
 							</div>
 						</div>
 						<br> <br>

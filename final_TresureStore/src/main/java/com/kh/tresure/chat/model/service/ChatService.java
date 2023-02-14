@@ -22,9 +22,8 @@ public interface ChatService {
 	 */
 	public HashMap<Object, Object> selectChatRoomList(int userNo, HashMap<Object, Object> paramMap, int currentPage);
 
-
 	/**
-	 * 채팅방 생성하기, 입장하기 - 리팩토링 중 
+	 * 채팅방 생성하기, 입장하기 - 리팩토링  
 	 */
 	public HashMap<Object, Object> createAndEnterChatRoom(HashMap<Object, Object> allList, ChatRoom room, String sellUserNo, ChatRoomJoin roomJoin, Block block, Account account);
 

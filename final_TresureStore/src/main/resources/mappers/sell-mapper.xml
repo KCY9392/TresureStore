@@ -42,6 +42,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<result column="REV_IS" property="rev_is"></result>
 	
+	<result column="ACCOUNT" property="account"></result>
+	
 	<collection property="imgList" resultMap="sellImgResultSet"/>
 
 </resultMap>
@@ -233,8 +235,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	          S.CREATE_DATE AS "CREATE_DATE",
 	          HEART_NUM,
 	          AVG,
-              NEGO_PRICE,
-              NEGO_STATUS
+            NEGO_PRICE,
+            NEGO_STATUS,
+            ACCOUNT,
+            S.CRAWL
 	   FROM CHAT_ROOM CR
 	   LEFT JOIN SELL S ON (S.SELL_NO = CR.SELL_NO)
        LEFT JOIN CATEGORY C ON (S.CATEGORY_NO = C.CATEGORY_NO)
@@ -246,6 +250,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	   		 JOIN SELL S ON(R.SELL_NO = S.SELL_NO)
 	   		 GROUP BY S.USER_NO) 
 	   		 PP ON (PP.USER_NO = S.USER_NO)
+	   LEFT JOIN ACCOUNT A ON (A.USER_NO = S.USER_NO)
 	   WHERE CR.CHATROOM_NO = #{chatRoomNo}
 	</select>
 	
@@ -266,7 +271,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              S.CREATE_DATE
             FROM SELL S
             JOIN MEMBER M ON M.USER_NO = S.USER_NO
-            WHERE M.USER_NO=#{userNo}
+            WHERE M.USER_NO=#{userNo} AND S.STATUS = 'Y'
 
              ORDER BY CREATE_DATE DESC
    </select>
@@ -284,7 +289,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              S.CREATE_DATE
             FROM SELL S
             JOIN MEMBER M ON M.USER_NO = S.USER_NO
-            WHERE M.USER_NO=#{userNo}
+            WHERE M.USER_NO=#{userNo}  AND S.STATUS = 'Y'
 
             ORDER BY SELL_STATUS DESC, CREATE_DATE DESC
             
@@ -411,7 +416,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		     , CRAWL
 		     , SELL_STATUS
 		  FROM SELL S
-		 WHERE USER_NO = #{userNo}
+		 WHERE USER_NO = #{userNo}  AND STATUS = 'Y'
 	</select>
 
 	<select id="reviewList" parameterType="int" resultType="review">
@@ -507,5 +512,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             AND ROWNUM = 1
             ORDER BY SELL_NO DESC
 	</select>
+	
+	<update id="deleteSell" parameterType="sell">
+		UPDATE SELL
+		SET STATUS='N'
+		WHERE SELL_NO = #{sellNo}
+	</update>
 	
 </mapper>

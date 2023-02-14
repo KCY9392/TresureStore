@@ -220,6 +220,7 @@
 		    <version>2.14.1</version>
 		</dependency> 
 		
+
 		<!-- 스프링 시큐리티 라이브러리 (core, web, config) -->
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
 		<dependency>
@@ -238,6 +239,13 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
 			<version>5.7.5</version>
+
+		<!-- naver -->
+		<dependency>
+			<groupId>com.github.scribejava</groupId>
+			<artifactId>scribejava-core</artifactId>
+			<version>2.8.1</version>
+
 		</dependency>
 		      
 	</dependencies>  

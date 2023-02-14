@@ -31,7 +31,7 @@ public class HeartServiceImpl implements HeartService{
 	@Override
 	public void deleteHeart(Heart heart) {
 		 heartDao.deleteHeart(sqlSession, heart);
-		 
+		
 		 
 		
 	}
@@ -57,6 +57,11 @@ public class HeartServiceImpl implements HeartService{
 		heartDao.mypageDeleteHeart(sqlSession, map);
 		
 		heartDao.minusHeartCount(sqlSession, map);
+	}
+	
+	@Override
+	public void minusListCount(HashMap<String, Object> map) {
+		heartDao.minusListCount(sqlSession, map);
 	}
 	
 	

@@ -19,8 +19,13 @@ import com.kh.tresure.chat.model.vo.ChatMessage;
 import com.kh.tresure.chat.model.vo.ChatRoom;
 import com.kh.tresure.chat.model.vo.ChatRoomJoin;
 
+
 import com.kh.tresure.common.model.dto.PageInfo;
 import com.kh.tresure.common.template.Pagination;
+import com.kh.tresure.member.model.dao.MemberDao;
+import com.kh.tresure.member.model.vo.Account;
+
+
 import com.kh.tresure.member.model.dao.MemberDao;
 import com.kh.tresure.member.model.vo.Account;
 
@@ -75,10 +80,10 @@ public class ChatServiceImpl implements ChatService{
     */
    @Override
    @Transactional
+
    public HashMap<Object, Object> createAndEnterChatRoom(HashMap<Object, Object> allList, ChatRoom room, String sellUserNo, 
 		   													ChatRoomJoin roomJoin, Block block, Account account) {
       // Controller 에서 채팅방 번호를 null 값으로 받았을 경우를 대비
-
       int chatRoomNo = 0;
       
       // 구매자만 채팅방 만들 수 있음
@@ -158,9 +163,9 @@ public class ChatServiceImpl implements ChatService{
      //판매자의 계좌번호 가져오기
       Account acc = MemberDao.selectAccountInfo(sqlSession, account.getAccount());
       if(acc != null) {
+
     	  allList.put("acc", acc);
       }
-
       
       return allList; 
       

@@ -28,6 +28,8 @@ public class Heart {
 	private String imgSrc;
 	
 	
+	private int sysHeartNum;
+	
 	
 	
 	

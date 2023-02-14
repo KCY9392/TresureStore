@@ -28,5 +28,7 @@ public class ChatRoom {
    private double avg; // 판매자의평점
    private String sellTitle; //상품제목
    private double purchaseUserAvg;   // 구매자의 평점
+
+   private int account; //계좌번호
 }
 
