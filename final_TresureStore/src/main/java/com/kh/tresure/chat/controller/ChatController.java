@@ -69,9 +69,7 @@ public class ChatController {
     	  
          session.setAttribute("errorMsg", "로그인 후 이용 가능합니다.");
          
-
          return HomeController.HOME;
-
          
       }else {
          int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
@@ -104,17 +102,16 @@ public class ChatController {
     */
    @RequestMapping(value="chat/chatRoom/{sellNo}/{userNo}", method = RequestMethod.POST)
    public String createAndEnterChatRoom(@PathVariable String sellNo,
-                                        @PathVariable String userNo,
-                                        @RequestParam(value="sellUserNo", required=false) String sellUserNo,
-                                        @RequestParam(value="chatRoomNo", required=false) String chatRoomNo,
-                                        ChatRoom room,
-                                        ChatRoomJoin roomJoin,
-                                        Account account,
-                                        Model model,
-                                        Block block,
-                                        HttpSession session,
-                                        HashMap<Object,Object> AllList) {
-
+				                        @PathVariable String userNo,
+				                        @RequestParam(value="sellUserNo", required=false) String sellUserNo,
+				                        @RequestParam(value="chatRoomNo", required=false) String chatRoomNo,
+				                        ChatRoom room,
+				                        ChatRoomJoin roomJoin,
+				                        Account account,
+				                        Model model,
+				                        Block block,
+				                        HttpSession session,
+				                        HashMap<Object,Object> AllList) {
       
       room.setSellNo(Integer.parseInt(sellNo));
       room.setUserNo(Integer.parseInt(userNo));
@@ -123,7 +120,6 @@ public class ChatController {
       if(chatRoomNo != null) {
          room.setChatRoomNo(Integer.parseInt(chatRoomNo));
       }
-
 
       // @SessionAttributes 쓰기위한 작업
       model.addAttribute("chatRoomNo", room.getChatRoomNo() );

@@ -51,7 +51,7 @@ public class MyPageController {
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");	
 		if(loginUser==null) {
-			session.setAttribute("errorMsg", "로그인 후 이용가능합니다");
+			session.setAttribute("alertMsg", "로그인 후 이용가능");
 			return "redirect:/";
 		}else {
 			logger.info(">> 마이페이지 폼으로 이동");

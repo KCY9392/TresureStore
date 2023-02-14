@@ -7,7 +7,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="/tresure/resources/css/common/home.css">
 <link rel="stylesheet" href="/tresure/resources/css/mypage/mypageMain.css">
 <link rel="stylesheet" href="/tresure/resources/css/common/font.css">
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -99,34 +98,29 @@
             </div>
             <br>
             <a class="market-grade" data-toggle="modal" data-target="#myModal">상점등급 안내</a>
-				<div class="modal fade" id="myModal" data-backdrop="static"
-					data-keyboard="false">
-					<div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal fade" id="myModal" data-backdrop="static" data-keyboard="false">
+             <div class="modal-dialog modal-xl modal-dialog-centered">
+             
+            <div class="modal-content" style="width:700px;height: 580px; margin: auto;">
 
-						<div class="modal-content"
-							style="width: 700px; height: 580px; margin: auto;">
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">등급 안내</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                <img src="/tresure/resources/images/icon/x-modalImage.png" width="35px" height="30px" style="margin-top:5px;">
+                </button>
+              </div>
+              
+              <!-- Modal body -->
+              <div class="modal-body" style="position: relative;flex: 1 1 auto;padding: 2rem;">
+                  <img class="card-img-top rounded img-fluid" src="/tresure/resources/images/icon/그림1.png">
+              </div>
+              
+           </div>
+    </div>
+</div>
 
-							<!-- Modal Header -->
-							<div class="modal-header">
-								<h4 class="modal-title">등급 안내</h4>
-								<button type="button" class="close" data-dismiss="modal">
-									<img src="/tresure/resources/images/icon/x-modalImage.png"
-										width="35px" height="30px" style="margin-top: 5px;">
-								</button>
-							</div>
-
-							<!-- Modal body -->
-							<div class="modal-body"
-								style="position: relative; flex: 1 1 auto; padding: 2rem;">
-								<img class="card-img-top rounded img-fluid"
-									src="/tresure/resources/images/icon/그림1.png">
-							</div>
-
-						</div>
-					</div>
-				</div>
-
-			</div>
+        </div>
 
 <!-- 상점명 & 개업날짜 & 팔로워수 & 판매상품수 & 상점신고수 내용 박스 -->
         <div class="info">
@@ -182,47 +176,75 @@
             <button class="market-tracsac" onclick="tracsac();"><span class="rtransac">거래내역</span></button>
           </div>
           <br><br>
-		</div>
+
        
        
        
 
-<!-- 상품 버튼 클릭 시, 나오는 박스 -->
-				<div id="productshow" class="box">
-					<div class="displayList"
-						style="flex-wrap: wrap; display: flex; margin: auto; padding-top: 23px;">
-						<c:forEach var="s" items="${sellList}" begin="0"
-							end="${fn:length(sellList)}" step="1" varStatus="status">
-							<div class="item col-3">
-								<div class="item" onclick="sellDetail(${s.sellNo})">
-									<div id="itemSolid" class="slist-items">
-										<c:if test="${s.imgSrc != null}">
-											<c:if test="${s.crawl.equals('Y')}">
-												<img src="${s.imgSrc}" width="100%" height="150px;"
-													class="rounded float-start" alt="">
-											</c:if>
-											<c:if test="${s.crawl.equals('N')}">
-												<img src="${pageContext.request.contextPath}${s.imgSrc}"
-													width="100%" height="150px;" class="rounded float-start"
-													alt="">
-											</c:if>
-										</c:if>
-										<div class="price-time">
-											<span>&nbsp;${s.sellTitle}</span><br> <br>
-											<div class="price-time2">
-												<br> &nbsp;<img
-													src="/tresure/resources/images/icon/heart.png" width="15px"
-													height="15px" style="margin-top: 2px;">&nbsp;${s.heartNum}
-												&nbsp;&nbsp;&nbsp;${s.timeago} <br> <span
-													style="font-size: 33px; color: black;">${s.price}원</span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</c:forEach>
-					</div>
-				</div>
+<!-- 상품 버튼 클릭 시, 나오는 박스 -->      
+       <div id="productshow" class="box">
+              <div class="displayList" style="flex-wrap: wrap; display:flex; margin:auto; padding-top:23px; padding-left:15px;">
+           <c:forEach var="s" items="${sellList}" begin="0" end="${fn:length(sellList)}" step="1" varStatus="status">
+                     <div class="item col-3" style="cursor: pointer; height: 300px;
+                                              width: 200px !important;
+                                              padding: 0px 20px !important;
+                                              margin-bottom:10px !important;">
+                        <div class="item" onclick="sellDetail(${s.sellNo})">
+                           <div id="itemSolid" class="slist-items" style="border: 1px solid rgb(238, 238, 238)">
+                              <c:if test="${s.imgSrc != null}">
+                                 <c:if test="${s.crawl.equals('Y')}">
+                                 <img src="${s.imgSrc}" width="100%" height="150px;"
+                                 class="rounded float-start" alt="">
+                              </c:if>
+                              <c:if test="${s.crawl.equals('N')}">
+                              <img src="${pageContext.request.contextPath}${s.imgSrc}" width="100%" height="150px;"
+                                 class="rounded float-start" alt="">
+                              </c:if>
+                              
+                               
+                                 <c:if test="${s.sellStatus eq 'C' }">
+                                 <div class="over-img">
+                                 </div>
+                                 <div class="text-c" style="color: white;
+                            margin-left: 60px;
+                            margin-top: -93px;
+                            margin-bottom: 75px;">
+                                 <h3>판매완료</h3>
+                                 </div>
+                                
+                                 </c:if>
+
+                              </c:if>
+                              <c:if test="${s.imgSrc == null}">
+                              
+                              </c:if>
+                              <div class="price-time"
+                                 style="margin-block-start: 0.33em; margin-block-end: -1.33em;">
+                                 <h5 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">&nbsp;${s.sellTitle}</h5>
+                                 <p style="font-size:18px;">&nbsp;<img src="/tresure/resources/images/icon/heart.png" width="15px" height="15px" style="margin-top:2px;"> &nbsp;${s.heartNum}</p>
+                              </div>
+                              <div class="price-time">
+                                 <p class="displayPrice" style="margin-top: 0;margin-bottom: 1rem; font-size:20px;">&nbsp;${s.price}원</p>
+                                 <h5 class="displayTime">&nbsp;${s.createDate}
+                                  
+                                     
+                                 </h5>
+                                 <c:if test="${s.sellStatus eq 'I' }">
+                              <h5 class="sellStatus" style="font-size: 1rem;">판매중</h5>
+                              </c:if>   
+                              <c:if test="${s.sellStatus eq 'C' }">
+                              <h5 class="sellStatus"style="font-size: 1rem;">판매완료</h5>
+                              </c:if>
+                                
+                                 
+                              </div>
+                              
+                           </div>
+                        </div>
+                     </div>
+          </c:forEach> 
+         </div>
+       </div>
        
        
        
@@ -367,10 +389,10 @@ $(".chBox").click(function(){
      type : 'post',
      data : { chbox : checkArr },
      success : function(result){
-    	if(result==1){
+       if(result==1){
       console.log("성공");
       location.reload();
-    	}
+       }
      },
      error:function(){
         console.log("실패")

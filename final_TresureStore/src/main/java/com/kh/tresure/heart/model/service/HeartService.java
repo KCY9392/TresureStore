@@ -16,8 +16,6 @@ public interface HeartService {
 	
 	public void mypageDeleteHeart(HashMap<String, Object> map);
 
-	public void minusListCount(HashMap<String, Object> map);
-
 	
 
 	

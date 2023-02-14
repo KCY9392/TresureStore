@@ -225,42 +225,9 @@ public class SellServiceImpl implements SellService  {
 	}
 	
 	@Override
-	public int updateSell(Sell s,List<MultipartFile> list, String webPath, String serverFolderPath) {
-		int sellNo = sellDao.getSellNo(sqlSession);
-		int result =	sellDao.updateSell(sqlSession, s);
-		if(result >0) {
-			// 3) 업로드된 이미지만 분류하는 작업 수행.
-			List<SellImg> sellImageList = new ArrayList<>();
-			List<String> renameList = new ArrayList<>();
-			
-			
-			// list에서 담겨있는 파일정보 중 실제로 업로드된 파일만 분류하기.
-						for (int i = 0; i < list.size(); i++) {
-							if (list.get(i).getSize() > 0) { // i번째 요소에 업로드된 이미지가 존재하는 경우.
+	public int updateSell(Sell s) {
 
-								// 변경된 파일명 저장.
-								String changeName = Image.saveFile(list.get(i), serverFolderPath);
-								renameList.add(changeName);
-								
-								SellImg img = new SellImg();
-								img.setSellNo(sellNo); // 게시글 번호
-								img.setFileType(i == 0 ? "C" : "D");
-								img.setOriginName(list.get(i).getOriginalFilename()); // 원본이름
-								img.setChangeName(changeName);
-								img.setUpLoadDate(new Date());
-								img.setFilePath(webPath);
-								System.out.println(img.toString());
-
-								sellImageList.add(img);
-							}
-						}
-	}
-	
-	@Override
-	public int sellDelete(Sell s) {
-		
-		
-		return sellDao.deleteSell(sqlSession, s);
+		return sellDao.updateSell(sqlSession, s);
 	}
 	
 }

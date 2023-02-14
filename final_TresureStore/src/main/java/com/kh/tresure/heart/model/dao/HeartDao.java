@@ -40,13 +40,6 @@ public class HeartDao {
 		
 	}
 
-	public void minusListCount(SqlSession sqlSession, HashMap<String, Object> map) {
-		sqlSession.update("heartMapper.minusListCount", map);
-		
-	}
-
-	
-
 	
 	
 

@@ -14,8 +14,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <result column="PRICE" property="price"/>
 <result column="CREATE_DATE" property="createDate"/>
 <result column="HEART_NO" property="heartNo"/>
-<result column="SYSHEART_NUM" property="sysHeartNum"/>
-
 
 
 
@@ -57,7 +55,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 
-<delete id="deleteHeart" parameterType="heart">
+<delete id="deleteHeart">
  DELETE HEART
  WHERE HEART_NO = #{heartNo}  AND
  	   USER_NO = #{userNo}
@@ -87,15 +85,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	SET HEART_COUNT = HEART_COUNT -1
 	WHERE USER_NO = #{userNo}
 </update>
-
-<update id="minusListCount" parameterType="map">
-	UPDATE MEMBER
-	SET HEART_COUNT = HEART_COUNT -  #{sysHeartNum}
-	WHERE USER_NO = #{userNo}
-</update>
-
-
-
 
 
 

@@ -44,12 +44,15 @@
 									
 												<c:if test="${s.imgList != null}">
 												<c:forEach var="img" items="${s.imgList }">
-												
 												<li draggable="false" class="registUserImages" id="registUserImages">
-										 		
+										 		<c:if test="${img.fileType eq 'C' }">
+													
+													<div class="imageRepresentive">대표이미지</div>
+												</c:if>
 												
 												<img src="${pageContext.request.contextPath}${contextPath }${img.filePath}${img.changeName }" alt="상품이미지">
-												<input type="file" name="upfile" multiple required style="display: none;">
+												<input type="hidden" name="originName" value="${img.originName }">
+												<input type="hidden" name="changeName" value="${img.changeName }">
 												<button type="button" class="image_cancleBtn1" onclick="deleteImage1();">
 												</button>
 												
@@ -165,35 +168,22 @@
 	
 	<jsp:include page="../common/footer.jsp"/>
 	
-	<!-- 대표이미지 설정 -->
 	<script>
 	$(function(){
-		let registUserImages = $('.registUserImages');
-		
-			/* let div = document.createElement("div"); */
-			registUserImages[0].prepend('<div class="imageRepresentive">대표이미지</div>');
-	/* 		registUserImages[0].append(div);
-			registUserImages[0].addClass('imageRepresentive') */
-		
+		if($('.registUserImages').length == 0){
+			index = 0;
+			$div.addClass('imageRepresentive').text('대표이미지');
+		}
 
 	})
 	
 	</script>
 	
-	<!-- 대표이미지 삭제시 다음 이미지가 대표이미지 -->
+	
 	<script>
 	function deleteImage1() {
-		
-		let registUserImages = $('.registUserImages');
-		
-	
-		registUserImages[0].prepend('<div class="imageRepresentive">대표이미지</div>');
 		const li = document.getElementById('registUserImages');
 		 li.remove();
-		
-
-
-		
 		 
 	}
 	</script>

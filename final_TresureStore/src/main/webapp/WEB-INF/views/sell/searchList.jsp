@@ -98,37 +98,25 @@
 	
 	<script>
 	
-	$(function(){
-		
-		let price = "${m.success[0]}";
-		
-		if(!price){
-			
-			$("#lineChart").append("<img src='/tresure/resources/images/icon/pipopipoImage.png' width='100%' height='100%' style='border-radius:12px;'/>")
-			$(".titleAndPrice-inq").empty();
-			$(".titleAndPrice-inq").append("<h3> 거래된 상품이 없습니다 </h3>")
-			
-		}else{
-		
-			var chart = bb.generate({
-			  data: {
-			    columns: [
-				["price",${m.success[0].getPrice()},${m.success[1].getPrice()},${m.success[2].getPrice()},${m.success[3].getPrice()},${m.success[4].getPrice()}]
-			    ],
-			    type: "line",
-			  },
-			  bindto: "#lineChart"
-			});
-		
-			
-			chart.load({
-				columns: [
-					  ["price",${m.success[0]},${m.success[1]},${m.success[2]},${m.success[3]},${m.success[4]}]
-					]
-				});
-		}
-	});
 	
+	
+	var chart = bb.generate({
+	  data: {
+	    columns: [
+		["price",${m.success[0].getPrice()},${m.success[1].getPrice()},${m.success[2].getPrice()},${m.success[3].getPrice()},${m.success[4].getPrice()}]
+	    ],
+	    type: "line",
+	  },
+	  bindto: "#lineChart"
+	});
+
+	(function() {
+		chart.load({
+			columns: [
+				["price",${m.success[0]},${m.success[1]},${m.success[2]},${m.success[3]},${m.success[4]}]
+			]
+		});
+	});
 </script>
 
 <script>

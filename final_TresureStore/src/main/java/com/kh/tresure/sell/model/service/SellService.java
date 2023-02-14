@@ -74,12 +74,5 @@ public interface SellService {
 	/**
 	 * 제일 마지막 sell 번호 조회 */
 	public int finishSellNo();
-	
-	/**
-	 * 게시글 삭제
-	 * @param sellNo
-	 * @return
-	 */
-	public int sellDelete(Sell s);
 
 }

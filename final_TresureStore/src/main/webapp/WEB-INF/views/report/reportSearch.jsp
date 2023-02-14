@@ -124,7 +124,7 @@
 					<div class="report-inner">
 						<select class="report-option" name="condition">
 							<option value="sellNumber">상점번호</option>
-							<option value="accountNumber">계좌번호</option>
+							<option>계좌번호</option>
 						</select>
 
 						<input type="text" class="report-search-text" name="search" id="searchReport" placeholder="@를 포함하여 상점번호를 입력해주세요.">
@@ -140,7 +140,7 @@
 	
 	<script>
 			
-		//입력값 없이 조회 버튼만 클릭 시
+		//조회 버튼 클릭 시
 		 $('#resultButton').click(function(){
 			 
 			 if($('#searchReport').val()==''){

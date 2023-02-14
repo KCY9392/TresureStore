@@ -117,16 +117,9 @@ public class MemberServiceImpl implements MemberService {
 	
 	//계좌 수정하기
 	@Override
-	public int updateAccount(Account accountInfo) {
+	public void updateAccount(int account) {
 		
-		return memberDao.updateAccount(sqlSession, accountInfo);
-	}
-	
-	//로그인 유저 계좌 가져오기
-	@Override
-	public int accountNumber(Account account) {
-		
-		return memberDao.accountNumber(sqlSession, account);
+		memberDao.updateAccount(sqlSession, account);
 	}
 	
 	

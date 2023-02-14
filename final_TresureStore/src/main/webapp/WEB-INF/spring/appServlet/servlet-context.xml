@@ -52,8 +52,6 @@
 	
 	<!-- webSocket 요청시 핸들러 클래스와 연결하기. -->
 	<beans:bean id="WebSocketHandler" class="com.kh.tresure.chat.model.service.ChatWebsocketHandler"/>
-	<!-- NaverLoginBO Class에 대한 Bean설정 추가 -->
-	<beans:bean id="naverLoginBO" class="com.kh.tresure.member.model.service.NaverLoginBO" />
 	
 	<websocket:handlers>
 		<!-- 웹소켓 요청(주소)를 처리한 bean 지정 -->

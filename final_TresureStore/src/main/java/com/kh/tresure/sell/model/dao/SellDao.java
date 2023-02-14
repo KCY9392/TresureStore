@@ -152,10 +152,5 @@ public class SellDao {
 		return sqlSession.update("sellMapper.updateSellImgList", sellImageList);
 	}
 
-	public int deleteSell(SqlSession sqlSession, Sell s) {
-		
-		return sqlSession.update("sellMapper.deleteSell", s);
-	}	
-
 
 }

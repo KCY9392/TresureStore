@@ -37,7 +37,7 @@
 		<c:if test="${loginUser == null }">
 			<script>
 			Swal.fire({
-                icon: 'success',
+                icon: 'error',
                 title: '${alertMsg}'                  
             });		
 			</script>

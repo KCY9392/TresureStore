@@ -22,9 +22,6 @@ public interface MemberService {
 	public int userAddAccount(Account accountInfo);
 
 	// 계좌 수정하기
-	public int updateAccount(Account accountInfo);
-
-	//로그인 유저 계좌 가져오기
-	public int accountNumber(Account account);
+	public void updateAccount(int account);
 
 }

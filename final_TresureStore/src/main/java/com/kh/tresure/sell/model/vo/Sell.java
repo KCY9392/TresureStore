@@ -39,7 +39,6 @@ public class Sell {
 	private double avg;
 	private int negoPrice;
 	private String negoStatus;
-	private int account;
 
 	
 	// 상품 상세조회 추가사항
