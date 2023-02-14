@@ -169,5 +169,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE USER_NO = #{userNo}
 </update> 
 
+<!-- 찜한상품수 변경사항 업데이트 -->
+<select id="selectMem" parameterType="member" resultType="member">
+	SELECT *
+	FROM MEMBER
+	WHERE USER_NO = #{userNo} AND STATUS = 'Y' 
+
+</select>
    
 </mapper>

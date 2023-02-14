@@ -36,8 +36,9 @@
 					</div>
 					</form>
 					<div class="etIgxm">
-					  <!-- 본인인증 방법 로그인 O && 카카오로그인 X -->
-						<c:if test="${loginUser.phone != null && access_Token == null}">
+					 <!-- 본인인증 방법 로그인 O && 카카오로그인 X && 네이버 로그인 X -->
+						<c:if test="${loginUser.phone != null && access_Token == null && oauthToken==null}">
+
 							<a class="accountBankButton" id="tresureAccount">
 							<img src="https://cdn-icons-png.flaticon.com/512/1424/1424949.png " width="20px;"> 계좌 등록</a>
 							
@@ -46,8 +47,8 @@
 							</a>
 						</c:if>
 						
-					  <!-- 본인인증 로그인 X && 카카오로그인 O -->	
-					  	<c:if test="${loginUser.phone == null && access_Token != null}">
+					 <!-- 본인인증 로그인 X && 카카오로그인 O && 네이버 로그인 X-->	
+					  	<c:if test="${loginUser.phone == null && access_Token != null && oauthToken==null}">
 					  		<a class="accountBankButton" id="tresureAccount">
 							<img src="https://cdn-icons-png.flaticon.com/512/1424/1424949.png " width="20px;"> 계좌 등록</a>
 					  	
@@ -56,8 +57,18 @@
 					  		</a>
 					    </c:if>
 					    
-					  <!-- 본인인증 로그인 X && 카카오로그인 X -->
-						<c:if test="${loginUser.phone == null && access_Token == null}">
+					    <!-- 본인인증 로그인 X && 카카오로그인 x && 네이버 로그인 O-->	
+					  	<c:if test="${loginUser.phone == null && access_Token == null && oauthToken!=null}">
+					  		<a class="accountBankButton" id="tresureAccount">
+							<img src="https://cdn-icons-png.flaticon.com/512/1424/1424949.png " width="20px;"> 계좌 등록</a>
+					  	
+					  		<a href="/tresure/logout" class="items">
+					  			${loginUser.userName}님 환영합니다^ㅁ^<br> 로그아웃
+					  		</a>
+					  		</c:if>
+					    
+					    <!-- 본인인증 로그인 X && 카카오로그인 X 네이버로그인 XX-->
+						<c:if test="${loginUser.phone == null && access_Token == null && oauthToken==null}">
 							<a href="/tresure/loginJoinForm" class="items">
 								<p>로그인/회원가입</p>
 							</a>
