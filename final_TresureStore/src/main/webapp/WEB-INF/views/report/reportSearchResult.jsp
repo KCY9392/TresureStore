@@ -111,7 +111,11 @@
 	                    </c:when>
 	                    <c:otherwise>
 		                   
-	                    <div class="text-report">검색하신 <span class="result-text-color">${search}호 점</span>의 
+	                    <div class="text-report">검색하신 
+	                    	<span class="result-text-color">
+	                    		<c:if test="${search}">호 점</c:if>
+	                    		<c:if test="${accountNum}"> 계좌번호</c:if>
+	                    	</span>의 
 	                    			총 신고 횟수는 <span class="result-text-color">${reportNum}</span> 회 입니다.</div>
 		                <table class="report-table">
 		                  <thead class="report-thead">

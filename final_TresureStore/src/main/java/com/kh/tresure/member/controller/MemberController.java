@@ -248,38 +248,53 @@ public class MemberController {
 	}
 	   
 	
-	//계좌추가하기
-		@ResponseBody
-		@RequestMapping(value = "member/account", method = RequestMethod.POST)
-		public int userAddAccount (Account accountInfo, HttpSession session, String account, int userNo) {
-			
-			accountInfo.setUserNo(userNo);
-			accountInfo.setAccount(Integer.parseInt((String.valueOf(account))));
-			
-			//계좌 추가하기
-			int result = memberService.userAddAccount(accountInfo);
-				
-			long acc = accountInfo.getAccount();
-			if(acc != 0){
-				//계좌 수정하기
-				memberService.updateAccount(Integer.parseInt((String.valueOf(account))));
-			}
-			
-		   logger.info(" 계좌 >>"+ accountInfo);
-		   logger.info(" >> 계좌 리스트에 추가 완료");
-		   
-		   return result;
-		}
+	//계좌추가 및 수정
+	@ResponseBody
+	@RequestMapping(value = "member/account", method = RequestMethod.POST)
+	public int userAddAccount (Integer result, Account accountInfo, HttpSession session, int account, int userNo) {
 		
-//		//계좌 수정하기
-//		@RequestMapping(value = "member/updAccount", method = RequestMethod.POST)
-//		public int updateAccount (Account account, Model model, int userNo) {
-//			
-//			
-//			int result = memberService.updateAccount(userNo);
-//			
-//			return result;
-//		}
+		accountInfo.setUserNo(userNo);
+		accountInfo.setAccount(account);
+		
+		result =  memberService.userAddAccount(accountInfo);
+		int a = result+1;
+		
+		if (a > 1 ) {
+			result =  memberService.updateAccount(accountInfo);
+			
+		} 
+		logger.info(result+"result값");
+		logger.info(a+"a값");
+		logger.info(" 계좌 >>"+ accountInfo);
+		logger.info(" >> 계좌 리스트에 추가 완료");
+		
+		return result;
+		
+	}
+		
+	//로그인 유저 계좌 가져오기
+	@ResponseBody
+	@RequestMapping(value = "member/sellEnter", method = RequestMethod.POST)
+	public int sellInsertForm(HttpServletRequest request, int userNo, Account account) { 
+		
+		account.setAccount(userNo);
+		
+		int result = memberService.accountNumber(account);
+		
+		if(result > 0) {
+
+			return account.getAccount();
+		}
+		return result;
+		
+	}
+	
+	//관리자 페이지로 이동
+	@RequestMapping(value = "common/admin", method = RequestMethod.GET)
+	public String admin() { 
+	
+		return "common/admin";
+	}
 	
 	
 	

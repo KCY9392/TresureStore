@@ -176,6 +176,8 @@
     padding-right: 10px;
     border-radius: 15px;
     margin-top:10px;
+    font-family: 'koverwatch';
+    font-size: 16px;
 }
 .buttonCss:hover{
     color: black;
@@ -189,6 +191,8 @@
     background-color: gold;
     font-weight: 600;
     border-radius: 10px;
+    font-family: 'koverwatch';
+    font-size: 16px;
 }
 .buttonCss2:hover{
     background-color: orange;
@@ -375,4 +379,22 @@ p{
     background-color: gold;
     color: #fff;
     font-size: 1em;
+}
+
+/*거래하기 버튼 내 버튼*/
+.deal{
+    border: none;
+    padding: 15px;
+    margin-top: 10px;
+    background-color: gold;
+    font-weight: 600;
+    border-radius: 10px;
+    font-family: 'koverwatch';
+    font-size: 16px;
+}
+/*거래하기 버튼 내 버튼*/
+.deal:hover{
+    background-color: orange;
+    cursor: pointer;
+    color: white;
 }
