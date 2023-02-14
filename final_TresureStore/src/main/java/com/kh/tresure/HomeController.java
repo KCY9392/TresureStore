@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kh.tresure.member.model.service.KakaoAPI;
 import com.kh.tresure.member.model.service.MemberService;
+import com.kh.tresure.member.model.service.NaverLoginBO;
 import com.kh.tresure.member.model.vo.Member;
 import com.kh.tresure.review.model.vo.Review;
 import com.kh.tresure.sell.model.service.SellService;
@@ -34,14 +36,16 @@ public class HomeController {
 	private SellService sellService;
 	private KakaoAPI kakao;
 	private MemberService memberservice;
+	private NaverLoginBO naverLoginBo;
 	
 	public HomeController() {}
 	
 	@Autowired
-	public HomeController(SellService sellService, KakaoAPI kakao,MemberService memberservice) {
+	public HomeController(SellService sellService, KakaoAPI kakao,MemberService memberservice, NaverLoginBO naverLoginBo) {
 		this.sellService = sellService;
 		this.kakao = kakao;
 		this.memberservice = memberservice;
+		this.naverLoginBo = naverLoginBo;
 	}
 
 	
@@ -54,20 +58,36 @@ public class HomeController {
 			sList.get(i).setTimeago(sList.get(i).getCreateDate());
 		}
 		
-		
 		String access_Token = (String)session.getAttribute("access_Token");
+		OAuth2AccessToken oauthToken = (OAuth2AccessToken)session.getAttribute("oauthToken");
 		
 		
-		if(access_Token != null) {
+		if(access_Token != null) { //kakao 로그인 했던 경우
 			
 			Member member = kakao.getUserInfo(access_Token);
 			member = memberservice.loginAndMemberEnroll(member);
+			
 			session.setAttribute("loginUser", member);
 	    	session.setAttribute("access_Token", access_Token);
+	    	
 	    	if(count == 0) {
 	    		session.setAttribute("alertMsg", member.getUserName()+"님 환영합니다");
 	    		count++;
 	    	}
+	    	
+		}else if(oauthToken != null) { // naver 로그인 했던 경우
+			Member member = naverLoginBo.getNavUserInfo(oauthToken);
+			member = memberservice.loginAndMemberEnroll(member);
+			
+			session.setAttribute("loginUser", member);
+			session.setAttribute("oauthToken", oauthToken);
+			
+			if(count == 0) {
+	    		session.setAttribute("alertMsg", member.getUserName()+"님 환영합니다");
+	    		count++;
+	    	}
+			
+			
 		}
 		
 		int finishSellNo = sellService.finishSellNo();

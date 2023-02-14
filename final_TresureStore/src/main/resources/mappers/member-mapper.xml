@@ -181,6 +181,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </update> 
 
 
+
 <!-- 판매자의 계좌 가져오기 -->
 <select id="selectAccountInfo" parameterType="account" resultType="account" >
 	SELECT DISTINCT
@@ -200,5 +201,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE A.USER_NO = #{userNo} 
 </select>
 
-   
+
 </mapper>
