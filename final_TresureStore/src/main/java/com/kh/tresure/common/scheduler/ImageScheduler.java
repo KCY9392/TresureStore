@@ -36,7 +36,7 @@ public class ImageScheduler {
 		this.chatService = chatService;
 	}
 
-	@Scheduled(cron="0/5 * * * * * ")// 1000 = 1000ms 이므로 1초이다.
+	@Scheduled(cron="0/50 0/5 * * * * ")// 1000 = 1000ms 이므로 1초이다.
 	public void chatImageDeleteSchduler() {
 		
 		//logger.info("스케쥴링 실행중입니다.");
