@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.kh.tresure.common.model.dto.PageInfo;
+import com.kh.tresure.member.model.vo.Account;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
@@ -178,6 +179,8 @@ public class ChatDao {
 
 		return (ArrayList) sqlSession.selectList("chattingMapper.selectAttachment");
 	}
+
+
 
 
 
