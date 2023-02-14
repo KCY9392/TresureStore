@@ -1,5 +1,6 @@
 package com.kh.tresure.chat.model.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import com.kh.tresure.chat.model.vo.ChatFiles;
 import com.kh.tresure.chat.model.vo.ChatMessage;
 import com.kh.tresure.chat.model.vo.ChatRoom;
 import com.kh.tresure.chat.model.vo.ChatRoomJoin;
+import com.kh.tresure.member.model.vo.Account;
 import com.kh.tresure.member.model.vo.Member;
 import com.kh.tresure.sell.model.vo.Sell;
 
@@ -20,7 +22,7 @@ public interface ChatService {
    public List<ChatRoom> selectChatRoomList(int userNo);
 
    // 채팅하기 (방생성 > 입장하기 or 입장하기)
-   public HashMap<Object, Object> createAndEnterChatRoom(ChatRoom room, String sellUserNo, ChatRoomJoin roomJoin, Block block);
+   public HashMap<Object, Object> createAndEnterChatRoom(ChatRoom room, String sellUserNo, ChatRoomJoin roomJoin, Block block, Account account);
 
    // 채팅방 나가기
    public int exitChatRoom(ChatRoomJoin join, String chatRoomNo, String userNo);
@@ -42,6 +44,9 @@ public interface ChatService {
 
    // 채팅 첨부파일 데베 저장
    public int insertchatImage(ChatFiles chatfiles);
+
+   // 스케줄링 실행할 채팅창 첨부파일 가져오기
+   public ArrayList<ChatFiles> selectAttachment();
 
 
 

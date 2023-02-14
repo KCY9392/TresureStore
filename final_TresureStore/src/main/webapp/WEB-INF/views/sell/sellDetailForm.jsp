@@ -12,6 +12,10 @@
 <script type="text/javascript" src="/tresure/resources/js/header.js"></script>
 <link rel="stylesheet" href="/tresure/resources/css/sell/sellDetail.css">
 <script type="text/javascript" src="/tresure/resources/js/sellDetail.js"></script>
+
+<!-- Alert 창  -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 </head>
 <body>
 	
@@ -30,7 +34,7 @@
 		month = month < 10 ? "0" + month : month; // 4월 또는 8월을 04월 08월 출력
 	
 		let day = date.getDate();
-		day = day < 10 ? "0" + day : daty;
+		day = day < 10 ? "0" + day : day;
 	
 		let hour = date.getHours();
 		hour = hour < 10 ? "0" + hour : hour;
@@ -74,28 +78,28 @@
 	<jsp:include page="../common/header.jsp"/>
 	<jsp:include page="../common/sideBar.jsp"/>
 	
-	<c:if test="${not empty alertMsg }">
-		<c:if test="${loginUser == null }">
-			<script>
-			Swal.fire({
-                icon: 'error',
-                title: '${alertMsg}'                  
-            });		
-// 				alertify.alert("경고",'${alertMsg}');// 변수를 문자열로
-			</script>
-		</c:if>
+<%-- 	<c:if test="${not empty alertMsg }"> --%>
+<%-- 		<c:if test="${loginUser == null }"> --%>
+<!-- 			<script> -->
+// 			Swal.fire({
+//                 icon: 'error',
+//                 title: '${alertMsg}'                  
+//             });		
+// // 				alertify.alert("경고",'${alertMsg}');// 변수를 문자열로
+<!-- 			</script> -->
+<%-- 		</c:if> --%>
 		
-		<c:if test="${loginUser != null }">
-			<script>
-				Swal.fire({
-	                icon: 'success',
-	                title: '${alertMsg}'                  
-	            });		
-	// 				alertify.alert("경고",'${alertMsg}');// 변수를 문자열로
-			</script>
-		</c:if>
-			<c:remove var="alertMsg" scope="session"/>
-	</c:if>
+<%-- 		<c:if test="${loginUser != null }"> --%>
+<!-- 			<script> -->
+// 				Swal.fire({
+// 	                icon: 'success',
+// 	                title: '${alertMsg}'                  
+// 	            });		
+// 	// 				alertify.alert("경고",'${alertMsg}');// 변수를 문자열로
+<!-- 			</script> -->
+<%-- 		</c:if> --%>
+<%-- 			<c:remove var="alertMsg" scope="session"/> --%>
+<%-- 	</c:if> --%>
 	
 	 <div class="main-section">
         <div class="sellDetail-div2">
@@ -262,7 +266,7 @@
                                             <div class="sellInfoTextBoxReport">
                                                 <img src="https://m.bunjang.co.kr/pc-static/resource/0acf058f19649d793382.png" width="16" height="16" alt="상품 몇분전 아이콘">
                                                 <div class="sellHeartNumText">
-                                                    <span>신고하기</span>
+                                                    <span id="addReport" class="reportBtn">신고하기</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -315,7 +319,10 @@
 	<script>
 	$(document).on("click", ".followBtn-sell", (e) => {
 		if ("${loginUser.userNo}" == "${s.userNo}") {
-			alert("내가 나 자신을 팔로우 할 수는 없습니다.");
+	   				Swal.fire({
+		                icon: 'error',
+		                title: '내가 나 자신을 팔로우 할 수는 없습니다.'                  
+		            });
 			return;
 		}
 
@@ -329,8 +336,15 @@
 				let result = Number(data.result);
 				if (result == 1) {
 					$(".followBtm").attr("src", $(".followBtm").attr("src").replace("followAddBtn.png", "followSubBtn.png"));
-					alert("팔로우 되었습니다.");
-					location.reload();
+						Swal.fire({
+		 	   		        icon: 'success',
+		 	   		        title: '팔로우 되었습니다.'
+						});
+						
+	 	   		        setTimeout(function() {
+      	            	  location.reload();
+      	            	}, 1000);
+					
 				} else if (result == 2) {
 					if (confirm("이미 팔로우 했습니다.\n팔로우를 취소하시겠습니까?")) {
 						$.ajax({
@@ -341,11 +355,21 @@
 							success : function(data) {
 								let count = Number(data.result)
 								if (count == 1) {
-									alert("팔로우가 취소되었습니다.");
+									
+				 	   	   				Swal.fire({
+				 	   		                icon: 'success',
+				 	   		                title: '팔로우 취소되었습니다.'                  
+				 	   		            });
+				 	   	   				
 									$(".followBtm").attr("src", $(".followBtm").attr("src").replace("followSubBtn.png", "followAddBtn.png"));
-									location.reload();
+									setTimeout(function() {
+                  	            	  location.reload();
+                  	            	}, 1000);
 								} else {
-									alert("팔로우 취소에 실패하었습니다.");
+				 	   	   				Swal.fire({
+				 	   		                icon: 'error',
+				 	   		                title: '팔로우 취소 실패되었습니다.'                  
+				 	   		            });
 								}
 							},
 							error : function() {
@@ -397,14 +421,18 @@
  	    	
  	        $likeBtn.click(function(){
  			if(!this.classList.contains('active')){
- 	         $.ajax({
+ 	         
+ 				$.ajax({
  	   	               	url : '${pageContext.request.contextPath}/addHeart',
  	   	                type : 'post',
  	   	                data : {sellNo : "${s.sellNo}"},
  	   	                success : function(result){
  	   	    				if(result=="c") {
- 	   	     					alert("찜하기 성공");
- 	   	     					
+		 	   	    				Swal.fire({
+			 	   		                icon: 'success',
+			 	   		                title: '찜하기 성공'                  
+			 	   		            });
+ 	   	    					
  	   	     				$likeBtn.toggleClass('active');
  	   	                	if($likeBtn.hasClass('active')){ 
  	   	 		        	
@@ -415,22 +443,26 @@
  	   	 	            	  });
  	   	                	}
  	   	              		
- 	   	                location.reload();
- 	   	    				} else {
- 	   	    		 			alert("회원만 사용할 수 있습니다.");
- 	   	     				}
- 	   	   				},
- 	   	   				error : function(){
- 	   				    alert("찜 하기 실패");
- 	   				
- 	   				   }
- 	                
- 	               
- 	                })
+ 	   	                	setTimeout(function() {
+        	            	  location.reload();
+        	            	}, 1000);
+ 	   	                
+ 	   	    			} else {
+	 	   	    				Swal.fire({
+		 	   		                icon: 'error',
+		 	   		                title: '회원만 사용할 수 있습니다.'                  
+		 	   		            });
+ 	   	     			}
+ 	   	   			},
+ 	   	   			error : function(){
+		 	   	   			Swal.fire({
+		 	   		              icon: 'error',
+		 	   		              title: '찜하기 실패(관리자에게 문의해주세요)'                  
+		 	   		        });
+ 	   				 }
+ 	             });
  	         
- 	         
- 	        }
- 	        else{
+ 	        }else{
  				 $.ajax({
  				     url : '${pageContext.request.contextPath}/mypageDeleteHeart',
  				     type : 'post',
@@ -438,7 +470,10 @@
  				     success : function(result){
  				    	 
  				    	 if(result=="f"){
- 				    	 alert("찜하기 취소");
+	 	   	    				Swal.fire({
+		 	   		                icon: 'success',
+		 	   		                title: '찜하기 취소'                  
+		 	   		            });
  				    	 
  				    	 
  				    	  $likeBtn.find('i').removeClass('fas').addClass('far')
@@ -446,14 +481,23 @@
  				    		 'src': 'https://cdn-icons-png.flaticon.com/512/812/812327.png',
  				    		 alt:"찜하기 취소"
  				    	 });
- 				    	 location.reload();
+ 				    	  
+ 				    	 setTimeout(function() {
+         	            	  location.reload();
+         	             }, 1000);
  				      
  				     }else {
- 	    		 			alert("회원만 사용할 수 있습니다.");
+	 				    	Swal.fire({
+	 	   		                icon: 'error',
+	 	   		                title: '회원만 사용할 수 있습니다.'                  
+	 	   		            });
  	     				}
  				     },
  				 error:function(){
- 				        alert("실패")
+	 	   	   				Swal.fire({
+	 	   		                icon: 'error',
+	 	   		                title: '찜하기 취소 실패(관리자에게 문의해주세요)'                  
+	 	   		            });
  				     }
  				   
  				   
@@ -478,27 +522,91 @@
             data : {sellNo :sellNo},
             success : function(result){
                    if(result == 1) {
-                      
-                       alert("삭제되었습니다.");
+	 	   	   				Swal.fire({
+	 	   		                icon: 'success',
+	 	   		                title: '판매상품 삭제 성공'                  
+	 	   		            });
+                	   
                          location.href="${pageContext.request.contextPath}"
                    }
             
              },
         
              error:function(){
-                  console.log("실패");
+	   	   				Swal.fire({
+	   		                icon: 'error',
+	   		                title: '판매상품 삭제 실패(관리자에게 문의해주세요)'                  
+	   		            });
                }
         });
     	}
      };
     	
     </script>
-	        
-	            	  
-	                
+    
+	<script>
+	   //신고버튼 클릭 시
+		 $('#addReport').on('click', function(){
+			if( !(${loginUser.userNo >= 0}) ){
+				alert("로그인하고 신고해주세요");
+				return;
+			 }
+			 
+	 		Swal.fire({
+	 		  title: '상점신고',
+	 		  input: 'radio',
+	 		  inputOptions: {
+		 			주류_담배 : '주류/담배',
+		 			전문의약품_의료기기 : '전문 의약품/의료기기',
+		 			개인정보거래 : '개인정보 거래',
+		 			음란물_성인용품 : '음란물/성인용품',
+		 			위조상품 : '위조상품',
+		 			총포_도검류 : '총포/도검류',
+		 			게임계정 : '게임 계정',
+		 			동물분양_입양글 : '동물 분양, 입양글',
+		 			기타 : '기타'
+	 		  },
+	 		  customClass: {
+	 			    input: 'inline-flex',
+	 			    inputLabel: 'inline-block'
+	 		  }
+			}).then(function(reportContent) {
+			    if (reportContent.value) {
+			    	Swal.fire('상점신고 완료', reportContent.value+" (으)로 신고하셨습니다.", "success");
+			        reportAdd(reportContent.value);
+			        console.log("Result: " + reportContent.value);
+			    }
+			})
+	 	
+		 });
+	   
+	   
+		//신고추가
+		 function reportAdd(value){
+
+			 	const sellUserNo = 	"${AllList.get('product').userNo }";
+			 	const purchaseUserNo = "${AllList.get('purchaseInfo').userNo }";
+			
+				$.ajax({
+					url : "${pageContext.request.contextPath}/report/addReport",
+					data : {reportContent : value,
+							sellUserNo : ${s.userNo}
+	      		},
+					success : function(result){
+						if(result == 1){
+							setTimeout(function() {
+          	            	  location.reload();
+          	            	}, 2000);
+
+						}
+					},
+					error : function(){
+						console.log("통신실패");
+					}
+				});
+	    };
+	</script>  
 	              
-	          
-	          
 
 	<jsp:include page="../common/footer.jsp"/>
 </body>

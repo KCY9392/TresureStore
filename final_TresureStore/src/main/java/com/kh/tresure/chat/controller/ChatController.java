@@ -31,6 +31,7 @@ import com.kh.tresure.chat.model.vo.ChatFiles;
 import com.kh.tresure.chat.model.vo.ChatRoom;
 import com.kh.tresure.chat.model.vo.ChatRoomJoin;
 import com.kh.tresure.common.Image;
+import com.kh.tresure.member.model.vo.Account;
 import com.kh.tresure.member.model.vo.Member;
 import com.kh.tresure.sell.model.vo.Sell;
 
@@ -59,7 +60,7 @@ public class ChatController {
       session = request.getSession();
       if(session.getAttribute("loginUser")== null) {
          
-         session.setAttribute("alertMsg", "로그인 후 이용 가능합니다.");
+         session.setAttribute("errorMsg", "로그인 후 이용 가능합니다.");
          
          return "redirect:/";
       }else {
@@ -89,6 +90,7 @@ public class ChatController {
                          @RequestParam(value="chatRoomNo", required=false) String chatRoomNo,
                          ChatRoom room,
                          ChatRoomJoin roomJoin,
+                         Account account,
                          Model model,
                          Block block,
                          HttpSession session) {
@@ -103,7 +105,7 @@ public class ChatController {
       
       
       HashMap<Object,Object> AllList = new HashMap<>();
-      AllList =  chatService.createAndEnterChatRoom(room, sellUserNo, roomJoin, block);
+      AllList =  chatService.createAndEnterChatRoom(room, sellUserNo, roomJoin, block, account);
       model.addAttribute("chatRoomNo", room.getChatRoomNo() );
       
       if(AllList.size() > 0) {

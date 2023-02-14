@@ -257,7 +257,7 @@
    #productshow{
           margin-right: 0 !important;
           margin-left: 40 !important;
-          display: flex;
+/*           display: flex; */
           flex-wrap: wrap;
           border-radius: 12px;
 

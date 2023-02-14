@@ -16,7 +16,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="CREATE_DATE" property="createDate"></result>
 	<result column="STATUS" property="status"></result>
 	<result column="HEART_COUNT" property="heartCount"></result>
+	<result column="ACCOUNT" property="account"></result>
 	<result column="BLACKLIST" property="blackListStatus"></result>
+
 </resultMap>
 
 <resultMap type="account" id="accountResultSet">
@@ -94,6 +96,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 
+<!-- 찜한상품수 변경사항 업데이트 -->
+<select id="selectMem" parameterType="member" resultType="member">
+	SELECT *
+	FROM MEMBER
+	WHERE USER_NO = #{userNo} AND STATUS = 'Y' 
+
+</select>
+
+
 <!-- 탈퇴한 회원 새롭게 로그인하는 메소드 -->
 <update id="updateUserState" parameterType="member">
 	UPDATE MEMBER
@@ -159,22 +170,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 계좌 추가하기 -->
 <insert id="userAddAccount" parameterType="account" >
 	INSERT INTO ACCOUNT(ACCOUNT_ID, USER_NO, ACCOUNT)
-	VALUES (SEQ_ANO.NEXTVAL, #{userNo}, TRIM(#{account}))
+	VALUES (SEQ_ANO.NEXTVAL, #{userNo}, #{account})
 </insert>
 
 <!-- 계좌 수정하기 -->
 <update id="updateAccount" parameterType="int">
 	UPDATE ACCOUNT
-	SET ACCOUNT = TRIM(#{account})
+	SET ACCOUNT = #{account}
 	WHERE USER_NO = #{userNo}
 </update> 
 
-<!-- 찜한상품수 변경사항 업데이트 -->
-<select id="selectMem" parameterType="member" resultType="member">
-	SELECT *
-	FROM MEMBER
-	WHERE USER_NO = #{userNo} AND STATUS = 'Y' 
 
+
+<!-- 판매자의 계좌 가져오기 -->
+<select id="selectAccountInfo" parameterType="account" resultType="account" >
+	SELECT DISTINCT
+            ACCOUNT,
+            A.USER_NO AS "USER_NO"
+	FROM ACCOUNT A
+	LEFT JOIN SELL S ON (S.USER_NO = A.USER_NO)
+	WHERE ACCOUNT = #{account} 
 </select>
-   
+
+<!-- 로그인유저의 계좌 가져오기 -->
+<select id="accountNumber" parameterType="account" resultType="int">
+	SELECT
+		COUNT(ACCOUNT)
+	FROM ACCOUNT A
+	LEFT JOIN MEMBER M ON (M.USER_NO = A.USER_NO)
+	WHERE A.USER_NO = #{userNo} 
+</select>
+
+
 </mapper>

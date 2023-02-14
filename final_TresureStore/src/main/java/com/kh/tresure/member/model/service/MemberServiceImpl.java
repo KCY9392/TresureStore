@@ -34,11 +34,12 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	@Transactional (rollbackFor=Exception.class)
 	public Member loginAndMemberEnroll(Member member) {
-		Member loginUser = null;
+		Member loginUser = new Member();
 		
 		// 블랙리스트 유저인지 먼저 검사 (이거 뭔가 된것 같긴한데 컨트롤러를 손좀 봐야할듯)
 		int blackConsumer = memberDao.selectblackconsumer(sqlSession, member);
 		if(blackConsumer > 0 ) {
+			loginUser = null;
 			return loginUser;
 		}
 		
@@ -116,9 +117,16 @@ public class MemberServiceImpl implements MemberService {
 	
 	//계좌 수정하기
 	@Override
-	public void updateAccount(int account) {
+	public int updateAccount(Account accountInfo) {
 		
-		memberDao.updateAccount(sqlSession, account);
+		return memberDao.updateAccount(sqlSession, accountInfo);
+	}
+	
+	//로그인 유저 계좌 가져오기
+	@Override
+	public int accountNumber(Account account) {
+		
+		return memberDao.accountNumber(sqlSession, account);
 	}
 	
 	

@@ -1,5 +1,6 @@
 package com.kh.tresure.chat.model.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,7 +19,9 @@ import com.kh.tresure.chat.model.vo.ChatFiles;
 import com.kh.tresure.chat.model.vo.ChatMessage;
 import com.kh.tresure.chat.model.vo.ChatRoom;
 import com.kh.tresure.chat.model.vo.ChatRoomJoin;
-import com.kh.tresure.member.model.vo.Member;
+
+import com.kh.tresure.member.model.dao.MemberDao;
+import com.kh.tresure.member.model.vo.Account;
 import com.kh.tresure.sell.model.dao.SellDao;
 import com.kh.tresure.sell.model.vo.Sell;
 
@@ -44,7 +47,7 @@ public class ChatServiceImpl implements ChatService{
    // 채팅하기 (방생성 > 입장하기 or 입장하기)
    @Override
    @Transactional
-   public HashMap<Object, Object> createAndEnterChatRoom(ChatRoom room, String sellUserNo, ChatRoomJoin roomJoin, Block block) {
+   public HashMap<Object, Object> createAndEnterChatRoom(ChatRoom room, String sellUserNo, ChatRoomJoin roomJoin, Block block, Account account) {
       
       HashMap<Object,Object> AllList = new HashMap<>();
       int chatRoomNo = 0;
@@ -121,6 +124,11 @@ public class ChatServiceImpl implements ChatService{
     	  AllList.put("state", state);
       }
       
+     //판매자의 계좌번호 가져오기
+      Account acc = MemberDao.selectAccountInfo(sqlSession, account.getAccount());
+      if(acc != null) {
+         AllList.put("acc", acc);
+      }
       
       // 첨부파일 가져오기
          
@@ -272,8 +280,14 @@ public class ChatServiceImpl implements ChatService{
 	   return chatDao.insertchatImage(sqlSession, chatfiles);
    }
    
-   
-   
+	// 스케줄링 실행할 채팅창 첨부파일 가져오기
+   public ArrayList<ChatFiles> selectAttachment(){
+	   
+	   ArrayList<ChatFiles> list= chatDao.selectAttachment(sqlSession);
+	   
+	   return list;
+	   
+   }
    
    
    
