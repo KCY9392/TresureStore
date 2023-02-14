@@ -156,7 +156,7 @@ public class ChatServiceImpl implements ChatService{
       }
       
      //판매자의 계좌번호 가져오기
-      Account acc = MemberDao.selectAccountInfo(sqlSession, (int) account.getAccount());
+      Account acc = MemberDao.selectAccountInfo(sqlSession, account.getAccount());
       if(acc != null) {
     	  allList.put("acc", acc);
       }
