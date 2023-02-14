@@ -1,5 +1,6 @@
 package com.kh.tresure.chat.model.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import java.util.List;
@@ -38,13 +39,15 @@ public interface ChatService {
    // 로그인한 유저가 상대방 차단 하기
    public int addBlock(int sellUserNo, int chatRoomNo, int purchaseUserNo, int userNo, Block block);
 
-   // 로그인한 유저가 상대방 차단 풀기
-   public int deleteBlock(int sellUserNo, int chatRoomNo, int purchaseUserNo, int userNo, Block block);
+   // 차단 풀기
+   public int deleteBlock(String sellUserNo, String chatRoomNo, String purchaseUserNo, int userNo, Block block, String blockedUserNo);
 
    // 채팅 첨부파일 데베 저장
    public int insertchatImage(ChatFiles chatfiles);
 
-   
+   // 스케줄링 실행할 채팅창 첨부파일 가져오기
+   public ArrayList<ChatFiles> selectAttachment();
+
 
 
 }

@@ -1,5 +1,6 @@
 package com.kh.tresure.chat.model.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import com.kh.tresure.chat.model.vo.ChatFiles;
 import com.kh.tresure.chat.model.vo.ChatMessage;
 import com.kh.tresure.chat.model.vo.ChatRoom;
 import com.kh.tresure.chat.model.vo.ChatRoomJoin;
+
 import com.kh.tresure.member.model.dao.MemberDao;
 import com.kh.tresure.member.model.vo.Account;
 import com.kh.tresure.sell.model.dao.SellDao;
@@ -95,7 +97,7 @@ public class ChatServiceImpl implements ChatService{
          AllList.put("roomMessageList", roomMessageList);
       }
       
-      // 구매자 번호, 평점 가져오기 (x) 이거 왜 실패냐
+      // 구매자 번호, 평점 가져오기 (o)
       ChatRoom purchaseInfo = chatDao.selectUserNoByChatRoomNo(sqlSession, room.getChatRoomNo());
       AllList.put("purchaseInfo", purchaseInfo);
       
@@ -246,18 +248,24 @@ public class ChatServiceImpl implements ChatService{
 	   return result;
    }
 
-   // 로그인한 유저가 상대방 차단 풀기
-   public int deleteBlock(int sellUserNo, int chatRoomNo, int purchaseUserNo, int userNo, Block block) {
+   // 차단 풀기
+   public int deleteBlock(String sellUserNo, String chatRoomNo, String purchaseUserNo, int userNo, Block block, String blockedUserNo) {
 	   
 	   block.setBlockerNo(userNo);
 	   
-	   // 로그인한 유저가 구매자인 경우
-	   if(userNo == purchaseUserNo) {
-		   block.setBlockedNo(sellUserNo);
-		   
-	   } else if ( userNo == sellUserNo ) {	// 로그인한 유저가 판매자인경우
-		   block.setBlockedNo(purchaseUserNo);  
+	   if(blockedUserNo == null) {
+		   // 로그인한 유저가 구매자인 경우
+		   if(userNo == Integer.parseInt(purchaseUserNo)) {
+			   block.setBlockedNo(Integer.parseInt(sellUserNo));
+			   
+		   } else if ( userNo == Integer.parseInt(sellUserNo) ) {	// 로그인한 유저가 판매자인경우
+			   block.setBlockedNo(Integer.parseInt(purchaseUserNo));  
+		   }
+	   } else {
+		   block.setBlockedNo(Integer.parseInt(blockedUserNo));
 	   }
+	   
+
 	   
 	   int result = chatDao.deleteBlock(sqlSession, block);
 	   
@@ -272,10 +280,14 @@ public class ChatServiceImpl implements ChatService{
 	   return chatDao.insertchatImage(sqlSession, chatfiles);
    }
    
-   
-   
-   
-   
+	// 스케줄링 실행할 채팅창 첨부파일 가져오기
+   public ArrayList<ChatFiles> selectAttachment(){
+	   
+	   ArrayList<ChatFiles> list= chatDao.selectAttachment(sqlSession);
+	   
+	   return list;
+	   
+   }
    
    
    

@@ -57,26 +57,22 @@
 		<div class="inner-section">
 			<!-- 채팅 왼쪽창(상품상세) -->
 			<div class="leftBox">
-				<div class="sell_pic">
-					<img src="${AllList.get('product').imgSrc }" width="100%"
-						height="100%" />
-				</div>
 				<div class="sell_detail">
-					<div class="sell_category">카테고리 >
-						${AllList.get('product').categoryName }</div>
+					<div class="sell_category"><p>카테고리&nbsp;&nbsp;&nbsp; ></p>
+						<p style="color: black;font-weight: 500;">${AllList.get('product').categoryName }</p></div>
 
 					<div class="sell_title"
-						onclick="sellDetail(${AllList.get('product').sellNo })">
+						onclick="sellDetail(${AllList.get('product').sellNo })" style="margin-top: 15px;">
 						${AllList.get('product').sellTitle }</div>
 
 					<div class="sell_price">
 						<p class="mark">
 							<c:choose>
 								<c:when test="${AllList.get('product').negoStatus ne null }">
-                                 ${AllList.get('product').negoPrice }
+                                 ${AllList.get('product').negoPrice } 원
                               </c:when>
 								<c:otherwise>
-                                 ${AllList.get('product').price }
+                                 ${AllList.get('product').price } 원
                               </c:otherwise>
 							</c:choose>
 					</div>
@@ -96,7 +92,19 @@
 					</c:if>
 
 				</div>
-				<div class="sell_content">${AllList.get('product').sellContent }</div>
+				
+				<div class="imgdddddd">
+					<c:if test="${AllList.get('product').imgSrc != null}">
+						<c:if test="${AllList.get('product').crawl.equals('Y')}">
+							<img src="${AllList.get('product').imgSrc}" width="100%" height="100%" class="rounded float-start" alt="">
+						</c:if>
+						<c:if test="${AllList.get('product').crawl.equals('N')}">
+							<img src="${pageContext.request.contextPath}${AllList.get('product').imgSrc}" width="100%" height="100%" class="rounded float-start" alt="">
+						</c:if>
+					</c:if>
+				</div>
+				
+				<div class="sell_content">${fn:replace(AllList.get('product').sellContent , replaceChar, "<br/>")}</div>
 			</div>
 			<!-- leftBox 끝 -->
 
@@ -110,22 +118,31 @@
 						<div class="chatmenubar">
 
                             <ul class="header-list">
-                                <li>
+                                <li style="float: left; width: 200px; padding-top: 5px;">
                                 	<!-- 로그인사람과 구매한사람이 같은경우  -->
                                    	<c:if test="${AllList.get('purchaseInfo').userNo eq loginUser.userNo}">
-                                        <c:if test="${AllList.get('product').avg  >= 4.5}">
-                                            <img src="/tresure/resources/images/icon/grade3.png" width="40px" /> <span class="store-text">상점 <span class="dd">${AllList.get('product').userNo }</span>호 점</span>
-                                        </c:if>
-                                        <c:if test="${ 4 <= AllList.get('product').avg && AllList.get('product').avg < 4.5 }">
-                                            <img src="/tresure/resources/images/icon/grade2.png" width="40px" /> <span class="store-text">상점 <span class="dd">${AllList.get('product').userNo }</span>호 점</span>
-                                        </c:if>
-                                        <c:if test="${ 3.5 <= AllList.get('product').avg && AllList.get('product').avg < 4 }">
-                                            <img src="/tresure/resources/images/icon/grade1.png" width="40px" /> <span class="store-text">상점 <span class="dd">${AllList.get('product').userNo }</span>호 점</span>
-                                        </c:if>
-                                        <c:if test="${ null == AllList.get('product').avg || AllList.get('product').avg < 3.5 }">
-                                            <img src="/tresure/resources/images/icon/grade0.png" width="40px" /> <span class="store-text">상점 <span class="dd">${AllList.get('product').userNo }</span>호 점</span>
-                                        </c:if>
-                                       </c:if>
+	                                        
+	                                        <c:if test="${AllList.get('product').avg  >= 4.5}">
+	                                            <img src="/tresure/resources/images/icon/grade3.png" width="40px" style="float: left;"/>
+	                                        </c:if>
+	                                        
+	                                        <c:if test="${ 4 <= AllList.get('product').avg && AllList.get('product').avg < 4.5 }">
+	                                            <img src="/tresure/resources/images/icon/grade2.png" width="40px" style="float: left;"/>
+	                                        </c:if>
+	                                        
+	                                        <c:if test="${ 3.5 <= AllList.get('product').avg && AllList.get('product').avg < 4 }">
+	                                            <img src="/tresure/resources/images/icon/grade1.png" width="40px"style="float: left;" />
+	                                        </c:if>
+	                                        
+	                                        <c:if test="${ null == AllList.get('product').avg || AllList.get('product').avg < 3.5 }">
+	                                            <img src="/tresure/resources/images/icon/grade0.png" width="40px" style="float: left;"/>
+	                                        </c:if>
+                                         <div class="storeNameTextClass" style="margin-bottom:10px;">
+                                         <span class="store-text">상점 <span class="dd">${AllList.get('product').userNo }</span>호 점</span>
+                                         </div>
+                                      </c:if>
+                                       
+                                       
                                        <!-- 로그인한 사람과 판매하는 사람이 같은경우 -->
                                        <c:if test="${AllList.get('product').userNo eq loginUser.userNo}">
                                         <c:if test="${AllList.get('purchaseInfo').purchaseUserAvg >= 4.5}">
@@ -169,46 +186,23 @@
                                      		
                                 </li>
                                 <li style="float: right;">
+
                                 	<button type="submit" class="buttonCss2" id="successDeal">거래하기</button>
-                                    <%-- <button type="submit" class="buttonCss2" id="tresurePay" 
-                                    onclick="requestPay('${AllList.get('product').sellTitle }',
+                            
+
+                                  <%--  <c:if test="${loginUser.userNo eq AllList.get('product').userNo}">
+
+                               <%--     onclick="requestPay('${AllList.get('product').sellTitle }',
                                     					'${AllList.get('product').price }',
                                     					'${AllList.get('purchaseInfo').userNo}',
                                     					'${AllList.get('product').userNo}',
                                     					'${pageContext.request.contextPath}')">결제하기</button> --%>
+                                 					
+                                 	</c:if> --%>
                                 </li>
-                            </ul>
-                            
-                                              
+                            </ul>                         
                         </div>
                     </div>
-                    <div class="box-body">
-                        
-                        <!-- 채팅창 대화 -->
-                        <div class="display-chatting-area">
-                            <ul class="display-chatting">
-                              <c:forEach items="${AllList.get('roomMessageList') }" var="msg">
-                                 <fmt:formatDate var="chatDate" value="${msg.createDate }" pattern="yyyy년 MM월 dd일 HH:mm" />
-                                 <%-- 1) 내가 보낸 메세지 --%>
-                                 <c:if test="${msg.userNo == loginUser.userNo }">
-                                     <li class="myChat">
-                                        <p class="chat">${msg.chatContent }</p><br>
-                                        <span class="chatDate">${chatDate }</span>
-                                         
-                                     </li>
-                                 </c:if>
-                                 <%-- 2) 남(이름)이 보낸 메세지 --%>
-                                 <c:if test="${msg.userNo != loginUser.userNo }">
-                                     <li>
-                                         <p class="chat">${msg.chatContent }</p><br>
-                                         <span class="chatDate">${chatDate }</span>
-                                     </li>
-                                 </c:if>
-                              </c:forEach>
-                            </ul>
-
-						</div>
-					</div>
 					<div class="box-body">
 
 						<!-- 채팅창 대화 -->
@@ -237,6 +231,14 @@
 
 
 						</div>
+						
+						
+						<!-- 채팅첨부파일 보낼때 미리보기창 div -->
+						<div class="chatImageBeforeSetImage" style="display:none;">
+								<img id="xBtn" src="/tresure/resources/images/icon/xx.png" width="20px" height="20px" style="margin-left:90%;margin-top: 3px;">
+								<img id="View" src="#" alt="이미지 미리보기"/>
+						</div>
+						
 
 					</div>
 					<div class="box-footer">
@@ -258,9 +260,11 @@
 								<!-- 차단 아무도 없을 때 -->
 								<c:if
 									test="${AllList.get('puTose') == 0 && AllList.get('seTopu') == 0 && AllList.get('state') != 0}">
-									<input class="messageInput-area" id="inputChatting"
-										placeholder="메세지를 입력하세요!"
-										 />
+									<input class="messageInput-area" id="inputChatting" style="font-family: 'koverwatch';
+																							   font-size: 25px;
+																							   width: 555px;
+																							   height: 40px;"			
+										placeholder="메세지를 입력하세요!"/>
 									<button class="float-left MessageSubmitBtn" id="send"
 										type="button">보내기</button>
 								</c:if>
@@ -389,8 +393,7 @@
 			//주문번호 
 			const merchant_uid = make_merchant_uid();
 	 
-	 
-	 
+   
 			  IMP.init('imp14878074'); //iamport 대신 자신의 "가맹점 식별코드"를 사용
 			  
 			  IMP.request_pay({
@@ -479,15 +482,21 @@
 	   
 		//신고추가
 		 function reportAdd(value){
+    
+			 	const sellUserNo = 	"${AllList.get('product').userNo }";
+			 	const purchaseUserNo = "${AllList.get('purchaseInfo').userNo }";
+			
 				$.ajax({
 					url : "${pageContext.request.contextPath}/report/addReport",
 					data : {reportContent : value,
-
-							reportedUserNo : ${AllList.get('product').userNo }} ,
+							sellUserNo : sellUserNo,
+							purchaseUserNo : purchaseUserNo
+          		},
 					success : function(result){
 						if(result == 1){
-							console.log(reportedUserNo+">> 차단당한 유저번호 조회");
-							location.reload();
+							setTimeout(function() {
+          	            	  location.reload();
+          	            	}, 2000);
 
 						}
 					},
@@ -577,7 +586,7 @@
       
        function negoStart(value){
           $.ajax({
-             url : "contextPath/join/nego",
+             url : "${pageContext.request.contextPath}/join/nego",
              data : {negoPrice : value,
                    sellNo : ${AllList.get('product').sellNo },
                    chatRoomNo :chatRoomNo},
@@ -707,7 +716,7 @@
 		           
 		           
            
- /* 채팅 보내기 버튼 눌렀을 경우, */
+		   /* 채팅 보내기 버튼 눌렀을 경우, */
            $("#send").on('click',function(){
         	   $.ajax({
                    type: "POST",
@@ -732,6 +741,8 @@
                            $("#uploadfile").val("");
 //                         $(".fileView").toggle();
                            ws.send(JSON.stringify(wsJson));
+                           $(".chatImageBeforeSetImage").css('display','none');
+                           $('#View').attr('src', "");
                            return false;
                        }
 //                        }else{
@@ -753,10 +764,31 @@
                    }
                 });
            });
+ 
+           $("#uploadfile").on('change', function(){
+     		  readURL(this);
+     		});
+     		
+     		function readURL(input) {
+     		    if (input.files && input.files[0]) {
+     		        var reader = new FileReader();
+     		        reader.onload = function (e) {
+     		       	$(".chatImageBeforeSetImage").css('display','block');
+     		        $('#View').attr('src', e.target.result);
+     		        }
+     		        reader.readAsDataURL(input.files[0]);
+     		    }
+     		}
+     		
+     		$("#xBtn").on('click',function(){
+     			$(".chatImageBeforeSetImage").css('display','none');
+ 		        $('#View').attr('src', "");
+ 		       	$("#uploadfile").val("");
+     		})
        })
-       
-    </script>
-   
+  </script>
+  
+  
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"

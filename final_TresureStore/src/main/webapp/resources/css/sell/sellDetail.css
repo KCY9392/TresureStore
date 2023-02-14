@@ -338,6 +338,11 @@
             100%{transform:scale(1);}
         }
        
+       .search2{
+        	margin-top: 0px !important;
+        }
+        
+       
        /*판매완료 이미지*/
         .over-img {  
 
@@ -352,4 +357,14 @@
     margin-right: -42px;
     margin-left: -430px;
 }
+
+.reportBtn{
+	cursor:pointer;
+}
+.reportBtn:hover{
+	color:#666;
+}
+.inline-flex {
+    display: inline-grid !important;
+    margin: .5em !important;
 }

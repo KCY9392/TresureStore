@@ -75,10 +75,25 @@ public class MemberDao {
 		return sqlSession.selectOne("memberMapper.selectUser", userNo);
 	}
 
+	/**
+	 * 떠나는 유저 다시 값변경해서 넣기 */
 	public void insertLeaveUser(SqlSession sqlSession, Member member) {
-		
 		sqlSession.insert("memberMapper.insertLeaveUser", member);
+	}
+	
+	/**
+	 *  신고 20번되어서 블랙리스트 된 유저인지 확인하는 작업 */
+	public int selectblackconsumer(SqlSession sqlSession, Member member) {
+		
+		return sqlSession.selectOne("memberMapper.selectblackconsumer", member);
 
+	}
+
+	/**
+	 * 블랙리스트 유저 다시 값 변경해서 넣기 */
+	public void insertBlackListUser(SqlSession sqlSession, Member member) {
+		
+		sqlSession.insert("memberMapper.insertBlackListUser", member);
 	}
 
 	//계좌 추가하기

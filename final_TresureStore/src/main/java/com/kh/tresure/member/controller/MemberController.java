@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +34,7 @@ import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import net.nurigo.sdk.message.service.DefaultMessageService;
 
 @Controller
+@Primary
 public class MemberController {
 	
 	private Logger logger = LoggerFactory.getLogger(MemberController.class);
@@ -79,10 +81,21 @@ public class MemberController {
 			   							   @RequestParam(value="birth") String birth,		// 생년월일
 			   							   @RequestParam(value="birth2") int birth2,		// 뒷 첫번째 자리(필요는 없음)
 			   							   @RequestParam(value="phone") String phone,		// 핸드폰 번호
-			   							   Model model) {
+			   							   Model model,
+			   							   Member m,
+			   							   HttpSession session
+			   							   ) {
 		
 		logger.info(">> 인증번호 입력하기 폼으로 이동");
-
+		
+		
+		int blackUser = memberService.blackConsumer(m, userName, phone);
+		
+		if(blackUser > 0) {
+    		session.setAttribute("alertMsg", "로그인 및 회원가입을 할 수 없는 유저입니다.");
+    		return "redirect:/";
+		}
+		
 		// 메세지 보내기 실행
 		int randomNum = messageController.sendOne(phone);
 		
@@ -118,7 +131,8 @@ public class MemberController {
 	@RequestMapping(value="/loginJoin/pp")
 	public String pp(HttpServletRequest request) {
 		
-		Member loginUser = Member.builder().userNo(10).userName("관리자").phone("01012345678").count(0).status("Y").build();
+		Member loginUser = Member.builder().userNo(10).userName("관리자").phone("01012345678").count(0).status("Y").blackListStatus("N").build();
+
 		
 		logger.info(">> 관리자로 로그인");
 		
@@ -135,7 +149,7 @@ public class MemberController {
 	@RequestMapping(value="/loginJoin/qq")
 	public String qq(HttpServletRequest request) {
 		
-		Member loginUser = Member.builder().userNo(1).userName("사용자").phone("01099887766").count(0).status("Y").build();
+		Member loginUser = Member.builder().userNo(1).userName("사용자").phone("01099887766").count(0).status("Y").blackListStatus("N").build();
 		
 		logger.info(">> 사용자로 로그인");
 		
@@ -185,6 +199,12 @@ public class MemberController {
 	    	// email과 nickname으로 회원체크, 회원가입/로그인 성공 후 member객체 반환
 	    	member = memberService.loginAndMemberEnroll(member);
 	    	logger.info("member : "+member);
+	    	
+	    	if(member == null) {
+	    		kakao.unlink(access_Token);
+	    		session.setAttribute("alertMsg", "로그인 및 회원가입을 할 수 없는 유저입니다.");
+	    		return "redirect:/";
+	    	}
 	    	
 	    	session.setAttribute("loginUser", member);
 	    	session.setAttribute("access_Token", access_Token);

@@ -271,6 +271,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	VALUES (SEQ_CFNO.NEXTVAL, #{chatRoomNo}, #{originName}, #{changeName}, #{filePath}, #{userNo})
 </insert>
 
+<!-- 스케줄러에 사용할 채팅 첨부파일들 전부 불러오기 -->
+<select id="selectAttachment" resultMap="chatFileResultSet">
+	SELECT *
+	FROM CFILE
+</select>
+
+
+	
+	
 
 
 

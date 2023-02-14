@@ -60,7 +60,7 @@ public class ChatController {
       session = request.getSession();
       if(session.getAttribute("loginUser")== null) {
          
-         session.setAttribute("alertMsg", "로그인 후 이용 가능합니다.");
+         session.setAttribute("errorMsg", "로그인 후 이용 가능합니다.");
          
          return "redirect:/";
       }else {
@@ -160,18 +160,23 @@ public class ChatController {
    // 차단 풀기
    @RequestMapping(value="chat/chatBlockremove", method = RequestMethod.POST)
    @ResponseBody
-   public String deleteBlock(@RequestParam(value="sellUserNo", required=false) int sellUserNo,
-                     	  @RequestParam(value="chatRoomNo", required=false) int chatRoomNo,
-                     	  @RequestParam(value="purchaseUserNo", required=false) int purchaseUserNo,
+   public String deleteBlock(@RequestParam(value="sellUserNo", required=false) String sellUserNo,
+                     	  @RequestParam(value="chatRoomNo", required=false) String chatRoomNo,
+                     	  @RequestParam(value="purchaseUserNo", required=false) String purchaseUserNo,
+                     	  @RequestParam(value="blockedUserNo", required=false) String blockedUserNo,
                      	  Model model,
                      	  HttpSession session,
                      	  Block block) {
 	   
+	   logger.info(purchaseUserNo+"");
+	   logger.info(blockedUserNo+"");
+	   logger.info(sellUserNo+"");
 	   
 	   // 로그인 한유저
 	   int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
 	   
-	   int result = chatService.deleteBlock(sellUserNo, chatRoomNo, purchaseUserNo, userNo,block);
+	   
+	   int result = chatService.deleteBlock(sellUserNo, chatRoomNo, purchaseUserNo, userNo, block, blockedUserNo);
 	   if(result == 1) {
 		   return String.valueOf(result);
 	   } else {
