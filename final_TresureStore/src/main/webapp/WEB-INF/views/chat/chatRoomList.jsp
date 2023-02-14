@@ -2,8 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<c:set var="crList" value="${map.crList }" />
-<c:set var="pi" value="${map.pi }" />
 <!DOCTYPE html>
 <html>
 
@@ -21,36 +19,7 @@
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
     <title>보물상점</title>
     <!-- css 링크 -->
-    <link rel="stylesheet" href="/tresure/resources/css/chat/chatRoomList.css">   
-    <style>
-    	#pagingArea{
-    		width : 80%;
-    		margin: auto;
-    	}
-    	.pagination{
-    		
-    		list-style-type : none;
-    		width : 100%;
-    	}
-    	.page-item{
-    		border : 1px solid lightgrey;
-    		text-align :center;
-    		
-    		margin-left : 10px;
-    		float : left;
-    	}
-    	.page-link {
-    		padding : 15px;
-    	}
-    	.page-link:active{
-    		color : red;
-    	}
-    	.page-link:hover {
-    		color : blue;
-    		border : blue;
-    	}
-
-    </style>
+    <link rel="stylesheet" href="/tresure/resources/css/chat/chatRoomList.css">    
 </head>
 
 <body>
@@ -60,14 +29,12 @@
    
        <div class="main-section">
             <div class="innerOuter">
-            	<div class="width">
-                	<img src="/tresure/resources/images/icon/mainLogo.png" width="40" style="margin-left: 20px;">&nbsp;<span>보물톡</span>
-               		<a class="block-list" onclick="methodPost();">차단목록</a>
-               	</div>
+                <img src="/tresure/resources/images/icon/mainLogo.png" width="40" style="margin-left: 20px;">&nbsp;<span>보물톡</span>
+                <a class="block-list" onclick="methodPost();">차단목록</a>
 
                 <c:choose>
                     <%--조회한 채팅 목록이 없을 때    --%>
-                    <c:when test="${empty crList}">
+                    <c:when test="${empty chatRoomList}">
                         <div style="text-align: center;">새로운 채팅을 시작해주세요 </div>
                     </c:when>
 
@@ -85,7 +52,7 @@
                             </thead>
                             <tbody>
                                 <%--조회한 채팅 목록이 있을 때    --%>
-                                <c:forEach var="chatRoom" items="${crList }">
+                                <c:forEach var="chatRoom" items="${chatRoomList }">
                                     <tr  class="storeName" >
                                         <td class="storeName${chatRoom.chatRoomNo } list">${chatRoom.chatRoomNo }</td>
                                         <td class="storeName${chatRoom.chatRoomNo } list">
@@ -210,38 +177,7 @@
                         </table>
                     </c:otherwise>
                 </c:choose>
-
-                <c:set var ="url" value="?currentPage=" />
-                <!-- 페이지 이동기능 구현 -->
-				<div id="pagingArea">
-					<ul class="pagination">
-						<c:choose>
-							<c:when test="${pi.currentPage eq 1 }">
-								<li class="page-item disabled"><a class="page-link" href="#">&lt; 이전</a></li>
-							</c:when>
-							<c:otherwise>
-								<li class="page-item"><a class="page-link" href="${url}${pi.currentPage -1 }">&lt; 이전</a></li>
-								<!-- list.bo?cpage=1 -->
-							</c:otherwise>
-						</c:choose>
-						
-						<c:forEach var="item" begin="${pi.startPage }" end="${pi.endPage }">
-							<li class="page-item"><a class="page-link" href="${url}${item }">${item}</a></li>
-						</c:forEach>
-						
-						<c:choose>
-							<c:when test="${pi.currentPage eq pi.maxPage }">
-								<li class="page-item disabled"><a class="page-link" href="#">다음 &gt;</a></li>
-							</c:when>
-							<c:otherwise>
-								<li class="page-item"><a class="page-link" href="${url}${pi.currentPage +1 }">다음 &gt;</a></li>
-							</c:otherwise>
-						</c:choose>
-					</ul>
-				</div>
-                
            </div>
-           
            </div>
    
     <jsp:include page="../common/footer.jsp" />

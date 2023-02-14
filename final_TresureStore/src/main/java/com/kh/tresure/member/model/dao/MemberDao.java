@@ -94,6 +94,7 @@ public class MemberDao {
 	public void insertBlackListUser(SqlSession sqlSession, Member member) {
 		
 		sqlSession.insert("memberMapper.insertBlackListUser", member);
+	}
 
 	//계좌 추가하기
 	public int userAddAccount(SqlSession sqlSession, Account accountInfo) {
