@@ -67,6 +67,9 @@
 					</div>
 
 				</div>
+				
+				<a href="${pageContext.request.contextPath}/common/admin" style="float:right; font-size:15px;">관리자 페이지</a> 
+				
 				<div class="sun_wrap">
 					<div class="sun_wrap_div">
 						<a href="#" class="sun_wrap_div_cate" id="sun_wrap_div_cate">
@@ -80,8 +83,9 @@
 							
 							<li><a href="${pageContext.request.contextPath}/chat/chatRoomList" class="checkUserNo"><img
 									src="/tresure/resources/images/icon/번개.png" alt="채팅 이미지">채팅하기</a></li>
-							<li><a href="${pageContext.request.contextPath }/sell/sellInsertForm" class="checkUserNo"><img
-									src="/tresure/resources/images/icon/원.png" alt="판매등록 이미지">판매하기</a></li>
+                  
+							<li><a onclick="sellGo()" class="checkUserNo">
+								<img src="/tresure/resources/images/icon/원.png" alt="판매등록 이미지"> 판매하기</a></li>
 							
 							<li><a href="${pageContext.request.contextPath}/report/reportSearch"><img
 									src="/tresure/resources/images/icon/사기조회.png" alt="사기조회 이미지">사기조회</a></li>
@@ -137,18 +141,13 @@
 			location.href = "${pageContext.request.contextPath}/sell/category/"+categoryCode;
 		}
 		
-		//계좌 미등록시 판매하기 버튼 막기
-		$('#sellDisabled').on('click', function(){
-			Swal.fire({
-				title: '',
-				text: '계좌 등록 완료 후에 판매글 등록이 가능합니다.',
-				icon: 'warning'
-			})
-		})
-		
 		
 		//계좌번호 등록 alert
 		 $('#tresureAccount').on('click', function(){
+			 
+			 var accountNum = /^[0-9]*$/;
+			 var accountExist = document.getElementById('accountEnroll');
+			 
 			 Swal.fire({
 		 		  title: '계좌 등록하기',
 		 		  text: '등록할 계좌번호를 숫자만 입력해주세요.',
@@ -157,12 +156,22 @@
 		 		  cancelButtonText: '취소',
 		 		  confirmButtonText: '등록',
 		 		  confirmButtonColor: 'gold',
-		 		 
+		 		  allowOutsideClick : false
 				}).then(function(account) {
 				    if (account.value) {
-				    	Swal.fire('계좌등록 완료!', "", "success");
-				    	accountAdd(account.value);
-				        console.log("Result: " + account.value);
+				    	if(accountNum.test(account.value)){
+				    		if(accountAdd(account.value) == null){
+						    	Swal.fire('계좌 등록 완료!', "", "success");
+						    	//accountAdd(account.value);
+						        console.log("Result: " + account.value);
+				    		}else{
+				    			Swal.fire('', "계좌가 이미 등록 되어있어요", "info");
+				    			console.log("Result2: " + account.value);
+				    		}
+				    		
+				    	} else{
+				    		Swal.fire('계좌 등록 실패!', "숫자만 입력해주세요.", "warning");
+				    	}
 				    }
 				})
 		 });
@@ -180,9 +189,25 @@
 							userNo : userNo2},
 					success : function(result){
 						if(result){
-							console.log(userNo+">> 유저번호 조회");
-							console.log(account+">> 계좌번호 조회");
-							location.reload();
+							console.log(result+"result값");
+							console.log(userNo2+">> 유저번호 조회");
+							console.log(value+">> 계좌번호 조회");
+						} else if(result > 1){
+							$.ajax({
+								url : "${pageContext.request.contextPath}/member/accountUpdate",
+								type : "post",
+								data : {account : value,
+										userNo : userNo2},
+								success : function(result){
+									if (result) {
+										console.log(result+"update 계좌 값");
+										console.log(userNo2+">> 유저번호 조회");
+										console.log(value+">> 계좌번호 조회");
+									}else{
+										console.log(update+">> 계좌번호 수정실패");
+									}
+								}
+							})
 						}
 					},
 					error : function(){
@@ -190,6 +215,26 @@
 					}
 				});
 	    }; 
+	    
+	    
+	  //판매하기 버튼 클릭 시
+	    function sellGo(){
+	    	$.ajax({
+	    		url : "${pageContext.request.contextPath}/member/sellEnter",
+	    		type : "post",
+	    		data : {userNo : userNo2},
+	    		success : function(result){
+	    			if(result){
+	    				location.href = "${pageContext.request.contextPath }/sell/sellInsertForm";
+	    			}else{
+	    				Swal.fire('계좌 등록 후, 판매글 등록이 가능합니다.', "", "error");
+	    			}
+	    		},
+ 				error : function(){
+ 					console.log("판매하기 버튼 통신실패");
+ 				}
+	    	});
+	    }
 
 		
 	    $(".checkUserNo").on('click',function(){

@@ -123,7 +123,7 @@
 							<img src="/tresure/resources/images/icon/신고수.png" width="20"
 								height="15" alt="신고 아이콘"> &nbsp;신고
 							<div class="market-report">
-								<span>${member.reporterCount}</span>회
+								<span>${member.reportCount}</span>회
 							</div>
 						</div>
 						<br> <br>

@@ -42,6 +42,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<result column="REV_IS" property="rev_is"></result>
 	
+	<result column="ACCOUNT" property="account"></result>
+	
 	<collection property="imgList" resultMap="sellImgResultSet"/>
 
 </resultMap>
@@ -233,9 +235,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	          S.CREATE_DATE AS "CREATE_DATE",
 	          HEART_NUM,
 	          AVG,
-              NEGO_PRICE,
-              NEGO_STATUS,
-              S.CRAWL
+            NEGO_PRICE,
+            NEGO_STATUS,
+            ACCOUNT,
+            S.CRAWL
 	   FROM CHAT_ROOM CR
 	   LEFT JOIN SELL S ON (S.SELL_NO = CR.SELL_NO)
        LEFT JOIN CATEGORY C ON (S.CATEGORY_NO = C.CATEGORY_NO)
@@ -247,6 +250,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	   		 JOIN SELL S ON(R.SELL_NO = S.SELL_NO)
 	   		 GROUP BY S.USER_NO) 
 	   		 PP ON (PP.USER_NO = S.USER_NO)
+	   LEFT JOIN ACCOUNT A ON (A.USER_NO = S.USER_NO)
 	   WHERE CR.CHATROOM_NO = #{chatRoomNo}
 	</select>
 	

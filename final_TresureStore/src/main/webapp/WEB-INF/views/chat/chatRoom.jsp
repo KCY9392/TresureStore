@@ -186,18 +186,21 @@
                                      		
                                 </li>
                                 <li style="float: right;">
-<%--                                 	<c:if test="${loginUser.userNo eq AllList.get('product').userNo}"> --%>
-                                    	<button type="submit" class="buttonCss2" id="tresurePay" 
-                                    onclick="requestPay('${AllList.get('product').sellTitle }',
+
+                                	<button type="submit" class="buttonCss2" id="successDeal">거래하기</button>
+                            
+
+                                  <%--  <c:if test="${loginUser.userNo eq AllList.get('product').userNo}">
+
+                               <%--     onclick="requestPay('${AllList.get('product').sellTitle }',
                                     					'${AllList.get('product').price }',
                                     					'${AllList.get('purchaseInfo').userNo}',
                                     					'${AllList.get('product').userNo}',
-                                    					'${pageContext.request.contextPath}')">결제하기</button>
-<%--                                 	</c:if> --%>
+                                    					'${pageContext.request.contextPath}')">결제하기</button> --%>
+                                 					
+                                 	</c:if> --%>
                                 </li>
-                            </ul>
-                            
-                                              
+                            </ul>                         
                         </div>
                     </div>
 					<div class="box-body">
@@ -302,8 +305,67 @@
      const regNum = /^[0-9]+$/;
      
      
+     //거래하기 버튼 클릭 시
+     $('#successDeal').on('click', function(){
+     
+	     const acc = "${AllList.get('product').account}";
+	     
+   	   Swal.fire({
+				title: '거래하기',
+				icon:'info',
+				html: `거래 방법을 선택해주세요.
+			               </b>
+			           <br> <br> <br> 
+			          <button type="button" class="btn btn-yes swl-cstm-btn-yes-sbmt-rqst deal" onclick="yes()">계좌이체 하기</button> 
+					  <button type="submit" class="btn btn-no swl-cstm-btn-no-jst-prceed deal" id="tresurePay" 
+							                    onclick="requestPay('${AllList.get('product').sellTitle }',
+							                    					'${AllList.get('product').price }',
+							                    					'${AllList.get('purchaseInfo').userNo}',
+							                    					'${AllList.get('product').userNo}',
+							                    					'${pageContext.request.contextPath}')"> 결제하기 </button>
+							          
+			          <button type="button" class="btn btn-cancle swl-cstm-btn-cancel deal">거래 취소</button>`,
+			   showCancelButton: false,
+			   showConfirmButton: false,
+			   allowOutsideClick : false,
+			   willOpen: () => {
+				   
+			          const yes = document.querySelector('.btn-yes');
+			          const no = document.querySelector('.btn-no');
+			          const cancle = document.querySelector('.btn-cancle');
+			          
+			          yes.addEventListener('click', () => {
+			        	  Swal.fire({
+			        		  title: '계좌번호 : '+ acc,
+			        		  text: '계좌이체를 진행해주세요',
+			        		  icon : 'success',
+			        		  allowOutsideClick : false
+			        	  });
+			        	  console.log(acc+'acc값?');
+			              console.log('계좌이체 버튼 클릭');
+			          })
 
-     //결제하기
+			          no.addEventListener('click', () => {
+			              console.log('결제하기 버튼 클릭');
+			          })
+
+			          cancle.addEventListener('click', () => {
+			              console.log('취소 버튼 클릭');
+			              Swal.fire({
+			        		  title: '거래 취소',
+			        		  text: '다시 거래를 진행해주세요^ㅁ^',
+			        		  icon : 'error',
+			        		  allowOutsideClick : false
+			        	  });
+			          })
+			   }
+		})     
+     });
+     
+     
+     
+
+   	 //거래하기 버튼 클릭 후 >> 결제하기 버튼
      function requestPay(sellTitle, price, userNo, userNo2, context) {
 	 		
 	 		console.log('상품명 :'+sellTitle);
@@ -331,8 +393,7 @@
 			//주문번호 
 			const merchant_uid = make_merchant_uid();
 	 
-	 
-	 
+   
 			  IMP.init('imp14878074'); //iamport 대신 자신의 "가맹점 식별코드"를 사용
 			  
 			  IMP.request_pay({
@@ -370,6 +431,7 @@
 										title: 'ajax실패',
 										text: '다시 결제해주세요.',
 										icon:'error',
+										allowOutsideClick : false,
 										timer:50000
 										})
 							    }
@@ -378,12 +440,14 @@
 						Swal.fire({
 								title: '결제 실패',
 								text: '다시 결제해주세요.',
-								icon:'error'
+								icon:'error',
+								allowOutsideClick : false
 								})
 						}
 				});
 		}
      
+   	 
 	   //신고버튼 클릭 시
 		 $('#addReport').on('click', function(){
 			 

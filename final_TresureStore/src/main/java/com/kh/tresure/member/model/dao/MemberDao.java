@@ -103,9 +103,22 @@ public class MemberDao {
 	}
 
 	//계좌 수정하기
-	public void updateAccount(SqlSession sqlSession, int account) {
+	public int updateAccount(SqlSession sqlSession, Account accountInfo) {
 		
-		 sqlSession.update("memberMapper.updateAccount", account);
+		return sqlSession.update("memberMapper.updateAccount", accountInfo);
+		
+	}
+
+	//판매자의 계좌번호 가져오기
+	public static Account selectAccountInfo(SqlSession sqlSession, int account) {
+		
+		return sqlSession.selectOne("memberMapper.selectAccountInfo", account);
+	}
+
+	//로그인 유저 계좌 가져오기
+	public int accountNumber(SqlSession sqlSession, Account account) {
+
+		return sqlSession.selectOne("memberMapper.accountNumber", account);
 	}
 
 
