@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,8 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.kh.tresure.HomeController;
 import com.kh.tresure.chat.model.service.ChatService;
 import com.kh.tresure.chat.model.vo.Block;
 import com.kh.tresure.chat.model.vo.ChatFiles;
@@ -41,7 +43,9 @@ public class ChatController {
    private ChatService chatService;
    
    // 기본생성자
-   public ChatController() {}
+   public ChatController() {
+      
+   }
    
    @Autowired
    public ChatController( ChatService chatService){
@@ -49,34 +53,26 @@ public class ChatController {
    }
    
    
-   /**
-    * 채팅방 리스트 가져오는 기능 - 리팩토링 완료
-    * @param model	
-    * @param request			
-    * @param paramMap
-    * @param currentPage
-    * @return
-    */
+   //채팅방 목록 조회
    @RequestMapping(value = "chat/chatRoomList", method = RequestMethod.GET)
-   public String selectChatRoomList(Model model, 
-		   							HttpServletRequest request, 
-		   							HashMap<Object, Object> paramMap,
-		   							@RequestParam(value = "currentPage", defaultValue = "1") int currentPage) {
+   public String selectChatRoomList( Model model, HttpServletRequest request) {
       
       session = request.getSession();
-      
       if(session.getAttribute("loginUser")== null) {
-    	  
+         
          session.setAttribute("errorMsg", "로그인 후 이용 가능합니다.");
          
-         return HomeController.HOME;
-         
+         return "redirect:/";
       }else {
          int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
          
-         HashMap<Object, Object> map = chatService.selectChatRoomList(userNo, paramMap, currentPage);
+         logger.info("유저 정보 "+userNo+"번");
          
-         model.addAttribute("map", map);
+         List<ChatRoom> crList = chatService.selectChatRoomList(userNo);
+         
+         model.addAttribute("chatRoomList", crList);
+         
+         logger.info(crList+ ">> 채팅방 리스트 조회");
          
          logger.info(">> 채팅방 리스트로 이동");
          
@@ -86,58 +82,42 @@ public class ChatController {
    }
    
    
-   /**
-    * 방 생성하기, 방입장하기 - 리팩토링 중
-    * @param sellNo
-    * @param userNo
-    * @param sellUserNo
-    * @param chatRoomNo
-    * @param room
-    * @param roomJoin
-    * @param account
-    * @param model
-    * @param block
-    * @param session
-    * @return
-    */
+   // 채팅하기 (방생성 > 입장하기 or 입장하기)
    @RequestMapping(value="chat/chatRoom/{sellNo}/{userNo}", method = RequestMethod.POST)
    public String createAndEnterChatRoom(@PathVariable String sellNo,
-				                        @PathVariable String userNo,
-				                        @RequestParam(value="sellUserNo", required=false) String sellUserNo,
-				                        @RequestParam(value="chatRoomNo", required=false) String chatRoomNo,
-				                        ChatRoom room,
-				                        ChatRoomJoin roomJoin,
-				                        Account account,
-				                        Model model,
-				                        Block block,
-				                        HttpSession session,
-				                        HashMap<Object,Object> AllList) {
+                         @PathVariable String userNo,
+                         @RequestParam(value="sellUserNo", required=false) String sellUserNo,
+                         @RequestParam(value="chatRoomNo", required=false) String chatRoomNo,
+                         ChatRoom room,
+                         ChatRoomJoin roomJoin,
+                         Account account,
+                         Model model,
+                         Block block,
+                         HttpSession session) {
       
       room.setSellNo(Integer.parseInt(sellNo));
       room.setUserNo(Integer.parseInt(userNo));
-      
-      // 채팅방이 있으면 채팅방 객체에 채팅방 번호 넣어주겠다.
       if(chatRoomNo != null) {
          room.setChatRoomNo(Integer.parseInt(chatRoomNo));
       }
-
-      // @SessionAttributes 쓰기위한 작업
-      model.addAttribute("chatRoomNo", room.getChatRoomNo() );
       
-      AllList =  chatService.createAndEnterChatRoom(AllList, room, sellUserNo, roomJoin, block, account);
+      logger.info(">> 채팅방으로 이동");
+      
+      
+      HashMap<Object,Object> AllList = new HashMap<>();
+      AllList =  chatService.createAndEnterChatRoom(room, sellUserNo, roomJoin, block, account);
+      model.addAttribute("chatRoomNo", room.getChatRoomNo() );
       
       if(AllList.size() > 0) {
          
          model.addAttribute("AllList", AllList);
-         logger.info(">> 채팅방으로 이동");
          
          return "chat/chatRoom";
          
       } else {
          
          session.setAttribute("alertMsg", "채팅방 입장에 실패하였습니다.");
-         
-         return HomeController.HOME;
+         return "redirect:/";
       }
    }
 
@@ -152,7 +132,7 @@ public class ChatController {
       List<Block> blockList = chatService.selectBlockList(userNo);
       model.addAttribute("blockList", blockList);
       
-      return HomeController.HOME;
+      return "chat/chatBlockList";
    }
    
    

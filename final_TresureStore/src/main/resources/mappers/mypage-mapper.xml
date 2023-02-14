@@ -64,9 +64,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <select id="sellCount" resultType="Integer" parameterType="Integer">
 		SELECT 
 	COUNT(SELL_NO)
-	FROM SELL
-	JOIN MEMBER USING(USER_NO)
-	WHERE USER_NO = #{userNo}
+	FROM SELL S
+	JOIN MEMBER M ON M.USER_NO = S.USER_NO
+	WHERE M.USER_NO = #{userNo} AND S.STATUS='Y'
 	</select>
 	
 	<select id="followCount" resultType="Integer" parameterType="Integer">
