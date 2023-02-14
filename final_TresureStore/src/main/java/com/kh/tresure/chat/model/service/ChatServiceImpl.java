@@ -9,7 +9,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +18,12 @@ import com.kh.tresure.chat.model.vo.ChatFiles;
 import com.kh.tresure.chat.model.vo.ChatMessage;
 import com.kh.tresure.chat.model.vo.ChatRoom;
 import com.kh.tresure.chat.model.vo.ChatRoomJoin;
-import com.kh.tresure.member.model.vo.Member;
+
+import com.kh.tresure.common.model.dto.PageInfo;
+import com.kh.tresure.common.template.Pagination;
+import com.kh.tresure.member.model.dao.MemberDao;
+import com.kh.tresure.member.model.vo.Account;
+
 import com.kh.tresure.sell.model.dao.SellDao;
 import com.kh.tresure.sell.model.vo.Sell;
 
@@ -27,79 +31,109 @@ import com.kh.tresure.sell.model.vo.Sell;
 public class ChatServiceImpl implements ChatService{
    private ChatDao chatDao;
    private SqlSession sqlSession;
+   private Pagination pagination;
    private Logger logger = LoggerFactory.getLogger(ChatServiceImpl.class);
    
    @Autowired
-   public ChatServiceImpl(ChatDao chatDao, SqlSession sqlSession) {
-      this.chatDao = chatDao;
-      this.sqlSession = sqlSession;
-   }
-   
-   @Override
-   //채팅 목록 조회
-   public List<ChatRoom> selectChatRoomList(int userNo){
+   public ChatServiceImpl(SqlSession sqlSession, ChatDao chatDao, Pagination pagination) {
+	   this.sqlSession = sqlSession;
+	   this.chatDao = chatDao;
+	   this.pagination = pagination;
       
-      return chatDao.selectChatRoomList(sqlSession, userNo);
    }
    
-   // 채팅하기 (방생성 > 입장하기 or 입장하기)
+   
+   /**
+    * 채팅방 리스트 가져오기 (페이징처리) - 리팩토링 완료
+    */
+   @Override
+   public HashMap<Object, Object> selectChatRoomList(int userNo, HashMap<Object, Object> paramMap, int currentPage){
+	   
+	   
+	   
+	   // 페이징 처리
+	   int listCount = chatDao.selectChatListCount(sqlSession, userNo);
+	   int pageLimit = 10;
+	   int viewLimit = 10;
+	   
+	   PageInfo pi = pagination.getPageInfo(listCount, currentPage, pageLimit, viewLimit);
+	   
+	   // 페이징 처리와 유저번호 해시맵에 담기
+	   paramMap.put("userNo", userNo);
+	   paramMap.put("pi", pi);
+	   
+	   List<ChatRoom> crList = chatDao.selectChatRoomList(sqlSession, paramMap);
+	   
+	   // 객체 해시맵에 담기
+	   paramMap.put("crList", crList);
+	   
+	   return paramMap;
+   }
+   
+   /**
+    * 채팅방 생성하기, 입장하기 - 리팩토링 완료
+    */
    @Override
    @Transactional
-   public HashMap<Object, Object> createAndEnterChatRoom(ChatRoom room, String sellUserNo, ChatRoomJoin roomJoin, Block block) {
-      
-      HashMap<Object,Object> AllList = new HashMap<>();
+   public HashMap<Object, Object> createAndEnterChatRoom(HashMap<Object, Object> allList, ChatRoom room, String sellUserNo, 
+		   													ChatRoomJoin roomJoin, Block block, Account account) {
+      // Controller 에서 채팅방 번호를 null 값으로 받았을 경우를 대비
+
       int chatRoomNo = 0;
       
-      
+      // 구매자만 채팅방 만들 수 있음
       if(Integer.parseInt(sellUserNo) != room.getUserNo()) {
+    	  
          // 채팅방 존재하는지 검사
-         int result = chatDao.selectChatRoomByObject(sqlSession, room);
+         int roomCheck = chatDao.selectChatRoomByObject(sqlSession, room);
          
          // 채팅방 생성
-         if(result == 0) {
+         if(roomCheck == 0) {
             chatRoomNo = chatDao.createChatRoom(sqlSession, room);
          } else {
             chatRoomNo = chatDao.selectChatRoomNo(sqlSession, room);
          }
-      } else {
+         
+      } else {	// 채팅방 목록에서 들어올 때
          chatRoomNo = room.getChatRoomNo();
       }
       
+      // 채팅방이 없거나, 생성하지 못했으면 못들어가게 해야하므로 리턴
       if(chatRoomNo == 0) {
-         return AllList;
+         return allList;
       }
       
       room.setChatRoomNo(chatRoomNo);
-      AllList.put("chatRoomNo", chatRoomNo);
+      allList.put("chatRoomNo", chatRoomNo);
       
-      logger.info("내가고른 chatRoomNo : " + chatRoomNo);
-      
+      // 채팅방 들어온 사람 유저번호와, 채팅방 번호 넣은 객체
       roomJoin.setChatRoomNo(room.getChatRoomNo());
       roomJoin.setUserNo(room.getUserNo());
       
-      // 채팅방 참여 (o)
-      int result2 = chatDao.joinCheck(sqlSession, roomJoin);
-      if(result2 == 0) {
+      // 채팅방 참여되어 있는지 체크 (o)
+      int inRoomCheck = chatDao.joinCheck(sqlSession, roomJoin);
+      if(inRoomCheck == 0) {
          chatDao.inChatRoomJoin(sqlSession, roomJoin);
       }
       
-      // 판매게시글 가져오기 (o)
+      // 판매 제품 정보 가져오기 (o)
       Sell product = SellDao.selectSellProduct(sqlSession, room.getChatRoomNo());
       if(product != null) {
-         AllList.put("product", product);
+    	  allList.put("product", product);
       }
       
       // 메세지 가져오기 (o)
       List<ChatMessage> roomMessageList = chatDao.selectChatMessageList(sqlSession, roomJoin);
       if(roomMessageList.size() != 0) {
-         AllList.put("roomMessageList", roomMessageList);
+    	  allList.put("roomMessageList", roomMessageList);
       }
       
       // 구매자 번호, 평점 가져오기 (o)
       ChatRoom purchaseInfo = chatDao.selectUserNoByChatRoomNo(sqlSession, room.getChatRoomNo());
-      AllList.put("purchaseInfo", purchaseInfo);
+      allList.put("purchaseInfo", purchaseInfo);
       
-      // 현재 채팅방에서 누군가 차단했는지 확인하기
+      
+      // 현재 채팅방에서 누군가 차단했는지 확인하기 (판매자,구매자 유저번호 가져옴)
       ChatRoom Users = chatDao.selectUsers(sqlSession, chatRoomNo);
       
       // 경우1) 구매자가 판매자 차단한경우 찾기
@@ -112,22 +146,23 @@ public class ChatServiceImpl implements ChatService{
       block.setBlockedNo(Users.getUserNo());
       int seTopu = chatDao.selectBlockFind2(sqlSession, block);
       
-
-      AllList.put("puTose", puTose);
-      AllList.put("seTopu", seTopu);
+      allList.put("puTose", puTose);
+      allList.put("seTopu", seTopu);
       
       // 탈퇴한 사람있는지 찾기
       int state = chatDao.selectMemberFind(sqlSession, chatRoomNo);
       if(state == 0) { // 탈퇴한 사람이 있으면 0
-    	  AllList.put("state", state);
+    	  allList.put("state", state);
       }
       
-      
-      // 첨부파일 가져오기
-         
+     //판매자의 계좌번호 가져오기
+      Account acc = MemberDao.selectAccountInfo(sqlSession, account.getAccount());
+      if(acc != null) {
+    	  allList.put("acc", acc);
+      }
 
       
-      return AllList; 
+      return allList; 
       
    }
    
