@@ -298,7 +298,7 @@ public class MemberController {
 					//4.파싱 닉네임 세션으로 저장
 					session.setAttribute("loginUser",userInfo); //세션 생성
 					session.setAttribute("oauthToken", oauthToken);
-					
+					session.setAttribute("alertMsg", m.getUserName()+"님 환영합니다");
 					
 					
 					System.out.println(""+userInfo);

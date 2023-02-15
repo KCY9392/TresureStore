@@ -137,9 +137,15 @@
 	                                        <c:if test="${ null == AllList.get('product').avg || AllList.get('product').avg < 3.5 }">
 	                                            <img src="/tresure/resources/images/icon/grade0.png" width="40px" style="float: left;"/>
 	                                        </c:if>
+	                                       
+	                                      <c:if test="${loginUser.userNo != AllList.get('product').userNo }">
+	                                    	<c:set var="sellerUrl" value="${pageContext.request.contextPath }/sell/seller/${AllList.get('product').userNo }" />
+	                                    </c:if>
+	                                    <a href="${sellerUrl }">
                                          <div class="storeNameTextClass" style="margin-bottom:10px;">
                                          <span class="store-text">상점 <span class="dd">${AllList.get('product').userNo }</span>호 점</span>
                                          </div>
+                                         </a>
                                       </c:if>
                                        
                                        
@@ -157,7 +163,8 @@
                                         <c:if test="${ null == AllList.get('purchaseInfo').purchaseUserAvg || AllList.get('purchaseInfo').purchaseUserAvg < 3.5 }">
                                             <img src="/tresure/resources/images/icon/grade0.png" width="40px" /> <span class="store-text">상점 ${AllList.get('purchaseInfo').userNo }호 점</span>
                                         </c:if>
-                                      </c:if>
+                                        </c:if>
+                                     
                                 
                                 
      

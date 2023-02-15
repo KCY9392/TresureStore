@@ -1,10 +1,16 @@
 package com.kh.tresure.heart.model.service;
 
 import java.util.HashMap;
-import java.util.Map;
+
 
 import com.kh.tresure.heart.model.vo.Heart;
 import com.kh.tresure.member.model.vo.Member;
+
+
+<<<<<<< Updated upstream
+=======
+
+
 
 public interface HeartService {
 	
@@ -16,6 +22,7 @@ public interface HeartService {
 	
 	public void mypageDeleteHeart(HashMap<String, Object> map);
 
+>>>>>>> Stashed changes
 	public void minusListCount(HashMap<String, Object> map);
 
 	
@@ -23,4 +30,9 @@ public interface HeartService {
 	
 	
 
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
 }
