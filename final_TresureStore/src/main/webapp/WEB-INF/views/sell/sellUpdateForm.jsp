@@ -31,34 +31,28 @@
 								<!-- image start -->
 								<li class="list">
 									<div class="image_sub">
-										상품이미지<span>*</span><small>(0/3)</small>
+										상품이미지<span>*</span><small>(${fn:length(s.imgList)}/3)</small>
 									</div>
 									<div class="image_con">
 										<ul class="sellInsertImages" id="imageList">
  											<li class="imageList" >이미지 등록 <input type="file"
  												 id="inputImage" name="upfile" multiple >
- 												 
-		
- 											</li>
- 											
-									
-												<c:if test="${s.imgList != null}">
-												<c:forEach var="img" items="${s.imgList }">
-												
-												<li draggable="false" class="registUserImages" id="registUserImages">
-										 		
-												
-												<img src="${pageContext.request.contextPath}${contextPath }${img.filePath}${img.changeName }" alt="상품이미지">
-												<input type="file" name="upfile" multiple required style="display: none;">
-												<button type="button" class="image_cancleBtn1" onclick="deleteImage1();">
-												</button>
-												
-
-												
+											</li>
+											<c:forEach var="img" varStatus="status" items="${s.imgList }"> <!-- varStatus => 상태용 변수 -->
+												<li draggable="false" class="registUserImages">
+										 			<c:if test="${img.fileType eq 'T' }">
+														<div class="imageRepresentive">대표이미지</div>
+													</c:if>
+													<img src="${pageContext.request.contextPath }${img.filePath}${img.changeName }" alt="상품이미지">
+													<!-- imgList 변수 -->
+													<input type="hidden" name="imgList[${status.index }].fileType" class="fileType" value="${img.fileType }" /> <!-- status.index => 0부터의 순서 -->
+													<input type="hidden" name="imgList[${status.index }].sellNo" value="${img.sellNo }" /> 
+													<input type="hidden" name="imgList[${status.index }].sfileNo" value="${img.sfileNo }" />
+													<input type="hidden" name="imgList[${status.index }].status" class="status" value="Y" /> <!-- value값은 삭제유무 때문에 넣어줌 큰의미없음. (이미지 삭제용) -->
+													<button type="button" class="image_cancleBtn1"></button>
 												</li>
-												</c:forEach>
- 											</c:if>
- 											
+											</c:forEach>
+
 										</ul>
 										
 										<div class="add_description">
@@ -165,44 +159,69 @@
 	
 	<jsp:include page="../common/footer.jsp"/>
 	
-	<!-- 대표이미지 설정 -->
 	<script>
-	$(function(){
-		let registUserImages = $('.registUserImages');
-		
-			/* let div = document.createElement("div"); */
-			registUserImages[0].prepend('<div class="imageRepresentive">대표이미지</div>');
-	/* 		registUserImages[0].append(div);
-			registUserImages[0].addClass('imageRepresentive') */
-		
+		/* $(function(){
+			if($('.registUserImages').length == 0){
+				index = 0;
+				// $div.addClass('imageRepresentive').text('대표이미지');
+			}
+	
+		}); */
 
-	})
-	
-	</script>
-	
-	<!-- 대표이미지 삭제시 다음 이미지가 대표이미지 -->
-	<script>
-	function deleteImage1() {
-		
-		let registUserImages = $('.registUserImages');
-		
-	
-		registUserImages[0].prepend('<div class="imageRepresentive">대표이미지</div>');
-		const li = document.getElementById('registUserImages');
-		 li.remove();
-		
+	   // 이미 업로드 된 이미지의 삭제 버튼을 누르면
+	   $(".image_cancleBtn1").click((e) => {
+	      // li 변수를 선언하고 버튼으로부터 가장 가까운 li를 대입한다.
+	      let li = $(e.target).closest("li");
+	      // li로부터 자식 요소 중 class가 fileType인걸 찾아서 value에 "D"를 넣어준다. (대표이미지일 경우 삭제하면 대표이미지가 되면 안되므로)
+	      $(li).find(".fileType").val("D");
+	      // li로부터 자식 요소 중 class가 status인걸 찾아서 value에 "D"를 넣어준다. (삭제 처리 작업)
+	      $(li).find(".status").val("D");
+	      // 마지막으로 해당 li를 숨긴다. 안보이게 해야함
+	      $(li).hide();
 
+	      // 마지막으로 이미지를 감 춘 후에 이미지 개수를 출력하기 위한 변수
+	      let length = 0;
+	      // 대표이미지의 유무 판단
+	      let mainImage = false;
 
-		
-		 
-	}
-	</script>
-	
-	
-	
+	      // class가 registUserImages인 li 요소를 반복한다. i는 index이고 e는 요소
+	      $('.registUserImages').each((i, e) => {
+	         // 반복하는 li 요소의 자식 중 class가 fileType의 value 속성이 "T"인게 있다면
+	         if ($(e).find(".fileType").val() == "T") {
+	            // mainImage를 true로 변경한다.
+	            mainImage = true;
+	         }
 
-	<script>
-	/* 가격 유효성 검사 */
+	         // 반복하는 li 요소의 자식 중 class가 status의 value 속성이 "D"가 아니라면 (삭제한 건 카운트로 하면 안됨)
+	         if ($(e).find(".status").val() != "D") {
+	            // length를 1 증가시킨다.
+	            length++;
+	         }
+	      });
+
+	      // 대표 이미지 유무를 확인하기 위한 변수
+	      console.log("mainImage :", mainImage);
+	      // 만약 대표 이미지가 없다면, 이미지 중 가장 첫번째를 대표 이미지로 선정해준다.
+	      if (!mainImage) {
+	         $('.registUserImages').each((i, e) => {
+	            if ($(e).find(".status").val() != "D") {
+	               // 해당 이미지를 대표 이미지라는 "T"를 부여하고
+	               $(e).find(".fileType").val("T");
+	               // div 태그를 생성하고 class는 "imageRepresentive"로 텍스트는 "대표이미지"로 설정
+	               let div = $("<div>", { class : "imageRepresentive", text : "대표이미지" });
+	               // 현재 요소의 가장 첫번쨰에 붙여넣는다.
+	               $(div).prependTo(e);
+	               // break와 동일 효과
+	               return false;
+	            }
+	         });
+	      }
+
+	      // 마지막에 "(" 문자열에 length의 값과 "/3)" 을 붙여서 class가 image_sub인 요소의 small 태그에 text로 붙여넣는다.
+	      $(".image_sub small").text("(" + length + "/3)");
+	   });
+	
+		/* 가격 유효성 검사 */
 		$("#product_price").on("keyup", function() {
 			$("#product_price").val($("#product_price").val().replace(/[^0-9]/g, ""));
 		});
@@ -215,7 +234,7 @@
 			$("#product_price").val(newData);
 		}) */
 		
-	/* 제목 유효성 검사 */
+		/* 제목 유효성 검사 */
 		$(function() {
 			$(".titleInput").keyup(function(){
 				let content = $(this).val();
@@ -234,7 +253,7 @@
 			})
 		})
 		
-	/* 설명 유효성 검사 */
+		/* 설명 유효성 검사 */
 		$(function() {
 			$("#sell_content").keyup(function() {
 				let content = $(this).val();

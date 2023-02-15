@@ -119,7 +119,7 @@ public class SellServiceImpl implements SellService  {
 					// BoardImg객체를 생성해서 값을 추가한 후 boardImageList;
 					SellImg img = new SellImg();
 					img.setSellNo(sellNo); // 게시글 번호
-					img.setFileType(i == 0 ? "C" : "D");
+					img.setFileType(i == 0 ? "T" : "D");
 					img.setOriginName(list.get(i).getOriginalFilename()); // 원본이름
 					img.setChangeName(changeName);
 					img.setUpLoadDate(new Date());
@@ -224,43 +224,64 @@ public class SellServiceImpl implements SellService  {
 		return sellDao.selectSellUpImgList(map, sqlSession);
 	}
 	
-	@Override
-	public int updateSell(Sell s,List<MultipartFile> list, String webPath, String serverFolderPath) {
-		int sellNo = sellDao.getSellNo(sqlSession);
-		int result =	sellDao.updateSell(sqlSession, s);
-		
-		// 3) 업로드된 이미지만 분류하는 작업 수행.
-		List<SellImg> sellImageList = new ArrayList<>();
-		List<String> renameList = new ArrayList<>();
-		
-		if(result >0) {
-			
-			
-			
-			// list에서 담겨있는 파일정보 중 실제로 업로드된 파일만 분류하기.
-						for (int i = 0; i < list.size(); i++) {
-							if (list.get(i).getSize() > 0) { // i번째 요소에 업로드된 이미지가 존재하는 경우.
+   @Override
+   public int updateSell(Sell s, List<SellImg> imgList, String savePath) {
+      // int sellNo = sellDao.getSellNo(sqlSession);
+      int result = sellDao.updateSell(sqlSession, s);
 
-								// 변경된 파일명 저장.
-								String changeName = Image.saveFile(list.get(i), serverFolderPath);
-								renameList.add(changeName);
-								
-								SellImg img = new SellImg();
-								img.setSellNo(sellNo); // 게시글 번호
-								img.setFileType(i == 0 ? "C" : "D");
-								img.setOriginName(list.get(i).getOriginalFilename()); // 원본이름
-								img.setChangeName(changeName);
-								img.setUpLoadDate(new Date());
-								img.setFilePath(webPath);
-								System.out.println(img.toString());
+      // 파일 객체 선언
+      File file = null;
 
-								sellImageList.add(img);
-							}
-						}
-						
-		}
-		return sellDao.updateSellImgList(sqlSession, sellImageList);
-	}
+      // 대표이미지가 없다는 가정하에 mainImage 변수와 false 값
+      boolean mainImage = false;
+
+      // Sell 테이블 UPDATE가 성공하면
+      if (result > 0) {
+         // list에서 담겨있는 파일 중 실제로 업로드된 파일만 분류하기.
+         // Sell의 imgList가 null이 아니라면
+         if (s.getImgList() != null) {
+            // Sell의 imgList를 for문으로 돌린다.
+            for (SellImg img : s.getImgList()) {
+               // 반복하는 SellImg의 fileType이 대표이미지 "T"라면
+               if (img.getFileType().equals("T")) {
+                  // Sell 테이블의 대표이미지를 해당 SFILE_NO로 업데이트 시켜주고
+                  sellDao.updateSellImg(sqlSession, img);
+                  // mainImage을 true로 변경해준다.
+                  mainImage = true;
+               }
+
+               // SellImg의 fileType이 "D"라면 삭제이므로
+               if (img.getStatus().equals("D")) {
+                  // serverPath와 SellImg의 changeName을 붙여서 새로운 파일을 만들고
+                  file = new File(savePath + img.getChangeName());
+                  // 파일이 존재하면서 실제로 파일이라면?
+                  if (file.exists() && file.isFile()) {
+                     // 파일을 삭제한다.
+                     file.delete();
+                  }
+                  // SFILE 테이블에서 해당 파일 데이터를 삭제한다.
+                  sellDao.deleteSellImg(sqlSession, img);
+               }
+            }
+         }
+
+         // 업로드 한 이미지 리스트가 비어있지 않다면
+         if (!imgList.isEmpty()) {
+            // 만약 mainImage이 false라면... 즉 대표이미지가 아직 없다면
+            if (!mainImage) {
+               // 업로드 된 이미지 중 첫번째의 fileType을 "T"로 변경한다.
+               imgList.get(0).setFileType("T");
+            }
+            // 3) 업로드된 이미지만 분류하는 작업 수행.
+            sellDao.insertSellImgList(sqlSession, imgList);
+         }
+
+         // SELL 테이블의 대표이미지를 SFILE의 FILE_TYPE = "T"인 것으로 변경한다.
+         sellDao.updateSellFile(sqlSession, s);
+      }
+      // 너무빡세다...
+      return result;
+   }
 	
 	@Override
 	public int sellDelete(Sell s) {

@@ -1,6 +1,7 @@
 package com.kh.tresure.sell.controller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -366,82 +367,85 @@ public class SellController {
 		
 		s.setImgList(imgList);
 		
-		
 		mv.addObject("s", s);
 		mv.addObject("cateList", cateList);
 		mv.setViewName("sell/sellUpdateForm");
 		
-		
-		
-		
-		
 		return mv;
 	}
 	
-	//상품 업데이트
-	
-	@RequestMapping(value = "/sellUpdate" ,method = RequestMethod.POST)
-	public String sellUpdate(Sell s, Model model, HttpSession session,HttpServletRequest request,
+	@RequestMapping(value = "/sellUpdate", method = RequestMethod.POST)
+	public String sellUpdate(Sell s, Model model, HttpSession session, HttpServletRequest request,
 			@RequestParam(value = "mode", required = false, defaultValue = "update") String mode,
-			@RequestParam(value = "upfile", required = false) List<MultipartFile> imgList,
-			// 업로드용 이미지파일
-			MultipartFile upfile // 첨부파일) {
-	) {
-		
-		String webPath = "/resources/images/sell/";
-		String serverFolderPath = session.getServletContext().getRealPath(webPath);
-
-		
+			@RequestParam(value = "upfile", required = false) List<MultipartFile> sellImgList) // 첨부파일) {
+	{
 
 		int result = 0;
-		File file = null;
+		try {
+			
+			// 실제저장 경로
+			String webPath = "/resources/images/sell/";
+			// 실제로 저장되는 ContextPath
+			String serverFolderPath = session.getServletContext().getRealPath(webPath);
+	
+			//int result = 0;
+			// 파일 객체
+			File file = null;
+	
+			// SellService 넘겨줄 SellImg 타입 리스트
+			List<SellImg> imgList = new ArrayList<>();
 
-		// 폴더 생성
-		if (!upfile.getOriginalFilename().equals("")) {
-			String savePath = session.getServletContext().getRealPath("/resources/images/sell/");
-
-			file = new File(savePath);
-			if (!file.exists()) {
-				file.mkdirs();
+			// 파일 객체가 실제로 넘어왔으면
+			if (sellImgList != null) {
+				String savePath = session.getServletContext().getRealPath(webPath);
+	
+				// file 객체에 해당 폴더를 가지고 생성
+				file = new File(savePath);
+				// 만약 폴더가 없으면?
+				if (!file.exists()) {
+					// 폴더 생성.
+					file.mkdirs();
+				}
+				
+				// 일단 실제 업로드 된 파일 객체를 MultipartFile upfile에 담아서 반복한다.
+				for (MultipartFile upfile : sellImgList) {
+					// 파일을 저장한 후에 저장된 파일명을 String chagneName으로 돌려받는다.
+					String changeName = Image.saveFile(upfile, savePath);
+					SellImg img = new SellImg();
+					img.setSellNo(s.getSellNo());
+					img.setFilePath(webPath);
+					img.setOriginName(upfile.getOriginalFilename());
+					img.setChangeName(changeName);
+					// fileType은 무조건 "D"로 세팅한다. 대표이미지는 SellService에서 처리한다.
+					img.setFileType("D");
+					imgList.add(img);
+					System.out.println("s1." + savePath);
+					System.out.println("s2." + changeName);
+				}
 			}
 
-			String changeName = Image.saveFile(upfile, savePath);
-
-			System.out.println("s1." + savePath);
-			System.out.println("s2." + changeName);
-
-		}
-
-		
-
-		 
-
 		if (mode.equals("update")) {
-			
-			
-		
-
 			try {
-			
-				
-				
-				result = sellService.updateSell(s,imgList, webPath, serverFolderPath);
+				result = sellService.updateSell(s, imgList, serverFolderPath);
 			} catch (Exception e) {
 				logger.error("에러발생");
 				e.printStackTrace();
 			}
 		}
 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		System.out.println(s);
-		
+
 		if (result > 0) {
 			session.setAttribute("alertMsg", "상품수정에 성공하셨습니다.");
-			  return "redirect:/";
+			return "redirect:/";
 		} else { // errorPage
 			model.addAttribute("errorMsg", "상품수정에 실패하였습니다.");
 			return "common/errorPage";
 		}
-		
+
 	}
 	
 	//게시글 삭제

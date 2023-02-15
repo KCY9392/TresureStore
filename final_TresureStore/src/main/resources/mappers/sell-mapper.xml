@@ -139,7 +139,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   	
   	</update>
 	
-<!-- 판매수정 이미지 리스트 -->
+	<!-- 판매수정 이미지 리스트 -->
 	<select id="selectSellUpImgList" parameterType="hashmap" resultType="sellImg">
 		SELECT F.SFILE_NO
 		     , F.SELL_NO
@@ -152,16 +152,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  FROM SELL S
 		     , SFILE F
 		 WHERE S.SELL_NO = F.SELL_NO
-		  
 		   AND S.SELL_NO = #{sellNo}
-		ORDER BY F.FILE_TYPE ASC
+		ORDER BY F.FILE_TYPE DESC
+		       , F.SFILE_NO ASC
 	</select>
 	
 	<select id="cateList" resultMap="cateResultSet">
 		SELECT CATEGORY_NO, CATEGORY_NAME
 	FROM CATEGORY
 	</select>
-	
 	
 	<!-- 상품등록 -->
 	<insert id="insertSell" parameterType="sell" >
@@ -191,7 +190,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				SELECT #{img.sellNo} as SELL_NO,
 					   #{img.originName} as ORIGIN_NAME,
 					   #{img.changeName} as CHANGE_NAME,
-					   #{img.upLoadDate} as UPLOAD_DATE,
+					   NVL(#{img.upLoadDate},SYSDATE) as UPLOAD_DATE,
 					   #{img.filePath} as FILE_PATH,
 					   #{img.fileType} as FILE_TYPE,
 					   #{img.status} as STATUS
@@ -517,6 +516,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE SELL
 		SET STATUS='N'
 		WHERE SELL_NO = #{sellNo}
+	</update>
+	
+	<!-- 이미지 삭제 -->
+	<delete id="deleteSellImg" parameterType="sellImg">
+		DELETE SFILE
+	 	WHERE SELL_NO = #{sellNo}
+		   AND SFILE_NO = #{sfileNo}
+	</delete>
+
+	<!-- SFILE 테이블의 대표이미지를 변경 -->
+	<update id="updateSellImg" parameterType="sellImg">
+		UPDATE SFILE
+		   SET FILE_TYPE = #{fileType}
+	 	WHERE SELL_NO   = #{sellNo}
+		   AND SFILE_NO  = #{sfileNo}
+	</update>
+
+	<!-- SELL 테이블의 대표이미지를 변경 -->
+	<update id="updateSellFile" parameterType="sellImg">
+		UPDATE SELL S
+		   SET IMAGE_SRC = NVL(( <!-- NULL이 업데이트 되면 안되니깐 다시 S.iMAGE_SRC로 업데이트 한다. -->
+		                        SELECT FILE_PATH || CHANGE_NAME
+		                          FROM SFILE
+		                         WHERE FILE_TYPE = 'T'
+		                           AND SELL_NO = S.SELL_NO
+		                       ), S.IMAGE_SRC)
+		 WHERE S.SELL_NO = #{sellNo}
 	</update>
 	
 </mapper>

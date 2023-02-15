@@ -77,7 +77,7 @@
 #nrecentlyArea{
 	margin-bottom: 10px;
 	overflow-y: hidden;
-	height: 245px;
+	max-height: 245px;
 }
 
 .nrecently {

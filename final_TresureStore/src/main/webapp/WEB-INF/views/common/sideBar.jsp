@@ -90,6 +90,8 @@
 									)
 								)
 						});
+						
+						$("#nrecentlyCnt").text(data.length);
 					},
 					error : function() {
 						console.log("오류 발생");
