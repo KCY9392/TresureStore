@@ -203,7 +203,7 @@
                                     					'${AllList.get('product').price }',
                                     					'${AllList.get('purchaseInfo').userNo}',
                                     					'${AllList.get('product').userNo}',
-                                    					'${pageContext.request.contextPath}')">결제하기</button> --%>
+                                    					'${pageContext.request.contextPath}')">결제하기</button> 
                                  					
                                  	</c:if> --%>
                                 </li>

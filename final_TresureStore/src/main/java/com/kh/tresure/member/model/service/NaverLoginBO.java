@@ -128,7 +128,7 @@ public class NaverLoginBO {
 			
 			String email = (String) response_obj.get("email");
 			String name = (String) response_obj.get("name");
-			String birth = (String) response_obj.get("birth");
+			
 			
 			
 			System.out.println(email);
@@ -136,7 +136,7 @@ public class NaverLoginBO {
 			
 			m.setUserName(name);
 			m.setEmail(email);
-			m.setBirth(birth);
+			
 			
 			System.out.println("result : "+ apiResult);
 		} catch (IOException e) {

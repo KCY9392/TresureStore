@@ -32,7 +32,7 @@ public interface SellService {
 	
 	/**
 	 * 상품등록 */
-	public int insertSell(Sell s, List<MultipartFile> list, String webPath, String serverFolderPath);
+	public int insertSell(Sell s, List <MultipartFile> list, String webPath, String serverFolderPath);
 
 	/**
 	 * 상품 상세조회 */
@@ -57,19 +57,19 @@ public interface SellService {
 	// 리뷰 리스트
 	public List<Review> reviewList(int userNo);
 
+	// 판매자 정보조회
+	public Map<String, Object> sellerDetail(Map<String, Integer> map);
 
-	
+	// 카테고리 조회
 	public List<Category> cateList();
 	
 	public List<SellImg> selectSellUpImgList(Map<String, Integer> map);
-	
-	public int updateSell(Sell s,List<MultipartFile> list, String webPath, String serverFolderPath);
+
+	public int updateSell(Sell s, List<SellImg> list, String savePath);
 
   
 
 
-	
-	public Map<String, Object> sellerDetail(Map<String, Integer> map);
 
 	/**
 	 * 제일 마지막 sell 번호 조회 */

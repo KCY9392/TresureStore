@@ -134,6 +134,8 @@ public class SellDao {
 		return sqlSession.selectList("sellMapper.cateList");
 	}
 	
+	/**
+	 *	상품 수정 이미지 리스트 */
 	public List<SellImg> selectSellUpImgList(Map<String, Integer> map, SqlSession sqlSession) {
 		return sqlSession.selectList("sellMapper.selectSellUpImgList", map);
 	}
@@ -142,20 +144,36 @@ public class SellDao {
 	 * 상품 수정 */
 	public int updateSell(SqlSession sqlSession, Sell s) {
 		return sqlSession.update("sellMapper.updateSell", s);
-		
-		
-
 	}
+	
+	/**
+	 * 상품 삭제 */
+	public int deleteSell(SqlSession sqlSession, Sell s) {
+		return sqlSession.update("sellMapper.deleteSell", s);
+	}
+	
 	/**
 	 * 상품 이미지 수정 */
 	public int updateSellImgList(SqlSession sqlSession, List<SellImg> sellImageList) {
 		return sqlSession.update("sellMapper.updateSellImgList", sellImageList);
 	}
 
-	public int deleteSell(SqlSession sqlSession, Sell s) {
-		
-		return sqlSession.update("sellMapper.deleteSell", s);
-	}	
+	/**
+	 * 상품 이미지 삭제 */
+	public int deleteSellImg(SqlSession sqlSession, SellImg img) {
+		return sqlSession.delete("sellMapper.deleteSellImg", img);
+	}
 
+	/**
+	 * SFILE의 대표이미지 업데이트 */
+	public int updateSellImg(SqlSession sqlSession, SellImg img) {
+		return sqlSession.update("sellMapper.updateSellImg", img);
+	}
+
+	/**
+	 * SELL의 대표이미지 업데이트 */
+	public int updateSellFile(SqlSession sqlSession, Sell sell) {
+		return sqlSession.update("sellMapper.updateSellFile", sell);
+	}
 
 }
