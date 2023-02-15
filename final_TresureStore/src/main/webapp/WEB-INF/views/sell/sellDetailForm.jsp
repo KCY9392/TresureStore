@@ -522,13 +522,23 @@
             data : {sellNo :sellNo},
             success : function(result){
                    if(result == 1) {
-	 	   	   				Swal.fire({
+                	  
+                		   Swal.fire({
 	 	   		                icon: 'success',
-	 	   		                title: '판매상품 삭제 성공'                  
+	 	   		                title: '판매상품 삭제 성공' 
+	 	   		               
+	 	   		              
 	 	   		            });
+                		   setInterval(function() {
+                			   location.href="${pageContext.request.contextPath}"
+                    		 }, 3000);
+       	            	  
+                		 
+	 	   	   				
                 	   
-                         location.href="${pageContext.request.contextPath}"
+                         
                    }
+                  
             
              },
         

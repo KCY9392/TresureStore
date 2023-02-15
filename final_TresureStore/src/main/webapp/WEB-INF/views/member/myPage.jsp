@@ -206,6 +206,17 @@
 													width="100%" height="150px;" class="rounded float-start"
 													alt="">
 											</c:if>
+											 <c:if test="${s.sellStatus eq 'C' }">
+	                              <div class="over-img">
+	                      		  </div>
+	                      		  <div class="text-c" style="color: white;
+								    margin-left: 71px;
+								    margin-top: -93px;
+								    margin-bottom: 75px;">
+	                      		  <h3>판매완료</h3>
+	                      		  </div>
+	                             
+	                              </c:if>
 										</c:if>
 										<div class="price-time">
 											<span>&nbsp;${s.sellTitle}</span><br> <br>

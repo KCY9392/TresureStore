@@ -125,12 +125,12 @@ public class NaverLoginBO {
 			
 			JSONObject response_obj = (JSONObject) jsonObj.get("response");
 			// response의 nickname값 파싱
-			String nickname = (String) response_obj.get("nickname");
+			
 			String email = (String) response_obj.get("email");
 			String name = (String) response_obj.get("name");
 			
 			
-			System.out.println(nickname);
+			
 			System.out.println(email);
 			System.out.println(name);
 			
