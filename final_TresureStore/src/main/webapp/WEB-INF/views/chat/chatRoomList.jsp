@@ -177,7 +177,39 @@
                         </table>
                     </c:otherwise>
                 </c:choose>
-           </div>
+
+           
+           
+	           <c:set var ="url" value="?currentPage=" />
+	                <!-- 페이지 이동기능 구현 -->
+                <div id="pagingArea">
+                  <ul class="pagination">
+                    <c:choose>
+                      <c:when test="${pi.currentPage eq 1 }">
+                        <li class="page-item disabled"><a class="page-link" href="#">&lt; 이전</a></li>
+                      </c:when>
+                      <c:otherwise>
+                        <li class="page-item"><a class="page-link" href="${url}${pi.currentPage -1 }">&lt; 이전</a></li>
+                        <!-- list.bo?cpage=1 -->
+                      </c:otherwise>
+                    </c:choose>
+
+                    <c:forEach var="item" begin="${pi.startPage }" end="${pi.endPage }">
+                      <li class="page-item"><a class="page-link" href="${url}${item }">${item}</a></li>
+                    </c:forEach>
+
+                    <c:choose>
+                      <c:when test="${pi.currentPage eq pi.maxPage }">
+                        <li class="page-item disabled"><a class="page-link" href="#">다음 &gt;</a></li>
+                      </c:when>
+                      <c:otherwise>
+                        <li class="page-item"><a class="page-link" href="${url}${pi.currentPage +1 }">다음 &gt;</a></li>
+                      </c:otherwise>
+                    </c:choose>
+                  </ul>
+                </div>
+           		</div>
+
            </div>
    
     <jsp:include page="../common/footer.jsp" />

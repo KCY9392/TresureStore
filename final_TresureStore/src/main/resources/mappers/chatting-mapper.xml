@@ -62,7 +62,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 <!-- 채팅방 목록 조회 -->
-<select id="selectChatRoomList" parameterType="int" resultMap="chatResultSet">
+
+<select id="selectChatRoomList" parameterType="hashMap" resultMap="chatResultSet">
    SELECT CR.CHATROOM_NO,
           CR.SELL_NO,
           S.USER_NO AS "SELLUSER_NO",
@@ -92,8 +93,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                JOIn chat_room cr ON (cr.user_NO = s.user_NO)
                WHERE R.STATUS = 'Y'
                GROUP BY cr.USER_NO) PP2 ON (cr.USER_NO = PP2.USER_NO)
-   WHERE CRJ.USER_NO = #{userNo} AND S.STATUS = 'Y'
-    ORDER BY CHAT_CREATE_DATE DESC, CREATE_DATE DESC
+ 	  WHERE CRJ.USER_NO = #{userNo} AND S.STATUS = 'Y' 
+    ORDER BY CHAT_CREATE_DATE DESC NULLS LAST, CREATE_DATE DESC
 </select>
  
 <!-- 채팅방 나가기(삭제) -->
@@ -275,6 +276,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <select id="selectAttachment" resultMap="chatFileResultSet">
 	SELECT *
 	FROM CFILE
+</select>
+
+<!-- 채팅방 목록 개수 조회 -->
+<select id="selectChatListCount" parameterType="int" resultType="int">
+	SELECT COUNT(*)
+	FROM CHAT_ROOM_JOIN
+	WHERE USER_NO = #{userNo}
 </select>
 
 
