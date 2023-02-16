@@ -38,14 +38,14 @@
 					</ul>
 				</div>
 			</div>
-			<div id="recentlyPaging" style="text-align: center;">
+			<!-- <div id="recentlyPaging" style="text-align: center;">
 				<button id="recentlySubPage" class="btn subpage"
 					onclick="recentlySubPage()"></button>
 				<a id="currentPage"></a>
 	
 				<button id="recentlyAddPage" class="btn addpage"
 					onclick="recentlyAddPage()"></button>
-			</div>
+			</div> -->
 		</div>
 		<!-- 최근 본 상품 끝 -->
 		<div class="ntheTop">

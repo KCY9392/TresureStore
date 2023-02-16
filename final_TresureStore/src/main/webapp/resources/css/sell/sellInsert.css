@@ -327,13 +327,14 @@
     height: 3.5rem;
     width: 10rem;
     color: black;
-    font-size: 20px;
+    font-size: 25px;
     font-weight: 700;
     border-radius: 25px;
     background: rgb(253, 253, 231);
     position: relative;
 	outline: none;
 	border: none;
+	font-family: 'koverwatch';
 }
 .insertBtn:hover {
     background: gold;
@@ -355,13 +356,14 @@
 	 height: 3.5rem;
     width: 10rem;
     color: black;
-    font-size: 20px;
+    font-size: 25px;
     font-weight: 700;
     border-radius: 25px;
     background: rgb(253, 253, 231);
     position: relative;
 	outline: none;
 	border: none;
+	font-family: 'koverwatch';
 }
 
 #updateBtn:hover{
