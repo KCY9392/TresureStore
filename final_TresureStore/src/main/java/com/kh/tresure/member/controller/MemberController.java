@@ -27,6 +27,7 @@ import com.kh.tresure.member.model.service.NaverLoginBO;
 import com.kh.tresure.member.model.vo.Account;
 import com.kh.tresure.member.model.vo.Member;
 import com.kh.tresure.mypage.model.service.MyPageService;
+import com.kh.tresure.report.model.vo.Report;
 import com.kh.tresure.review.model.vo.Review;
 import com.kh.tresure.sell.model.vo.Sell;
 
@@ -298,7 +299,7 @@ public class MemberController {
 					//4.파싱 닉네임 세션으로 저장
 					session.setAttribute("loginUser",userInfo); //세션 생성
 					session.setAttribute("oauthToken", oauthToken);
-					session.setAttribute("alertMsg", m.getUserName()+"님 환영합니다");
+					
 					
 					
 					System.out.println(""+userInfo);
@@ -357,42 +358,54 @@ public class MemberController {
 	}
 	   
 	
-	//계좌추가 및 수정
+	//계좌추가
 	@ResponseBody
 	@RequestMapping(value = "member/account", method = RequestMethod.POST)
-	public int userAddAccount (Integer result, Account accountInfo, HttpSession session, int account, int userNo) {
+	public int userAddAccount (Integer result, Account accountInfo, HttpSession session, String account, int userNo, String bankInfo) {
 		
 		accountInfo.setUserNo(userNo);
 		accountInfo.setAccount(account);
+		accountInfo.setBank(bankInfo);
 		
 		result =  memberService.userAddAccount(accountInfo);
-		int a = result+1;
-		
-		if (a > 1 ) {
-			result =  memberService.updateAccount(accountInfo);
-			
-		} 
+
 		logger.info(result+"result값");
-		logger.info(a+"a값");
 		logger.info(" 계좌 >>"+ accountInfo);
 		logger.info(" >> 계좌 리스트에 추가 완료");
 		
 		return result;
 		
 	}
+	
+	
+	//계좌 수정
+	@ResponseBody
+	@RequestMapping(value = "member/accountUpdate", method = RequestMethod.POST)
+	public int updateAccount (Integer result, Account accountInfo, HttpSession session, String account, int userNo, String bankInfo) {
+		
+		accountInfo.setUserNo(userNo);
+		accountInfo.setAccount(account);
+		accountInfo.setBank(bankInfo);
+		
+		result =  memberService.updateAccount(accountInfo);
+		
+		return result;
+		
+	}
+	
 		
 	//로그인 유저 계좌 가져오기
 	@ResponseBody
 	@RequestMapping(value = "member/sellEnter", method = RequestMethod.POST)
 	public int sellInsertForm(HttpServletRequest request, int userNo, Account account) { 
 		
-		account.setAccount(userNo);
+		account.setAccount(String.valueOf(userNo));
 		
 		int result = memberService.accountNumber(account);
 		
 		if(result > 0) {
 
-			return account.getAccount();
+			return Integer.parseInt(account.getAccount());
 		}
 		return result;
 		
@@ -405,6 +418,15 @@ public class MemberController {
 		return "common/admin";
 	}
 	
+	
+	//관리자페이지 결제관리
+	@RequestMapping(value = "admin/payAdmin", method = RequestMethod.GET)
+	public String accountList(Model model, HttpSession session) {
+			
+		List<Account> accountList = memberService.accountList();
+		
+		return "/admin";
+	}
 	
 	
 	

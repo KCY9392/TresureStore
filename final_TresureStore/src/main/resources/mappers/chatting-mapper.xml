@@ -59,10 +59,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </resultMap>
 
 
+<!-- 채팅방 목록 개수 조회 -->
+<select id="selectChatListCount" parameterType="Integer" resultType="Integer">
+	SELECT COUNT(*)
+	FROM CHAT_ROOM_JOIN
+	WHERE USER_NO = #{userNo}
+</select>
 
 
 <!-- 채팅방 목록 조회 -->
-
 <select id="selectChatRoomList" parameterType="hashMap" resultMap="chatResultSet">
    SELECT CR.CHATROOM_NO,
           CR.SELL_NO,
@@ -278,12 +283,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	FROM CFILE
 </select>
 
-<!-- 채팅방 목록 개수 조회 -->
-<select id="selectChatListCount" parameterType="int" resultType="int">
-	SELECT COUNT(*)
-	FROM CHAT_ROOM_JOIN
-	WHERE USER_NO = #{userNo}
-</select>
 
 
 	

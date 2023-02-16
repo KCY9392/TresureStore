@@ -378,7 +378,7 @@
      
 
    	 //거래하기 버튼 클릭 후 >> 결제하기 버튼
-     function requestPay(sellTitle, price, userNo, userNo2, context) {
+     function requestPay(sellTitle, price, negoPrice ,userNo, userNo2, context) {
 	 		
 	 		console.log('상품명 :'+sellTitle);
 	 		console.log(price+'원');

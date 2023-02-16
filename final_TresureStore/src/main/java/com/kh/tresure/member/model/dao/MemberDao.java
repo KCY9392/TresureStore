@@ -110,7 +110,7 @@ public class MemberDao {
 	}
 
 	//판매자의 계좌번호 가져오기
-	public static Account selectAccountInfo(SqlSession sqlSession, int account) {
+	public static Account selectAccountInfo(SqlSession sqlSession, String account) {
 		
 		return sqlSession.selectOne("memberMapper.selectAccountInfo", account);
 	}
@@ -119,6 +119,12 @@ public class MemberDao {
 	public int accountNumber(SqlSession sqlSession, Account account) {
 
 		return sqlSession.selectOne("memberMapper.accountNumber", account);
+	}
+
+	//관리자페이지 결제관리
+	public List<Account> accountList(SqlSession sqlSession) {
+
+		return sqlSession.selectList("memberMapper.accountList");
 	}
 
 

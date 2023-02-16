@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="crList" value="${map.crList }" />
+<c:set var="pi" value="${map.pi }" />
 <!DOCTYPE html>
 <html>
 
@@ -34,7 +36,7 @@
 
                 <c:choose>
                     <%--조회한 채팅 목록이 없을 때    --%>
-                    <c:when test="${empty chatRoomList}">
+                    <c:when test="${empty crList}">
                         <div style="text-align: center;">새로운 채팅을 시작해주세요 </div>
                     </c:when>
 
@@ -52,7 +54,7 @@
                             </thead>
                             <tbody>
                                 <%--조회한 채팅 목록이 있을 때    --%>
-                                <c:forEach var="chatRoom" items="${chatRoomList }">
+                                <c:forEach var="chatRoom" items="${crList }">
                                     <tr  class="storeName" >
                                         <td class="storeName${chatRoom.chatRoomNo } list">${chatRoom.chatRoomNo }</td>
                                         <td class="storeName${chatRoom.chatRoomNo } list">
