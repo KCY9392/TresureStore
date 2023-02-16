@@ -8,7 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.kh.tresure.common.model.dto.PageInfo;
+import com.kh.tresure.member.model.vo.Account;
+
+import java.util.HashMap;
 import com.kh.tresure.chat.model.service.ChatServiceImpl;
+import org.apache.ibatis.session.RowBounds;
 import com.kh.tresure.chat.model.vo.Block;
 import com.kh.tresure.chat.model.vo.ChatFiles;
 import com.kh.tresure.chat.model.vo.ChatMessage;
@@ -19,12 +24,33 @@ import com.kh.tresure.chat.model.vo.ChatRoomJoin;
 public class ChatDao {
    private Logger logger = LoggerFactory.getLogger(ChatDao.class);
    
-   //채팅방 리스트 가져오기
-   public List<ChatRoom> selectChatRoomList(SqlSession sqlSession, int userNo) {
+   /**
+	 * 나의 채팅방 개수 가져오는 메소드 - 리팩토링 완료
+	 * @param sqlSession
+	 * @param userNo
+	 * @return
+	 */
+	public int selectChatListCount(SqlSession sqlSession, int userNo) {
 
-      return sqlSession.selectList("chattingMapper.selectChatRoomList", userNo);
+		return sqlSession.selectOne("chattingMapper.selectChatListCount", userNo);
    
-   }
+    }
+	
+	/**
+	 * 채팅방 리스트 가져오기 (페이징처리) - 리팩토링 완료
+	 * @param sqlSession
+	 * @param paramMap
+	 * @return
+	 */
+	public List<ChatRoom> selectChatRoomList(SqlSession sqlSession, HashMap<Object, Object> paramMap) {
+		
+		int offset =( ((PageInfo)paramMap.get("pi")).getCurrentPage() -1)*((PageInfo)paramMap.get("pi")).getViewLimit();
+	    int limit = ((PageInfo)paramMap.get("pi")).getViewLimit();
+	    
+	    RowBounds rowBounds = new RowBounds(offset, limit);
+	    
+	    return sqlSession.selectList("chattingMapper.selectChatRoomList", paramMap, rowBounds);
+	}
 
    
    //채팅방 나가기
@@ -156,6 +182,11 @@ public class ChatDao {
 		return (ArrayList)sqlSession.selectList("chattingMapper.selectAttachment");
 	}
 
+	//판매자의 계좌번호 가져오기
+	public static Account selectAccountInfo(SqlSession sqlSession, int account) {
+		
+		return sqlSession.selectOne("memberMapper.selectAccountInfo", account);
+	}
 
 
 

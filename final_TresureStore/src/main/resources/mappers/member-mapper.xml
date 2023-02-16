@@ -90,29 +90,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</when>
 		<when test="phone == null and email != null">
 			EMAIL = #{email}
-
+		</when>
+	</choose>
 </select>
 
 
 
 <!-- 찜한상품수 변경사항 업데이트 -->
-<select id="selectMem" parameterType="member" resultType="member">
-	SELECT *
-	FROM MEMBER
-	WHERE USER_NO = #{userNo} AND STATUS = 'Y' 
-
-</select>
-
-
-
-<select id="selectMem" parameterType="member" resultType="member">
-	SELECT *
-	FROM MEMBER
-	WHERE USER_NO = #{userNo} AND STATUS = 'Y' 
-
-</select>
-
-
 <select id="selectMem" parameterType="member" resultType="member">
 	SELECT *
 	FROM MEMBER
@@ -213,6 +197,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	FROM ACCOUNT A
 	LEFT JOIN MEMBER M ON (M.USER_NO = A.USER_NO)
 	WHERE A.USER_NO = #{userNo} 
+</select>
+
+<!-- 판매자의 계좌 가져오기 -->
+<select id="selectAccountInfo" parameterType="account" resultType="account" >
+	SELECT DISTINCT
+            ACCOUNT,
+            A.USER_NO AS "USER_NO"
+	FROM ACCOUNT A
+	LEFT JOIN SELL S ON (S.USER_NO = A.USER_NO)
+	WHERE ACCOUNT = #{account} 
 </select>
 
 

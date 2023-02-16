@@ -13,7 +13,7 @@ public class Account {
 
 	private int accountId; //계좌 고유 식별번호
 	private int userNo; //유저번호
-	private long account; //계좌번호
+	private int account; //계좌번호
 	
 	
 }

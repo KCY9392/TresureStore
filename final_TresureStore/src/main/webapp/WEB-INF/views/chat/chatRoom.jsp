@@ -48,6 +48,9 @@
 #uploadImage{
    cursor : pointer;
 }
+.alertify .ajs-dialog{
+			width : 25%; !important;
+		}
 </style>
 </head>
 <body>
@@ -196,9 +199,10 @@
                                     					'${AllList.get('product').price }',
                                     					'${AllList.get('purchaseInfo').userNo}',
                                     					'${AllList.get('product').userNo}',
-                                    					'${pageContext.request.contextPath}')">결제하기</button> --%>
+                                    					'${pageContext.request.contextPath}')">결제하기</button> 
                                  					
-                                 	</c:if> --%>
+                                 	</c:if> 
+                                 	--%>
                                 </li>
                             </ul>                         
                         </div>
@@ -319,10 +323,11 @@
 			          <button type="button" class="btn btn-yes swl-cstm-btn-yes-sbmt-rqst deal" onclick="yes()">계좌이체 하기</button> 
 					  <button type="submit" class="btn btn-no swl-cstm-btn-no-jst-prceed deal" id="tresurePay" 
 							                    onclick="requestPay('${AllList.get('product').sellTitle }',
-							                    					'${AllList.get('product').price }',
-							                    					'${AllList.get('purchaseInfo').userNo}',
-							                    					'${AllList.get('product').userNo}',
-							                    					'${pageContext.request.contextPath}')"> 결제하기 </button>
+														                    	'${AllList.get('product').price }',
+										                    					'${AllList.get('product').negoPrice }',
+										                    					'${AllList.get('purchaseInfo').userNo}',
+										                    					'${AllList.get('product').userNo}',
+										                    					'${pageContext.request.contextPath}')"> 결제하기 </button>
 							          
 			          <button type="button" class="btn btn-cancle swl-cstm-btn-cancel deal">거래 취소</button>`,
 			   showCancelButton: false,
@@ -374,6 +379,10 @@
 	 		console.log('판매자번호 :'+userNo2); //판매자번호
 	 		console.log(context);
 	 		
+	 		
+	 		if(negoPrice != null){
+	 			price = negoPrice;
+	 		}
 			//var context = '${pageContext.request.contextPath}';
 
 			//주문번호 생성
