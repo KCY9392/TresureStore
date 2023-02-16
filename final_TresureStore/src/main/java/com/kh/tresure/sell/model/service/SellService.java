@@ -12,6 +12,7 @@ import com.kh.tresure.sell.model.vo.Sell;
 import com.kh.tresure.sell.model.vo.SellImg;
 
 public interface SellService {
+
    
    /**
     * 상품목록 더보기 */
@@ -66,9 +67,6 @@ public interface SellService {
    public List<SellImg> selectSellUpImgList(Map<String, Integer> map);
 
    public int updateSell(Sell s, List<SellImg> list, String savePath);
-
-  
-
 
 
    /**

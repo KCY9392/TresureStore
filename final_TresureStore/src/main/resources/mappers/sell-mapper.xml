@@ -234,7 +234,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              S.CREATE_DATE AS "CREATE_DATE",
              HEART_NUM,
              AVG,
-            NEGO_PRICE,
+             PRICE,
             NEGO_STATUS,
             ACCOUNT,
             S.CRAWL
@@ -510,6 +510,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             AND M.STATUS = 'Y' 
             AND ROWNUM = 1
             ORDER BY SELL_NO DESC
+
    </select>
    
    <update id="deleteSell" parameterType="sell">
@@ -544,5 +545,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                              ), S.IMAGE_SRC)
        WHERE S.SELL_NO = #{sellNo}
    </update>
-   
+
 </mapper>

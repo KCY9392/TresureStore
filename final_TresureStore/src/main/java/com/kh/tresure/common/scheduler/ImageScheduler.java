@@ -37,6 +37,7 @@ public class ImageScheduler {
 	}
 
 
+
 	@Scheduled(cron="0/50 0/5 0/5 * * * ")// 1000 = 1000ms 이므로 1초이다.
 	public void chatImageDeleteSchduler() {
 		

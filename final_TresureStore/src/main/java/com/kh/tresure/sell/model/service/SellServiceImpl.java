@@ -126,6 +126,7 @@ public class SellServiceImpl implements SellService  {
                img.setFilePath(webPath);
                System.out.println(img.toString());
 
+
                sellImageList.add(img);
             }
          }
@@ -282,6 +283,7 @@ public class SellServiceImpl implements SellService  {
       // 너무빡세다...
       return result;
    }
+
    
    @Override
    public int sellDelete(Sell s) {

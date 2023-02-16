@@ -52,6 +52,7 @@ public class ChatDao {
 	    return sqlSession.selectList("chattingMapper.selectChatRoomList", paramMap, rowBounds);
 	}
 
+
    
    //채팅방 나가기
    public int exitChatRoom(SqlSession sqlSession, ChatRoomJoin join) {
@@ -180,23 +181,17 @@ public class ChatDao {
 	public ArrayList<ChatFiles> selectAttachment(SqlSession sqlSession) {
 		
 		return (ArrayList)sqlSession.selectList("chattingMapper.selectAttachment");
+
 	}
 
 	//판매자의 계좌번호 가져오기
 	public static Account selectAccountInfo(SqlSession sqlSession, int account) {
 		
 		return sqlSession.selectOne("memberMapper.selectAccountInfo", account);
+
 	}
 
 
 
-
-
-
-
-
-   
-   
-   
    
 }

@@ -47,8 +47,6 @@ public class ChatServiceImpl implements ChatService {
 	   this.pagination = pagination;
       
    }
-
-
     /**
      * 채팅방 리스트 가져오기 (페이징처리) - 리팩토링 완료
      */
@@ -73,7 +71,7 @@ public class ChatServiceImpl implements ChatService {
 		   
 		   return paramMap;
 	}
-
+   
 	   /**
 	    * 채팅방 생성하기, 입장하기 - 리팩토링 완료
 	    */
