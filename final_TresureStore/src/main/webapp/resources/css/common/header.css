@@ -54,7 +54,7 @@ a {
 }
 .etIgxm {
     display: flex;
-    flex-direction: row-reverse;
+    /* flex-direction: row-reverse; */
     align-items: center;
     -webkit-box-flex: 1;
     flex-grow: 1;
@@ -72,6 +72,15 @@ a {
     outline: none;
     border: none;
     font-weight: lighter;
+}
+.accountBankButton{
+	display: flex;
+	all: unset; 
+		   width:73px;
+		   color:gray;
+		   margin:auto;
+           padding: 4px 4px;
+           cursor: pointer;
 }
 /* header end */
 

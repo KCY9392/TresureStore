@@ -12,6 +12,10 @@
 <script type="text/javascript" src="/tresure/resources/js/header.js"></script>
 <link rel="stylesheet" href="/tresure/resources/css/sell/sellDetail.css">
 <script type="text/javascript" src="/tresure/resources/js/sellDetail.js"></script>
+
+<!-- Alert 창  -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 </head>
 <body>
 	
@@ -30,7 +34,7 @@
 		month = month < 10 ? "0" + month : month; // 4월 또는 8월을 04월 08월 출력
 	
 		let day = date.getDate();
-		day = day < 10 ? "0" + day : daty;
+		day = day < 10 ? "0" + day : day;
 	
 		let hour = date.getHours();
 		hour = hour < 10 ? "0" + hour : hour;
@@ -74,28 +78,28 @@
 	<jsp:include page="../common/header.jsp"/>
 	<jsp:include page="../common/sideBar.jsp"/>
 	
-	<c:if test="${not empty alertMsg }">
-		<c:if test="${loginUser == null }">
-			<script>
-			Swal.fire({
-                icon: 'error',
-                title: '${alertMsg}'                  
-            });		
-// 				alertify.alert("경고",'${alertMsg}');// 변수를 문자열로
-			</script>
-		</c:if>
+<%-- 	<c:if test="${not empty alertMsg }"> --%>
+<%-- 		<c:if test="${loginUser == null }"> --%>
+<!-- 			<script> -->
+// 			Swal.fire({
+//                 icon: 'error',
+//                 title: '${alertMsg}'                  
+//             });		
+// // 				alertify.alert("경고",'${alertMsg}');// 변수를 문자열로
+<!-- 			</script> -->
+<%-- 		</c:if> --%>
 		
-		<c:if test="${loginUser != null }">
-			<script>
-				Swal.fire({
-	                icon: 'success',
-	                title: '${alertMsg}'                  
-	            });		
-	// 				alertify.alert("경고",'${alertMsg}');// 변수를 문자열로
-			</script>
-		</c:if>
-			<c:remove var="alertMsg" scope="session"/>
-	</c:if>
+<%-- 		<c:if test="${loginUser != null }"> --%>
+<!-- 			<script> -->
+// 				Swal.fire({
+// 	                icon: 'success',
+// 	                title: '${alertMsg}'                  
+// 	            });		
+// 	// 				alertify.alert("경고",'${alertMsg}');// 변수를 문자열로
+<!-- 			</script> -->
+<%-- 		</c:if> --%>
+<%-- 			<c:remove var="alertMsg" scope="session"/> --%>
+<%-- 	</c:if> --%>
 	
 	 <div class="main-section">
         <div class="sellDetail-div2">
@@ -262,7 +266,7 @@
                                             <div class="sellInfoTextBoxReport">
                                                 <img src="https://m.bunjang.co.kr/pc-static/resource/0acf058f19649d793382.png" width="16" height="16" alt="상품 몇분전 아이콘">
                                                 <div class="sellHeartNumText">
-                                                    <span>신고하기</span>
+                                                    <span id="addReport" class="reportBtn">신고하기</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -281,14 +285,14 @@
                                 	<c:if test="${s.crawl.equals('Y')}">
                                 	<button class="chattingbtn-sellDetail">수정하기</button>
                                 	</c:if>
-                                	<button class="chattingbtn-sellDetail">삭제하기</button>
+                                	<button class="chattingbtn-sellDetail" onclick="deleteSellDetail(${s.sellNo});">삭제하기</button>
 
                                 </c:if>
                                 <c:if test="${loginUser.userNo!=s.userNo }">
                                 <button class="chattingbtn-sellDetail" id="chatting-start">채 팅 하 기</button>
                                 </c:if>
                                 <c:if test="${s.sellStatus eq 'C' }">
-                                	<button class="sell-comp" id="sell-comp">삭제하기</button>
+                                	<button class="sell-comp" id="sell-comp" onclick="deleteSellDetail(${s.sellNo});">삭제하기</button>
                                 </c:if>
                             </div>
 
@@ -315,7 +319,10 @@
 	<script>
 	$(document).on("click", ".followBtn-sell", (e) => {
 		if ("${loginUser.userNo}" == "${s.userNo}") {
-			alert("내가 나 자신을 팔로우 할 수는 없습니다.");
+	   				Swal.fire({
+		                icon: 'error',
+		                title: '내가 나 자신을 팔로우 할 수는 없습니다.'                  
+		            });
 			return;
 		}
 
@@ -328,7 +335,6 @@
 			success : function(data) {
 				let result = Number(data.result);
 				if (result == 1) {
-
 						Swal.fire({
 		 	   		        icon: 'success',
 		 	   		        title: '팔로우 되었습니다.'
@@ -348,11 +354,21 @@
 							success : function(data) {
 								let count = Number(data.result)
 								if (count == 1) {
-									alert("팔로우가 취소되었습니다.");
+									
+				 	   	   				Swal.fire({
+				 	   		                icon: 'success',
+				 	   		                title: '팔로우 취소되었습니다.'                  
+				 	   		            });
+				 	   	   				
 									$(".followBtm").attr("src", $(".followBtm").attr("src").replace("followSubBtn.png", "followAddBtn.png"));
-									location.reload();
+									setTimeout(function() {
+                  	            	  location.reload();
+                  	            	}, 1000);
 								} else {
-									alert("팔로우 취소에 실패하었습니다.");
+				 	   	   				Swal.fire({
+				 	   		                icon: 'error',
+				 	   		                title: '팔로우 취소 실패되었습니다.'                  
+				 	   		            });
 								}
 							},
 							error : function() {
@@ -412,14 +428,18 @@
  	    	
  	        $likeBtn.click(function(){
  			if(!this.classList.contains('active')){
- 	         $.ajax({
+ 	         
+ 				$.ajax({
  	   	               	url : '${pageContext.request.contextPath}/addHeart',
  	   	                type : 'post',
  	   	                data : {sellNo : "${s.sellNo}"},
  	   	                success : function(result){
  	   	    				if(result=="c") {
- 	   	     					alert("찜하기 성공");
- 	   	     					
+		 	   	    				Swal.fire({
+			 	   		                icon: 'success',
+			 	   		                title: '찜하기 성공'                  
+			 	   		            });
+ 	   	    					
  	   	     				$likeBtn.toggleClass('active');
  	   	                	if($likeBtn.hasClass('active')){ 
  	   	 		        	
@@ -430,22 +450,26 @@
  	   	 	            	  });
  	   	                	}
  	   	              		
- 	   	                location.reload();
- 	   	    				} else {
- 	   	    		 			alert("회원만 사용할 수 있습니다.");
- 	   	     				}
- 	   	   				},
- 	   	   				error : function(){
- 	   				    alert("찜 하기 실패");
- 	   				
- 	   				   }
- 	                
- 	               
- 	                })
+ 	   	                	setTimeout(function() {
+        	            	  location.reload();
+        	            	}, 1000);
+ 	   	                
+ 	   	    			} else {
+	 	   	    				Swal.fire({
+		 	   		                icon: 'error',
+		 	   		                title: '회원만 사용할 수 있습니다.'                  
+		 	   		            });
+ 	   	     			}
+ 	   	   			},
+ 	   	   			error : function(){
+		 	   	   			Swal.fire({
+		 	   		              icon: 'error',
+		 	   		              title: '찜하기 실패(관리자에게 문의해주세요)'                  
+		 	   		        });
+ 	   				 }
+ 	             });
  	         
- 	         
- 	        }
- 	        else{
+ 	        }else{
  				 $.ajax({
  				     url : '${pageContext.request.contextPath}/mypageDeleteHeart',
  				     type : 'post',
@@ -453,7 +477,10 @@
  				     success : function(result){
  				    	 
  				    	 if(result=="f"){
- 				    	 alert("찜하기 취소");
+	 	   	    				Swal.fire({
+		 	   		                icon: 'success',
+		 	   		                title: '찜하기 취소'                  
+		 	   		            });
  				    	 
  				    	 
  				    	  $likeBtn.find('i').removeClass('fas').addClass('far')
@@ -461,14 +488,23 @@
  				    		 'src': 'https://cdn-icons-png.flaticon.com/512/812/812327.png',
  				    		 alt:"찜하기 취소"
  				    	 });
- 				    	 location.reload();
+ 				    	  
+ 				    	 setTimeout(function() {
+         	            	  location.reload();
+         	             }, 1000);
  				      
  				     }else {
- 	    		 			alert("회원만 사용할 수 있습니다.");
+	 				    	Swal.fire({
+	 	   		                icon: 'error',
+	 	   		                title: '회원만 사용할 수 있습니다.'                  
+	 	   		            });
  	     				}
  				     },
  				 error:function(){
- 				        alert("실패")
+	 	   	   				Swal.fire({
+	 	   		                icon: 'error',
+	 	   		                title: '찜하기 취소 실패(관리자에게 문의해주세요)'                  
+	 	   		            });
  				     }
  				   
  				   
@@ -588,8 +624,6 @@
 	    };
 	</script>  
 	              
-	          
-	          
 
 	<jsp:include page="../common/footer.jsp"/>
 </body>

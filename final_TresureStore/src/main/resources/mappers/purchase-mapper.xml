@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="purchaseMapper">
+
+<!-- type은 mybatis-config에서 sell 라는 별칭을 정해두었음 -->
+<resultMap type="purchase" id="purchaseResultSet" >
+	<id column="PUR_NO" property="purNo"></id>
+	<result column="USER_NO" property="userNo"></result>
+	<result column="SELL_NO" property="sellNo"></result>
+	<result column="CREATE_DATE" property="createDate"></result>
+	<result column="ORDER_NO" property="orderNo"></result>
+	<result column="PRICE" property="price"></result>
+</resultMap>
+
+<!-- 상품 구매 -->
+<insert id="purchaseComplete" parameterType="purchase" >
+	INSERT INTO PURCHASE(
+			PUR_NO, USER_NO, SELL_NO, CREATE_DATE, ORDER_NO, PRICE) 
+	VALUES (SEQ_PNO.NEXTVAL, #{userNo}, #{sellNo}, SYSDATE, #{orderNo}, #{price})
+</insert>
+
+
+
+
+
+</mapper>

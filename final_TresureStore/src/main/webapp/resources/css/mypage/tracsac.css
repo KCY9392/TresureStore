@@ -82,18 +82,17 @@
    
    /* 리뷰 별점 */     
    .star-rating {
-  border:solid 1px #ccc;
-  display:flex;
-  flex-direction: row-reverse;
-  font-size:1.5em;
-  justify-content:space-around;
-  padding:0 .2em;
-  text-align:center;
-  width:5em;
-  
-      margin: auto;
-    margin-left: %;
-    width: 700px;
+	  border:solid 1px #ccc;
+	  display:flex;
+	  flex-direction: row-reverse;
+	  font-size:1.5em;
+	  justify-content:space-around;
+	  padding:0 .2em;
+	  text-align:center;
+	  width:5em;
+	  margin-left: 1%;
+	      margin: auto;
+	    width: 700px;
 }
 
 .star-rating input {

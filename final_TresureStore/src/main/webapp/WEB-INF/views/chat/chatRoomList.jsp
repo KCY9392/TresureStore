@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="crList" value="${map.crList }" />
+<c:set var="pi" value="${map.pi }" />
 <!DOCTYPE html>
 <html>
 
@@ -11,8 +13,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <!-- 헤더 js -->
     <script type="text/javascript" src="/tresure/resources/js/header.js"></script>
-    <!-- 해당페이지 Js -->
-     <script type="text/javascript" src="/tresure/resources/js/chatRoomList.js"></script>
     <!-- Alert 창  -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <!-- alertify -->
@@ -36,7 +36,7 @@
 
                 <c:choose>
                     <%--조회한 채팅 목록이 없을 때    --%>
-                    <c:when test="${empty chatRoomList}">
+                    <c:when test="${empty crList}">
                         <div style="text-align: center;">새로운 채팅을 시작해주세요 </div>
                     </c:when>
 
@@ -54,13 +54,13 @@
                             </thead>
                             <tbody>
                                 <%--조회한 채팅 목록이 있을 때    --%>
-                                <c:forEach var="chatRoom" items="${chatRoomList }">
+                                <c:forEach var="chatRoom" items="${crList }">
                                     <tr  class="storeName" >
                                         <td class="storeName${chatRoom.chatRoomNo } list">${chatRoom.chatRoomNo }</td>
                                         <td class="storeName${chatRoom.chatRoomNo } list">
                                            <!-- 로그인사람과 구매한사람이 같은경우  -->
                                            <c:if test="${chatRoom.userNo eq loginUser.userNo}">
-                                               <c:if test="${chatRoom.avg > 4.5}">
+                                               <c:if test="${chatRoom.avg >= 4.5}">
                                                    <img src="/tresure/resources/images/icon/grade3.png" width="20px" /> &nbsp;&nbsp;상점 ${chatRoom.sellUserNo }호 점
                                                </c:if>
                                                <c:if test="${ 4 <= chatRoom.avg && chatRoom.avg < 4.5 }">
@@ -179,7 +179,39 @@
                         </table>
                     </c:otherwise>
                 </c:choose>
-           </div>
+
+           
+           
+	           <c:set var ="url" value="?currentPage=" />
+	                <!-- 페이지 이동기능 구현 -->
+                <div id="pagingArea">
+                  <ul class="pagination">
+                    <c:choose>
+                      <c:when test="${pi.currentPage eq 1 }">
+                        <li class="page-item disabled"><a class="page-link" href="#">&lt; 이전</a></li>
+                      </c:when>
+                      <c:otherwise>
+                        <li class="page-item"><a class="page-link" href="${url}${pi.currentPage -1 }">&lt; 이전</a></li>
+                        <!-- list.bo?cpage=1 -->
+                      </c:otherwise>
+                    </c:choose>
+
+                    <c:forEach var="item" begin="${pi.startPage }" end="${pi.endPage }">
+                      <li class="page-item"><a class="page-link" href="${url}${item }">${item}</a></li>
+                    </c:forEach>
+
+                    <c:choose>
+                      <c:when test="${pi.currentPage eq pi.maxPage }">
+                        <li class="page-item disabled"><a class="page-link" href="#">다음 &gt;</a></li>
+                      </c:when>
+                      <c:otherwise>
+                        <li class="page-item"><a class="page-link" href="${url}${pi.currentPage +1 }">다음 &gt;</a></li>
+                      </c:otherwise>
+                    </c:choose>
+                  </ul>
+                </div>
+           		</div>
+
            </div>
    
     <jsp:include page="../common/footer.jsp" />

@@ -2,11 +2,12 @@
 <beans:beans xmlns="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:websocket="http://www.springframework.org/schema/websocket"
 	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
-		http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
@@ -21,6 +22,24 @@
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 	
+		<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	<mvc:annotation-driven />
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	
+	<!-- 사용자 로그인체크 && 사용자 권한 체크 -->
+ 	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/chat"/>
+			<mvc:mapping path="/sell"/>
+			<mvc:mapping path="/member"/>
+			<beans:bean class="com.kh.tresure.common.interceptor.AccessValidator" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
@@ -33,6 +52,8 @@
 	
 	<!-- webSocket 요청시 핸들러 클래스와 연결하기. -->
 	<beans:bean id="WebSocketHandler" class="com.kh.tresure.chat.model.service.ChatWebsocketHandler"/>
+	<!-- NaverLoginBO Class에 대한 Bean설정 추가 -->
+	<beans:bean id="naverLoginBO" class="com.kh.tresure.member.model.service.NaverLoginBO" />
 	
 	<websocket:handlers>
 		<!-- 웹소켓 요청(주소)를 처리한 bean 지정 -->

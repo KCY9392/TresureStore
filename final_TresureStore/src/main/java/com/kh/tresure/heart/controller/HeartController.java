@@ -50,13 +50,30 @@ public class HeartController {
 			
 		if(loginUser != null){
 			heart.setUserNo(userNo);
-			
+			HashMap<String, Object> map = new HashMap<>();
 			for(String i : chArr) {
 				heartNum = Integer.parseInt(i);
+			
 				heart.setHeartNo(heartNum);
+				
 				heartService.deleteHeart(heart);
+				
+				result=1;
 			}
-			result = 1;
+			
+						
+			int sysHeartNum =  chArr.size();
+			map.put("userNo", userNo);
+			map.put("sysHeartNum", sysHeartNum);
+
+			logger.info("sysheart : "+sysHeartNum);
+			heartService.minusListCount(map);
+			
+			if(result==1) {
+				  Member updateMem = heartService.selectMem(loginUser);
+				  session.setAttribute("loginUser", updateMem);
+			  }
+			
 			
 		}
 		

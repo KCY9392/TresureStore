@@ -1,5 +1,6 @@
 package com.kh.tresure.heart.model.service;
 
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,9 +17,13 @@ public interface HeartService {
 	
 	public void mypageDeleteHeart(HashMap<String, Object> map);
 
+
+	public void minusListCount(HashMap<String, Object> map);
+
 	
 
 	
 	
+
 
 }

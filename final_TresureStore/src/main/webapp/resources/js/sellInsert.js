@@ -17,16 +17,21 @@ function readURL() {
 		var reader = new FileReader();
 
 		//이미지 파일 개수 제한
-		let mainImage = false;
+		let len = 0;
+		let mainImage = false; // 대표이미지 유무 판단
 		$('.registUserImages').each((i, e) => {
-			// 삭제 상태가 아닌 것만 체크하도록
-			if ($(e).find(":hidden.status").val() != "D" && $(e).find(":hidden.fileType").val() == "T") {
-				mainImage = true;
-				return false;
+			// 삭제 상태가 아닌 것만 체크
+			// 그냥 삭제가 아닌거 중에 타입이 T면 대표이미지로 설정하고 개수 증가
+			if ($(e).find(":hidden.status").val() != "D") {
+				if ($(e).find(":hidden.fileType").val() == "T") {
+					// mainImage를 true로 변경한다.
+					mainImage = true;
+				}
+				len++;
 			}
 		});
 
-		let len = setCountText() + input.files.length;
+		len += input.files.length;
 		console.log("mainImage : ", mainImage);
 		if (len > 3) {
 			alert('사진은 최대 3장 까지 올릴 수 있습니다.');
@@ -78,6 +83,7 @@ function readURL() {
 
 			//상품이미지(0/3) 개수 변경
 			setCountText();
+			$(".image_sub small").text("(" + len + "/3)");
 			// $('.image_sub small').text(`(${$('.registUserImages').length}/3)`);
 
 			//한번에 이미지 여러개 넣기

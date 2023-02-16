@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.tresure.member.model.vo.Member;
 import com.kh.tresure.report.model.service.ReportService;
@@ -80,29 +81,33 @@ public class ReportController {
 	
 	//신고 추가하기
 	@RequestMapping(value = "report/addReport", method =  RequestMethod.GET)
+	@ResponseBody
 	public String addReport (HttpSession session,
-							@RequestParam(value="sellUserNo", required=false) int sellUserNo,
-							@RequestParam(value="reportContent", required=false) String reportContent,
-							Report report) {
+							 @RequestParam(value="sellUserNo", required=false) int sellUserNo,
+							 @RequestParam(value="purchaseUserNo", required=false) String purchaseUserNo,
+							 @RequestParam(value="reportContent", required=false) String reportContent,
+							 Report report) {
+
 		
-		Member loginUser = (Member)session.getAttribute("loginUser");
-		
-		int reportNo = loginUser.getUserNo();
-		
-		report.setReporterNo(reportNo);
-		report.setReportedNo(sellUserNo);
+		int reporterNo = ((Member)session.getAttribute("loginUser")).getUserNo();
+
 		report.setReportContent(reportContent);
 		
-		logger.info(sellUserNo+" >> 신고당한 번호");
-		logger.info("신고 내용 >> "+ reportContent);
+		int state = reportService.addReport(report, sellUserNo, purchaseUserNo, reporterNo);
+
 		
-		int result = reportService.addReport(report);
+		if(state == 0) {
+			session.removeAttribute("loginUser");
+			if(session.getAttribute("access_Token") != null) {
+				session.removeAttribute("access_Token");
+			}
+		}
 		
 		logger.info(">> 신고 리스트에 추가");
 		
-		return "redirect:/";
-	}
+		return state+"";
 	
+	}
 	
 
 }
