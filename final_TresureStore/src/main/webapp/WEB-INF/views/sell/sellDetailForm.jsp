@@ -378,7 +378,10 @@
 						});
 					}
 				} else {
-					alert("오류가 발생!!")
+					Swal.fire({
+		                icon: 'error',
+		                title: '로그인 후 가능합니다.'
+					})
 				}
 				console.log(data);
 			},

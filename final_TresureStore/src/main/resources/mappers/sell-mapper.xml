@@ -387,7 +387,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    </select>
    
    
-   
    <!-- 마이페이지 구매목록 -->
    <select id="mypagePurchaseList" parameterType="int" resultMap="sellResultSet">
       SELECT 
@@ -538,12 +537,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    <!-- SELL 테이블의 대표이미지를 변경 -->
    <update id="updateSellFile" parameterType="sellImg">
       UPDATE SELL S
-         SET IMAGE_SRC = NVL(( <!-- NULL이 업데이트 되면 안되니깐 다시 S.iMAGE_SRC로 업데이트 한다. -->
+         SET IMAGE_SRC = ( <!-- NULL이 업데이트 되면 안되니깐 다시 S.iMAGE_SRC로 업데이트 한다. -->
                               SELECT FILE_PATH || CHANGE_NAME
                                 FROM SFILE
                                WHERE FILE_TYPE = 'T'
                                  AND SELL_NO = S.SELL_NO
-                             ), S.IMAGE_SRC)
+                             )
        WHERE S.SELL_NO = #{sellNo}
    </update>
 
