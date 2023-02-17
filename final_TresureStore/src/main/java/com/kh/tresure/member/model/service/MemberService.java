@@ -31,4 +31,10 @@ public interface MemberService {
 	//관리자페이지 결제관리
 	public List<Account> accountList(int userNo);
 
+	//관리자페이지 결제관리
+	public List<Account> accountList();
+
+
+
+
 }

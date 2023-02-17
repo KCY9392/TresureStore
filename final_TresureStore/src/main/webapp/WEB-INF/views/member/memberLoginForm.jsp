@@ -26,6 +26,11 @@
 				</a>
 			</div>
 			<div class="loginType">
+				<a href="${url}">
+					<img src="${pageContext.request.contextPath}/resources/images/common/btnG_완성형.png" height="60px" width="400px"/>
+				</a>
+			</div>
+			<div class="loginType">
 				<button class="myAuthentication-button" type="button"  onclick="gogoIdentificationForm();" height="60px" width="400px">본인인증 로그인</button>
 				<br><br>
 				<a href="${pageContext.request.contextPath}/loginJoin/pp">관리자로 로그인</a>

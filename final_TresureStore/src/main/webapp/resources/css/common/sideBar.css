@@ -68,7 +68,7 @@
 	height: 70px;
     width: 70px;
 	cursor: pointer;
-	margin-top: 6px;
+	margin-top: 8px;
 	overflow-y:hidden;
     object-fit: cover;
 }
@@ -77,7 +77,7 @@
 #nrecentlyArea{
 	margin-bottom: 10px;
 	overflow-y: hidden;
-	height: 245px;
+	max-height: 245px;
 }
 
 .nrecently {
@@ -104,6 +104,13 @@
 
 .ntoRecently {
     color: rgb(247, 0, 0);
+}
+
+.Btm {
+	background: beige;
+    outline: none;
+    border: none;
+    cursor: pointer;
 }
 
 /* TOP */

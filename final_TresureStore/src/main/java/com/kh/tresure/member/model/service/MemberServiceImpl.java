@@ -135,6 +135,7 @@ public class MemberServiceImpl implements MemberService {
 	public List<Account> accountList(int userNo){
 		
 		return memberDao.accountList(sqlSession, userNo );
+
 	}
 	
 	

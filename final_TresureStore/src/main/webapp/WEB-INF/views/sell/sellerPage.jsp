@@ -274,9 +274,14 @@
 				success : function(data) {
 					let result = Number(data.result);
 					if (result == 1) {
-						$(".followBtm").attr("src", $(".followBtm").attr("src").replace("followAddBtn.png", "followSubBtn.png"));
-						alert("팔로우 되었습니다.");
-						location.reload();
+						Swal.fire({
+		 	   		        icon: 'success',
+		 	   		        title: '팔로우 되었습니다.'
+						});
+						
+	 	   		        setTimeout(function() {
+      	            	  location.reload();
+      	            	}, 1000);
 					} else if (result == 2) {
 						if (confirm("이미 팔로우 했습니다.\n팔로우를 취소하시겠습니까?")) {
 							$.ajax({
@@ -287,9 +292,17 @@
 								success : function(data) {
 									let count = Number(data.result)
 									if (count == 1) {
-										alert("팔로우가 취소되었습니다.");
+										
+										Swal.fire({
+				 	   		                icon: 'success',
+				 	   		                title: '팔로우 취소되었습니다.'                  
+				 	   		            });
+				 	   	   				
+										setTimeout(function() {
+	                  	            	  location.reload();
+	                  	            	}, 1000);
+										
 										$(".followBtm").attr("src", $(".followBtm").attr("src").replace("followSubBtn.png", "followAddBtn.png"));
-										location.reload();
 									} else {
 										alert("팔로우 취소에 실패하었습니다.");
 									}

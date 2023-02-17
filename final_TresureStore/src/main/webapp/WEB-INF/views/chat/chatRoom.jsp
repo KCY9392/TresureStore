@@ -48,6 +48,9 @@
 #uploadImage{
    cursor : pointer;
 }
+.alertify .ajs-dialog{
+			width : 25%; !important;
+		}
 </style>
 </head>
 <body>
@@ -137,9 +140,15 @@
 	                                        <c:if test="${ null == AllList.get('product').avg || AllList.get('product').avg < 3.5 }">
 	                                            <img src="/tresure/resources/images/icon/grade0.png" width="40px" style="float: left;"/>
 	                                        </c:if>
+	                                       
+	                                      <c:if test="${loginUser.userNo != AllList.get('product').userNo }">
+	                                    	<c:set var="sellerUrl" value="${pageContext.request.contextPath }/sell/seller/${AllList.get('product').userNo }" />
+	                                    </c:if>
+	                                    <a href="${sellerUrl }">
                                          <div class="storeNameTextClass" style="margin-bottom:10px;">
                                          <span class="store-text">상점 <span class="dd">${AllList.get('product').userNo }</span>호 점</span>
                                          </div>
+                                         </a>
                                       </c:if>
                                        
                                        
@@ -157,7 +166,8 @@
                                         <c:if test="${ null == AllList.get('purchaseInfo').purchaseUserAvg || AllList.get('purchaseInfo').purchaseUserAvg < 3.5 }">
                                             <img src="/tresure/resources/images/icon/grade0.png" width="40px" /> <span class="store-text">상점 ${AllList.get('purchaseInfo').userNo }호 점</span>
                                         </c:if>
-                                      </c:if>
+                                        </c:if>
+                                     
                                 
                                 
      
@@ -186,9 +196,7 @@
                                      		
                                 </li>
                                 <li style="float: right;">
-
                                 	<button type="submit" class="buttonCss2" id="successDeal">거래하기</button>
-                            
                                 </li>
                             </ul>                         
                         </div>
@@ -310,7 +318,9 @@
 			          <button type="button" class="btn btn-yes swl-cstm-btn-yes-sbmt-rqst deal" onclick="yes()">계좌이체 하기</button> 
 					  <button type="submit" class="btn btn-no swl-cstm-btn-no-jst-prceed deal" id="tresurePay" 
 							                    onclick="requestPay('${AllList.get('product').sellTitle }',
+
 							                    					'${AllList.get('product').price }',
+                                            '${AllList.get('product').negoPrice }',
 							                    					'${AllList.get('purchaseInfo').userNo}',
 							                    					'${AllList.get('product').userNo}',
 							                    					'${pageContext.request.contextPath}',
@@ -358,7 +368,7 @@
      
 
    	 //거래하기 버튼 클릭 후 >> 결제하기 버튼
-     function requestPay(sellTitle, price, userNo, userNo2, context, sellNo) {
+     function requestPay(sellTitle, price, negoPrice, userNo, userNo2, context, sellNo) {
 	 		
 	 		console.log('상품명 :'+sellTitle);
 	 		console.log(price+'원');
@@ -366,6 +376,10 @@
 	 		console.log('판매자번호 :'+userNo2); //판매자번호
 	 		console.log(context);
 	 		
+	 		
+	 		if(negoPrice != null){
+	 			price = negoPrice;
+	 		}
 			//var context = '${pageContext.request.contextPath}';
 
 			//주문번호 생성

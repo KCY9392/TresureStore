@@ -184,6 +184,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </update> 
 
 
+
 <!-- 판매자의 계좌 가져오기 -->
 <select id="selectAccountInfo" parameterType="account" resultType="account" >
 	SELECT DISTINCT
@@ -204,5 +205,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE A.USER_NO = #{userNo} 
 </select>
 
-   
+<!-- 관리자페이지 결제관리 -->
+<!-- 수정중 -->
+<select id="accountList">
+	SELECT A.ACCOUNT,
+			A.BANK,
+			S.SELL_TITLE,
+			S.USER_NO,
+			S.SELL_NO,
+			P.CREATE_DATE,
+			P.PRICE,
+			P.USER_NO,
+			P.ORDER_NO
+	FROM ACCOUNT A
+	JOIN PURCHASE P ON(A.USER_NO = P.USER_NO)
+	JOIN SELL S ON(S.SELL_NO = P.SELL_NO)
+	WHERE A.USER_NO = #{userNo}
+	
+</select>
+
+
 </mapper>
