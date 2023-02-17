@@ -25,6 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    	<id column="ACCOUNT_ID" property="accountId"></id>
 	<result column="USER_NO" property="userNo"></result>
 	<result column="ACCOUNT" property="account"></result>
+	<result column="BANK" property="bank"></result>
 </resultMap>
 
 <!-- 입력한 정보로 가입한 회원여부 확인 -->
@@ -169,15 +170,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- 계좌 추가하기 -->
 <insert id="userAddAccount" parameterType="account" >
-	INSERT INTO ACCOUNT(ACCOUNT_ID, USER_NO, ACCOUNT)
-	VALUES (SEQ_ANO.NEXTVAL, #{userNo}, #{account})
+	INSERT INTO ACCOUNT(ACCOUNT_ID, USER_NO, ACCOUNT, BANK)
+	VALUES (SEQ_ANO.NEXTVAL, #{userNo}, #{account}, #{bank} )
 </insert>
 
 <!-- 계좌 수정하기 -->
 <update id="updateAccount" parameterType="int">
 	UPDATE ACCOUNT
-	SET ACCOUNT = #{account}
+	SET ACCOUNT = #{account},
+		BANK = #{bank}
 	WHERE USER_NO = #{userNo}
+
 </update> 
 
 
@@ -185,6 +188,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <select id="selectAccountInfo" parameterType="account" resultType="account" >
 	SELECT DISTINCT
             ACCOUNT,
+            BANK,
             A.USER_NO AS "USER_NO"
 	FROM ACCOUNT A
 	LEFT JOIN SELL S ON (S.USER_NO = A.USER_NO)

@@ -43,6 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="REV_IS" property="rev_is"></result>
 	
 	<result column="ACCOUNT" property="account"></result>
+	<result column="BANK" property="bank"></result>
 	
 	<collection property="imgList" resultMap="sellImgResultSet"/>
 
@@ -238,6 +239,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             NEGO_PRICE,
             NEGO_STATUS,
             ACCOUNT,
+            BANK,
             S.CRAWL
 	   FROM CHAT_ROOM CR
 	   LEFT JOIN SELL S ON (S.SELL_NO = CR.SELL_NO)

@@ -123,8 +123,8 @@
 				<form id="searchForm" action="reportSearchResult" method="get">
 					<div class="report-inner">
 						<select class="report-option" name="condition">
-							<option value="sellNumber">상점번호</option>
-							<option value="accountNumber">계좌번호</option>
+							<option value="sellNumber" id="sellNumber">상점번호</option>
+							<option value="accountNumber" id="accountNumber">계좌번호</option>
 						</select>
 
 						<input type="text" class="report-search-text" name="search" id="searchReport" placeholder="@를 포함하여 상점번호를 입력해주세요.">
@@ -140,6 +140,16 @@
 	
 	<script>
 			
+		//input text placeholder 변경
+		$(".report-option").change(function() {
+			let state = $(".report-option option:selected").val();
+			if(state == "accountNumber") {
+				$("#searchReport").attr("placeholder", '계좌번호를 입력해주세요!'); //카테고리 선택시 검색어입력창 숨기기
+			}else{
+				$("#searchReport").attr("placeholder", '@를 포함하여 상점번호를 입력해주세요.');
+			}
+		});
+	
 		//입력값 없이 조회 버튼만 클릭 시
 		 $('#resultButton').click(function(){
 			 

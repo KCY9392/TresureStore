@@ -193,6 +193,15 @@ a {
 }
 /* 채팅하기, 판매하기, 신고하기, 내상점 정렬 start */
 
+/*계좌등록 alert*/
+.swal2-select{
+	font-family: 'koverwatch';
+}
+.swal2-input{
+	font-family: 'koverwatch';
+}
+/*계좌등록 alert*/
+
 /* category start */
 .catebox3 {
     width: 780px;
