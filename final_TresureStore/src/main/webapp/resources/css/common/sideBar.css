@@ -106,6 +106,13 @@
     color: rgb(247, 0, 0);
 }
 
+.Btm {
+	background: beige;
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+
 /* TOP */
 .ntheTop {
     margin: 10px 0px;
