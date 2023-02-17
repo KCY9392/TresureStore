@@ -53,9 +53,9 @@ public class PurchaseController {
 				   Model model,
 				   HttpSession session,
 				   Purchase purchase,
-				   String merchant_uid, int amount, String name, int buyer_name, int sell_no) {
+				   String merchant_uid, int amount, String name, int buyer_name, int sellNo) {
 		   
-		   	   purchase.setSellNo(sell_no);
+		   	   purchase.setSellNo(sellNo);
 			   purchase.setUserNo(buyer_name);
 			   purchase.setOrderNo(merchant_uid);
 			   purchase.setPrice(amount);

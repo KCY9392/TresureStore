@@ -92,7 +92,16 @@
 
 					<div class="market-name"
 						style="margin-top: 55px; margin-bottom: 10px;">상점
-						${member.userNo} 호점</div>
+						${member.userNo} 호점
+
+
+						<div class="sellHeartNumText">
+							<img src="https://m.bunjang.co.kr/pc-static/resource/0acf058f19649d793382.png"
+							width="24" height="24" alt="상품 몇분전 아이콘"/>
+							<span id="addReport" class="reportBtn">신고하기</span>
+						</div>
+					</div>
+
 
 					<div class="info-list">
 						<div class="market-open">
@@ -314,11 +323,71 @@
 				}
 			})
 	
-		    });
+		   });
+	 	
+		   //신고버튼 클릭 
+		$('#addReport').on('click', function(){
+				
+			if( !(${loginUser.userNo >= 0}) ){
+				alert("로그인하고 신고해주세요");
+				return;
+			 }
+			 
+	 		Swal.fire({
+	 		  title: '상점신고',
+	 		  input: 'radio',
+	 		  inputOptions: {
+		 			주류_담배 : '주류/담배',
+		 			전문의약품_의료기기 : '전문 의약품/의료기기',
+		 			개인정보거래 : '개인정보 거래',
+		 			음란물_성인용품 : '음란물/성인용품',
+		 			위조상품 : '위조상품',
+		 			총포_도검류 : '총포/도검류',
+		 			게임계정 : '게임 계정',
+		 			동물분양_입양글 : '동물 분양, 입양글',
+		 			기타 : '기타'
+	 		  },
+	 		  customClass: {
+	 			    input: 'inline-flex',
+	 			    inputLabel: 'inline-block'
+	 		  }
+			}).then(function(reportContent) {
+			    if (reportContent.value) {
+			    	Swal.fire('상점신고 완료', reportContent.value+" (으)로 신고하셨습니다.", "success");
+			        reportAdd(reportContent.value);
+			        console.log("Result: " + reportContent.value);
+			    }
+			})
+	 	
+		 };
+	   
+			//신고추가
+		 function reportAdd(value){
 
-     </script>
+			 	const sellUserNo = 	"${AllList.get('product').userNo }";
+			 	const purchaseUserNo = "${AllList.get('purchaseInfo').userNo }";
+			
+				$.ajax({
+					url : "${pageContext.request.contextPath}/report/addReport",
+					data : {reportContent : value,
+							sellUserNo : ${s.userNo}
+	      		},
+					success : function(result){
+						if(result == 1){
+							setTimeout(function() {
+         	            	  location.reload();
+         	            	}, 2000);
 
-	<script>
+						}
+					},
+					error : function(){
+						console.log("통신실패");
+					}
+				});
+	    };
+
+
+
 		function sellDetail(sellNo){
 			location.href = "${pageContext.request.contextPath}/sell/sellDetail/"+sellNo;
 		}

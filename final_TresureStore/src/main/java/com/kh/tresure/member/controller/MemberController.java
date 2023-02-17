@@ -107,12 +107,12 @@ public class MemberController {
 		}
 		
 		// 메세지 보내기 실행
-		int randomNum = messageController.sendOne(phone);
+		//int randomNum = messageController.sendOne(phone);
 		
 		model.addAttribute("userName", userName);
 		model.addAttribute("birth", birth);
 		model.addAttribute("phone", phone);
-		model.addAttribute("randomNum",randomNum);
+		model.addAttribute("randomNum",123123);
 		
 		return "member/authenticationNumberForm";
 	}
