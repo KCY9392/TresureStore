@@ -1,5 +1,6 @@
 package com.kh.tresure.report.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -75,15 +76,30 @@ public class ReportServiceImpl implements ReportService {
 	
 	//신고 리스트 조회(불러오기)
 	@Override
-	public List<Report> reportSearchResult(String search){
+	public List<Report> reportSearchResult(String search, String account){
 		
-		return reportDao.reportSearchResult(sqlSession, search);
+			// @포함하여 검색했을 경우
+			if(search.charAt(0) == '@') {
+				search = search.substring(1);
+				
+				return reportDao.reportSearchResult(sqlSession, search);
+				
+			}else {
+				
+				return reportDao.reportAccountResult(sqlSession, account);
+				
+			}
+		
 	}
 	
 	//신고당한 총 횟수
 	@Override
-	public int reportNumber(String search) {
+	public Integer reportNumber(String search, String account) {
 	
-		return reportDao.reportNumber(sqlSession, search);
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("search", search);
+		map.put("account", account);
+		
+		return reportDao.reportNumber(sqlSession, map);
 	}
 }

@@ -14,6 +14,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  <result column="CREATE_DATE" property="createDate"/>
 	  <result column="STATUS" property="status"/>
 	  <result column="REPORT_COUNT" property="reportCount"/>
+	  
+	  <result column="ACCOUNT" property="account"/>
 </resultMap>
 
 <!-- 신고리스트에 추가 -->
@@ -31,17 +33,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    R.CREATE_DATE AS "CREATE_DATE"
 	FROM REPORT R
 	JOIN MEMBER M ON (REPORTED_NO = USER_NO)
+	JOIN ACCOUNT A ON (A.USER_NO = M.USER_NO)
 	WHERE REPORTED_NO = #{reportedNo} 
-	  AND REPORTED_NO LIKE '%${search}%' 
-	GROUP BY REPORT_NO, REPORTED_NO, REPORT_CONTENT, R.CREATE_DATE
+	  AND REPORTED_NO LIKE '%${search}%'
 </select>
 
 <!-- 신고당한 총 횟수 -->
-<select id="reportNumber" parameterType="String" resultType="int" >
+<select id="reportNumber" parameterType="map" resultType="Integer" >
 	SELECT 
-		COUNT(REPORTED_NO) AS "REPORT_COUNT"
+		COUNT(*) AS "REPORT_COUNT"
 	FROM REPORT
-    WHERE REPORTED_NO = #{search}
+	JOIN MEMBER M ON (REPORTED_NO = M.USER_NO)
+	JOIN ACCOUNT A ON (A.USER_NO = M.USER_NO)
+    WHERE REPORTED_NO LIKE '%${search}%'
+      OR A.ACCOUNT LIKE '%${account}%'
 </select>
 
 <!-- 신고당한 총 횟수2 -->
@@ -51,6 +56,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	FROM REPORT
     WHERE REPORTED_NO = #{reportedNo} 
 </select>
+
+<!-- 신고 리스트 조회(계좌로 불러오기) -->
+ <select id="reportAccountResult" resultMap="reportResultSet" parameterType="String">
+	SELECT 
+		REPORT_NO,
+		REPORTED_NO,
+		REPORT_CONTENT,
+	    R.CREATE_DATE AS "CREATE_DATE"
+	FROM REPORT R
+	JOIN MEMBER M ON (REPORTED_NO = USER_NO)
+	JOIN ACCOUNT A ON (A.USER_NO = M.USER_NO)
+	WHERE A.ACCOUNT LIKE '%${account}%'
+</select>
+
+
 
 
 

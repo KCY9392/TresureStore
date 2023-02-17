@@ -376,7 +376,7 @@ public class MemberController {
 		return result;
 		
 	}
-	
+
 	
 	//계좌 수정
 	@ResponseBody
@@ -393,6 +393,7 @@ public class MemberController {
 		
 	}
 	
+
 		
 	//로그인 유저 계좌 가져오기
 	@ResponseBody
@@ -418,16 +419,20 @@ public class MemberController {
 		return "common/admin";
 	}
 	
-	
+
 	//관리자페이지 결제관리
 	@RequestMapping(value = "admin/payAdmin", method = RequestMethod.GET)
 	public String accountList(Model model, HttpSession session) {
+
+		Member loginUser = (Member) session.getAttribute("loginUser");
 			
-		List<Account> accountList = memberService.accountList();
+		List<Account> accountList = memberService.accountList(loginUser.getUserNo());
+		model.addAttribute("accountList", accountList);
 		
-		return "/admin";
+		
+		return "common/admin";
 	}
-	
+
 	
 	
 	

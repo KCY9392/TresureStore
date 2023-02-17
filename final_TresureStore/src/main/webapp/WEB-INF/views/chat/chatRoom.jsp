@@ -196,20 +196,7 @@
                                      		
                                 </li>
                                 <li style="float: right;">
-
                                 	<button type="submit" class="buttonCss2" id="successDeal">거래하기</button>
-                            
-
-                                  <%--  <c:if test="${loginUser.userNo eq AllList.get('product').userNo}">
-
-                               <%--     onclick="requestPay('${AllList.get('product').sellTitle }',
-                                    					'${AllList.get('product').price }',
-                                    					'${AllList.get('purchaseInfo').userNo}',
-                                    					'${AllList.get('product').userNo}',
-                                    					'${pageContext.request.contextPath}')">결제하기</button> 
-                                 					
-                                 	</c:if> 
-                                 	--%>
                                 </li>
                             </ul>                         
                         </div>
@@ -320,6 +307,7 @@
      $('#successDeal').on('click', function(){
      
 	     const acc = "${AllList.get('product').account}";
+	     const bank = "${AllList.get('product').bank}";
 	     
    	   Swal.fire({
 				title: '거래하기',
@@ -330,11 +318,13 @@
 			          <button type="button" class="btn btn-yes swl-cstm-btn-yes-sbmt-rqst deal" onclick="yes()">계좌이체 하기</button> 
 					  <button type="submit" class="btn btn-no swl-cstm-btn-no-jst-prceed deal" id="tresurePay" 
 							                    onclick="requestPay('${AllList.get('product').sellTitle }',
-														                    	'${AllList.get('product').price }',
-										                    					'${AllList.get('product').negoPrice }',
-										                    					'${AllList.get('purchaseInfo').userNo}',
-										                    					'${AllList.get('product').userNo}',
-										                    					'${pageContext.request.contextPath}')"> 결제하기 </button>
+
+							                    					'${AllList.get('product').price }',
+                                            '${AllList.get('product').negoPrice }',
+							                    					'${AllList.get('purchaseInfo').userNo}',
+							                    					'${AllList.get('product').userNo}',
+							                    					'${pageContext.request.contextPath}',
+							                    					'${AllList.get('product').sellNo }')"> 결제하기 </button>
 							          
 			          <button type="button" class="btn btn-cancle swl-cstm-btn-cancel deal">거래 취소</button>`,
 			   showCancelButton: false,
@@ -348,7 +338,7 @@
 			          
 			          yes.addEventListener('click', () => {
 			        	  Swal.fire({
-			        		  title: '계좌번호 : '+ acc,
+			        		  title: bank+' /   계좌번호 : '+acc,
 			        		  text: '계좌이체를 진행해주세요',
 			        		  icon : 'success',
 			        		  allowOutsideClick : false
@@ -378,7 +368,7 @@
      
 
    	 //거래하기 버튼 클릭 후 >> 결제하기 버튼
-     function requestPay(sellTitle, price, negoPrice ,userNo, userNo2, context) {
+     function requestPay(sellTitle, price, negoPrice, userNo, userNo2, context, sellNo) {
 	 		
 	 		console.log('상품명 :'+sellTitle);
 	 		console.log(price+'원');
@@ -433,7 +423,8 @@
 									name : sellTitle,
 									buyer_name : userNo,
 									merchant_uid : merchant_uid,
-									sell_no:userNo2
+									sellUserNo:userNo2,
+									sellNo:sellNo
 								},
 								success: function(result) {
 							          if (result) {
