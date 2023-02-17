@@ -21,6 +21,8 @@ public class Member {
 	private Date createDate;
 	private String status;
 	private int heartCount;
-    private String blackListStatus;
-	private int account;
+  private String blackListStatus;
+	private String account;
+
+
 }

@@ -50,29 +50,23 @@ public class ReportController {
 	@RequestMapping(value = "report/reportSearchResult", method = RequestMethod.GET)
 	public String reportSearchResult(Model model,
 									String search,
+									String account,
 									HttpSession session) {
 			
-		//@ 포함하고 상점 검색할 경우
-		if(search.charAt(0) == '@') {
 			
-			search = search.substring(1);
-			
-			List<Report> reList = reportService.reportSearchResult(search);
-			int reportNum = reportService.reportNumber(search);
+			List<Report> reList = reportService.reportSearchResult(search, account);
+			Integer reportNum = reportService.reportNumber(search, account);
 				
 				model.addAttribute("search", search);
 				model.addAttribute("reportList", reList );
 				model.addAttribute("reportNum", reportNum);
+				model.addAttribute("account", account);
 				
 				logger.info(">> 사기조회 결과페이지로 이동");
 				logger.info(">> 사기조회번호 : " + search);													
 		        logger.info(">> 사기조회 리스트" + reList);
 		        logger.info(">> 사기 횟수 : "+ reportNum);
 			
-		}else {
-			//session.setAttribute("alertMsg", "@ 포함하여 다시 입력해주세요.");
-			return "redirect:/reportSearch";
-		}
 		
 		return "report/reportSearchResult";
 	}

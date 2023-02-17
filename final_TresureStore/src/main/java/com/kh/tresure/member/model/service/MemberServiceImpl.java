@@ -132,9 +132,10 @@ public class MemberServiceImpl implements MemberService {
 	
 	//관리자페이지 결제관리
 	@Override
-	public List<Account> accountList(){
+	public List<Account> accountList(int userNo){
 		
-		return memberDao.accountList(sqlSession );
+		return memberDao.accountList(sqlSession, userNo );
+
 	}
 	
 	

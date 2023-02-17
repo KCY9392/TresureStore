@@ -335,7 +335,6 @@
 			success : function(data) {
 				let result = Number(data.result);
 				if (result == 1) {
-					$(".followBtm").attr("src", $(".followBtm").attr("src").replace("followAddBtn.png", "followSubBtn.png"));
 						Swal.fire({
 		 	   		        icon: 'success',
 		 	   		        title: '팔로우 되었습니다.'
@@ -379,7 +378,10 @@
 						});
 					}
 				} else {
-					alert("오류가 발생!!")
+					Swal.fire({
+		                icon: 'error',
+		                title: '로그인 후 가능합니다.'
+					})
 				}
 				console.log(data);
 			},
@@ -398,6 +400,14 @@
 	<script>
 	    $("#chatting-start").click(function() {
 	
+	    	if(${loginUser eq null}){
+	    		Swal.fire({
+		                icon: 'error',
+		                title: '채팅방에 입장할 수 없습니다.'                  
+		            });
+	    		return false;
+	    	}
+	    	
 	        let form = document.createElement('form');
 	        form.setAttribute('method', 'post');
 	        form.setAttribute('action', '${pageContext.request.contextPath}/chat/chatRoom/${s.sellNo }/${loginUser.userNo}');
@@ -531,7 +541,7 @@
 	 	   		            });
                 		   setInterval(function() {
                 			   location.href="${pageContext.request.contextPath}"
-                    		 }, 3000);
+                    		 }, 1000);
        	            	  
                 		 
 	 	   	   				

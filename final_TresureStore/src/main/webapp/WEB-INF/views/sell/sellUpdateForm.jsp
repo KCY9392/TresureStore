@@ -160,14 +160,7 @@
 	<jsp:include page="../common/footer.jsp"/>
 	
 	<script>
-		/* $(function(){
-			if($('.registUserImages').length == 0){
-				index = 0;
-				// $div.addClass('imageRepresentive').text('대표이미지');
-			}
-	
-		}); */
-
+		
 	   // 이미 업로드 된 이미지의 삭제 버튼을 누르면
 	   $(".image_cancleBtn1").click((e) => {
 	      // li 변수를 선언하고 버튼으로부터 가장 가까운 li를 대입한다.
@@ -253,6 +246,11 @@
 			})
 		})
 		
+		$(document).ready(function() {
+			let content = $(".titleInput").val();
+			$("#textCount").text(content.length + " / 최대 40");
+		})
+		
 		/* 설명 유효성 검사 */
 		$(function() {
 			$("#sell_content").keyup(function() {
@@ -270,6 +268,11 @@
 					$('#contentCount').text("2000 / 최대 2000");
 				}
 			})
+		})
+		
+		$(document).ready(function() {
+			let content = $("#sell_content").val();
+			$("#contentCount").text(content.length + " / 최대 2000");
 		})
 	</script>
 	
