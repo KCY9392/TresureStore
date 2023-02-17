@@ -110,7 +110,7 @@
                                            
 
                                             let form = document.createElement('form');
-                                            form.setAttribute('method', 'post');
+                                            form.setAttribute('method', 'get');
                                             form.setAttribute('action', '${pageContext.request.contextPath}/chat/chatRoom/${chatRoom.sellNo }/${loginUser.userNo}');
                                             document.charset = 'utf-8';
 

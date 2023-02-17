@@ -318,13 +318,13 @@
 			          <button type="button" class="btn btn-yes swl-cstm-btn-yes-sbmt-rqst deal" onclick="yes()">계좌이체 하기</button> 
 					  <button type="submit" class="btn btn-no swl-cstm-btn-no-jst-prceed deal" id="tresurePay" 
 							                    onclick="requestPay('${AllList.get('product').sellTitle }',
-
 							                    					'${AllList.get('product').price }',
                                             '${AllList.get('product').negoPrice }',
 							                    					'${AllList.get('purchaseInfo').userNo}',
 							                    					'${AllList.get('product').userNo}',
 							                    					'${pageContext.request.contextPath}',
 							                    					'${AllList.get('product').sellNo }')"> 결제하기 </button>
+
 							          
 			          <button type="button" class="btn btn-cancle swl-cstm-btn-cancel deal">거래 취소</button>`,
 			   showCancelButton: false,
@@ -377,7 +377,7 @@
 	 		console.log(context);
 	 		
 	 		
-	 		if(negoPrice != null){
+	 		if(negoPrice != 0){
 	 			price = negoPrice;
 	 		}
 			//var context = '${pageContext.request.contextPath}';

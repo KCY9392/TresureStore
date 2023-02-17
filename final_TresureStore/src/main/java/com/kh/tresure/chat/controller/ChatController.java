@@ -102,7 +102,7 @@ public class ChatController {
 	    * @param session
 	    * @return
 	    */
-	@RequestMapping(value = "chat/chatRoom/{sellNo}/{userNo}", method = RequestMethod.POST)
+	@RequestMapping(value = "chat/chatRoom/{sellNo}/{userNo}", method = RequestMethod.GET)
 	public String createAndEnterChatRoom(@PathVariable String sellNo,
 										@PathVariable String userNo,
 							            @RequestParam(value="sellUserNo", required=false) String sellUserNo,
@@ -117,6 +117,8 @@ public class ChatController {
 
 		room.setSellNo(Integer.parseInt(sellNo));
 		room.setUserNo(Integer.parseInt(userNo));
+		
+	    logger.info("chatRoomNo : "+chatRoomNo);
 		
 		  // 채팅방이 있으면 채팅방 객체에 채팅방 번호 넣어주겠다.
 	      if(chatRoomNo != null) {
