@@ -317,14 +317,15 @@
 	</script>
 
 	<script>
-	$(document).on("click", ".followBtn-sell", (e) => {
-		if ("${loginUser.userNo}" == "${s.userNo}") {
-	   				Swal.fire({
-		                icon: 'error',
-		                title: '내가 나 자신을 팔로우 할 수는 없습니다.'                  
-		            });
-			return;
-		}
+		
+		$(document).on("click", ".followBtn-sell", (e) => {
+			if ("${loginUser.userNo}" == "${s.userNo}") {
+		   				Swal.fire({
+			                icon: 'error',
+			                title: '내가 나 자신을 팔로우 할 수는 없습니다.'                  
+			            });
+				return;
+			}
 
 		$(e.target).parent().removeClass("followBtn-sell"); // 중복 이벤트 방지를 위해 class를 제거. (class를 제거하면 더 이상 이벤트 발생 안함)
 		$.ajax({
