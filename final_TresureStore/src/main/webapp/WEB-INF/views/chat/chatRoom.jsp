@@ -43,11 +43,60 @@
   
 	<!-- css 링크 -->
   <link rel="stylesheet" href="/tresure/resources/css/chat/chatRoom.css">  
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  
     
 <style>
 #uploadImage{
    cursor : pointer;
 }
+
+
+.catebox3{
+		width: 1000px !important;
+	}
+
+	.inner-menu{
+		width: 700px !important;
+	}
+	
+	.catebox.cate1, .catebox.cate2, .catebox.cate3, .catebox.cate4{
+		margin-right: 40px;
+	}
+	
+	.catebox.cate7, .catebox.cate9, .catebox.cate10{
+		margin-left: 30px;
+	}
+	
+	.catebox.cate8{
+		margin-left: 50px;
+	}
+	
+	
+	.market-open img{
+  		margin-top: 5px;
+  	}
+  	
+  	.search2{
+  		margin-top: 0px !important;
+  		height:20px;
+  	}
+  	
+  	.nfavorites{
+  			padding: 5px 0px !important;
+  		    padding-top: 10px !important;
+  		    height: 80px !important;
+  	}
+  	
+  	.ntheTop{
+  		height: 40px !important;
+  	}
+  	
+  	.chatmenubar{
+  		margin-top: 12px;
+  	}
 </style>
 </head>
 <body>
@@ -112,12 +161,11 @@
 			<div class="rightBox">
 				<div class="box">
 					<div class="inner"></div>
-					<i class="btn btn1"></i> <i class="btn btn2"></i> <i
-						class="btn btn3"></i> <i class="rightSideBtn"></i>
+					 <i class="rightSideBtn"></i>
 					<div class="box-header">
 						<div class="chatmenubar">
 
-                            <ul class="header-list">
+                            <ul class="header-list" style="float: left;width: 700px;">
                                 <li style="float: left; width: 200px; padding-top: 5px;">
                                 	<!-- 로그인사람과 구매한사람이 같은경우  -->
                                    	<c:if test="${AllList.get('purchaseInfo').userNo eq loginUser.userNo}">
@@ -136,6 +184,7 @@
 	                                        
 	                                        <c:if test="${ null == AllList.get('product').avg || AllList.get('product').avg < 3.5 }">
 	                                            <img src="/tresure/resources/images/icon/grade0.png" width="40px" style="float: left;"/>
+
 	                                        </c:if>
 	                                       
 	                                      <c:if test="${loginUser.userNo != AllList.get('product').userNo }">
@@ -143,11 +192,21 @@
 	                                    </c:if>
 	                                    <a href="${sellerUrl }">
                                          <div class="storeNameTextClass" style="margin-bottom:10px;">
-                                         <span class="store-text">상점 <span class="dd">${AllList.get('product').userNo }</span>호 점</span>
+                                         	<span class="store-text">상점 <span class="dd">${AllList.get('product').userNo }</span>호 점</span>
                                          </div>
                                          </a>
-                                      </c:if>
+                                     
                                        
+                                       <c:if test="${loginUser.userNo != AllList.get('product').userNo }">
+	                                    	<c:set var="sellerUrl" value="${pageContext.request.contextPath }/sell/seller/${AllList.get('product').userNo }" />
+	                                    </c:if>
+	                                    
+	                                    <a href="${sellerUrl }">
+	                                         <div class="storeNameTextClass" style="margin-bottom:10px;">
+	                                         	<span class="store-text">상점 <span class="dd">${AllList.get('product').userNo }</span>호 점</span>
+	                                         </div>
+	                                    </a>
+	                                  </c:if>
                                        
                                        <!-- 로그인한 사람과 판매하는 사람이 같은경우 -->
                                        <c:if test="${AllList.get('product').userNo eq loginUser.userNo}">
@@ -170,10 +229,10 @@
      
                                 </li>
 
-                                <li><br>
-                                    <a id="addReport" class="buttonCss" >신고</a>
+                                <li style="margin-top: 15px;">
+                                    <a id="addReport" class="buttonCss" style="font-size: 20px;">신고</a>
                                 </li>
-                                <li><br>
+                                <li style="margin-top: 15px;">
                                 	<!-- 구매자가 차단했을 경우 -->
                                 	<c:if test="${AllList.get('puTose') >= 1 && loginUser.userNo eq AllList.get('purchaseInfo').userNo}"   >
                                 		<a data-toggle="modal" data-target="#block-modal" id="removeBlock" class="buttonCss" >차단 해제</a>
@@ -194,18 +253,8 @@
                                 </li>
                                 <li style="float: right;">
 
-                                	<button type="submit" class="buttonCss2" id="successDeal">거래하기</button>
-                            
+                                	<button type="submit" class="buttonCss2" id="successDeal" style="width: 100px;padding: 10px;">거래하기</button>
 
-                                  <%--  <c:if test="${loginUser.userNo eq AllList.get('product').userNo}">
-
-                               <%--     onclick="requestPay('${AllList.get('product').sellTitle }',
-                                    					'${AllList.get('product').price }',
-                                    					'${AllList.get('purchaseInfo').userNo}',
-                                    					'${AllList.get('product').userNo}',
-                                    					'${pageContext.request.contextPath}')">결제하기</button> 
-                                 					
-                                 	</c:if> --%>
                                 </li>
                             </ul>                         
                         </div>
@@ -246,7 +295,89 @@
 								<img id="View" src="#" alt="이미지 미리보기"/>
 						</div>
 						
+						
+						<!-- 결제 후 보이는 리뷰작성하기 창 -->
 
+						<c:if test="${AllList.get('product').sellStatus == 'C'}">
+							<div class="purchaseNextReivewGo" style="display:">
+								<p class="purchaseOkText">거래가 완료된 상품입니다</p>
+								
+
+							<c:if test="${reviewIs == 'N'}">
+								<button class="reviewA" data-bs-toggle="modal" data-bs-target="#review" id="write">후기 작성하러가기</button>
+							</c:if>
+							<c:if test="${reviewIs == 'Y'}">
+								<button class="reviewB" data-bs-toggle="modal" onclick="reviewDetail(${AllList.get('product').sellNo})" data-bs-target="#review" id="write">후기 수정하러가기</button>
+							</c:if>
+							
+								<div class="modal fade" id="review" tabindex="-1"
+									aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+									<div class="modal-dialog">
+										<div class="modal-content"
+											style="width: 800px; height: 670px; margin-top: 150px; margin-left: -125px;">
+											<div class="modal-header" style="background-color: #fff5ba;">
+
+												<h5 class="modal-title" id="exampleModalLabel"
+													style="margin-left: 42%; font-size: 30px;">
+													<c:if test="${reviewIs == 'N'}">
+												상점 후기 작성
+												</c:if>
+													<c:if test="${reviewIs == 'Y'}">
+												상점 후기 수정
+												</c:if>
+												</h5>
+												<button type="button" class="btn-close"
+													data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											<div class="modal-body" style="text-align: center;">
+
+												<form id="reviewForm">
+
+													<div class="star-rating" style="margin-top: 25px;">
+														<input type="radio" id="5-stars" name="rating" value="5" />
+														<label for="5-stars" class="star">&#9733;</label> <input
+															type="radio" id="4-stars" name="rating" value="4" /> <label
+															for="4-stars" class="star">&#9733;</label> <input
+															type="radio" id="3-stars" name="rating" value="3" /> <label
+															for="3-stars" class="star">&#9733;</label> <input
+															type="radio" id="2-stars" name="rating" value="2" /> <label
+															for="2-stars" class="star">&#9733;</label> <input
+															type="radio" id="1-star" name="rating" value="1" /> <label
+															for="1-star" class="star">&#9733;</label>
+													</div>
+													<div class="mb-3" style="margin-top: 50px;">
+														<label for="reviewContent" class="form-label"
+															style="font-size: 22px;">후기 내용</label>
+														<textarea name="reviewContent" class="form-control"
+															id="reviewContent" aria-describedby="emailHelp"
+															style="width: 700px; margin: auto; height: 140px; resize: none; font-size: 25px;"></textarea>
+														<div id="emailHelp" class="form-text"
+															style="font-size: 20px;">소중한 후기 작성해주세요 ^ㅁ^</div>
+													</div>
+
+													<input type="hidden" value="${AllList.get('product').sellNo}" name="sellNo"
+														type="number"> <input type="hidden"
+														value="${reviewIs}" name="reviewIs">
+												</form>
+											</div>
+											<div class="modal-footer">
+												<c:if test="${reviewIs == 'N'}">
+													<button type="button" onclick="reviewInsertUpdate();"
+														class="btn btn-primary" id="updateBtn">작성하기</button>
+												</c:if>
+												<c:if test="${reviewIs == 'Y'}">
+													<button type="button" onclick="reviewInsertUpdate();"
+														class="btn btn-primary" id="updateBtn2">수정하기</button>
+													<button type="button" onclick="reviewDelete();"
+														class="btn btn-primary" id="updateBtn3">삭제하기</button>
+												</c:if>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</c:if>
 					</div>
 					<div class="box-footer">
 						<div class="footer-area">
@@ -315,7 +446,17 @@
      //거래하기 버튼 클릭 시
      $('#successDeal').on('click', function(){
      
+    	 if ("${AllList.get('product').userNo}" == userNo) {
+				Swal.fire({
+	                icon: 'error',
+	                title: '본인 상점은 결제 못 해요 !'              
+	            });
+			return;
+		}
+    	 
+    	 
 	     const acc = "${AllList.get('product').account}";
+	     const bank = "${AllList.get('product').bank}";
 	     
    	   Swal.fire({
 				title: '거래하기',
@@ -327,9 +468,11 @@
 					  <button type="submit" class="btn btn-no swl-cstm-btn-no-jst-prceed deal" id="tresurePay" 
 							                    onclick="requestPay('${AllList.get('product').sellTitle }',
 							                    					'${AllList.get('product').price }',
+                                            '${AllList.get('product').negoPrice }',
 							                    					'${AllList.get('purchaseInfo').userNo}',
 							                    					'${AllList.get('product').userNo}',
-							                    					'${pageContext.request.contextPath}')"> 결제하기 </button>
+							                    					'${pageContext.request.contextPath}',
+							                    					'${AllList.get('product').sellNo }')"> 결제하기 </button>
 							          
 			          <button type="button" class="btn btn-cancle swl-cstm-btn-cancel deal">거래 취소</button>`,
 			   showCancelButton: false,
@@ -343,7 +486,7 @@
 			          
 			          yes.addEventListener('click', () => {
 			        	  Swal.fire({
-			        		  title: '계좌번호 : '+ acc,
+			        		  title: bank+' /   계좌번호 : '+acc,
 			        		  text: '계좌이체를 진행해주세요',
 			        		  icon : 'success',
 			        		  allowOutsideClick : false
@@ -351,6 +494,7 @@
 			        	  console.log(acc+'acc값?');
 			              console.log('계좌이체 버튼 클릭');
 			          })
+
 
 			          no.addEventListener('click', () => {
 			              console.log('결제하기 버튼 클릭');
@@ -373,14 +517,18 @@
      
 
    	 //거래하기 버튼 클릭 후 >> 결제하기 버튼
-     function requestPay(sellTitle, price, userNo, userNo2, context) {
-	 		
+     function requestPay(sellTitle, price, negoPrice, userNo, userNo2, context, sellNo) {
+
 	 		console.log('상품명 :'+sellTitle);
 	 		console.log(price+'원');
 	 		console.log('구매자번호 :'+userNo); //구매자번호
 	 		console.log('판매자번호 :'+userNo2); //판매자번호
 	 		console.log(context);
 	 		
+	 		
+	 		if(negoPrice != 0){
+	 			price = negoPrice;
+	 		}
 			//var context = '${pageContext.request.contextPath}';
 
 			//주문번호 생성
@@ -424,11 +572,13 @@
 									name : sellTitle,
 									buyer_name : userNo,
 									merchant_uid : merchant_uid,
-									sell_no:userNo2
+									sellUserNo:userNo2,
+									sellNo:sellNo
 								},
 								success: function(result) {
 							          if (result) {
 							        	  Swal.fire('결제 완료', sellTitle+" 구매 완료", "success");
+							        	  location.reload();
 							          } else {
 							              alert("전송된 값 없음");
 							          }
@@ -794,8 +944,79 @@
      		})
        })
   </script>
-  
-  
+  <script>
+  function reviewInsertUpdate(){
+			$.ajax({
+				url : '${pageContext.request.contextPath}/reviewInsertUpdate',
+				type : 'POST',
+				data : $("#reviewForm").serialize(),
+				success : function(result){
+					if(result == 1){
+						Swal.fire({
+			                icon: 'success',
+			                title: '성공적으로 후기가 등록되었습니다.'                  
+			            });	
+						$('#review').modal('hide')
+					}setTimeout(function() {
+  	            	  location.reload();
+	            	}, 2000);
+				},
+				error : function(xhr, status){
+					alert(xhr + ":" +status);
+				}
+			});
+		}
+		
+		//modal창 밖에 클릭 시, 모달창 사라지게하기
+		modalEl.addEventListener("click", e => {
+		    const evTarget = e.target
+		    if(evTarget.classList.contains("modalEl")) {
+		        modalEl.style.display = "none"
+		    }
+		});
+	
+		
+		//수정하기 버튼 클릭 시, 등록 후기 데이터 뿌리기
+		function reviewDetail(sellNo){
+			$.ajax({
+				url : "${pageContext.request.contextPath}/reviewDetail",
+				dataType : "json",
+				data : {sellNo : sellNo},
+				success : function(data){
+					console.log(data);
+					var r = data;
+					$(":radio[name='rating'][value='" + r.revScore + "']").attr('checked', true);
+					$("#reviewContent").val(r.revContent);
+				},
+				error : function(data){
+					alert("오류");
+				}
+			})	
+		}
+
+
+		function reviewDelete(){
+			$.ajax({
+				url : "${pageContext.request.contextPath}/reviewDelete",
+				type : 'POST',
+				data : $("#reviewForm").serialize(),
+				success : function(result){
+					if(result == 1){
+						Swal.fire({
+			                icon: 'success',
+			                title: '후기가 삭제되었습니다.'                  
+			            });	
+						$('#review').modal('hide')
+					}setTimeout(function() {
+  	            	  location.reload();
+	            	}, 1500);
+				},
+				error : function(xhr, status){
+					alert(xhr + ":" +status);
+				}
+			});
+		}
+	</script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"

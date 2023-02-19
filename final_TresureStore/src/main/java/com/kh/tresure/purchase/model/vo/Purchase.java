@@ -16,10 +16,12 @@ public class Purchase {
 
 	private int purNo; //구매 고유 번호
 
+
 	
 
 	private int userNo; // 판매 회원 번호
 	private int sellNo; // 판매상품 번호
+
 
 	private Date createDate; //구매날짜
 	private int price;

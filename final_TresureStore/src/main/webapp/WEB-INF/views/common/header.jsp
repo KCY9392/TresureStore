@@ -40,7 +40,7 @@
 						<c:if test="${loginUser.phone != null && access_Token == null && oauthToken==null}">
 
 							<a class="accountBankButton" id="tresureAccount">
-							<img src="https://cdn-icons-png.flaticon.com/512/1424/1424949.png " width="20px;"> 계좌 등록</a>
+							<img src="https://cdn-icons-png.flaticon.com/512/1424/1424949.png " width="20px;"> <span class="accountText" id="accountModify" >계좌 등록</span></a>
 							
 							<a href="/tresure/logout" class="items">
 								${loginUser.userName}님 환영합니다^ㅁ^<br> 로그아웃
@@ -50,7 +50,7 @@
 					 <!-- 본인인증 로그인 X && 카카오로그인 O && 네이버 로그인 X-->	
 					  	<c:if test="${loginUser.phone == null && access_Token != null && oauthToken==null}">
 					  		<a class="accountBankButton" id="tresureAccount">
-							<img src="https://cdn-icons-png.flaticon.com/512/1424/1424949.png " width="20px;"> 계좌 등록</a>
+							<img src="https://cdn-icons-png.flaticon.com/512/1424/1424949.png " width="20px;"> <span class="accountText" id="accountModify" style="margin-left: 5px;">계좌 등록</span></a>
 					  	
 					  		<a href="https://kauth.kakao.com/oauth/logout?client_id=2f3c85098b01f4c1919eb4761e43a541&logout_redirect_uri=http://localhost:8888/tresure/logout/kakao" class="items">
 					  			${loginUser.userName}님 환영합니다^ㅁ^<br> 로그아웃
@@ -60,7 +60,7 @@
 					    <!-- 본인인증 로그인 X && 카카오로그인 x && 네이버 로그인 O-->	
 					  	<c:if test="${loginUser.phone == null && access_Token == null && oauthToken!=null}">
 					  		<a class="accountBankButton" id="tresureAccount">
-							<img src="https://cdn-icons-png.flaticon.com/512/1424/1424949.png " width="20px;"> 계좌 등록</a>
+							<img src="https://cdn-icons-png.flaticon.com/512/1424/1424949.png " width="20px;"> <span class="accountText" id="accountModify"  style="margin-left: 5px;">계좌 등록</span></a>
 					  	
 					  		<a href="/tresure/logout" class="items">
 					  			${loginUser.userName}님 환영합니다^ㅁ^<br> 로그아웃
@@ -152,81 +152,209 @@
 			location.href = "${pageContext.request.contextPath}/sell/category/"+categoryCode;
 		}
 		
+		let userNo2 =  "${loginUser.userNo}";
+		let userAccount = "${userAccount}" //로그인유저의 계좌를 가져와서 계좌번호 등록에서 null체크하기
 		
-		//계좌번호 등록 alert
+		 //계좌번호 등록 alert
 		 $('#tresureAccount').on('click', function(){
 			 
 			 var accountNum = /^[0-9]*$/;
-			 var accountExist = document.getElementById('accountEnroll');
+				 
+			 //은행 선택 select
+				 Swal.fire({
+					 title: '계좌 등록',
+					 text: '은행을 선택해주세요',
+					 input:'select',
+					 inputOptions: {
+						KB국민은행 : 'KB국민은행',
+						SC제일은행 : 'SC제일은행',
+						농협 : '농협',
+						우리은행 : '우리은행',
+						신한은행 : '신한은행',
+						대구은행 : '대구은행',
+						외환은행 : '외환은행',
+						우체국 : '우체국',
+						토스뱅크 : '토스뱅크',
+						부산은행 : '부산은행',
+						경남은행 : '경남은행',
+						광주은행 : '광주은행',
+						기업은행 : '기업은행',
+						새마을금고 :'새마을금고',
+						수협 : '수협'
+					 },
+					 cancelButtonText: '취소',
+					 confirmButtonText: '등록',
+					 confirmButtonColor: 'gold',
+			 		 allowOutsideClick : false
+				 }).then(function(bank) {
+					 if(bank.value){
+						 var bankInfo = bank.value;
+						 console.log("선택한 은행:"+ bankInfo);
+						 accountSwal(bankInfo);
+					 }
+				 });
 			 
-			 Swal.fire({
-		 		  title: '계좌 등록하기',
-		 		  text: '등록할 계좌번호를 숫자만 입력해주세요.',
-		 		  input: 'text',
-		 		  showCancelButton: true,
-		 		  cancelButtonText: '취소',
-		 		  confirmButtonText: '등록',
-		 		  confirmButtonColor: 'gold',
-		 		  allowOutsideClick : false
-				}).then(function(account) {
-				    if (account.value) {
-				    	if(accountNum.test(account.value)){
-				    		if(accountAdd(account.value) == null){
-						    	Swal.fire('계좌 등록 완료!', "", "success");
-						    	//accountAdd(account.value);
-						        console.log("Result: " + account.value);
-				    		}else{
-				    			Swal.fire('', "계좌가 이미 등록 되어있어요", "info");
-				    			console.log("Result2: " + account.value);
-				    		}
-				    		
-				    	} else{
-				    		Swal.fire('계좌 등록 실패!', "숫자만 입력해주세요.", "warning");
-				    	}
-				    }
-				})
-		 });
-		 
+			 
+			 //계좌번호 등록
+			 function accountSwal(bankInfo){
+				 
+				 Swal.fire({
+			 		  title: '계좌 등록하기',
+			 		  input: 'text',
+			 		  inputPlaceholder: '등록할 계좌번호를 숫자만 입력해주세요.',
+			 		  showCancelButton: true,
+			 		  cancelButtonText: '취소',
+			 		  confirmButtonText: '등록',
+			 		  confirmButtonColor: 'gold',
+			 		  allowOutsideClick : false
+					}).then(function(account) {
+					    	if(accountNum.test(account.value)){
+					    		if(account.value != null){ //이 부분 체크. 유저의 계좌를 불러오는게 아님. 위에서 입력한 value값일뿐이다.
+							    	Swal.fire('계좌 등록 완료!', "", "success");
+							    	//accountAdd(account.value);
+							    	accountAdd( bankInfo, account.value);
+							    	console.log("bankInfo: " + bankInfo);
+							        console.log("account.value: " + account.value);
+					    		}else{
+					    			Swal.fire('', "계좌가 이미 등록 되어있어요", "info");
+					    			console.log("Result2: " + account.value);
+					    		}
+					    	} else{
+					    		Swal.fire('계좌 등록 취소!','', "warning");
+					    	}
+					})
+			 }
 		
-		let userNo2 =  "${loginUser.userNo}";
+		 
+	//	let userNo2 =  "${loginUser.userNo}";
 		
 		 //계좌 추가
-		 function accountAdd(value){
+		 function accountAdd(bankInfo, value){
 				
 				$.ajax({
 					url : "${pageContext.request.contextPath}/member/account",
 					type : "post",
 					data : {account : value,
+							bankInfo : bankInfo,
 							userNo : userNo2},
 					success : function(result){
 						if(result){
 							console.log(result+"result값");
+							console.log(bankInfo+'은행?');
 							console.log(userNo2+">> 유저번호 조회");
 							console.log(value+">> 계좌번호 조회");
-						} else if(result > 1){
-							$.ajax({
-								url : "${pageContext.request.contextPath}/member/accountUpdate",
-								type : "post",
-								data : {account : value,
-										userNo : userNo2},
-								success : function(result){
-									if (result) {
-										console.log(result+"update 계좌 값");
-										console.log(userNo2+">> 유저번호 조회");
-										console.log(value+">> 계좌번호 조회");
-									}else{
-										console.log(update+">> 계좌번호 수정실패");
-									}
-								}
-							})
-						}
+							
+					        $('.accountText').text("계좌 수정");
+					        $('.accountText').removeClass('accountText');
+						} 
 					},
 					error : function(){
 						console.log("통신실패");
 					}
 				});
 	    }; 
+	  
+	 }); //계좌등록하기 alert창 끝 !
 	    
+	 
+		//계좌번호 수정하기 alert
+	    $('#accountModify').on('click', function(){
+	    	
+			 var accountNum = /^[0-9]*$/;
+				 
+			 Swal.fire({
+				 title: '계좌 수정',
+				 text: '은행을 선택해주세요',
+				 input:'select',
+				 inputOptions: {
+					국민 : 'KB국민은행',
+					SC제일은행 :'SC제일은행',
+					농협 :'농협',
+					우리 :'우리은행',
+					신한 :'신한은행',
+					대구 :'대구은행',
+					외환 :'외환은행',
+					우체국 :'우체국',
+					토스뱅크 :'토스뱅크',
+					부산 : '부산은행',
+					경남 :'경남은행',
+					광주 :'광주은행',
+					기업 : '기업은행',
+					새마을금고 :'새마을금고',
+					수협 :'수협'
+				 },
+				 cancelButtonText: '취소',
+				 confirmButtonText: '등록',
+				 confirmButtonColor: 'gold',
+		 		 allowOutsideClick : false
+			 }).then(function(bank) {
+				 if(bank.value){
+					 var bankInfo = bank.value;
+					 console.log("선택한 은행:"+ bankInfo);
+					 accountSwal(bankInfo);
+				 }
+			 });
+			 
+			 
+			
+			 //계좌번호 수정
+			 function accountSwal(bankInfo){
+				 
+				 Swal.fire({
+			 		  title: '계좌 수정하기',
+			 		  text: '수정할 계좌번호를 숫자만 입력해주세요.',
+			 		  input: 'text',
+			 		  showCancelButton: true,
+			 		  cancelButtonText: '취소',
+			 		  confirmButtonText: '등록',
+			 		  confirmButtonColor: 'gold',
+			 		  allowOutsideClick : false
+					}).then(function(account) {
+				    	if(accountNum.test(account.value)){
+				    		if(account.value != null){
+						    	Swal.fire('계좌 수정 완료!', "", "success");
+						    	//accountAdd(account.value);
+						    	accountAdd( bankInfo, account.value);
+						    	console.log("bankInfo: " + bankInfo);
+						        console.log("account.value: " + account.value);
+				    		}
+				    	} else{
+				    		Swal.fire('계좌 수정 실패!', "숫자만 입력해주세요.", "warning");
+				    	}
+					})
+			 }
+			 
+			
+//			let userNo2 =  "${loginUser.userNo}";
+			
+			 //계좌 수정 ajax
+			 function accountAdd(bankInfo, value){
+					
+				 $.ajax({
+						url : "${pageContext.request.contextPath}/member/accountUpdate",
+						type : "post",
+						data : {account : value,
+								bankInfo : bankInfo,
+								userNo : userNo2},
+						success : function(result){
+							if (result) {
+								console.log(result+"update 계좌 값");
+								console.log(userNo2+">> 유저번호 조회");
+								console.log(value+">> 계좌번호 조회");
+							}else{
+								console.log(update+">> 계좌번호 수정실패");
+							}
+						},
+						error : function(){
+							console.log("계좌수정 ajax 통신실패");
+						}
+					})
+		    }; 
+		});
+
+		
+		
+	   // let userNo2 =  "${loginUser.userNo}";
 	    
 	  //판매하기 버튼 클릭 시
 	    function sellGo(){

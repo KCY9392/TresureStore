@@ -94,7 +94,8 @@ public class MyPageController {
 	}
 	
 	
-	
+	/**
+	 * 구매내역 리스트 */
 	@RequestMapping(value = "member/tracsac", method = RequestMethod.GET)
 	public String tracsac(Model m,HttpServletRequest request) {
 		
@@ -103,10 +104,12 @@ public class MyPageController {
 		
 		List<Sell> sellList = mypageService.mypagetSellList(loginUser.getUserNo());
 		m.addAttribute("sellList", sellList);
-
 		
 		//구매내역
 		List<Sell> purchaseList = mypageService.mypagePurchaseList(loginUser.getUserNo());
+		
+		logger.info("purchaseList : "+purchaseList);
+		
 		m.addAttribute("purchaseList", purchaseList);
 		
 		return "member/tracsac";

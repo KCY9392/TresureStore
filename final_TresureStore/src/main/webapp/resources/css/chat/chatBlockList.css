@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 /*전체 공통 div*/
-   .main-section-blockList{
+   .main-section{
      width: 77%;
      margin: auto;
      font-size:18px;
@@ -30,7 +30,7 @@
      background-color:gold;
    	 color:white;
    }
-   ul{
+   .ulululul{
 	   padding-inline-start:10px;
 	   margin : auto;
 	   width:70%;

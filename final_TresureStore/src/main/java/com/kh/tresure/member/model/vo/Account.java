@@ -16,5 +16,6 @@ public class Account {
 	private int account; //계좌번호
 
 	
+
 	
 }

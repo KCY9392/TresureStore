@@ -163,7 +163,7 @@
                 <div class="button-area2">
                    <br><br>
 
-                    
+                    <a class="Withdrawal" href="${pageContext.request.contextPath }/delete" data-toggle="modal">탈퇴하기</a>
                     <a class="Withdrawal" href="${pageContext.request.contextPath }/member/myPage/delete" data-toggle="modal">탈퇴하기</a>
 
                 </div>

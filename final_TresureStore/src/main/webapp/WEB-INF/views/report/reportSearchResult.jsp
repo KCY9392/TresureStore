@@ -16,7 +16,7 @@
 	 width: 70%;
 	 height: auto;
      margin: auto;
-     font-size:18px;
+     font-size:25px;
 	}
 	
 	.main-box {
@@ -29,7 +29,7 @@
     /*사기조회결과 text*/
 	.report-top-text{
 	 font-weight: bold;
-     font-size: 30px;
+     font-size: 43px;
      display:inline;
      margin: 43%;
      position: relative;
@@ -70,8 +70,8 @@
       border-radius : 8%;
       cursor: pointer;
       position:absolute;
-      right: 49%;
-      top: 100%;
+      right: 48%;
+      top: 64%;
 	}
 
 	.report-search-button:hover{
@@ -87,7 +87,8 @@
 	}
 	.result-text-color{
 		color:rgb(216, 49, 8);
-		font-size: 25px;
+		font-size: 30px;
+		margin: 0 10px;
 	}
 	
 	
@@ -103,20 +104,21 @@
         	<div class="report-line"></div>
                   <c:choose>
 	                    <%-- 신고 목록이 없을 때	 --%>
-	                    <c:when test="${reportList == null}">
+	                    <c:when test="${reportList == null || count == 0}">
 
 	                        <div style="text-align: center;">
-	                        <img src="https://cdn-icons-png.flaticon.com/512/7405/7405619.png " width="50px;"> <br><br>
-	                        사기조회 결과가 없습니다. <br><br> 다시 검색해주세요.  </div>
+		                        <img src="https://cdn-icons-png.flaticon.com/512/7405/7405619.png " width="50px;"> <br><br>
+		                        검색하신 '상점' 또는 '계좌번호'의 사기조회는 <span class="result-text-color">0</span> 회 입니다. <br><br>
+		                        <img src="https://cdn-icons-png.flaticon.com/512/6723/6723246.png" width="30px;" >
+		                        즐거운 거래 하세요 <img src="https://cdn-icons-png.flaticon.com/512/6723/6723246.png" width="30px;" > 
+	                        </div>
 	                    </c:when>
 	                    <c:otherwise>
 		                   
 	                    <div class="text-report">검색하신 
-	                    	<span class="result-text-color">
-	                    		<c:if test="${search}">호 점</c:if>
-	                    		<c:if test="${accountNum}"> 계좌번호</c:if>
-	                    	</span>의 
-	                    			총 신고 횟수는 <span class="result-text-color">${reportNum}</span> 회 입니다.</div>
+	                    <input type="hidden" value="${condition} " id="hiddenText">
+	                    	<span class="result-text-color" id="hidden"> ${search } </span>의 
+	                    			총 신고 횟수는 <span class="result-text-color">${count}</span> 회 입니다.</div>
 		                <table class="report-table">
 		                  <thead class="report-thead">
 		                    <tr>
@@ -125,6 +127,7 @@
 		                      <th>신고된 날짜</th>
 		                      <th></th>
 		                    </tr>
+		                   
 		                  </thead>
 		                  <tbody class="report-tbody">
 					          <c:forEach var="report" items="${reportList }">
@@ -136,6 +139,7 @@
 			                    </tr>
 					          </c:forEach>
 		                  </tbody>
+		                  
 		                </table>
               	 	</c:otherwise>
               </c:choose>
@@ -146,6 +150,21 @@
 
 	
 	<jsp:include page="../common/footer.jsp"/>
+	
+	<script>
+	
+	
+			$("#hidden").change(function() {
+				let condition = ${condition};
+				console.log(condition);
+				
+				if(condition.val() == 'account') {
+					$(".hidden").text( '계좌번호 ${search} '); 
+				}else{
+					$(".hidden").text( '${search} 호점');
+				}
+			});
+	</script>
 
 </body>
 </html>

@@ -18,14 +18,21 @@ import com.kh.tresure.sell.model.vo.Sell;
 
 public interface ChatService {
 
-   //채팅방 리스트 가져오기
-   public List<ChatRoom> selectChatRoomList(int userNo);
 
-   // 채팅하기 (방생성 > 입장하기 or 입장하기)
-   public HashMap<Object, Object> createAndEnterChatRoom(ChatRoom room, String sellUserNo, ChatRoomJoin roomJoin, Block block, Account account);
+	/**
+	 * 채팅방 리스트 가져오기 (페이징처리) - 리팩토링 완료
+	 */
+	public HashMap<Object, Object> selectChatRoomList(int userNo, HashMap<Object, Object> paramMap, int currentPage);
+	
+	/**
+	 * 채팅방 생성하기, 입장하기 - 리팩토링 중 
+	 */
+	public HashMap<Object, Object> createAndEnterChatRoom(HashMap<Object, Object> allList, ChatRoom room, String sellUserNo, ChatRoomJoin roomJoin, Block block, Account account);
+
 
    // 채팅방 나가기
    public int exitChatRoom(ChatRoomJoin join, String chatRoomNo, String userNo);
+
 
    //차단 목록 가져오기
    public List<Block> selectBlockList(int userNo);
@@ -47,6 +54,11 @@ public interface ChatService {
 
    // 스케줄링 실행할 채팅창 첨부파일 가져오기
    public ArrayList<ChatFiles> selectAttachment();
+
+
+   //채팅창에서 거래된 상품의 리뷰등록 여부
+   public String reviewIs(int sellNo);
+
 
 
 

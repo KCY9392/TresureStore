@@ -130,14 +130,14 @@
 										class="rounded float-start" alt="">
 								</c:if>
 								<c:if test="${s.sellStatus eq 'C' }">
-					                              <div class="over-img">
+					                             <div class="over-img">
 					                              <div class="text-c" style="color: white;
 												   
 												    margin-top: 180px;
-												    margin-bottom: 195px;">
+												     margin-bottom: 195px;">
 					                      		  <h1>판매완료</h1>
 					                      		  </div>
-					                      		  </div>
+					                      		 </div>
 					                      		  
 			                   </c:if>
                         	</div>
@@ -317,15 +317,19 @@
 	</script>
 
 	<script>
+
 	$(document).on("click", ".followBtn-sell", (e) => {
 		if ("${loginUser.userNo}" == "${s.userNo}") {
 	   				Swal.fire({
 		                icon: 'error',
-		                title: '내가 나 자신을 팔로우 할 수는 없습니다.'                  
+		                title: '본인 상점은 팔로우 안돼요 !'                  
 		            });
 			return;
 		}
 
+		let sellUserNumber = ${s.userNo};
+		
+		
 		$(e.target).parent().removeClass("followBtn-sell"); // 중복 이벤트 방지를 위해 class를 제거. (class를 제거하면 더 이상 이벤트 발생 안함)
 		$.ajax({
 			url : '${pageContext.request.contextPath}/follow/addFollow',
@@ -335,51 +339,38 @@
 			success : function(data) {
 				let result = Number(data.result);
 				if (result == 1) {
-					$(".followBtm").attr("src", $(".followBtm").attr("src").replace("followAddBtn.png", "followSubBtn.png"));
 						Swal.fire({
 		 	   		        icon: 'success',
-		 	   		        title: '팔로우 되었습니다.'
+		 	   		        title: sellUserNumber+'호점 팔로우 성공',
+		 	   		        allowOutsideClick : false,
+		 	   		    	showConfirmButton: false,
 						});
 						
 	 	   		        setTimeout(function() {
       	            	  location.reload();
-      	            	}, 1000);
+      	            	}, 1300);
 					
 				} else if (result == 2) {
-					if (confirm("이미 팔로우 했습니다.\n팔로우를 취소하시겠습니까?")) {
-						$.ajax({
-							url : '${pageContext.request.contextPath}/follow/delFollow',
-							type : "post",
-							data : {fwId : "${s.userNo}"},
-							dataType : "json",
-							success : function(data) {
-								let count = Number(data.result)
-								if (count == 1) {
-									
-				 	   	   				Swal.fire({
-				 	   		                icon: 'success',
-				 	   		                title: '팔로우 취소되었습니다.'                  
-				 	   		            });
-				 	   	   				
-									$(".followBtm").attr("src", $(".followBtm").attr("src").replace("followSubBtn.png", "followAddBtn.png"));
-									setTimeout(function() {
-                  	            	  location.reload();
-                  	            	}, 1000);
-								} else {
-				 	   	   				Swal.fire({
-				 	   		                icon: 'error',
-				 	   		                title: '팔로우 취소 실패되었습니다.'                  
-				 	   		            });
-								}
-							},
-							error : function() {
-								alert("오류!!!");
-								console.log("오류");
-							}
+					
+						Swal.fire({
+							icon:'question',
+							text:'이미 팔로우 했습니다. 팔로우를 취소하시겠습니까?',
+							showCancelButton: true,
+							cancelButtonText: '아니요',
+							confirmButtonText: '네',
+							allowOutsideClick : false
+						}).then(function(){
+							   follow();
+						}, function(dismiss){
+						   if(dismiss == '아니요'){
+						       alert('test');
+						   }
 						});
-					}
 				} else {
-					alert("오류가 발생!!")
+					Swal.fire({
+		                icon: 'error',
+		                title: '로그인 후 가능합니다.'
+					})
 				}
 				console.log(data);
 			},
@@ -394,12 +385,60 @@
 
 	    });
 	</script>
+	
+	<script>
+	function follow(){
+		
+		$.ajax({
+			url : '${pageContext.request.contextPath}/follow/delFollow',
+			type : "post",
+			data : {fwId : "${s.userNo}"},
+			dataType : "json",
+			success : function(data) {
+				let count = Number(data.result)
+				if (count == 1) {
+					
+ 	   	   				Swal.fire({
+ 	   		                icon: 'success',
+ 	   		                title: '팔로우 취소되었습니다.',
+ 	   		            	showConfirmButton: false,
+ 	   		           		allowOutsideClick : false,
+ 	   		            });
+ 	   	   				
+					$(".followBtm").attr("src", $(".followBtm").attr("src").replace("followSubBtn.png", "followAddBtn.png"));
+					setTimeout(function() {
+  	            	  location.reload();
+  	            	}, 1300);
+				} else {
+ 	   	   				Swal.fire({
+ 	   		                icon: 'error',
+ 	   		                title: '팔로우 취소 실패되었습니다.'                  
+ 	   		            });
+				}
+			},
+			error : function() {
+				alert("오류!!!");
+				console.log("오류");
+			}
+		});
+		
+	}
+	
+	</script>
 
 	<script>
 	    $("#chatting-start").click(function() {
 	
+	    	if(${loginUser eq null}){
+	    		Swal.fire({
+		                icon: 'error',
+		                title: '채팅방에 입장할 수 없습니다.'                  
+		            });
+	    		return false;
+	    	}
+	    	
 	        let form = document.createElement('form');
-	        form.setAttribute('method', 'post');
+	        form.setAttribute('method', 'get');
 	        form.setAttribute('action', '${pageContext.request.contextPath}/chat/chatRoom/${s.sellNo }/${loginUser.userNo}');
 	        document.charset = 'utf-8';
 	
@@ -531,7 +570,7 @@
 	 	   		            });
                 		   setInterval(function() {
                 			   location.href="${pageContext.request.contextPath}"
-                    		 }, 3000);
+                    		 }, 1000);
        	            	  
                 		 
 	 	   	   				

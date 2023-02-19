@@ -8,7 +8,6 @@ import com.kh.tresure.common.Utils;
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.model.Message;
 import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
-import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import net.nurigo.sdk.message.service.DefaultMessageService;
 
 @Controller
@@ -18,13 +17,14 @@ public class MessageController {
 	
     public MessageController() {
         // 반드시 계정 내 등록된 유효한 API 키, API Secret Key를 입력해주셔야 합니다!
-        this.messageService = NurigoApp.INSTANCE.initialize("NCSM2MKWN5L4J8JB", "LD0NFC9W5EES3WOV2LJZUOA8M3ZILZ2D", "https://api.coolsms.co.kr");
-        
+        this.messageService = NurigoApp.INSTANCE.initialize("NCSMNFPOFDMIBIQP", "8EOTAXNR7W0ALKIXLJHDJGJMZB3TGCGZ", "https://api.coolsms.co.kr");
     }
     
-    
+
     /**
-     * 단일 메시지 발송 예제
+     * 단일 메세지 발송하기
+     * @param phone
+     * @return
      */
     @RequestMapping("/sendSms.do")
     public int sendOne(String phone) {

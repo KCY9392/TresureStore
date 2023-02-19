@@ -22,7 +22,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	VALUES (SEQ_PNO.NEXTVAL, #{userNo}, #{sellNo}, SYSDATE, #{orderNo}, #{price},'Y')
 </insert>
 
-
+<!-- 상품 상태값 변경 -->
+<update id="purchaseSellStatusC" parameterType="purchase">
+	UPDATE SELL 
+	SET SELL_STATUS = 'C' 
+	WHERE SELL_NO = #{sellNo}
+</update>
 
 
 

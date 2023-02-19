@@ -14,6 +14,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  <result column="CREATE_DATE" property="createDate"/>
 	  <result column="STATUS" property="status"/>
 	  <result column="REPORT_COUNT" property="reportCount"/>
+	  
+	  <result column="ACCOUNT" property="account"/>
 </resultMap>
 
 <!-- 신고리스트에 추가 -->
@@ -23,26 +25,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </insert>
 
 <!-- 신고 리스트 조회(불러오기) -->
- <select id="reportSearchResult" resultMap="reportResultSet" parameterType="String">
+ <select id="reportSearchResult" resultMap="reportResultSet" parameterType="HashMap">
 	SELECT 
-		REPORT_NO,
-		REPORTED_NO,
-		REPORT_CONTENT,
-	    R.CREATE_DATE AS "CREATE_DATE"
+		R.*,
+	    A.ACCOUNT
 	FROM REPORT R
-	JOIN MEMBER M ON (REPORTED_NO = USER_NO)
-	WHERE REPORTED_NO = #{reportedNo} 
-	  AND REPORTED_NO LIKE '%${search}%' 
-	GROUP BY REPORT_NO, REPORTED_NO, REPORT_CONTENT, R.CREATE_DATE
+	LEFT JOIN MEMBER M ON (R.REPORTED_NO = M.USER_NO)
+	LEFT JOIN ACCOUNT A ON (A.USER_NO = M.USER_NO)
+	WHERE R.STATUS = 'Y'
+	<if test='search != null and search != ""' >
+		AND
+		<choose>
+			<when test="condition == 'seller'">
+				R.REPORTED_NO LIKE '${search}'
+			</when>
+			<when test="condition == 'account'">
+				A.ACCOUNT LIKE '${search}'
+			</when>
+		</choose>
+	</if>
+	ORDER BY R.CREATE_DATE DESC
 </select>
 
-<!-- 신고당한 총 횟수 -->
-<select id="reportNumber" parameterType="String" resultType="int" >
-	SELECT 
-		COUNT(REPORTED_NO) AS "REPORT_COUNT"
-	FROM REPORT
-    WHERE REPORTED_NO = #{search}
-</select>
 
 <!-- 신고당한 총 횟수2 -->
 <select id="selectReportCount" parameterType="report" resultType="int">
@@ -51,6 +55,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	FROM REPORT
     WHERE REPORTED_NO = #{reportedNo} 
 </select>
+
+
+<!-- 신고 카운트 -->
+<select id="selectListCount" resultType="int" parameterType="HashMap">
+	
+	SELECT 
+		COUNT(*)
+	FROM REPORT R
+	LEFT JOIN MEMBER M ON (R.REPORTED_NO = M.USER_NO)
+	LEFT JOIN ACCOUNT A ON (A.USER_NO = M.USER_NO)
+     WHERE R.STATUS = 'Y'
+	<if test='search != null and search != ""' >
+		AND
+		<choose>
+			<when test="condition == 'seller'">
+				R.REPORTED_NO LIKE '${search}'
+			</when>
+			<when test="condition == 'account'">
+				A.ACCOUNT LIKE '${search}'
+			</when>
+		</choose>
+	</if>
+	
+	
+</select>
+
 
 
 

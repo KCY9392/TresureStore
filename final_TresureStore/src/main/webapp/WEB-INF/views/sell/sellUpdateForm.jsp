@@ -44,12 +44,11 @@
 														<div class="imageRepresentive">대표이미지</div>
 													</c:if>
 													<img src="${pageContext.request.contextPath }${img.filePath}${img.changeName }" alt="상품이미지">
-													<!-- imgList 변수 -->
-													<input type="hidden" name="imgList[${status.index }].fileType" class="fileType" value="${img.fileType }" /> <!-- status.index => 0부터의 순서 -->
-													<input type="hidden" name="imgList[${status.index }].sellNo" value="${img.sellNo }" /> 
+													<input type="hidden" name="imgList[${status.index }].sellNo" value="${img.sellNo }" /> <!-- status.index => 0부터의 순서 -->
 													<input type="hidden" name="imgList[${status.index }].sfileNo" value="${img.sfileNo }" />
-													<input type="hidden" name="imgList[${status.index }].status" class="status" value="Y" /> <!-- value값은 삭제유무 때문에 넣어줌 큰의미없음. (이미지 삭제용) -->
-													<button type="button" class="image_cancleBtn1"></button>
+													<input type="hidden" name="imgList[${status.index }].fileType" class="fileType" value="${img.fileType }" />
+													<input type="hidden" name="imgList[${status.index }].status" class="status" value="Y" />
+													<button type="button" class="image_cancleBtn"></button>
 												</li>
 											</c:forEach>
 
@@ -160,66 +159,6 @@
 	<jsp:include page="../common/footer.jsp"/>
 	
 	<script>
-		/* $(function(){
-			if($('.registUserImages').length == 0){
-				index = 0;
-				// $div.addClass('imageRepresentive').text('대표이미지');
-			}
-	
-		}); */
-
-	   // 이미 업로드 된 이미지의 삭제 버튼을 누르면
-	   $(".image_cancleBtn1").click((e) => {
-	      // li 변수를 선언하고 버튼으로부터 가장 가까운 li를 대입한다.
-	      let li = $(e.target).closest("li");
-	      // li로부터 자식 요소 중 class가 fileType인걸 찾아서 value에 "D"를 넣어준다. (대표이미지일 경우 삭제하면 대표이미지가 되면 안되므로)
-	      $(li).find(".fileType").val("D");
-	      // li로부터 자식 요소 중 class가 status인걸 찾아서 value에 "D"를 넣어준다. (삭제 처리 작업)
-	      $(li).find(".status").val("D");
-	      // 마지막으로 해당 li를 숨긴다. 안보이게 해야함
-	      $(li).hide();
-
-	      // 마지막으로 이미지를 감 춘 후에 이미지 개수를 출력하기 위한 변수
-	      let length = 0;
-	      // 대표이미지의 유무 판단
-	      let mainImage = false;
-
-	      // class가 registUserImages인 li 요소를 반복한다. i는 index이고 e는 요소
-	      $('.registUserImages').each((i, e) => {
-	         // 반복하는 li 요소의 자식 중 class가 fileType의 value 속성이 "T"인게 있다면
-	         if ($(e).find(".fileType").val() == "T") {
-	            // mainImage를 true로 변경한다.
-	            mainImage = true;
-	         }
-
-	         // 반복하는 li 요소의 자식 중 class가 status의 value 속성이 "D"가 아니라면 (삭제한 건 카운트로 하면 안됨)
-	         if ($(e).find(".status").val() != "D") {
-	            // length를 1 증가시킨다.
-	            length++;
-	         }
-	      });
-
-	      // 대표 이미지 유무를 확인하기 위한 변수
-	      console.log("mainImage :", mainImage);
-	      // 만약 대표 이미지가 없다면, 이미지 중 가장 첫번째를 대표 이미지로 선정해준다.
-	      if (!mainImage) {
-	         $('.registUserImages').each((i, e) => {
-	            if ($(e).find(".status").val() != "D") {
-	               // 해당 이미지를 대표 이미지라는 "T"를 부여하고
-	               $(e).find(".fileType").val("T");
-	               // div 태그를 생성하고 class는 "imageRepresentive"로 텍스트는 "대표이미지"로 설정
-	               let div = $("<div>", { class : "imageRepresentive", text : "대표이미지" });
-	               // 현재 요소의 가장 첫번쨰에 붙여넣는다.
-	               $(div).prependTo(e);
-	               // break와 동일 효과
-	               return false;
-	            }
-	         });
-	      }
-
-	      // 마지막에 "(" 문자열에 length의 값과 "/3)" 을 붙여서 class가 image_sub인 요소의 small 태그에 text로 붙여넣는다.
-	      $(".image_sub small").text("(" + length + "/3)");
-	   });
 	
 		/* 가격 유효성 검사 */
 		$("#product_price").on("keyup", function() {
@@ -253,6 +192,11 @@
 			})
 		})
 		
+		$(document).ready(function() {
+			let content = $(".titleInput").val();
+			$("#textCount").text(content.length + " / 최대 40");
+		})
+		
 		/* 설명 유효성 검사 */
 		$(function() {
 			$("#sell_content").keyup(function() {
@@ -270,6 +214,11 @@
 					$('#contentCount').text("2000 / 최대 2000");
 				}
 			})
+		})
+		
+		$(document).ready(function() {
+			let content = $("#sell_content").val();
+			$("#contentCount").text(content.length + " / 최대 2000");
 		})
 	</script>
 	

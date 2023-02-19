@@ -73,14 +73,18 @@ a {
     border: none;
     font-weight: lighter;
 }
-.accountBankButton{
+.accountBankButton {
 	display: flex;
-	all: unset; 
-		   width:73px;
-		   color:gray;
-		   margin:auto;
-           padding: 4px 4px;
-           cursor: pointer;
+	all: unset;
+	width: 73px;
+	color: gray;
+	margin: auto;
+	padding: 4px 4px;
+	cursor: pointer;
+	border: 2px solid #ebe6e6;
+	border-radius: 12px;
+	padding: 10px;
+	width: 80px;
 }
 /* header end */
 
@@ -192,6 +196,15 @@ a {
     margin: 6px;
 }
 /* 채팅하기, 판매하기, 신고하기, 내상점 정렬 start */
+
+/*계좌등록 alert*/
+.swal2-select{
+	font-family: 'koverwatch';
+}
+.swal2-input{
+	font-family: 'koverwatch';
+}
+/*계좌등록 alert*/
 
 /* category start */
 .catebox3 {

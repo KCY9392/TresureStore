@@ -26,10 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="USER_NO" property="userNo"></result>
 	<result column="ACCOUNT" property="account"></result>
 	<result column="BANK" property="bank"></result>
-	<result column="CREATE_DATE" property="createDate"></result>
-	<result column="SELL_TITLE" property="sellTitle"></result>
-	<result column="SELL_USERNO" property="sellUserNo"></result>
-	<result column="PRICE" property="price"></result>
+
 	
 	
 </resultMap>
@@ -45,6 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="BANK" property="bank"></result>
 	<result column="ACCOUNT" property="account"></result>
 	<result column="PUR_USER" property="purUser"></result>
+
 
 </resultMap>
 
@@ -190,15 +188,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- 계좌 추가하기 -->
 <insert id="userAddAccount" parameterType="account" >
-	INSERT INTO ACCOUNT(ACCOUNT_ID, USER_NO, ACCOUNT)
-	VALUES (SEQ_ANO.NEXTVAL, #{userNo}, #{account})
+	INSERT INTO ACCOUNT(ACCOUNT_ID, USER_NO, ACCOUNT, BANK)
+	VALUES (SEQ_ANO.NEXTVAL, #{userNo}, #{account}, #{bank} )
 </insert>
 
 <!-- 계좌 수정하기 -->
 <update id="updateAccount" parameterType="int">
 	UPDATE ACCOUNT
-	SET ACCOUNT = #{account}
+	SET ACCOUNT = #{account},
+		BANK = #{bank}
 	WHERE USER_NO = #{userNo}
+
 </update> 
 
 
@@ -206,8 +206,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 판매자의 계좌 가져오기 -->
 <select id="selectAccountInfo" parameterType="account" resultType="account" >
 	SELECT DISTINCT
+
             A.ACCOUNT,
-            BANK,
+
+            A.BANK,
             A.USER_NO AS "USER_NO"
 	FROM ACCOUNT A
 	LEFT JOIN SELL S ON (S.USER_NO = A.USER_NO)
@@ -222,6 +224,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	LEFT JOIN MEMBER M ON (M.USER_NO = A.USER_NO)
 	WHERE A.USER_NO = #{userNo} 
 </select>
+
+
 
 
 

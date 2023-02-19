@@ -13,7 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="REVIEW_AVG" property="reviewAvg" />
 	</resultMap>
 
-	<select id="selectMember" parameterType="follow" resultMap="member">
+<select id="selectMember" parameterType="follow" resultMap="member">
 		SELECT M.USER_NO, ROUND(SYSDATE - M.CREATE_DATE) AS MARKET_OPEN,
 		( SELECT COUNT (*)
 		FROM FOLLOW

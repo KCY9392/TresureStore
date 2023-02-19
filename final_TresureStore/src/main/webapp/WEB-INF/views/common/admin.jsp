@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>adminPage</title>
-
 
 <!-- Jquery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
@@ -13,25 +14,97 @@
 <link rel="stylesheet" href="/tresure/resources/css/font.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+
 <style>
-.adminBtn{
+.adminMain{
+	background-color:#e4d8ca4d;
+	margin:auto;
+	height: 1000px; /* 정렬하려는 요소의 넓이를 반드시 지정 */
+	position:relative;
+	padding: 72px;
+}
+.adminDiv{
+	height: 1000px;
+	box-sizing: border-box;
+}
+/* .adminBtns{
+	display:inline-block;
+	text-align:center;
+	position: absolute;
+	right:50%;
+	top:25%;
+} */
+.list-b{
+	position: absolute;
+    display: flex;
+    height: 73px;
+    width: 1000px;
+    text-align:center;
+    right: 25%;
+    
+ }
+
+.list-b button{
+	flex: 1 1 0%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
     border: none;
     padding: 15px;
     margin-top: 10px;
+    margin-right: 1px;
+	color:#5e5e5f;
     background-color: gold;
     font-weight: 600;
     border-radius: 10px;
-	color:rgb(10, 103, 185);
 	text-decoration:none ;
-	
+	text-align: center;
 }
-/*거래하기 버튼 내 버튼*/
-.adminBtn:hover{
+
+.list-b>button>span{
+    font-family: 'koverwatch';
+    font-size: 30px;
+ }
+ 
+.list-b button:hover{
     background-color: rgb(10, 103, 185);
     cursor: pointer;
     color: white;
+}
+#adminText{
+	font-size : 30px;
+	font-weight: 600;
+	color:#5e5e5f;
+	position: absolute;
+	left: 15%;
+    top: 11%;
+    font-family: 'koverwatch';
+}
+
+.list-area {
+    margin-top: 100px;
+    margin-left: 300px;
+    width: 1100px;
+    display: inline-block;
+    text-align: center;
+}
+   
+.list-area thead{
+	font-family: 'koverwatch';
+ 	border-top: 1px solid rgb(30, 29, 41);
+ 	border-bottom: 1px solid rgb(30, 29, 41);
+}
+.list-area table{
+	font-size:20px;
+}   
+tr>td{
+	font-family: 'koverwatch';
+ 	vertical-align: middle;
+ 	padding: 0.5rem;
+ 	line-height: normal;
 }
 
 
@@ -42,11 +115,13 @@
 
 	<div class="adminMain">
 
+
 	
 		<a href="${pageContext.request.contextPath}/admin/memberAdmin" id="memberAdmin" class="adminBtn" >회원 관리</a>
 		<a href="${pageContext.request.contextPath}/admin/payAdmin" id="payAdmin" class="adminBtn">결제 관리</a>
 	
-	</div>
+
+	
 
 	  <div class="content2">
 		<div class="adminDiv">
@@ -137,6 +212,7 @@
 	</div>
 <script>
 
+
 	//버튼 전환
 	function show(element){
 	    let tag = document.getElementsByClassName("box");
@@ -153,6 +229,7 @@
 	      }
 	  }
 	
+
 	
 		
 		
@@ -202,6 +279,7 @@
   	$("#subscriberBtn").text("입금완료");
   }
   </script>
+
 
 </body>
 </html>

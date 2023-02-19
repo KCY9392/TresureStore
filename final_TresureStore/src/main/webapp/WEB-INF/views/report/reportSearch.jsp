@@ -32,7 +32,7 @@
     /*사기조회 text*/
 	.report-top-text{
 	 font-weight: bold;
-     font-size: 30px;
+     font-size: 35px;
      display:inline;
      margin:45%; 
      position: relative;
@@ -48,7 +48,7 @@
   	.report-icon{
   	 color: gold;
   	 position:absolute;
-  	 right: 50%;
+  	 right: 47%;
      top: 20%;
   	}
 	
@@ -123,11 +123,11 @@
 				<form id="searchForm" action="reportSearchResult" method="get">
 					<div class="report-inner">
 						<select class="report-option" name="condition">
-							<option value="sellNumber">상점번호</option>
-							<option value="accountNumber">계좌번호</option>
+							<option value="seller" >상점번호</option>
+							<option value="account" >계좌번호</option>
 						</select>
 
-						<input type="text" class="report-search-text" name="search" id="searchReport" placeholder="@를 포함하여 상점번호를 입력해주세요.">
+						<input type="text" class="report-search-text" name="search" id="searchReport" placeholder="조회하고 싶은 상점번호만 입력해주세요!">
 						<button type="submit" class="report-search-button" id="resultButton" >조회</button>
 					</div>
 				</form>
@@ -140,6 +140,16 @@
 	
 	<script>
 			
+		//input text placeholder 변경
+		$(".report-option").change(function() {
+			let state = $(".report-option option:selected").val();
+			if(state == "account") {
+				$("#searchReport").attr("placeholder", '조회하고 싶은 상점의 계좌번호를 입력해주세요!');
+			}else{
+				$("#searchReport").attr("placeholder", '조회하고 싶은 상점번호만 입력해주세요!');
+			}
+		});
+	
 		//입력값 없이 조회 버튼만 클릭 시
 		 $('#resultButton').click(function(){
 			 

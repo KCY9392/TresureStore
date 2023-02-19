@@ -132,6 +132,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 
+
 	//관리자페이지 결제관리
 	@Override
 	public List<Purchase> accountList(){
@@ -145,6 +146,7 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.changeDepoStatus(sqlSession, p);
 	}
 	
+
 
 	
 }

@@ -312,7 +312,7 @@
 	position: sticky;
 	left: 0px;
 	bottom: 0px;
-	background: rgb(250, 250, 253);
+	background: rgb(255 251 239);
 }
 .insertBtmArea {
 	display: flex;
@@ -327,13 +327,14 @@
     height: 3.5rem;
     width: 10rem;
     color: black;
-    font-size: 20px;
+    font-size: 25px;
     font-weight: 700;
     border-radius: 25px;
-    background: rgb(253, 253, 231);
+    background: rgb(247 221 169);
     position: relative;
 	outline: none;
 	border: none;
+	font-family: 'koverwatch';
 }
 .insertBtn:hover {
     background: gold;
@@ -355,13 +356,14 @@
 	 height: 3.5rem;
     width: 10rem;
     color: black;
-    font-size: 20px;
+    font-size: 25px;
     font-weight: 700;
     border-radius: 25px;
     background: rgb(253, 253, 231);
     position: relative;
 	outline: none;
 	border: none;
+	font-family: 'koverwatch';
 }
 
 #updateBtn:hover{

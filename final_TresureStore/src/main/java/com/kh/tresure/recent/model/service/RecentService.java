@@ -10,6 +10,8 @@ public interface RecentService {
 	
 	public List <Recent> viewProduct(Recent recent); 
 	
+	public int deleteProducts(Recent recent);
+	
 	public int deleteProduct(Recent recent);
 	
 	
