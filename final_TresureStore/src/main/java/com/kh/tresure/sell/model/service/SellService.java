@@ -81,5 +81,4 @@ public interface SellService {
 	 * 로그인 하지 않은 상태에서 상점명 검색시 */
 	public Object searchsellerDetail(int searchSeller);
 
-	public Map<String, Object> sellerDetail(Map<String, Integer> map);
 }
