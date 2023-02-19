@@ -40,7 +40,7 @@
 				</c:when>
 
 				<c:otherwise>
-					<ul>
+					<ul class="ulululul">
 						<c:forEach var="block" items="${blockList }">
 							<li class="block_list">
 								<div class="profile-image1" data-seller-no='${block.blockNo}'>

@@ -68,6 +68,27 @@
 .ntheTop {
 	height: 40px !important;
 }
+
+.backGoGoGo{
+	float: left;
+    margin-top: 93px;
+    margin-left: 300px;
+}
+
+.backGoGoGo>button{
+	width: 110px;
+    height: 45px;
+    border-radius: 15px;
+    background-color: #fceedb;
+    border: 2px solid #fceedb;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.backGoGoGo>button:hover{
+	background-color: #ecc6b3;
+	color: white;
+}
 </style>
 
 </head>
@@ -75,12 +96,10 @@
 	<jsp:include page="../common/header.jsp" />
 	<jsp:include page="../common/sideBar.jsp" />
 
+<div class="backGoGoGo"><button onclick="goBackBtnClick();">뒤로가기</button></div>
 	<div class="main-section">
 		<div class="content2">
-
-
-
-
+		
 			<div class="list-content">
 				<div class="list-b">
 					<button class="sell-trac" type="button" onclick="show(this);"
@@ -403,6 +422,10 @@
 				}
 			});
 		}
+		
+		function goBackBtnClick(){
+			history.go(-1);
+		};
 	</script>
 
 	<jsp:include page="../common/footer.jsp" />
