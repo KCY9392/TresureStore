@@ -158,4 +158,11 @@ public class SellDao {
 	}	
 
 
+   /**
+	* 로그인 하지 않은 상태에서 상점명 검색시 */
+	public Object searchsellerDetail(SqlSession sqlSession, int searchSeller) {
+		return sqlSession.selectOne("sellMapper.searchsellerDetail", searchSeller);
+	}	
+
+
 }

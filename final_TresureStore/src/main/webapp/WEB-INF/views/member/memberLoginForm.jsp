@@ -7,7 +7,7 @@
 <title>로그인하기</title>
 <!-- css 링크 -->
 <link rel="stylesheet" href="/tresure/resources/css/member/memberLoginForm.css">   
-
+<link rel="stylesheet" href="/tresure/resources/css/common/font.css">
 </head>
 <body>
 	<div class="wrap">

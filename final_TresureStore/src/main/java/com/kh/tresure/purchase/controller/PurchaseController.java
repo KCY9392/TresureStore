@@ -33,18 +33,6 @@ public class PurchaseController {
 	      this.purchaseService = purchaseService;
 	   }
 
-	
-	
-	//결제하기
-//  @RequestBody
-//  @ResponseBody
-//  @RequestMapping(value = "chat/pay/{imp_uid}", method = RequestMethod.POST)
-//  public IamportResponse<Payment> verifyIamportPOST(@PathVariable(value = "imp_uid") String imp_uid) throws IamportResponseException, IOException {
-//	   
-//	   		
-//	   		return client.paymentByImpUid(imp_uid);
-	   	
-//  }
 	   
 	   // 상품 구매 
 	   @ResponseBody

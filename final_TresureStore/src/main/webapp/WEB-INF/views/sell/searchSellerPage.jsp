@@ -51,7 +51,6 @@
 					<c:if test="${ reviewAvg == null  || reviewAvg < 3.5 }">
 						<img src="/tresure/resources/images/icon/backGray_grade0.png"
 							height="100%" width="100%" />
-
 					</c:if>
 
 
@@ -92,7 +91,7 @@
 
 					<div class="market-name"
 						style="margin-top: 55px; margin-bottom: 10px;">상점
-						${member.userNo} 호점</div>
+						${sellerUserno} 호점</div>
 
 					<div class="info-list">
 						<div class="market-open">
@@ -123,7 +122,7 @@
 							<img src="/tresure/resources/images/icon/신고수.png" width="20"
 								height="15" alt="신고 아이콘"> &nbsp;신고
 							<div class="market-report">
-								<span>${member.reporterCount}</span>회
+								<span>${member.reportCount}</span>회
 							</div>
 						</div>
 						<br> <br>
@@ -147,15 +146,6 @@
 									src="/tresure/resources/images/icon/followSubBtn.png"
 									width="100%" height="70%">
 							</button>
-						</c:if>
-
-						<c:if test="${s.sellStatus eq 'C' }">
-							<div class="over-img"></div>
-							<div class="text-c"
-								style="color: white; margin-left: 71px; margin-top: -93px; margin-bottom: 75px;">
-								<h3>판매완료</h3>
-							</div>
-
 						</c:if>
 					</div>
 				</div>
@@ -266,79 +256,94 @@
 	<jsp:include page="../common/footer.jsp" />
 
 	<script>
-	 	$(document).on("click", ".followBtn-sell", (e) => {
-			if ("${loginUser.userNo}" == "${s.userNo}") {
-				$(document).on("click", ".followBtn-sell", (e) => {
-					if ("${loginUser.userNo}" == "${s.userNo}") {
-						Swal.fire({
-			                icon: 'error',
-			                title: '내가 나 자신을 팔로우 할 수는 없습니다.'                  
-			            });
-						return;
-					}
-			}
-	
-			$(e.target).parent().removeClass("followBtn-sell"); // 중복 이벤트 방지를 위해 class를 제거. (class를 제거하면 더 이상 이벤트 발생 안함)
-			let fwId = ${member.userNo};
-			$.ajax({
-				url : '${pageContext.request.contextPath}/follow/addFollow',
-				type : "post",
-				data : {fwId : fwId},
-				dataType : "json",
-				success : function(data) {
-					let result = Number(data.result);
-					if (result == 1) {
-						$(".followBtm").attr("src", $(".followBtm").attr("src").replace("followAddBtn.png", "followSubBtn.png"));
-						alert("팔로우 되었습니다.");
-						location.reload();
-					} else if (result == 2) {
-						if (confirm("이미 팔로우 했습니다.\n팔로우를 취소하시겠습니까?")) {
-							$.ajax({
-								url : '${pageContext.request.contextPath}/follow/delFollow',
-								type : "post",
-								data : {fwId : fwId},
-								dataType : "json",
-								success : function(data) {
-									let count = Number(data.result)
-									if (count == 1) {
-										alert("팔로우가 취소되었습니다.");
-										$(".followBtm").attr("src", $(".followBtm").attr("src").replace("followSubBtn.png", "followAddBtn.png"));
-										location.reload();
-									} else {
-										Swal.fire({
-				 	   		                icon: 'error',
-				 	   		                title: '팔로우 취소 실패되었습니다.'                  
-				 	   		            });
-									}
-								},
-								error : function() {
-									alert("오류!!!");
-									console.log("오류");
-								}
-							});
-						}
-					} else {
-						alert("오류가 발생!!")
-					}
-					console.log(data);
-				},
-				error : function() {
-					alert("오류가 발생.");
-					console.log("오류");
-				},
-				complete : function () {
-					$(e.target).parent().addClass("followBtn-sell");
-				}
-			})
-	
-		    });
+	$(document).on("click", ".followBtn-sell", (e) => {
+		if ("${loginUser.userNo}" == "${s.userNo}") {
+			Swal.fire({
+                icon: 'error',
+                title: '내가 나 자신을 팔로우 할 수는 없습니다.'                  
+            });
+			return;
+		}
 
+		$(e.target).parent().removeClass("followBtn-sell"); // 중복 이벤트 방지를 위해 class를 제거. (class를 제거하면 더 이상 이벤트 발생 안함)
+		let fwId = ${member.userNo};
+		$.ajax({
+			url : '${pageContext.request.contextPath}/follow/addFollow',
+			type : "post",
+			data : {fwId : fwId},
+			dataType : "json",
+			success : function(data) {
+				let result = Number(data.result);
+				if (result == 1) {
+					$(".followBtm").attr("src", $(".followBtm").attr("src").replace("followAddBtn.png", "followSubBtn.png"));
+					Swal.fire({
+	 	   		        icon: 'success',
+	 	   		        title: '팔로우 되었습니다.'
+					});
+					
+ 	   		        setTimeout(function() {
+  	            	  location.reload();
+  	            	}, 1000);
+				} else if (result == 2) {
+					if (confirm("이미 팔로우 했습니다.\n팔로우를 취소하시겠습니까?")) {
+						$.ajax({
+							url : '${pageContext.request.contextPath}/follow/delFollow',
+							type : "post",
+							data : {fwId : fwId},
+							dataType : "json",
+							success : function(data) {
+								let count = Number(data.result)
+								if (count == 1) {
+									Swal.fire({
+			 	   		                icon: 'success',
+			 	   		                title: '팔로우 취소되었습니다.'                  
+			 	   		            });
+									$(".followBtm").attr("src", $(".followBtm").attr("src").replace("followSubBtn.png", "followAddBtn.png"));
+									setTimeout(function() {
+	                  	            	  location.reload();
+	                  	            	}, 1000);
+								} else {
+									Swal.fire({
+			 	   		                icon: 'error',
+			 	   		                title: '팔로우 취소 실패되었습니다.'                  
+			 	   		            });
+								}
+							},
+							error : function() {
+								alert("오류!!!");
+								console.log("오류");
+							}
+						});
+					}
+				} else {
+					alert("오류가 발생!!")
+				}
+				console.log(data);
+			},
+			error : function() {
+				alert("오류가 발생.");
+				console.log("오류");
+			},
+			complete : function () {
+				$(e.target).parent().addClass("followBtn-sell");
+			}
+		})
+
+	    });
      </script>
 
 	<script>
 		function sellDetail(sellNo){
 			location.href = "${pageContext.request.contextPath}/sell/sellDetail/"+sellNo;
 		}
+		
+		$(document).ready(function() {
+			var keyword = "${sellerUserno}"; 
+			
+			if(keyword != "") {  //검색어 부분 유지하기
+				$("#search").val( keyword+"호점" );
+			}
+		});
      </script>
 
 </body>

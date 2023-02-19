@@ -53,112 +53,130 @@ public class SellController {
 		this.sellService = sellService;
 	}
 
-	
-	/**
-	 * 더보기 (메인페이지) */
-	@ResponseBody
-	@RequestMapping(value="/theBogi")
-	public List<Sell> theBogi(HttpServletResponse response, @RequestParam("eleCount") int lastSellNo){
-		
-		logger.info("lastSellNo : "+lastSellNo);
-		
-		List<Sell> sList = sellService.sellListTheBogi(lastSellNo);
-		for(int i=0; i<sList.size(); i++) {
-			sList.get(i).setTimeago(sList.get(i).getCreateDate());
-		}
-		
-		logger.info("TheBogi List : "+sList);
-		
-		return sList;
-	}
-	
-	/**
-	 * 검색 시 -> 상품이면 시세조회하면서 해당 상품리스트, 상점이면 해당 상점페이지 */
-	@RequestMapping(value="/search", method=RequestMethod.POST)
-	public ModelAndView searchList(
-				ModelAndView mv, 
-				HttpSession session,
-				String search) {
-		
-		//상품 검색할 경우
-		if(search.charAt(0) != '@') {
-		
-			List<Sell> sList = sellService.sellListsearch(search);
-			List<Sell> success = sellService.successfive(search);
-			
-			for(int i=0; i<sList.size(); i++) {
-				sList.get(i).setTimeago(sList.get(i).getCreateDate());
+   
+   /**
+    * 더보기 (메인페이지) */
+   @ResponseBody
+   @RequestMapping(value="/theBogi")
+   public List<Sell> theBogi(HttpServletResponse response, @RequestParam("eleCount") int lastSellNo){
+      
+      logger.info("lastSellNo : "+lastSellNo);
+      
+      List<Sell> sList = sellService.sellListTheBogi(lastSellNo);
+      for(int i=0; i<sList.size(); i++) {
+         sList.get(i).setTimeago(sList.get(i).getCreateDate());
+      }
+      
+      logger.info("TheBogi List : "+sList);
+      
+      return sList;
+   }
+   
+   /**
+    * 검색 시 -> 상품이면 시세조회하면서 해당 상품리스트, 상점이면 해당 상점페이지 */
+   @RequestMapping(value="/search", method=RequestMethod.POST)
+   public ModelAndView searchList(
+            ModelAndView mv, 
+            HttpSession session,
+            String search) {
+      
+      //상품 검색할 경우
+      if(search.charAt(0) != '@') {
+      
+         List<Sell> sList = sellService.sellListsearch(search);
+         List<Sell> success = sellService.successfive(search);
+         
+         for(int i=0; i<sList.size(); i++) {
+            sList.get(i).setTimeago(sList.get(i).getCreateDate());
+         }
+         
+         int price = 0;
+         for(int i=0; i<success.size(); i++) {
+            price += success.get(i).getPrice();
+         }
+         price /= 5;
+         
+         HashMap<String, Object> map = new HashMap<>();
+         map.put("s", sList);
+         map.put("keyword", search);
+         map.put("success", success);
+         map.put("price", price);
+         
+         mv.addObject("m", map);
+         mv.setViewName("sell/searchList");
+         
+      }else { //상점 검색할 경우
+    	  int searchSeller = Integer.valueOf((search.substring(1)));
+    	  Member member = (Member) session.getAttribute("loginUser");
+
+			if(member != null) {
+				Map<String, Integer> map = new HashMap<>();
+				map.put("userNo", member.getUserNo());
+				map.put("searchSeller", searchSeller);
+				mv.addObject("member", sellService.sellerDetail(map));
+			}else {
+				mv.addObject("member", sellService.searchsellerDetail(searchSeller));
 			}
-			
-			int price = 0;
-			for(int i=0; i<success.size(); i++) {
-				price += success.get(i).getPrice();
-			}
-			price /= 5;
-			
-			HashMap<String, Object> map = new HashMap<>();
-			map.put("s", sList);
-			map.put("keyword", search);
-			map.put("success", success);
-			map.put("price", price);
-			
-			mv.addObject("m", map);
-			mv.setViewName("sell/searchList");
-			
-		}else { //상점 검색할 경우
 			
 			mv.setViewName("sell/sellerPage");
+			mv.addObject("sellerUserno",searchSeller);
+			// 판매 리스트
+			mv.addObject("sellList", sellService.sellList(searchSeller));
+			// 리뷰 리스트
+			mv.addObject("reviewList", sellService.reviewList(searchSeller));
 			
 		  //mv.setViewName("다른사람이 보는 내상점");
+			mv.setViewName("sell/searchSellerPage");
 		}
 		
+
 		return mv;
 	}
-	
-	
-	
-	/**
-	 * 상품 상세조회 */
-	@RequestMapping(value="/sellDetail/{sellNo}", method= RequestMethod.GET)
-	public ModelAndView sellDetail (
-			ModelAndView mv, HttpSession session,
-			@PathVariable("sellNo") int sellNo,
-			HttpServletRequest req,
-			HttpServletResponse res) throws Exception{
-	
-			Member loginUser = (Member)session.getAttribute("loginUser");
-			logger.info("loginUser:"+loginUser);
-			int userNo = 0;
-			
-			Map<String, Integer> map = new HashMap<>();
-			map.put("sellNo", sellNo);
-			
-			if(loginUser!=null) {
-				userNo = loginUser.getUserNo();
-				map.put("userNo", userNo);
-			}
-			
-			Sell s = sellService.selectSellDetail(map);
-			List<SellImg> imgList = sellService.selectSellImgList(map);
-			
-			s.setImgList(imgList);
-			s.setTimeago(s.getCreateDate());
-			
-		    
-		    if (s != null) {
-		        logger.info("System - 해당 상세페이지로 넘어감");
-		        
-		        Cookie[] cookies = req.getCookies();
-		        Cookie viewCookie = null;  // 비교하기 위해 새로운 쿠키
-		        
-		        if (cookies != null && cookies.length > 0) { // 쿠키가 있을 경우
-		        	for (int i = 0; i < cookies.length; i++) {
-		        		// Cookie의 name이 cookie + sellNo와 일치하는 쿠키를 viewCookie에 넣어줌 
-		        		if (cookies[i].getName().equals("cookie"+sellNo)){ 
-		        			viewCookie = cookies[i];
-		        		}
-		        	}
-		        }
+   
+   
+   
+   /**
+    * 상품 상세조회 */
+   @RequestMapping(value="/sellDetail/{sellNo}", method= RequestMethod.GET)
+   public ModelAndView sellDetail (
+         ModelAndView mv, HttpSession session,
+         @PathVariable("sellNo") int sellNo,
+         HttpServletRequest req,
+         HttpServletResponse res) throws Exception{
+   
+         Member loginUser = (Member)session.getAttribute("loginUser");
+         logger.info("loginUser:"+loginUser);
+         int userNo = 0;
+         
+         Map<String, Integer> map = new HashMap<>();
+         map.put("sellNo", sellNo);
+         
+         if(loginUser!=null) {
+            userNo = loginUser.getUserNo();
+            map.put("userNo", userNo);
+         }
+         
+         Sell s = sellService.selectSellDetail(map);
+         List<SellImg> imgList = sellService.selectSellImgList(map);
+         
+         s.setImgList(imgList);
+         s.setTimeago(s.getCreateDate());
+         
+          
+          if (s != null) {
+              logger.info("System - 해당 상세페이지로 넘어감");
+              
+              Cookie[] cookies = req.getCookies();
+              Cookie viewCookie = null;  // 비교하기 위해 새로운 쿠키
+              
+              if (cookies != null && cookies.length > 0) { // 쿠키가 있을 경우
+                 for (int i = 0; i < cookies.length; i++) {
+                    // Cookie의 name이 cookie + sellNo와 일치하는 쿠키를 viewCookie에 넣어줌 
+                    if (cookies[i].getName().equals("cookie"+sellNo)){ 
+                       viewCookie = cookies[i];
+                    }
+                 }
+              }
 
 		        if(loginUser != null) {
 		        	

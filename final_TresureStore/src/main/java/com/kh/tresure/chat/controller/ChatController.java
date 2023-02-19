@@ -25,252 +25,259 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kh.tresure.HomeController;
 import com.kh.tresure.chat.model.service.ChatService;
 import com.kh.tresure.chat.model.vo.Block;
 import com.kh.tresure.chat.model.vo.ChatFiles;
 import com.kh.tresure.chat.model.vo.ChatRoom;
 import com.kh.tresure.chat.model.vo.ChatRoomJoin;
 import com.kh.tresure.common.Image;
+import com.kh.tresure.member.model.vo.Account;
 import com.kh.tresure.member.model.vo.Member;
 import com.kh.tresure.sell.model.vo.Sell;
 
 @Controller
-@SessionAttributes({"chatRoomNo", "loginUser"})
+@SessionAttributes({ "chatRoomNo", "loginUser" })
 public class ChatController {
+
    private HttpSession session;
    private Logger logger = LoggerFactory.getLogger(ChatController.class);
    private ChatService chatService;
-   
+
    // 기본생성자
-   public ChatController() {
-      
-   }
-   
+   public ChatController() {}
+
    @Autowired
-   public ChatController( ChatService chatService){
+   public ChatController(ChatService chatService) {
       this.chatService = chatService;
    }
-   
-   
-   //채팅방 목록 조회
+
+   /**
+    * 채팅방 리스트 가져오는 기능 - 리팩토링 완료
+    * @param model
+    * @param request
+    * @param paramMap
+    * @param currentPage
+    * @return
+    */
    @RequestMapping(value = "chat/chatRoomList", method = RequestMethod.GET)
-   public String selectChatRoomList( Model model, HttpServletRequest request) {
-      
-      session = request.getSession();
-      if(session.getAttribute("loginUser")== null) {
+   public String selectChatRoomList(Model model, 
+                            HttpServletRequest request, HashMap<Object, Object> paramMap,
+                            @RequestParam(value = "currentPage", defaultValue = "1") int currentPage) {
+         session = request.getSession();
          
-         session.setAttribute("errorMsg", "로그인 후 이용 가능합니다.");
          
-         return "redirect:/";
-      }else {
-         int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
-         
-         logger.info("유저 정보 "+userNo+"번");
-         
-         List<ChatRoom> crList = chatService.selectChatRoomList(userNo);
-         
-         model.addAttribute("chatRoomList", crList);
-         
-         logger.info(crList+ ">> 채팅방 리스트 조회");
-         
-         logger.info(">> 채팅방 리스트로 이동");
-         
+         if(session.getAttribute("loginUser")== null) {
+            
+            session.setAttribute("errorMsg", "로그인 후 이용 가능합니다.");
+            
+            return HomeController.HOME;
+
+         } else {
+            int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
+            
+            HashMap<Object, Object> map = chatService.selectChatRoomList(userNo, paramMap, currentPage);
+
+             model.addAttribute("map", map);
+             
+             logger.info(">> 채팅방 리스트로 이동");
+
+
          return "chat/chatRoomList";
       }
-      
+
    }
-   
-   
-   // 채팅하기 (방생성 > 입장하기 or 입장하기)
-   @RequestMapping(value="chat/chatRoom/{sellNo}/{userNo}", method = RequestMethod.POST)
+
+      /**
+       * 방 생성하기, 방입장하기 - 리팩토링 중
+       * @param sellNo
+       * @param userNo
+       * @param sellUserNo
+       * @param chatRoomNo
+       * @param room
+       * @param roomJoin
+       * @param account
+       * @param model
+       * @param block
+       * @param session
+       * @return
+       */
+   @RequestMapping(value = "chat/chatRoom/{sellNo}/{userNo}", method = RequestMethod.GET)
    public String createAndEnterChatRoom(@PathVariable String sellNo,
-                         @PathVariable String userNo,
-                         @RequestParam(value="sellUserNo", required=false) String sellUserNo,
-                         @RequestParam(value="chatRoomNo", required=false) String chatRoomNo,
-                         ChatRoom room,
-                         ChatRoomJoin roomJoin,
-                         Model model,
-                         Block block,
-                         HttpSession session) {
-      
+                              @PathVariable String userNo,
+                                 @RequestParam(value="sellUserNo", required=false) String sellUserNo,
+                                 @RequestParam(value="chatRoomNo", required=false) String chatRoomNo,
+                                 ChatRoom room,
+                                 ChatRoomJoin roomJoin,
+                                 Account account,
+                                 Model model,
+                                 Block block,
+                                 HttpSession session,
+                                 HashMap<Object,Object> AllList) {
+
       room.setSellNo(Integer.parseInt(sellNo));
       room.setUserNo(Integer.parseInt(userNo));
-      if(chatRoomNo != null) {
-         room.setChatRoomNo(Integer.parseInt(chatRoomNo));
-      }
       
-      logger.info(">> 채팅방으로 이동");
+       logger.info("chatRoomNo : "+chatRoomNo);
       
-      
-      HashMap<Object,Object> AllList = new HashMap<>();
-      AllList =  chatService.createAndEnterChatRoom(room, sellUserNo, roomJoin, block);
-      model.addAttribute("chatRoomNo", room.getChatRoomNo() );
-      
-      if(AllList.size() > 0) {
+        // 채팅방이 있으면 채팅방 객체에 채팅방 번호 넣어주겠다.
+         if(chatRoomNo != null) {
+            room.setChatRoomNo(Integer.parseInt(chatRoomNo));
+         }
+
+      // @SessionAttributes 쓰기위한 작업
          
-         model.addAttribute("AllList", AllList);
+         AllList =  chatService.createAndEnterChatRoom(AllList, room, sellUserNo, roomJoin, block, account);
          
-         return "chat/chatRoom";
+         model.addAttribute("chatRoomNo", room.getChatRoomNo() );
          
-      } else {
+         logger.info("Integer.valueOf(sellNo) : "+Integer.valueOf(sellNo));
          
-         session.setAttribute("alertMsg", "채팅방 입장에 실패하였습니다.");
-         return "redirect:/";
-      }
+         
+         String reviewIs = chatService.reviewIs(Integer.valueOf(sellNo));
+         
+         if(AllList.size() > 0) {
+            
+            model.addAttribute("AllList", AllList);
+            
+            model.addAttribute("reviewIs",reviewIs);
+            return "chat/chatRoom";
+            
+         } else {
+            
+            session.setAttribute("alertMsg", "채팅방 입장에 실패하였습니다.");
+            return "redirect:/";
+         }
    }
 
-   
-   
-   //채팅방 차단목록 이동
-   @RequestMapping(value = "chat/chatBlockList",  method = RequestMethod.POST)
+   // 채팅방 차단목록 이동
+   @RequestMapping(value = "chat/chatBlockList", method = RequestMethod.POST)
    public String selectBlockList(Model model, HttpSession session) {
-   
-      int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
-      
+
+      int userNo = ((Member) session.getAttribute("loginUser")).getUserNo();
+
       List<Block> blockList = chatService.selectBlockList(userNo);
       model.addAttribute("blockList", blockList);
-      
+
       return "chat/chatBlockList";
    }
-   
-   
-   
-   //차단 리스트에 추가, 차단하기
-   @RequestMapping(value="chat/chatBlockAdd", method = RequestMethod.POST)
-   @ResponseBody
-   public String addBlock(@RequestParam(value="sellUserNo", required=false) int sellUserNo,
-                     	  @RequestParam(value="chatRoomNo", required=false) int chatRoomNo,
-                     	  @RequestParam(value="purchaseUserNo", required=false) int purchaseUserNo,
-                     	  Model model,
-                     	  HttpSession session,
-                     	  Block block) {
-	   
-	   
-	   // 로그인 한유저
-	   int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
-	   
-	   int result = chatService.addBlock(sellUserNo, chatRoomNo, purchaseUserNo, userNo,block);
 
-       return String.valueOf(result);
-      
-    }
-   
+   // 차단 리스트에 추가, 차단하기
+   @RequestMapping(value = "chat/chatBlockAdd", method = RequestMethod.POST)
+   @ResponseBody
+   public String addBlock(@RequestParam(value = "sellUserNo", required = false) int sellUserNo,
+         @RequestParam(value = "chatRoomNo", required = false) int chatRoomNo,
+         @RequestParam(value = "purchaseUserNo", required = false) int purchaseUserNo, Model model,
+         HttpSession session, Block block) {
+
+      // 로그인 한유저
+      int userNo = ((Member) session.getAttribute("loginUser")).getUserNo();
+
+      int result = chatService.addBlock(sellUserNo, chatRoomNo, purchaseUserNo, userNo, block);
+
+      return String.valueOf(result);
+
+   }
+
    // 차단 풀기
-   @RequestMapping(value="chat/chatBlockremove", method = RequestMethod.POST)
+   @RequestMapping(value = "chat/chatBlockremove", method = RequestMethod.POST)
    @ResponseBody
-   public String deleteBlock(@RequestParam(value="sellUserNo", required=false) String sellUserNo,
-                     	  @RequestParam(value="chatRoomNo", required=false) String chatRoomNo,
-                     	  @RequestParam(value="purchaseUserNo", required=false) String purchaseUserNo,
-                     	  @RequestParam(value="blockedUserNo", required=false) String blockedUserNo,
-                     	  Model model,
-                     	  HttpSession session,
-                     	  Block block) {
-	   
-	   logger.info(purchaseUserNo+"");
-	   logger.info(blockedUserNo+"");
-	   logger.info(sellUserNo+"");
-	   
-	   // 로그인 한유저
-	   int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
-	   
-	   
-	   int result = chatService.deleteBlock(sellUserNo, chatRoomNo, purchaseUserNo, userNo, block, blockedUserNo);
-	   if(result == 1) {
-		   return String.valueOf(result);
-	   } else {
-		   return "0";
-	   }
-	   	
-       
-      
-    }
+   public String deleteBlock(@RequestParam(value = "sellUserNo", required = false) String sellUserNo,
+         @RequestParam(value = "chatRoomNo", required = false) String chatRoomNo,
+         @RequestParam(value = "purchaseUserNo", required = false) String purchaseUserNo,
+         @RequestParam(value = "blockedUserNo", required = false) String blockedUserNo, Model model,
+         HttpSession session, Block block) {
 
-   
-   
-   
-   //채팅방 나가기
+      logger.info(purchaseUserNo + "");
+      logger.info(blockedUserNo + "");
+      logger.info(sellUserNo + "");
+
+      // 로그인 한유저
+      int userNo = ((Member) session.getAttribute("loginUser")).getUserNo();
+
+      int result = chatService.deleteBlock(sellUserNo, chatRoomNo, purchaseUserNo, userNo, block, blockedUserNo);
+      if (result == 1) {
+         return String.valueOf(result);
+      } else {
+         return "0";
+      }
+
+   }
+
+   // 채팅방 나가기
    @RequestMapping(value = "chat/chatRoom/exit", method = RequestMethod.POST)
-@ResponseBody
-	public int exitChatRoom(@RequestParam String userNo,
-							@RequestParam String chatRoomNo,
-							ChatRoomJoin join) {
-		
-		int result = chatService.exitChatRoom(join, chatRoomNo, userNo);
-		
-		return result;
-   }
-
-   
-   // 네고 가격결정
-   @RequestMapping(value="join/nego", method = RequestMethod.POST)
    @ResponseBody
-   public int insertNegoPrice(@RequestParam int negoPrice,
-                        @RequestParam int sellNo,
-                        @RequestParam int chatRoomNo,
-                        Sell nego
-                                 ) {
-      
-      int result = chatService.insertNegoPrice(negoPrice, sellNo, chatRoomNo, nego);
-      
+   public int exitChatRoom(@RequestParam String userNo, @RequestParam String chatRoomNo, ChatRoomJoin join) {
+
+      int result = chatService.exitChatRoom(join, chatRoomNo, userNo);
+
       return result;
-      
    }
-   
-   
-	// 채팅첨부파일
-	@ResponseBody
-	@RequestMapping(value = "chat/chatFile/insert", method = RequestMethod.POST)
-	public Map<String, String> insertFile(MultipartFile uploadfile, @RequestParam(value = "chatRoomNo") int chatRoomNo,
-			ChatFiles chatfiles, HttpSession session) {
 
-		List<ChatFiles> chatFilesList = new ArrayList<>();
+   // 네고 가격결정
+   @RequestMapping(value = "join/nego", method = RequestMethod.POST)
+   @ResponseBody
+   public int insertNegoPrice(@RequestParam int negoPrice, @RequestParam int sellNo, @RequestParam int chatRoomNo,
+         Sell nego) {
 
-		int result = 0;
+      int result = chatService.insertNegoPrice(negoPrice, sellNo, chatRoomNo, nego);
 
-		if (!uploadfile.isEmpty()) {
+      return result;
 
-			String webPath = "/resources/images/chat/";
-			String serverFolderPath = session.getServletContext().getRealPath(webPath);
+   }
 
-			File file = null;
+   // 채팅첨부파일
+   @ResponseBody
+   @RequestMapping(value = "chat/chatFile/insert", method = RequestMethod.POST)
+   public Map<String, String> insertFile(MultipartFile uploadfile, @RequestParam(value = "chatRoomNo") int chatRoomNo,
+         ChatFiles chatfiles, HttpSession session) {
 
-			// 폴더 생성
-			if (!uploadfile.getOriginalFilename().equals("")) {
-				String savePath = session.getServletContext().getRealPath("/resources/images/chat/");
+      List<ChatFiles> chatFilesList = new ArrayList<>();
 
-				file = new File(savePath);
-				if (!file.exists()) {
-					file.mkdirs();
-				}
+      int result = 0;
 
-				String changeName = Image.saveFile(uploadfile, savePath);
+      if (!uploadfile.isEmpty()) {
 
-				System.out.println("chat savePath ." + savePath);
-				System.out.println("chat ChangeName 2." + changeName);
+         String webPath = "/resources/images/chat/";
+         String serverFolderPath = session.getServletContext().getRealPath(webPath);
 
-				chatfiles.setChatRoomNo(chatRoomNo);
-				chatfiles.setOriginName(uploadfile.getOriginalFilename());
-				chatfiles.setChangeName(changeName);
-				chatfiles.setFilePath(savePath);
-				chatfiles.setUserNo(((Member) session.getAttribute("loginUser")).getUserNo());
-			}
+         File file = null;
 
-			result = chatService.insertchatImage(chatfiles);
+         // 폴더 생성
+         if (!uploadfile.getOriginalFilename().equals("")) {
+            String savePath = session.getServletContext().getRealPath("/resources/images/chat/");
 
-		}
+            file = new File(savePath);
+            if (!file.exists()) {
+               file.mkdirs();
+            }
 
-		Map<String, String> map = new HashMap<>();
-				
-		if (result > 0) {
-			
-			 map.put("originName",chatfiles.getOriginName());
-		     map.put("changeName",chatfiles.getChangeName());
-					
-		}
-		
-		return map;
-	}
-   
-   
+            String changeName = Image.saveFile(uploadfile, savePath);
+
+            System.out.println("chat savePath ." + savePath);
+            System.out.println("chat ChangeName 2." + changeName);
+
+            chatfiles.setChatRoomNo(chatRoomNo);
+            chatfiles.setOriginName(uploadfile.getOriginalFilename());
+            chatfiles.setChangeName(changeName);
+            chatfiles.setFilePath(savePath);
+            chatfiles.setUserNo(((Member) session.getAttribute("loginUser")).getUserNo());
+         }
+
+         result = chatService.insertchatImage(chatfiles);
+
+      }
+
+      Map<String, String> map = new HashMap<>();
+
+      if (result > 0) {
+
+         map.put("originName", chatfiles.getOriginName());
+         map.put("changeName", chatfiles.getChangeName());
+
+      }
+
+      return map;
+   }
 
 }

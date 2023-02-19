@@ -108,6 +108,11 @@ public class MemberDao {
 		 sqlSession.update("memberMapper.updateAccount", account);
 	}
 
+	public static Account selectAccountInfo(SqlSession sqlSession, long account) {
+		
+		return null;
+	}
+
 
 
 

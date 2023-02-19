@@ -31,6 +31,7 @@ import com.kh.tresure.sell.model.vo.Sell;
 public class HomeController {
 	private int count = 0; 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	public static final String HOME = null;
 	private SellService sellService;
 	private KakaoAPI kakao;
 	private MemberService memberservice;

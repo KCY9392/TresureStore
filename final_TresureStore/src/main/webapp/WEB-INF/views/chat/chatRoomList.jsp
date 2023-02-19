@@ -20,8 +20,12 @@
     <title>보물상점</title>
     <!-- css 링크 -->
     <link rel="stylesheet" href="/tresure/resources/css/chat/chatRoomList.css">    
+<style>
+.search2 {
+	margin-top: 0px !important;
+}
+</style>
 </head>
-
 <body>
     <jsp:include page="../common/header.jsp" />
     <jsp:include page="../common/sideBar.jsp" />

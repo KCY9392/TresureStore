@@ -130,14 +130,14 @@
 										class="rounded float-start" alt="">
 								</c:if>
 								<c:if test="${s.sellStatus eq 'C' }">
-					                              <div class="over-img">
+					                             <div class="over-img">
 					                              <div class="text-c" style="color: white;
 												   
 												    margin-top: 180px;
-												    margin-bottom: 195px;">
+												     margin-bottom: 195px;">
 					                      		  <h1>판매완료</h1>
 					                      		  </div>
-					                      		  </div>
+					                      		 </div>
 					                      		  
 			                   </c:if>
                         	</div>
