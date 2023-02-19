@@ -12,64 +12,90 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kh.tresure.common.model.dto.PageInfo;
 import com.kh.tresure.chat.model.dao.ChatDao;
 import com.kh.tresure.chat.model.vo.Block;
 import com.kh.tresure.chat.model.vo.ChatFiles;
 import com.kh.tresure.chat.model.vo.ChatMessage;
 import com.kh.tresure.chat.model.vo.ChatRoom;
 import com.kh.tresure.chat.model.vo.ChatRoomJoin;
+
+import com.kh.tresure.common.model.dto.PageInfo;
+import com.kh.tresure.common.template.Pagination;
+import com.kh.tresure.member.model.dao.MemberDao;
+import com.kh.tresure.member.model.vo.Account;
+
+import com.kh.tresure.member.model.dao.MemberDao;
+import com.kh.tresure.member.model.vo.Account;
+
 import com.kh.tresure.member.model.vo.Member;
 import com.kh.tresure.sell.model.dao.SellDao;
 import com.kh.tresure.sell.model.vo.Sell;
 
 @Service
-public class ChatServiceImpl implements ChatService{
-   private ChatDao chatDao;
-   private SqlSession sqlSession;
-   private Logger logger = LoggerFactory.getLogger(ChatServiceImpl.class);
-   
-   
+public class ChatServiceImpl implements ChatService {
+	private ChatDao chatDao;
+	private SqlSession sqlSession;
+	private Pagination pagination;
+	private Logger logger = LoggerFactory.getLogger(ChatServiceImpl.class);
+
 	@Autowired
-	public ChatServiceImpl(SqlSession sqlSession, ChatDao chatDao, Pagination pagination) {
-		this.sqlSession = sqlSession;
-		this.chatDao = chatDao;
-		this.pagination = pagination;
-
+    public ChatServiceImpl(SqlSession sqlSession, ChatDao chatDao, Pagination pagination) {
+	   this.sqlSession = sqlSession;
+	   this.chatDao = chatDao;
+	   this.pagination = pagination;
+      
+   }
+    /**
+     * 채팅방 리스트 가져오기 (페이징처리) - 리팩토링 완료
+     */
+	@Override	
+	 public HashMap<Object, Object> selectChatRoomList(int userNo, HashMap<Object, Object> paramMap, int currentPage){
+		   
+		   // 페이징 처리
+		   int listCount = chatDao.selectChatListCount(sqlSession, userNo);
+		   int pageLimit = 10;
+		   int viewLimit = 10;
+		   
+		   PageInfo pi = pagination.getPageInfo(listCount, currentPage, pageLimit, viewLimit);
+		   
+		   // 페이징 처리와 유저번호 해시맵에 담기
+		   paramMap.put("userNo", userNo);
+		   paramMap.put("pi", pi);
+		   
+		   List<ChatRoom> crList = chatDao.selectChatRoomList(sqlSession, paramMap);
+		   
+		   // 객체 해시맵에 담기
+		   paramMap.put("crList", crList);
+		   
+		   return paramMap;
 	}
-
-	/**
-	 * 채팅방 리스트 가져오기 (페이징처리) - 리팩토링 완료
-	 */
-	@Override
-	public HashMap<Object, Object> selectChatRoomList(int userNo, HashMap<Object, Object> paramMap, int currentPage) {
-
-		// 페이징 처리
-		int listCount = chatDao.selectChatListCount(sqlSession, userNo);
-		int pageLimit = 10;
-		int viewLimit = 10;
-
-		PageInfo pi = pagination.getPageInfo(listCount, currentPage, pageLimit, viewLimit);
-
-		// 페이징 처리와 유저번호 해시맵에 담기
-		paramMap.put("userNo", userNo);
-		paramMap.put("pi", pi);
-
-		List<ChatRoom> crList = chatDao.selectChatRoomList(sqlSession, paramMap);
-
-		// 객체 해시맵에 담기
-		paramMap.put("crList", crList);
-
-		return paramMap;
-	}
-
-	/**
-	 * 채팅방 생성하기, 입장하기 - 리팩토링 완료
-	 */
+   
+	   /**
+	    * 채팅방 생성하기, 입장하기 - 리팩토링 완료
+	    */
 	@Override
 	@Transactional
-	public HashMap<Object, Object> createAndEnterChatRoom(HashMap<Object, Object> allList, ChatRoom room,
-			String sellUserNo, ChatRoomJoin roomJoin, Block block, Account account) {
-		
+	public HashMap<Object, Object> createAndEnterChatRoom(HashMap<Object, Object> allList, ChatRoom room, String sellUserNo, 
+				ChatRoomJoin roomJoin, Block block, Account account) {
+
+		HashMap<Object, Object> AllList = new HashMap<>();
+		int chatRoomNo = 0;
+
+		if (Integer.parseInt(sellUserNo) != room.getUserNo()) {
+			// 채팅방 존재하는지 검사
+			int result = chatDao.selectChatRoomByObject(sqlSession, room);
+
+			// 채팅방 생성
+			if (result == 0) {
+				chatRoomNo = chatDao.createChatRoom(sqlSession, room);
+			} else {
+				chatRoomNo = chatDao.selectChatRoomNo(sqlSession, room);
+			}
+		} else {
+			chatRoomNo = room.getChatRoomNo();
+		}
+
 		if (chatRoomNo == 0) {
 			return AllList;
 		}
@@ -224,7 +250,6 @@ public class ChatServiceImpl implements ChatService{
 	}
 
 	// 로그인한 유저가 상대방 차단 하기
-	@Override
 	public int addBlock(int sellUserNo, int chatRoomNo, int purchaseUserNo, int userNo, Block block) {
 
 		block.setBlockerNo(userNo);
@@ -243,7 +268,6 @@ public class ChatServiceImpl implements ChatService{
 	}
 
 	// 차단 풀기
-	@Override
 	public int deleteBlock(String sellUserNo, String chatRoomNo, String purchaseUserNo, int userNo, Block block,
 			String blockedUserNo) {
 
@@ -266,14 +290,13 @@ public class ChatServiceImpl implements ChatService{
 		return result;
 	}
 
- //채팅 첨부파일 보내기
-   public int insertchatImage(ChatFiles chatfiles) {
-	   
-	   return chatDao.insertchatImage(sqlSession, chatfiles);
-   }
-   
+	// 채팅 첨부파일 보내기
+	public int insertchatImage(ChatFiles chatfiles) {
+
+		return chatDao.insertchatImage(sqlSession, chatfiles);
+	}
+
 	// 스케줄링 실행할 채팅창 첨부파일 가져오기
-	@Override
 	public ArrayList<ChatFiles> selectAttachment() {
 
 		ArrayList<ChatFiles> list = chatDao.selectAttachment(sqlSession);
@@ -281,7 +304,7 @@ public class ChatServiceImpl implements ChatService{
 		return list;
 
 	}
-
+  
 	// 채팅창에서 거래된 상품의 리뷰등록 여부
 	@Override
 	public String reviewIs(int sellNo) {

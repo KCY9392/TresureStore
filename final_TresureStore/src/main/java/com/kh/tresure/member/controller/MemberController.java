@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.kh.tresure.heart.model.vo.Heart;
 import com.kh.tresure.member.model.service.KakaoAPI;
 import com.kh.tresure.member.model.service.MemberService;
+import com.kh.tresure.member.model.service.NaverLoginBO;
 import com.kh.tresure.member.model.vo.Account;
 import com.kh.tresure.member.model.vo.Member;
 import com.kh.tresure.mypage.model.service.MyPageService;
+import com.kh.tresure.report.model.vo.Report;
 import com.kh.tresure.review.model.vo.Review;
 import com.kh.tresure.sell.model.vo.Sell;
 
@@ -42,26 +46,24 @@ public class MemberController {
 	private KakaoAPI kakao;
 	private MemberService memberService;
 	private MyPageService mypageService;
-
 	/* NaverLoginBO */
 	private NaverLoginBO naverLoginBO;
 	private String apiResult = null;
-
+	
 	// 기본생성자
 	public MemberController() {
 	}
 
 	@Autowired
 
-	public MemberController(MessageController messageController, MemberService memberService, KakaoAPI kakao,
-			MyPageService mypageService, NaverLoginBO naverLoginBO) {
+	public MemberController(MessageController messageController, MemberService memberService, KakaoAPI kakao, MyPageService mypageService, NaverLoginBO naverLoginBO){
 		this.messageController = messageController;
 		this.memberService = memberService;
 		this.kakao = kakao;
-		this.mypageService = mypageService;
-		this.naverLoginBO = naverLoginBO;
+		this.mypageService=mypageService;
+		this.naverLoginBO=naverLoginBO;
 	}
-
+	
 	/*
 	 * // 통합로그인 창으로 이동하는 메소드
 	 * 
@@ -100,13 +102,14 @@ public class MemberController {
 		}
 
 		// 메세지 보내기 실행
-		// int randomNum = messageController.sendOne(phone);
 
+		//int randomNum = messageController.sendOne(phone);
+		
 		model.addAttribute("userName", userName);
 		model.addAttribute("birth", birth);
 		model.addAttribute("phone", phone);
-		model.addAttribute("randomNum", 123123);
-
+		model.addAttribute("randomNum",123123);
+		
 		return "member/authenticationNumberForm";
 	}
 
@@ -170,7 +173,9 @@ public class MemberController {
 
 		HttpSession session = request.getSession();
 		session.removeAttribute("loginUser");
-		session.removeAttribute("oauthToken");
+
+		session.removeAttribute("oauthToken");	
+
 		session.setAttribute("alertMsg", "다음에 또 오세요 ^ㅁ^");
 		return "redirect:/";
 	}
@@ -249,61 +254,63 @@ public class MemberController {
 		return "redirect:/";
 	}
 
-
-	// 로그인 첫 화면 요청 메소드
-	@RequestMapping(value = "/loginJoinForm", method = { RequestMethod.GET, RequestMethod.POST })
-	public String login(Model model, HttpSession session) {
-
-		logger.info(">> 회원가입 폼으로 이동");
-
-		/* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
-		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
-
-		// https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=sE***************&
-		// redirect_uri=http%3A%2F%2F211.63.89.90%3A8090%2Flogin_project%2Fcallback&state=e68c269c-5ba9-4c31-85da-54c16c658125
-		System.out.println("네이버:" + naverAuthUrl);
-
-		// 네이버
-		model.addAttribute("url", naverAuthUrl);
-
-		return "member/memberLoginForm";
-	}
-
-	// 네이버 로그인 성공시 callback호출 메소드
-	@RequestMapping(value = "/naverCallback", method = { RequestMethod.GET, RequestMethod.POST })
-	public String callback(Member m, Model model, @RequestParam String code, @RequestParam String state,
-			HttpSession session) throws IOException, ParseException {
-
-		System.out.println("여기는 callback");
-		OAuth2AccessToken oauthToken;
-		oauthToken = naverLoginBO.getAccessToken(session, code, state);
-
-		m = naverLoginBO.getNavUserInfo(oauthToken);
-
-		Member userInfo = memberService.loginAndMemberEnroll(m);
-
-		if (userInfo == null) {
-
-			session.setAttribute("alertMsg", "로그인 및 회원가입을 할 수 없는 유저입니다.");
-
-		} else {
-
-			// 4.파싱 닉네임 세션으로 저장
-			session.setAttribute("loginUser", userInfo); // 세션 생성
-			session.setAttribute("oauthToken", oauthToken);
-
-			System.out.println("" + userInfo);
-
-		}
-
-		return "redirect:/";
-	}
-
+	
+	//로그인 첫 화면 요청 메소드
+			@RequestMapping(value = "/loginJoinForm", method = { RequestMethod.GET, RequestMethod.POST })
+			public String login(Model model, HttpSession session) {
+				
+				logger.info(">> 회원가입 폼으로 이동");
+				
+				/* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
+				String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
+				
+				//https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=sE***************&
+				//redirect_uri=http%3A%2F%2F211.63.89.90%3A8090%2Flogin_project%2Fcallback&state=e68c269c-5ba9-4c31-85da-54c16c658125
+				System.out.println("네이버:" + naverAuthUrl);
+				
+				//네이버 
+				model.addAttribute("url", naverAuthUrl);
+		 
+				return "member/memberLoginForm";
+			}
+			
+			//네이버 로그인 성공시 callback호출 메소드
+			@RequestMapping(value = "/naverCallback", method = { RequestMethod.GET, RequestMethod.POST })
+			public String callback(Member m, Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException, ParseException {
+				
+				System.out.println("여기는 callback");
+				OAuth2AccessToken oauthToken;
+		        oauthToken = naverLoginBO.getAccessToken(session, code, state);
+		 
+		        m = naverLoginBO.getNavUserInfo(oauthToken);
+		        
+				Member userInfo = memberService.loginAndMemberEnroll(m);
+				
+				if(userInfo==null) {
+					
+					session.setAttribute("alertMsg", "로그인 및 회원가입을 할 수 없는 유저입니다.");
+				
+				}else {
+				
+					//4.파싱 닉네임 세션으로 저장
+					session.setAttribute("loginUser",userInfo); //세션 생성
+					session.setAttribute("oauthToken", oauthToken);
+					
+					
+					
+					System.out.println(""+userInfo);
+				
+				}
+			     
+				return "redirect:/";
+			}
+	
+	
 	// 회원탈퇴
-	@RequestMapping(value = "member/myPage/delete", method = RequestMethod.GET)
-	public String deleteMember(HttpSession session, Model model) {
-
-		int userNo = ((Member) session.getAttribute("loginUser")).getUserNo();
+	@RequestMapping(value = "delete", method = RequestMethod.GET)
+	public String deleteMember(HttpSession session ,Model model) {
+	      
+		int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
 
 		memberService.deleteMember(userNo);
 
@@ -314,104 +321,107 @@ public class MemberController {
 			session.setAttribute("alertMsg", "감사했습니다 ^_^7");
 		}
 
-		// 네이버 회원탈퇴
-		if ((OAuth2AccessToken) session.getAttribute("oauthToken") != null) {
+		//네이버 회원탈퇴
+				if((OAuth2AccessToken)session.getAttribute("oauthToken") != null) {
+					
+					OAuth2AccessToken oauthToken = (OAuth2AccessToken) session.getAttribute("oauthToken");
 
-			OAuth2AccessToken oauthToken = (OAuth2AccessToken) session.getAttribute("oauthToken");
-
-			String apiUrl = "https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id=" + NaverLoginBO.CLIENT_ID
-					+ "&client_secret=" + NaverLoginBO.CLIENT_SECRET + "&access_token=" + oauthToken.getAccessToken()
-					+ "&service_provider=NAVER";
-
-			logger.info("apiUrl=====" + apiUrl);
-			try {
-				String res = naverLoginBO.requestToServer(apiUrl);
-				model.addAttribute("res", res); // 결과값 찍어주는용
-
-				session.removeAttribute("access_Token");
-				session.removeAttribute("oauthToken");
-				session.removeAttribute("loginUser");
-				session.setAttribute("alertMsg", "감사했습니다 ^_^7");
-			} catch (IOException e) {
-
-				e.printStackTrace();
-
+					
+					String apiUrl = "https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id="+NaverLoginBO.CLIENT_ID+"&client_secret="+NaverLoginBO.CLIENT_SECRET+"&access_token="+oauthToken.getAccessToken()+"&service_provider=NAVER";
+							
+								
+								logger.info("apiUrl====="+apiUrl);
+								try {
+									String res = naverLoginBO.requestToServer(apiUrl);
+									model.addAttribute("res", res); //결과값 찍어주는용
+									
+									session.removeAttribute("oauthToken");
+									session.removeAttribute("loginUser");
+									session.setAttribute("alertMsg", "감사했습니다 ^_^7");
+								} catch (IOException e) {
+									
+									e.printStackTrace();
+					
+				}
+				
 			}
-
-		}
-
+		
+      
 		return "redirect:/";
 	}
-
-	// 계좌추가
+	   
+	
+	//계좌추가
 	@ResponseBody
 	@RequestMapping(value = "member/account", method = RequestMethod.POST)
-	public int userAddAccount(Integer result, Account accountInfo, HttpSession session, String account, int userNo,
-			String bankInfo) {
-
+	public int userAddAccount (Integer result, Account accountInfo, HttpSession session, String account, int userNo, String bankInfo) {
+		
 		accountInfo.setUserNo(userNo);
 		accountInfo.setAccount(account);
 		accountInfo.setBank(bankInfo);
+		
+		result =  memberService.userAddAccount(accountInfo);
 
-		result = memberService.userAddAccount(accountInfo);
-
-		logger.info(result + "result값");
-		logger.info(" 계좌 >>" + accountInfo);
+		logger.info(result+"result값");
+		logger.info(" 계좌 >>"+ accountInfo);
 		logger.info(" >> 계좌 리스트에 추가 완료");
-
+		
 		return result;
-
+		
 	}
 
-	// 계좌 수정
+	
+	//계좌 수정
 	@ResponseBody
 	@RequestMapping(value = "member/accountUpdate", method = RequestMethod.POST)
-	public int updateAccount(Integer result, Account accountInfo, HttpSession session, String account, int userNo,
-			String bankInfo) {
-
+	public int updateAccount (Integer result, Account accountInfo, HttpSession session, String account, int userNo, String bankInfo) {
+		
 		accountInfo.setUserNo(userNo);
 		accountInfo.setAccount(account);
 		accountInfo.setBank(bankInfo);
-
-		result = memberService.updateAccount(accountInfo);
-
+		
+		result =  memberService.updateAccount(accountInfo);
+		
 		return result;
-
+		
 	}
+	
 
-	// 로그인 유저 계좌 가져오기
+		
+	//로그인 유저 계좌 가져오기
 	@ResponseBody
 	@RequestMapping(value = "member/sellEnter", method = RequestMethod.POST)
-	public int sellInsertForm(HttpServletRequest request, int userNo, Account account) {
-
+	public int sellInsertForm(HttpServletRequest request, int userNo, Account account) { 
+		
 		account.setAccount(String.valueOf(userNo));
-
+		
 		int result = memberService.accountNumber(account);
-
-		if (result > 0) {
-
+		
+		if(result > 0) {
 			return Integer.parseInt(account.getAccount());
 		}
 		return result;
-
 	}
-
-	// 관리자 페이지로 이동
+	
+	//관리자 페이지로 이동
 	@RequestMapping(value = "common/admin", method = RequestMethod.GET)
-	public String admin() {
-
+	public String admin() { 
+	
 		return "common/admin";
 	}
+	
 
-	// 관리자페이지 결제관리
+	//관리자페이지 결제관리
 	@RequestMapping(value = "admin/payAdmin", method = RequestMethod.GET)
 	public String accountList(Model model, HttpSession session) {
 
 		Member loginUser = (Member) session.getAttribute("loginUser");
 
+			
 		List<Account> accountList = memberService.accountList(loginUser.getUserNo());
 		model.addAttribute("accountList", accountList);
-
+		
+		
 		return "common/admin";
 	}
 

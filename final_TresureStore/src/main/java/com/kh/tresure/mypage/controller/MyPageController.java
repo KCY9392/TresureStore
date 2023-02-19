@@ -49,6 +49,7 @@ public class MyPageController {
 		HttpSession session = request.getSession();
 		
 		
+		
 		Member loginUser = (Member)session.getAttribute("loginUser");	
 		if(loginUser==null) {
 			session.setAttribute("errorMsg", "로그인 후 이용가능합니다");
@@ -71,6 +72,9 @@ public class MyPageController {
 			
 			//판매상품 리스트
 			List<Sell> sellList = mypageService.mypageSellList(loginUser.getUserNo());
+			for(int i=0; i<sellList.size(); i++) {
+				sellList.get(i).setTimeago(sellList.get(i).getCreateDate());
+			}
 			//찜 상품 리스트
 			List<Heart> heartList = mypageService.mypageHeartList(loginUser.getUserNo());
 			//리뷰 리스트

@@ -15,11 +15,11 @@
 			<div class="nfavoritesText">찜한상품</div>
 			<div class="nfavoritesCount">
 				<p id="ntoFavorites" class="ntoFavorites">
-					<i class="nfas fa-heart"><img
-						src="https://cdn-icons-png.flaticon.com/512/833/833472.png" width="20">
-            
+					<i class="nfas fa-heart">
+						<img src="https://cdn-icons-png.flaticon.com/512/833/833472.png" width="20">
+
 					<p>${loginUser.heartCount }</p>
-					
+
 					</i>
 				</p>
 			</div>
@@ -39,12 +39,11 @@
 				</div>
 			</div>
 			<div id="recentlyPaging" style="text-align: center;">
-				<button id="recentlySubPage" class="btn subpage"
-					onclick="recentlySubPage()"></button>
-				<a id="currentPage"></a>
-	
-				<button id="recentlyAddPage" class="btn addpage"
-					onclick="recentlyAddPage()"></button>
+				<button id="recentlySubPage" class="btn subpage Btm">&lt;</button>
+
+				<span id="currentPage">1 / 3</span>
+
+				<button id="recentlyAddPage" class="btn addpage Btm">&gt;</button>
 			</div>
 		</div>
 		<!-- 최근 본 상품 끝 -->
@@ -53,19 +52,19 @@
 		</div>
 	</div>
 
-	
+
 	<script>
-	
+
 		// localStorage에서 products 키값 가져오기.
 		let sideBarProducts = localStorage.getItem("products");
-		
+
 		// 만약 products가 undefined가 아니라면 list 변수에 JSON.parse(sideBarProducts)를 통해서 JSON Array를 만들고, 그게 아니라면 list 변수를 새로운 배열로 생성한다.
 		let sideBarList = sideBarProducts ? JSON.parse(sideBarProducts) : [];
-		
+
 		<c:choose>
 			<c:when test="${sessionScope.loginUser != null}">
-				let sideBarUrl = "${pageContext.request.contextPath}/recent/" + (sideBarList ? "update" : "products");	
-			
+				let sideBarUrl = "${pageContext.request.contextPath}/recent/" + (sideBarList ? "update" : "products");
+
 				$.ajax({
 					url : sideBarUrl,
 					data : JSON.stringify(sideBarList),
@@ -73,7 +72,7 @@
 					dataType : "json",
 					contentType : "application/json",
 					success : function(data) {
-						
+
 						localStorage.removeItem("products");
 
 						$("#nrecentlyList").children().remove();
@@ -88,8 +87,11 @@
 									.append($("<a>", { href : "${pageContext.request.contextPath}/sell/sellDetail/" + elem.sellNo })
 										.append($("<img>", { src : elem.imgSrc }).addClass("nrecentlyImage"))
 									)
+									//.append("<button>").addClass("deleteBtn")
 								)
 						});
+
+						$("#nrecentlyCnt").text(data.length);
 					},
 					error : function() {
 						console.log("오류 발생");
@@ -98,25 +100,99 @@
 			</c:when>
 			<c:otherwise>
 				// 로그인 안할 경우
-				
+
 				// 리스트가 빈값이 아니라면
 				if(sideBarList) {
 					$("#nrecentlyList").children().remove();
-					
+
 					for(let i = 0; i < sideBarList.length; i++) {
 						if(sideBarList[i].crawl == "N") {
 							sideBarList[i].imgSrc = "${pageContext.request.contextPath}" + sideBarList[i].imgSrc;
 						}
 						$("#nrecentlyList")
 							.append($("<li>")
-									.append($("<a>", { href : "${pageContext.request.contextPath}/sell/sellDetail/" + sideBarList[i].sellNo})
+								.append($("<a>", { href : "${pageContext.request.contextPath}/sell/sellDetail/" + sideBarList[i].sellNo})
 										.append($("<img>", { src : sideBarList[i].imgSrc}).addClass("nrecentlyImage"))
 								)
+								//.append("<button>").addClass("deleteBtn")
 							);
 					}
+
 				}
 			</c:otherwise>
 		</c:choose>
+
+		// 처음 인덱스
+		let index = 0;
+
+		$(function(){
+			$("#nrecentlyList").children().each((i, elem) => {
+				// console.log(i, ">=", index, "&&", i, "<=", index + 2, "is", i >= index && i <= index + 2);
+				if (i >= index && i <= index + 2) {
+					$(elem).show();
+				} else {
+					$(elem).hide();
+				}
+			});
+			setCount($("#nrecentlyList").children().length);
+		});
+
+		// 이전 버튼
+		$(document).on("click", "#recentlySubPage", (e) => {
+
+			// index가 0이라면 첫 페이지다.
+			if (index == 0) {
+				console.log("첫 페이지입니다.");
+				return;
+			}
+
+			// 만약 첫 페이지가 아니라면 index에서 3을 빼준다.
+			index -= 3;
+
+			$("#nrecentlyList").children().each((i, elem) => {
+				// i 가 index 이상이고, i가 index에 2를 더한 것 이하라면
+				if (i >= index && i <= index + 2) {
+					// 요소를 보여주고
+					$(elem).show();
+				} else {
+					// 아니라면 감춘다.
+					$(elem).hide();
+				}
+			});
+
+			setCount($("#nrecentlyList").children().length);
+
+		});
+
+		// 다음 버튼
+		$(document).on("click", "#recentlyAddPage", (e) => {
+			// index에 3을 더한 것이 이미지의 개수 이상이라면
+			if ($("#nrecentlyList").children().length <= (index + 3)) {
+				console.log("마지막 페이지입니다.");
+				return;
+			}
+
+			index += 3;
+
+			$("#nrecentlyList").children().each((i, elem) => {
+				// i 가 index 이상이고, i가 index에 2를 더한 것 이하라면
+				if (i >= index && i <= index + 2) {
+					// 요소를 보여주고
+					$(elem).show();
+				} else {
+					// 아니라면 감춘다.
+					$(elem).hide();
+				}
+			});
+
+			setCount($("#nrecentlyList").children().length);
+
+		});
+
+		function setCount(len) {
+			$("#nrecentlyCnt").text(len);
+			$("#currentPage").text((index / 3 + 1) + " / " + (Math.ceil(len / 3)));
+		}
 	</script>
 </body>
 </html>

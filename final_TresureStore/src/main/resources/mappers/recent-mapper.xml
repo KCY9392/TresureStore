@@ -45,6 +45,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM RECENT R, SELL S
 		WHERE R.SELL_NO = S.SELL_NO
 			AND R.USER_NO = #{userNo}
+			AND S.STATUS = 'Y'
 		ORDER BY CREATE_DATE DESC
 	</select>
 
@@ -62,9 +63,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 								WHERE RNUM > 20
 							)
 	</delete>
-
-
-
-
 
 </mapper>

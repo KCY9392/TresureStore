@@ -184,8 +184,18 @@
 	                                        
 	                                        <c:if test="${ null == AllList.get('product').avg || AllList.get('product').avg < 3.5 }">
 	                                            <img src="/tresure/resources/images/icon/grade0.png" width="40px" style="float: left;"/>
-	                                        
-	                                   		</c:if>
+
+	                                        </c:if>
+	                                       
+	                                      <c:if test="${loginUser.userNo != AllList.get('product').userNo }">
+	                                    	<c:set var="sellerUrl" value="${pageContext.request.contextPath }/sell/seller/${AllList.get('product').userNo }" />
+	                                    </c:if>
+	                                    <a href="${sellerUrl }">
+                                         <div class="storeNameTextClass" style="margin-bottom:10px;">
+                                         <span class="store-text">상점 <span class="dd">${AllList.get('product').userNo }</span>호 점</span>
+                                         </div>
+                                         </a>
+                                      </c:if>
                                        
                                        </c:if>
                                        <c:if test="${loginUser.userNo != AllList.get('product').userNo }">
@@ -212,7 +222,8 @@
                                         <c:if test="${ null == AllList.get('purchaseInfo').purchaseUserAvg || AllList.get('purchaseInfo').purchaseUserAvg < 3.5 }">
                                             <img src="/tresure/resources/images/icon/grade0.png" width="40px" /> <span class="store-text">상점 ${AllList.get('purchaseInfo').userNo }호 점</span>
                                         </c:if>
-                                      </c:if>
+                                        </c:if>
+                                     
                                 
                                 
      
@@ -245,9 +256,7 @@
                                 	<button type="submit" class="buttonCss2" id="successDeal" style="width: 100px;padding: 10px;">거래하기</button>
 
                                 </li>
-                            </ul>
-                            
-                                              
+                            </ul>                         
                         </div>
                     </div>
 					<div class="box-body">
@@ -438,6 +447,7 @@
      $('#successDeal').on('click', function(){
      
 	     const acc = "${AllList.get('product').account}";
+	     const bank = "${AllList.get('product').bank}";
 	     
    	   Swal.fire({
 				title: '거래하기',
@@ -449,7 +459,7 @@
 					  <button type="submit" class="btn btn-no swl-cstm-btn-no-jst-prceed deal" id="tresurePay" 
 							                    onclick="requestPay('${AllList.get('product').sellTitle }',
 							                    					'${AllList.get('product').price }',
-							                    					'${AllList.get('product').negoPrice }',
+                                            '${AllList.get('product').negoPrice }',
 							                    					'${AllList.get('purchaseInfo').userNo}',
 							                    					'${AllList.get('product').userNo}',
 							                    					'${pageContext.request.contextPath}',
@@ -467,7 +477,7 @@
 			          
 			          yes.addEventListener('click', () => {
 			        	  Swal.fire({
-			        		  title: '계좌번호 : '+ acc,
+			        		  title: bank+' /   계좌번호 : '+acc,
 			        		  text: '계좌이체를 진행해주세요',
 			        		  icon : 'success',
 			        		  allowOutsideClick : false
@@ -475,6 +485,7 @@
 			        	  console.log(acc+'acc값?');
 			              console.log('계좌이체 버튼 클릭');
 			          })
+
 
 			          no.addEventListener('click', () => {
 			              console.log('결제하기 버튼 클릭');
@@ -499,13 +510,16 @@
    	 //거래하기 버튼 클릭 후 >> 결제하기 버튼
      function requestPay(sellTitle, price, negoPrice, userNo, userNo2, context, sellNo) {
 
-	 		
 	 		console.log('상품명 :'+sellTitle);
 	 		console.log(price+'원');
 	 		console.log('구매자번호 :'+userNo); //구매자번호
 	 		console.log('판매자번호 :'+userNo2); //판매자번호
 	 		console.log(context);
 	 		
+	 		
+	 		if(negoPrice != 0){
+	 			price = negoPrice;
+	 		}
 			//var context = '${pageContext.request.contextPath}';
 
 			//주문번호 생성
@@ -525,8 +539,7 @@
 			//주문번호 
 			const merchant_uid = make_merchant_uid();
 	 
-	 
-	 
+   
 			  IMP.init('imp14878074'); //iamport 대신 자신의 "가맹점 식별코드"를 사용
 			  
 			  IMP.request_pay({
@@ -550,7 +563,8 @@
 									name : sellTitle,
 									buyer_name : userNo,
 									merchant_uid : merchant_uid,
-									sell_no:userNo2
+									sellUserNo:userNo2,
+									sellNo:sellNo
 								},
 								success: function(result) {
 							          if (result) {
@@ -565,6 +579,7 @@
 										title: 'ajax실패',
 										text: '다시 결제해주세요.',
 										icon:'error',
+										allowOutsideClick : false,
 										timer:50000
 										})
 							    }
@@ -573,12 +588,14 @@
 						Swal.fire({
 								title: '결제 실패',
 								text: '다시 결제해주세요.',
-								icon:'error'
+								icon:'error',
+								allowOutsideClick : false
 								})
 						}
 				});
 		}
      
+   	 
 	   //신고버튼 클릭 시
 		 $('#addReport').on('click', function(){
 			 

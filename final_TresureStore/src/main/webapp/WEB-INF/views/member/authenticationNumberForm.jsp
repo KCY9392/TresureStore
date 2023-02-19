@@ -6,10 +6,12 @@
 <meta charset="UTF-8">
 <title>인증번호 입력</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-	<script type="text/javascript" src="/tresure/resources/js/common/header.js"></script>
+	<script type="text/javascript" src="/tresure/resources/js/header.js"></script>
 	<!-- css 링크 -->
-    <link rel="stylesheet" href="/tresure/resources/css/member/authenticationNumberForm.css">   
+    <link type="text/css" rel="stylesheet" href="/tresure/resources/css/member/authenticationNumberForm.css"> 
+    <style>
 
+    </style>  
 </head>
 <body>
 	<jsp:include page="../common/header.jsp"/>

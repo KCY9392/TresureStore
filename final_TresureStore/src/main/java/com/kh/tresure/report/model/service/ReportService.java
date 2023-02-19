@@ -10,10 +10,10 @@ public interface ReportService {
 	public int addReport(Report report, int sellUserNo, String purchaseUserNo, int reporterNo);
 
 	//신고 리스트 조회(불러오기)
-	public List<Report> reportSearchResult(String search);
+	public List<Report> reportSearchResult(String search, String account);
 
 	//신고 카운트
-	public int reportNumber(String search);
+	public Integer reportNumber(String search, String account);
 
 	
 	

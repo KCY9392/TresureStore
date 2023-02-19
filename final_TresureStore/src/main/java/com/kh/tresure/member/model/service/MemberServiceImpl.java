@@ -1,6 +1,7 @@
 package com.kh.tresure.member.model.service;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -117,9 +118,24 @@ public class MemberServiceImpl implements MemberService {
 	
 	//계좌 수정하기
 	@Override
-	public void updateAccount(int account) {
+	public int updateAccount(Account accountInfo) {
 		
-		memberDao.updateAccount(sqlSession, account);
+		return memberDao.updateAccount(sqlSession, accountInfo);
+	}
+	
+	//로그인 유저 계좌 가져오기
+	@Override
+	public int accountNumber(Account account) {
+		
+		return memberDao.accountNumber(sqlSession, account);
+	}
+	
+	//관리자페이지 결제관리
+	@Override
+	public List<Account> accountList(int userNo){
+		
+		return memberDao.accountList(sqlSession, userNo );
+
 	}
 	
 	
