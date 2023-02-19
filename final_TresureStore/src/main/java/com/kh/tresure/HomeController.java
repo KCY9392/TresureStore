@@ -1,10 +1,8 @@
 package com.kh.tresure;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -14,26 +12,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.kh.tresure.member.model.service.KakaoAPI;
 import com.kh.tresure.member.model.service.MemberService;
 import com.kh.tresure.member.model.service.NaverLoginBO;
 import com.kh.tresure.member.model.vo.Member;
-import com.kh.tresure.review.model.vo.Review;
 import com.kh.tresure.sell.model.service.SellService;
 import com.kh.tresure.sell.model.vo.Sell;
 
 @Controller
 public class HomeController {
 	private int count = 0; 
-	public static final String HOME = "redirec:/";
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	public static final String HOME = "redirec:/";
 	private SellService sellService;
 	private KakaoAPI kakao;
 	private MemberService memberservice;
@@ -54,7 +46,7 @@ public class HomeController {
 	public String home(Locale locale, Model model,HttpSession session) {
 
 		List<Sell> sList = sellService.sellListselect();
-		logger.info("sList ? "+sList);
+
 		for(int i=0; i<sList.size(); i++) {
 			sList.get(i).setTimeago(sList.get(i).getCreateDate());
 		}

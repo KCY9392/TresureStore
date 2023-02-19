@@ -127,6 +127,11 @@ public class MemberDao {
 		return sqlSession.selectList("memberMapper.accountList", userNo);
 	}
 
+	public static Account selectAccountInfo(SqlSession sqlSession, long account) {
+		
+		return null;
+	}
+
 
 
 

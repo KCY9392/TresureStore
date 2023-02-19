@@ -39,4 +39,9 @@ public class RecentServiceImpl implements RecentService {
 	public int deleteProduct(Recent recent) {
 		return recentDao.deleteProduct(sqlSession, recent);
 	}
+	
+	@Override
+	public int deleteProducts(Recent recent) {
+		return recentDao.deleteProducts(sqlSession, recent);
+	}
 }
