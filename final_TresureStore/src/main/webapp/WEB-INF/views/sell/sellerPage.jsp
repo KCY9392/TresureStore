@@ -275,24 +275,16 @@
 	<jsp:include page="../common/footer.jsp" />
 
 	<script>
-		$(document).on("click", ".followBtn-sell", (e) => {
-			if("${loginUser.userNo}" == "") {
-				Swal.fire({
-	                icon: 'error',
-	                title: '로그인 후 가능합니다.'
-				})
-				setTimeout(function() {
-  	            	  location.reload();
-  	            	}, 1000);
-				return;
-			} else {
-				if ("${loginUser.userNo}" == "${s.userNo}") {
-			   				Swal.fire({
-				                icon: 'error',
-				                title: '내가 나 자신을 팔로우 할 수는 없습니다.'                  
-				            });
-					return;
-				} 
+	 	$(document).on("click", ".followBtn-sell", (e) => {
+			if ("${loginUser.userNo}" == "${s.userNo}") {
+				$(document).on("click", ".followBtn-sell", (e) => {
+					if ("${loginUser.userNo}" == "${s.userNo}") {
+						Swal.fire({
+			                icon: 'error',
+			                title: '내가 나 자신을 팔로우 할 수는 없습니다.'                  
+			            });
+						return;
+					}
 			}
 	
 			$(e.target).parent().removeClass("followBtn-sell"); // 중복 이벤트 방지를 위해 class를 제거. (class를 제거하면 더 이상 이벤트 발생 안함)
@@ -334,10 +326,11 @@
 	                  	            	}, 1000);
 										
 										$(".followBtm").attr("src", $(".followBtm").attr("src").replace("followSubBtn.png", "followAddBtn.png"));
-										console.log("오류");
 									} else {
-										alert("팔로우 취소에 실패하었습니다.");
-										console.log("오류");
+										Swal.fire({
+				 	   		                icon: 'error',
+				 	   		                title: '팔로우 취소 실패되었습니다.'                  
+				 	   		            });
 									}
 								},
 								error : function() {
@@ -361,6 +354,71 @@
 			})
 	
 		   });
+	 	
+		   //신고버튼 클릭 
+		$('#addReport').on('click', function(){
+				
+			if( !(${loginUser.userNo >= 0}) ){
+				alert("로그인하고 신고해주세요");
+				return;
+			 }
+			 
+	 		Swal.fire({
+	 		  title: '상점신고',
+	 		  input: 'radio',
+	 		  inputOptions: {
+		 			주류_담배 : '주류/담배',
+		 			전문의약품_의료기기 : '전문 의약품/의료기기',
+		 			개인정보거래 : '개인정보 거래',
+		 			음란물_성인용품 : '음란물/성인용품',
+		 			위조상품 : '위조상품',
+		 			총포_도검류 : '총포/도검류',
+		 			게임계정 : '게임 계정',
+		 			동물분양_입양글 : '동물 분양, 입양글',
+		 			기타 : '기타'
+	 		  },
+	 		  customClass: {
+	 			    input: 'inline-flex',
+	 			    inputLabel: 'inline-block'
+	 		  }
+			}).then(function(reportContent) {
+			    if (reportContent.value) {
+			    	Swal.fire('상점신고 완료', reportContent.value+" (으)로 신고하셨습니다.", "success");
+			        reportAdd(reportContent.value);
+			        console.log("Result: " + reportContent.value);
+			    }
+			})
+	 	
+		 };
+	   
+			//신고추가
+		 function reportAdd(value){
+
+			 	const sellUserNo = 	"${AllList.get('product').userNo }";
+			 	const purchaseUserNo = "${AllList.get('purchaseInfo').userNo }";
+			
+				$.ajax({
+					url : "${pageContext.request.contextPath}/report/addReport",
+					data : {reportContent : value,
+							sellUserNo : ${s.userNo}
+	      		},
+					success : function(result){
+						if(result == 1){
+							setTimeout(function() {
+         	            	  location.reload();
+         	            	}, 2000);
+
+						}
+					},
+					error : function(){
+						console.log("통신실패");
+					}
+				});
+	    };
+
+
+
+	<script>
 	 	
 		   //신고버튼 클릭 
 		$('#addReport').on('click', function(){

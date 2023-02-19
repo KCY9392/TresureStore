@@ -256,25 +256,14 @@
 	<jsp:include page="../common/footer.jsp" />
 
 	<script>
-		$(document).on("click", ".followBtn-sell", (e) => {
-			if("${loginUser.userNo}" == "") {
-				Swal.fire({
-	                icon: 'error',
-	                title: '로그인 후 가능합니다.'
-				})
-				setTimeout(function() {
-  	            	  location.reload();
-  	            	}, 1000);
-				return;
-			} else {
-				if ("${loginUser.userNo}" == "${s.userNo}") {
-			   				Swal.fire({
-				                icon: 'error',
-				                title: '내가 나 자신을 팔로우 할 수는 없습니다.'                  
-				            });
-					return;
-				} 
-			}
+	$(document).on("click", ".followBtn-sell", (e) => {
+		if ("${loginUser.userNo}" == "${s.userNo}") {
+			Swal.fire({
+                icon: 'error',
+                title: '내가 나 자신을 팔로우 할 수는 없습니다.'                  
+            });
+			return;
+		}
 
 		$(e.target).parent().removeClass("followBtn-sell"); // 중복 이벤트 방지를 위해 class를 제거. (class를 제거하면 더 이상 이벤트 발생 안함)
 		let fwId = ${member.userNo};
@@ -286,6 +275,7 @@
 			success : function(data) {
 				let result = Number(data.result);
 				if (result == 1) {
+					$(".followBtm").attr("src", $(".followBtm").attr("src").replace("followAddBtn.png", "followSubBtn.png"));
 					Swal.fire({
 	 	   		        icon: 'success',
 	 	   		        title: '팔로우 되었습니다.'
