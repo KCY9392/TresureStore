@@ -306,6 +306,15 @@
      //거래하기 버튼 클릭 시
      $('#successDeal').on('click', function(){
      
+    	 if ("${AllList.get('product').userNo}" == userNo) {
+				Swal.fire({
+	                icon: 'error',
+	                title: '본인 상점은 결제 못 해요 !'              
+	            });
+			return;
+		}
+    	 
+    	 
 	     const acc = "${AllList.get('product').account}";
 	     const bank = "${AllList.get('product').bank}";
 	     

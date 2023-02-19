@@ -22,4 +22,7 @@ public class Report {
 	
 	//신고당한 전체 횟수
 	private int reportCount;
+	
+	private String account;
+	private String seller;
 }

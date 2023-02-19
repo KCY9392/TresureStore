@@ -2,6 +2,7 @@ package com.kh.tresure.report.model.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,33 +74,28 @@ public class ReportServiceImpl implements ReportService {
 		// state가 1이면 신고만 된거 0이면 신고되어서 블랙리스트가 된거
 		return state;
 	}
-	
-	//신고 리스트 조회(불러오기)
+
+	//신고 카운트 조회
 	@Override
-	public List<Report> reportSearchResult(String search, String account){
+	public int selectListCount(String condition, String search) {
 		
-			// @포함하여 검색했을 경우
-			if(search.charAt(0) == '@') {
-				search = search.substring(1);
-				
-				return reportDao.reportSearchResult(sqlSession, search);
-				
-			}else {
-				
-				return reportDao.reportAccountResult(sqlSession, account);
-				
-			}
-		
-	}
-	
-	//신고당한 총 횟수
-	@Override
-	public Integer reportNumber(String search, String account) {
-	
-		HashMap<String, Object> map = new HashMap<>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("condition", condition);
 		map.put("search", search);
-		map.put("account", account);
 		
-		return reportDao.reportNumber(sqlSession, map);
+		return reportDao.selectListCount(sqlSession, map);
 	}
+	
+	//신고 리스트 조회
+	@Override
+	public List<Report> reportSearchResult(String condition, String search){
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("condition", condition);
+		map.put("search", search);
+		
+		return reportDao.reportSearchResult(sqlSession, map);
+	}
+	
 }
