@@ -53,6 +53,9 @@ public interface ChatService {
    // 스케줄링 실행할 채팅창 첨부파일 가져오기
    public ArrayList<ChatFiles> selectAttachment();
 
+   //채팅창에서 거래된 상품의 리뷰등록 여부
+   public String reviewIs(int sellNo);
+
 
 
 

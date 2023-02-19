@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<c:set var="mList" value="${map.mList }" />
+<c:set var="pi" value="${map.pi }" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -102,6 +104,35 @@ tr>td{
  	padding: 0.5rem;
  	line-height: normal;
 }
+#pagingArea {
+	width: 80%;
+	margin: auto;
+}
+
+.pagination {
+	list-style-type: none;
+	width: 100%;
+}
+
+.page-item {
+	border: 1px solid lightgrey;
+	text-align: center;
+	margin-left: 10px;
+	float: left;
+}
+
+.page-link {
+	padding: 15px;
+}
+
+.page-link:active {
+	color: red;
+}
+
+.page-link:hover {
+	color: blue;
+	border: blue;
+}
 
 
 </style>
@@ -130,23 +161,51 @@ tr>td{
 	               <table class="table table-hover list">
 	                  <thead>
 	                     <tr>
-	                     	<th scope="col"></th>
-	                        <th scope="col">상점번호</th>
+	                     	<th scope="col">상점번호</th>
+	                        <th scope="col">신고 당한 횟수</th>
 	                        <th scope="col">회원 상태</th>
-	                        <th scope="col"></th>
-	                        
+	                        <th></th>
 	                     </tr>
 	                  </thead>
+	                  
 	                  <tbody>
-	                     <c:forEach var="black" items="${blackList}">
-	                           <tr onclick="sellDetail(${s.sellNo})">
-	                          	  <td scope="col"></td>
-	                              <td scope="col"> ${black}</td>
-	                              <td scope="col"></td>
-	                              <td><button type="button" class="reviewB" onclick="changeStatus(${s.sellNo});">상태 변경</button></td>
+	                     <c:forEach var="mem" items="${mList}">
+	                           <tr>
+                           	      <td scope="col">${mem.userNo }</td>
+	                              <td scope="col">${mem.reportCount }</td> 
+	                              <td scope="col"><button type="button">상태 변경</button></td>
+	                           </tr>
 	                     </c:forEach>
 	                  </tbody>
 	               </table>
+	               	           <c:set var ="url" value="?currentPage=" />
+	                <!-- 페이지 이동기능 구현 -->
+                <div id="pagingArea">
+                  <ul class="pagination">
+                    <c:choose>
+                      <c:when test="${pi.currentPage eq 1 }">
+                        <li class="page-item disabled"><a class="page-link" href="#">&lt; 이전</a></li>
+                      </c:when>
+                      <c:otherwise>
+                        <li class="page-item"><a class="page-link" href="${url}${pi.currentPage -1 }">&lt; 이전</a></li>
+                        <!-- list.bo?cpage=1 -->
+                      </c:otherwise>
+                    </c:choose>
+
+                    <c:forEach var="item" begin="${pi.startPage }" end="${pi.endPage }">
+                      <li class="page-item"><a class="page-link" href="${url}${item }">${item}</a></li>
+                    </c:forEach>
+
+                    <c:choose>
+                      <c:when test="${pi.currentPage eq pi.maxPage }">
+                        <li class="page-item disabled"><a class="page-link" href="#">다음 &gt;</a></li>
+                      </c:when>
+                      <c:otherwise>
+                        <li class="page-item"><a class="page-link" href="${url}${pi.currentPage +1 }">다음 &gt;</a></li>
+                      </c:otherwise>
+                    </c:choose>
+                  </ul>
+                </div>
 	            </div>
 	         </div>
 	         

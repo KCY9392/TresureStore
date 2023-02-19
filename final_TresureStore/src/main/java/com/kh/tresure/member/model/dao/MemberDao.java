@@ -3,11 +3,13 @@ package com.kh.tresure.member.model.dao;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.kh.tresure.common.model.dto.PageInfo;
 import com.kh.tresure.member.model.vo.Account;
 import com.kh.tresure.member.model.vo.Member;
 import com.kh.tresure.sell.controller.SellController;
@@ -128,6 +130,24 @@ public class MemberDao {
 	}
 
 
+	// 관리자에서 페이징 한 유저관리
+	public List<Member> selectListAll(SqlSession sqlSession, HashMap<Object, Object> paramMap) {
+		
+		int offset =( ((PageInfo)paramMap.get("pi")).getCurrentPage() -1)*((PageInfo)paramMap.get("pi")).getViewLimit();
+	    int limit = ((PageInfo)paramMap.get("pi")).getViewLimit();
+	    
+	    RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return sqlSession.selectList("memberMapper.selectListAll",  null, rowBounds);
+	}
+
+
+	// 유저 전부 몇명인지 세는 것
+	public int selectUserCount(SqlSession sqlSession) {
+
+		return sqlSession.selectOne("memberMapper.selectUserCount");
+	}
+	
 
 
 

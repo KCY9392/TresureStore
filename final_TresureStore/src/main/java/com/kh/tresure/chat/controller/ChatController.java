@@ -88,61 +88,68 @@ public class ChatController {
 
 	}
 
-	   /**
-	    * 방 생성하기, 방입장하기 - 리팩토링 중
-	    * @param sellNo
-	    * @param userNo
-	    * @param sellUserNo
-	    * @param chatRoomNo
-	    * @param room
-	    * @param roomJoin
-	    * @param account
-	    * @param model
-	    * @param block
-	    * @param session
-	    * @return
-	    */
-	@RequestMapping(value = "chat/chatRoom/{sellNo}/{userNo}", method = RequestMethod.GET)
-	public String createAndEnterChatRoom(@PathVariable String sellNo,
-										@PathVariable String userNo,
-							            @RequestParam(value="sellUserNo", required=false) String sellUserNo,
-							            @RequestParam(value="chatRoomNo", required=false) String chatRoomNo,
-							            ChatRoom room,
-							            ChatRoomJoin roomJoin,
-							            Account account,
-							            Model model,
-							            Block block,
-							            HttpSession session,
-							            HashMap<Object,Object> AllList) {
+	
+	
+	 /**
+     * 방 생성하기, 방입장하기 - 리팩토링 중
+     * @param sellNo
+     * @param userNo
+     * @param sellUserNo
+     * @param chatRoomNo
+     * @param room
+     * @param roomJoin
+     * @param account
+     * @param model
+     * @param block
+     * @param session
+     * @return
+     */
+ @RequestMapping(value = "chat/chatRoom/{sellNo}/{userNo}", method = RequestMethod.GET)
+ public String createAndEnterChatRoom(@PathVariable String sellNo,
+                            @PathVariable String userNo,
+                               @RequestParam(value="sellUserNo", required=false) String sellUserNo,
+                               @RequestParam(value="chatRoomNo", required=false) String chatRoomNo,
+                               ChatRoom room,
+                               ChatRoomJoin roomJoin,
+                               Account account,
+                               Model model,
+                               Block block,
+                               HttpSession session,
+                               HashMap<Object,Object> AllList) {
 
-		room.setSellNo(Integer.parseInt(sellNo));
-		room.setUserNo(Integer.parseInt(userNo));
-		
-	    logger.info("chatRoomNo : "+chatRoomNo);
-		
-		  // 채팅방이 있으면 채팅방 객체에 채팅방 번호 넣어주겠다.
-	      if(chatRoomNo != null) {
-	         room.setChatRoomNo(Integer.parseInt(chatRoomNo));
-	      }
+    room.setSellNo(Integer.parseInt(sellNo));
+    room.setUserNo(Integer.parseInt(userNo));
+    
+     logger.info("chatRoomNo : "+chatRoomNo);
+    
+      // 채팅방이 있으면 채팅방 객체에 채팅방 번호 넣어주겠다.
+       if(chatRoomNo != null) {
+          room.setChatRoomNo(Integer.parseInt(chatRoomNo));
+       }
 
-	   // @SessionAttributes 쓰기위한 작업
-	      model.addAttribute("chatRoomNo", room.getChatRoomNo() );
-	      
-	      AllList =  chatService.createAndEnterChatRoom(AllList, room, sellUserNo, roomJoin, block, account);
-	      
-	      if(AllList.size() > 0) {
-	         
-	         model.addAttribute("AllList", AllList);
-	         logger.info(">> 채팅방으로 이동");
-	         
-	         return "chat/chatRoom";
-	         
-	      } else {
-	    	  
-			session.setAttribute("alertMsg", "채팅방 입장에 실패하였습니다.");
-			return HomeController.HOME;
-		}
-	}
+
+       
+       AllList =  chatService.createAndEnterChatRoom(AllList, room, sellUserNo, roomJoin, block, account);
+       
+       // @SessionAttributes 쓰기위한 작업
+       model.addAttribute("chatRoomNo", AllList.get("chatRoomNo") );
+       
+       if(AllList.size() > 0) {
+    	  String reviewIs = chatService.reviewIs(Integer.valueOf(sellNo));
+    	  model.addAttribute("reviewIs",reviewIs);
+          model.addAttribute("AllList", AllList);
+          logger.info(">> 채팅방으로 이동");
+          
+          logger.info(""+AllList.get("chatRoomNo"));
+          
+          return "chat/chatRoom";
+          
+       } else {
+          
+       session.setAttribute("alertMsg", "채팅방 입장에 실패하였습니다.");
+       return HomeController.HOME;
+    }
+ }
 
 	// 채팅방 차단목록 이동
 	@RequestMapping(value = "chat/chatBlockList", method = RequestMethod.POST)
@@ -222,7 +229,7 @@ public class ChatController {
 
 	// 채팅첨부파일
 	@ResponseBody
-	@RequestMapping(value = "chat/chatFile/insert", method = RequestMethod.POST)
+	@RequestMapping(value = "chat/chatFile/insert", method = RequestMethod.GET)
 	public Map<String, String> insertFile(MultipartFile uploadfile, @RequestParam(value = "chatRoomNo") int chatRoomNo,
 			ChatFiles chatfiles, HttpSession session) {
 

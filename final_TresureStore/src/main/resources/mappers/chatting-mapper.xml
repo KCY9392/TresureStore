@@ -284,7 +284,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select>
 
 
-
+<!-- 채팅창에 거래완료된 상품의 리뷰등록 여부 확인 -->
+<select id="reviewCheck" parameterType="int" resultType="int">
+   SELECT COUNT(*) 
+   FROM REVIEW 
+   WHERE SELL_NO = #{sellNo}
+</select>
 	
 	
 

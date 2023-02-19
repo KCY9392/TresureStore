@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kh.tresure.chat.model.vo.ChatRoom;
+import com.kh.tresure.common.model.dto.PageInfo;
+import com.kh.tresure.common.template.Pagination;
 import com.kh.tresure.member.model.dao.MemberDao;
 import com.kh.tresure.member.model.vo.Account;
 import com.kh.tresure.member.model.vo.Member;
@@ -21,14 +24,16 @@ public class MemberServiceImpl implements MemberService {
 	private Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);	
 	private MemberDao memberDao;
 	private SqlSession sqlSession;
+	private Pagination pagination;
 	
 	// 기본생성자
 	public MemberServiceImpl() {}
 	
 	@Autowired
-	public MemberServiceImpl(MemberDao memberDao,SqlSession sqlSession) {
+	public MemberServiceImpl(MemberDao memberDao,SqlSession sqlSession, Pagination pagination) {
 		this.memberDao = memberDao;
 		this.sqlSession = sqlSession;
+		this.pagination = pagination;
 	}
 	
 	// 로그인 및 회원가입 하는 메소드 구현
@@ -136,6 +141,29 @@ public class MemberServiceImpl implements MemberService {
 		
 		return memberDao.accountList(sqlSession, userNo );
 
+	}
+	
+	// 관리페이지의 유저 전체 가져오기
+	@Override
+	public HashMap<Object, Object> selectListAll(HashMap<Object, Object> paramMap, int currentPage){
+		
+		// 페이징 처리
+	    int listCount = memberDao.selectUserCount(sqlSession);
+	    int pageLimit = 10;
+	    int viewLimit = 10;
+	    
+	    PageInfo pi = pagination.getPageInfo(listCount, currentPage, pageLimit, viewLimit);
+	    
+	    // 페이징 처리와 유저번호 해시맵에 담기
+	    paramMap.put("pi", pi);
+	   
+	    List<Member> mList = memberDao.selectListAll(sqlSession, paramMap);
+	   
+	    // 객체 해시맵에 담기
+	    paramMap.put("mList", mList);
+	   
+	    return paramMap;
+		
 	}
 	
 	
