@@ -119,16 +119,10 @@ public class MyPageController {
 	public int changeStatus(@RequestParam("sellNo") int sellNo) {
 		int result = 0;
 		
-		Sell s = new Sell();
 		
-		String sellStatus = s.getSellStatus();
-		 
-		 HashMap<String, Object> map = new HashMap<>();
-		 map.put("sellNo", sellNo);
-		 map.put("sellStatus", sellStatus);
 		if(result==0) {
 			
-			mypageService.changeStatus(map);
+			mypageService.changeStatus(sellNo);
 			result =1;
 		}
 		return result;

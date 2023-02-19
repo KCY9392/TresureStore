@@ -221,37 +221,39 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 채팅방에 보이는 판매제품정보 --> 
-	<select id="selectSellProduct" parameterType="int" resultMap="sellResultSet">
-	   SELECT CR.CHATROOM_NO,
-	          S.SELL_NO AS "SELL_NO",
-	          S.USER_NO AS "USER_NO",
-	          CATEGORY_NAME,
-	          SELL_TITLE,
-	          SELL_CONTENT,
-	          IMAGE_SRC,
-	          S.COUNT,
-	          PRICE,
-	          S.CREATE_DATE AS "CREATE_DATE",
-	          HEART_NUM,
-	          AVG,
+   <select id="selectSellProduct" parameterType="int" resultMap="sellResultSet">
+      SELECT CR.CHATROOM_NO,
+             S.SELL_NO AS "SELL_NO",
+             S.USER_NO AS "USER_NO",
+             CATEGORY_NAME,
+             SELL_TITLE,
+             SELL_CONTENT,
+             IMAGE_SRC,
+             S.COUNT,
+             PRICE,
+             S.CREATE_DATE AS "CREATE_DATE",
+             HEART_NUM,
+             AVG,
             NEGO_PRICE,
             NEGO_STATUS,
-            ACCOUNT,
-            S.CRAWL
-	   FROM CHAT_ROOM CR
-	   LEFT JOIN SELL S ON (S.SELL_NO = CR.SELL_NO)
+            A.ACCOUNT,
+            BANK,
+            S.CRAWL,
+            S.SELL_STATUS
+      FROM CHAT_ROOM CR
+      LEFT JOIN SELL S ON (S.SELL_NO = CR.SELL_NO)
        LEFT JOIN CATEGORY C ON (S.CATEGORY_NO = C.CATEGORY_NO)
        LEFT JOIN NEGO N ON (CR.CHATROOM_NO = N.CHATROOM_NO)
-	   LEFT JOIN MEMBER M ON (S.USER_NO = M.USER_NO)
-	   LEFT JOIN (SELECT AVG(REV_SCORE) AS "AVG",
-	          		S.USER_NO
-	   		 FROM REVIEW R
-	   		 JOIN SELL S ON(R.SELL_NO = S.SELL_NO)
-	   		 GROUP BY S.USER_NO) 
-	   		 PP ON (PP.USER_NO = S.USER_NO)
-	   LEFT JOIN ACCOUNT A ON (A.USER_NO = S.USER_NO)
-	   WHERE CR.CHATROOM_NO = #{chatRoomNo}
-	</select>
+      LEFT JOIN MEMBER M ON (S.USER_NO = M.USER_NO)
+      LEFT JOIN (SELECT AVG(REV_SCORE) AS "AVG",
+                   S.USER_NO
+             FROM REVIEW R
+             JOIN SELL S ON(R.SELL_NO = S.SELL_NO)
+             GROUP BY S.USER_NO) 
+             PP ON (PP.USER_NO = S.USER_NO)
+      LEFT JOIN ACCOUNT A ON (A.USER_NO = S.USER_NO)
+      WHERE CR.CHATROOM_NO = #{chatRoomNo}
+   </select>
 	
 	
 	<!-- 마이페이지 판매목록  -->

@@ -201,6 +201,7 @@
                               
                               <div class="modal fade" id="review" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
+
 					            <div class="modal-dialog">
 					             	<div class="modal-content" style="width: 800px; height: 670px; margin-top: 150px; margin-left: -125px;">
 										<div class="modal-header" style="background-color: #fff5ba;">
@@ -208,6 +209,127 @@
 											<h5 class="modal-title" id="exampleModalLabel"
 												style="margin-left: 42%; font-size: 30px;">
 												<c:if test="${p.rev_is == 'N'}">
+
+
+								<tr>
+									<td scope="col">
+										<div style="display: flex; position: relative;"  onclick="sellDetail(${s.sellNo})">
+											<c:if test="${s.imgSrc != null}">
+												<c:if test="${s.crawl.equals('Y')}">
+													<img src="${s.imgSrc}" width="100%" height="150px;"
+														class="rounded float-start" alt="">
+												</c:if>
+
+												<c:if test="${s.crawl.equals('N')}">
+													<img src="${pageContext.request.contextPath}${s.imgSrc}"
+														width="100%" height="150px;" class="rounded float-start"
+														alt="">
+												</c:if>
+
+												<c:if test="${s.sellStatus eq 'C' }">
+													<div class="over-img">
+														<div style="color: white; flex-grow: 1;">판매완료</div>
+													</div>
+												</c:if>
+											</c:if>
+										</div>
+									</td>
+									<td scope="col">${s.sellTitle}</td>
+									<td scope="col">${s.price }원</td>
+									<td scope="col">${s.heartNum }</td>
+									<td scope="col">${s.createDate }</td>
+									<td scope="col"><c:if test="${s.sellStatus eq 'I' }">
+											<h5 class="sellStatus">판매중</h5>
+										</c:if> <c:if test="${s.sellStatus eq 'C' }">
+											<h5 class="sellStatus">판매완료</h5>
+										</c:if></td>
+									<td><button type="button" class="reviewB"
+											onclick="changeStatus(${s.sellNo});">상태 변경</button></td>
+							</c:forEach>
+
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div id="pshow" class="box" style="display: none;">
+
+				<div class="list-area">
+
+
+					<br>
+					<table class="table table-hover list">
+						<thead>
+							<tr>
+								<th scope="col" style="text-align: center;" width="20%">사진</th>
+								<th scope="col" style="padding-left: 10px;" width="35%">상품명</th>
+								<th scope="col" width="20%">가격</th>
+								<th scope="col" width="20%">날짜</th>
+								<th scope="col" width="5%">후기</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach var="p" items="${purchaseList}" begin="0"
+								end="${fn:length(purchaseList)}" step="1" varStatus="status">
+
+								<a href="${sellerUrl }">
+								<c:if test="${loginUser.userNo != p.userNo }">
+                              		<c:set var="sellerUrl" value="${pageContext.request.contextPath }/sell/seller/${p.userNo }" />
+                         		</c:if>
+
+
+									<tr>
+
+										<td scope="col">
+											<div style="display: flex; position: relative;">
+												<c:if test="${p.imgSrc != null}">
+													<c:if test="${p.crawl.equals('Y')}">
+														<img src="${p.imgSrc}" width="100%" height="150px;"
+															class="rounded float-start" alt="">
+													</c:if>
+
+													<c:if test="${p.crawl.equals('N')}">
+														<img src="${pageContext.request.contextPath}${p.imgSrc}"
+															width="100%" height="150px;" class="rounded float-start"
+															alt="">
+													</c:if>
+
+													<c:if test="${p.sellStatus eq 'C' }">
+														<div class="over-img">
+															<div style="color: white; flex-grow: 1;">구매완료</div>
+														</div>
+													</c:if>
+												</c:if>
+											</div>
+										</td>
+								
+								<td scope="col">${p.sellTitle}</td>
+									<td scope="col">${p.price }원</td>
+									<td scope="col">${p.createDate }</td>
+									<c:if test="${p.rev_is == 'N'}">
+										<td><button type="button" class="reviewA"
+												data-bs-toggle="modal" data-bs-target="#review" id="write">작성하기</button></td>
+									</c:if>
+									<c:if test="${p.rev_is != 'N'}">
+										<td><button type="button" class="reviewB"
+												onclick="reviewDetail(${p.sellNo})" data-bs-toggle="modal"
+												data-bs-target="#review" id="write">수정하기</button></td>
+									</c:if>
+								</tr>
+
+								<div class="modal fade" id="review" tabindex="-1"
+									aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+									<div class="modal-dialog">
+										<div class="modal-content"
+											style="width: 800px; height: 670px; margin-top: 150px; margin-left: -125px;">
+											<div class="modal-header" style="background-color: #fff5ba;">
+
+												<h5 class="modal-title" id="exampleModalLabel"
+													style="margin-left: 42%; font-size: 30px;">
+													<c:if test="${p.rev_is == 'N'}">
+
 												상점 후기 작성
 												</c:if>
 												<c:if test="${p.rev_is != 'N'}">
@@ -288,8 +410,14 @@
             success : function(result){
                    if(result == 1) {
                       
-                       alert("상태 변경");
-                         location.reload();
+                	   Swal.fire({
+			                icon: 'success',
+			                title: '상태가 변경되었습니다.'                  
+			            });	
+                	   
+                	   setTimeout(function() {
+       	            	  location.reload();
+     	            	}, 1000);
                    }
              },
              error:function(){

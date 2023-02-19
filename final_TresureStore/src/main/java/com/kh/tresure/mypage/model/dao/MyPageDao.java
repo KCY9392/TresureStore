@@ -1,7 +1,6 @@
 package com.kh.tresure.mypage.model.dao;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -62,8 +61,11 @@ public class MyPageDao {
 		return (List)sqlSession.selectList("reviewMapper.mypageReviewList", userNo);
 	}
 	
-	public int changeStatus(SqlSession sqlSession, HashMap<String, Object> map) {
-		return sqlSession.update("mypageMapper.changeStatus", map);
+	/**
+	   * 판매내역 상태변경
+	   */
+	public int changeStatus(SqlSession sqlSession, int sellNo) {
+		return sqlSession.update("mypageMapper.changeStatus", sellNo);
 
 	}
 	

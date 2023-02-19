@@ -1,6 +1,7 @@
 package com.kh.tresure.member.model.service;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kh.tresure.member.model.dao.MemberDao;
 import com.kh.tresure.member.model.vo.Account;
 import com.kh.tresure.member.model.vo.Member;
+import com.kh.tresure.purchase.model.vo.Purchase;
 import com.kh.tresure.sell.controller.SellController;
 
 @Service
@@ -129,5 +131,20 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.accountNumber(sqlSession, account);
 	}
 	
+
+	//관리자페이지 결제관리
+	@Override
+	public List<Purchase> accountList(){
+		
+		return memberDao.accountList(sqlSession);
+
+	}
+	
+	@Override
+	public int changeDepoStatus(Purchase p) {
+		return memberDao.changeDepoStatus(sqlSession, p);
+	}
+	
+
 	
 }
