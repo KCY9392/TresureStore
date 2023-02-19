@@ -409,38 +409,7 @@ public class MemberController {
 		}
 		return result;
 	}
-	
-	
-	//관리자 페이지로 이동 - 수정중
-	@RequestMapping(value = "common/admin", method = RequestMethod.GET)
-	public String admin(Model model) { 
-		
-		List<Purchase> accountList = memberService.accountList();
-		  model.addAttribute("accountList", accountList); 
-		  logger.info(""+accountList);
-	
-		return "common/admin";
-	}
-	
 
-
-	//입금상태 변경
-	@ResponseBody
-	@RequestMapping("changeDepoStatus")
-	public int changeStatus(@RequestParam("purNo") int purNo) {
-		int result = 0;
-		
-		Purchase p = new Purchase();
-		p.setPurNo(purNo);
-		System.out.println(""+purNo);
-		if(result==0) {
-			
-			memberService.changeDepoStatus(p);
-			result =1;
-		}
-		return result;
-		
-	}
 
 
 	
