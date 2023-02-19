@@ -292,13 +292,7 @@ tr>td{
 	
 		
 		
-	
 
-
-
-
-
- <script>
  if($("#depoStatus").val()!='N'){
 	 
  function changeDepoStatus(purNo){
