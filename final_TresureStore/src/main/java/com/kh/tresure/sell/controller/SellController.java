@@ -364,7 +364,12 @@ public class SellController {
       Member member = (Member) session.getAttribute("loginUser");
       
       Map <String, Integer> map = new HashMap<>();
-      map.put("userNo", member.getUserNo());
+      
+      // 로그인 했을 때
+      if(member != null) {
+    	  map.put("userNo", member.getUserNo());
+      }
+      
       map.put("sellerNo", userNo);
       model.addAttribute("member", sellService.sellerDetail(map));
       // 판매 리스트
