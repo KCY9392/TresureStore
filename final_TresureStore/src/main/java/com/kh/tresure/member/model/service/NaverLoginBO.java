@@ -148,6 +148,7 @@ public class NaverLoginBO {
 		return m;
 	}
 	
+	//네이버 로그인 - 회원탈퇴시 서버에 저장되어있는 토큰 및, 클라이언트 아이디를 요청 받아 삭제하기위한 메소드
 	public String requestToServer(String apiURL) throws IOException {
 	    return requestToServer(apiURL, null);
 	  }

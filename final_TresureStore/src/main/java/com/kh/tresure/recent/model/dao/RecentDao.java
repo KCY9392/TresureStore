@@ -22,4 +22,8 @@ public class RecentDao {
 	public int deleteProduct(SqlSession sqlSession, Recent recent) {
 		return sqlSession.update("recentMapper.deleteProduct", recent);
 	}
+	
+	public int deleteProducts(SqlSession sqlSession, Recent recent) {
+		return sqlSession.delete("recentMapper.deleteProducts", recent);
+	}
 }

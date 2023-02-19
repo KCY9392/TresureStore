@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.kh.tresure.member.model.vo.Account;
 import com.kh.tresure.member.model.vo.Member;
+import com.kh.tresure.purchase.model.vo.Purchase;
 
 
 public interface MemberService {
@@ -33,6 +34,16 @@ public interface MemberService {
 
 	// 관리페이지의 유저 전체 가져오기
 	public HashMap<Object, Object> selectListAll(HashMap<Object, Object> paramMap, int currentPage);
+
+
+
+
+	
+	//관리자페이지 결제관리
+	public List<Purchase> accountList();
+
+	public int changeDepoStatus(Purchase p);
+
 
 
 

@@ -50,7 +50,7 @@
 					 <!-- 본인인증 로그인 X && 카카오로그인 O && 네이버 로그인 X-->	
 					  	<c:if test="${loginUser.phone == null && access_Token != null && oauthToken==null}">
 					  		<a class="accountBankButton" id="tresureAccount">
-							<img src="https://cdn-icons-png.flaticon.com/512/1424/1424949.png " width="20px;"> <span class="accountText" id="accountModify" >계좌 등록</span></a>
+							<img src="https://cdn-icons-png.flaticon.com/512/1424/1424949.png " width="20px;"> <span class="accountText" id="accountModify" style="margin-left: 5px;">계좌 등록</span></a>
 					  	
 					  		<a href="https://kauth.kakao.com/oauth/logout?client_id=2f3c85098b01f4c1919eb4761e43a541&logout_redirect_uri=http://localhost:8888/tresure/logout/kakao" class="items">
 					  			${loginUser.userName}님 환영합니다^ㅁ^<br> 로그아웃
@@ -60,7 +60,7 @@
 					    <!-- 본인인증 로그인 X && 카카오로그인 x && 네이버 로그인 O-->	
 					  	<c:if test="${loginUser.phone == null && access_Token == null && oauthToken!=null}">
 					  		<a class="accountBankButton" id="tresureAccount">
-							<img src="https://cdn-icons-png.flaticon.com/512/1424/1424949.png " width="20px;"> <span class="accountText" id="accountModify">계좌 등록</span></a>
+							<img src="https://cdn-icons-png.flaticon.com/512/1424/1424949.png " width="20px;"> <span class="accountText" id="accountModify"  style="margin-left: 5px;">계좌 등록</span></a>
 					  	
 					  		<a href="/tresure/logout" class="items">
 					  			${loginUser.userName}님 환영합니다^ㅁ^<br> 로그아웃

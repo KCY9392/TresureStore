@@ -192,16 +192,17 @@ public class ChatDao {
 	}
 
 	//채팅창에서 거래된 상품의 리뷰등록 여부
-   public String reviewIs(SqlSession sqlSession, int sellNo) {
-            int result = sqlSession.selectOne("chattingMapper.reviewCheck", sellNo);
-            String reviewIs = "";
-            if(result == 0) {
-               reviewIs = "N";
-            }else {
-               reviewIs = "Y";
-            }
-            return reviewIs;
-         }
+  public String reviewIs(SqlSession sqlSession, int sellNo) {
+        int result = sqlSession.selectOne("chattingMapper.reviewCheck", sellNo);
+        String reviewIs = "";
+        if(result == 0) {
+           reviewIs = "N";
+        }else {
+           reviewIs = "Y";
+        }
+        return reviewIs;
+  }
+
 
 
    

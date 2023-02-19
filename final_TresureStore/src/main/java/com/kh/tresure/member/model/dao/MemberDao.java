@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.tresure.common.model.dto.PageInfo;
 import com.kh.tresure.member.model.vo.Account;
 import com.kh.tresure.member.model.vo.Member;
+import com.kh.tresure.purchase.model.vo.Purchase;
 import com.kh.tresure.sell.controller.SellController;
 
 
@@ -128,6 +129,29 @@ public class MemberDao {
 
 		return sqlSession.selectList("memberMapper.accountList", userNo);
 	}
+
+	public static Account selectAccountInfo(SqlSession sqlSession, long account) {
+		
+		return null;
+	}
+
+
+	//관리자페이지 결제관리
+	public List<Purchase> accountList(SqlSession sqlSession) {
+
+		return sqlSession.selectList("memberMapper.accountList");
+	}
+
+	public static Account selectAccountInfo(SqlSession sqlSession, long account) {
+		
+		return null;
+	}
+
+	public int changeDepoStatus(SqlSession sqlSession, Purchase p) {
+		
+		return sqlSession.update("memberMapper.changeDepoStatus",p);
+	}
+
 
 
 	// 관리자에서 페이징 한 유저관리

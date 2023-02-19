@@ -48,29 +48,31 @@ public class ReportController {
 	
 	//사기조회 결과 페이지 
 	@RequestMapping(value = "report/reportSearchResult", method = RequestMethod.GET)
-	public String reportSearchResult(Model model,
-									String search,
-									String account,
-									HttpSession session) {
+	public String reportSearchResult(Model model, 
+									@RequestParam(value = "condition", required = false, defaultValue = "seller") String condition,
+									@RequestParam(value = "search", required = false, defaultValue = "") String search) {
 			
-			
-			List<Report> reList = reportService.reportSearchResult(search, account);
-			Integer reportNum = reportService.reportNumber(search, account);
-				
-				model.addAttribute("search", search);
-				model.addAttribute("reportList", reList );
-				model.addAttribute("reportNum", reportNum);
-				model.addAttribute("account", account);
-				
-				logger.info(">> 사기조회 결과페이지로 이동");
-				logger.info(">> 사기조회번호 : " + search);													
-		        logger.info(">> 사기조회 리스트" + reList);
-		        logger.info(">> 사기 횟수 : "+ reportNum);
-			
+		List<Report> reList = null;
 		
+		reList = reportService.reportSearchResult(condition, search);
+		int count = reportService.selectListCount(condition, search);
+		
+		model.addAttribute("reportList", reList);
+		model.addAttribute("search", search);
+		model.addAttribute("condition", condition);
+		model.addAttribute("count", count);
+		
+		logger.info(reList+"reportList");
+		logger.info(count+": count");
+		logger.info(search+"search");
+		logger.info(condition+"condition");
+/*		
+		if(search.charAt(0) == '@') {
+			search = search.substring(1);
+		
+*/
 		return "report/reportSearchResult";
 	}
-
 
 	
 	//신고 추가하기

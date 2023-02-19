@@ -162,7 +162,10 @@
                 
                 <div class="button-area2">
                    <br><br>
+
                     <a class="Withdrawal" href="${pageContext.request.contextPath }/delete" data-toggle="modal">탈퇴하기</a>
+                    <a class="Withdrawal" href="${pageContext.request.contextPath }/member/myPage/delete" data-toggle="modal">탈퇴하기</a>
+
                 </div>
             </div>
         </div>
@@ -359,7 +362,7 @@ $(".chBox").click(function(){
    
      <script>
      $(".selectDelete_btn").click(function(){
-   var confirm_val = confirm("정말 삭제하시겠습니까?");
+   var confirm_val = true;
    
    if(confirm_val) {
     var checkArr = [];
@@ -379,8 +382,13 @@ $(".chBox").click(function(){
      data : { chbox : checkArr },
      success : function(result){
     	if(result==1){
-      console.log("성공");
-      location.reload();
+    		Swal.fire({
+                icon: 'success',
+                title: '삭제되었습니다.'                  
+            });	
+    		setTimeout(function() {
+            	  location.reload();
+          	}, 1500);
     	}
      },
      error:function(){

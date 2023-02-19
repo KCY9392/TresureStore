@@ -87,8 +87,6 @@ public class ChatController {
 		}
 
 	}
-
-	
 	
 	 /**
      * 방 생성하기, 방입장하기 - 리팩토링 중
@@ -150,6 +148,7 @@ public class ChatController {
        return HomeController.HOME;
     }
  }
+
 
 	// 채팅방 차단목록 이동
 	@RequestMapping(value = "chat/chatBlockList", method = RequestMethod.POST)
@@ -280,5 +279,4 @@ public class ChatController {
 
 		return map;
 	}
-
 }

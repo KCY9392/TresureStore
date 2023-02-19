@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -313,11 +312,11 @@ public class ChatServiceImpl implements ChatService {
 		return list;
 
 	}
-	
+  
 	// 채팅창에서 거래된 상품의 리뷰등록 여부
-	   @Override
-	   public String reviewIs(int sellNo) {
-	      return chatDao.reviewIs(sqlSession, sellNo);
-	   }
+	@Override
+	public String reviewIs(int sellNo) {
+		return chatDao.reviewIs(sqlSession, sellNo);
+	}
 
 }

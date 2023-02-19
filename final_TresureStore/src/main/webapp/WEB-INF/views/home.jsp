@@ -56,7 +56,7 @@
 
 	<div class="main-section">
 		<div id="displayHeader">
-			<p class="main-Title" ><b style="padding-left: 45%;">Tresure</b></p>
+			<p class="main-Title" ><b style="padding-left: 45%;"><img src="/tresure/resources/images/icon/mainLogo.png" width="50px" height="50px"></b></p>
 			<hr>
 			<br>
 		</div>

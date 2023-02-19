@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,84 +11,114 @@
 <link rel="stylesheet" href="/tresure/resources/css/common/font.css">
 <link rel="stylesheet" href="/tresure/resources/css/mypage/tracsac.css">
 
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
- <script type="text/javascript" src="/tresure/resources/js/header.js"></script>
- <script type="text/javascript" src="/tresure/resources/js/mypageMain.js"></script>
- 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script type="text/javascript" src="/tresure/resources/js/header.js"></script>
+<script type="text/javascript" src="/tresure/resources/js/mypageMain.js"></script>
+
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+	crossorigin="anonymous">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+	crossorigin="anonymous"></script>
 
 <style>
+.sun_wrap_li>ul img {
+	margin-top: 5px !important;
+}
 
+.catebox3 {
+	width: 1000px !important;
+}
 
-	.sun_wrap_li > ul img{
-  		margin-top: 5px !important;
-  	}
-	
-	.catebox3{
-		width: 1000px !important;
-	}
+.inner-menu {
+	width: 700px !important;
+}
 
-	.inner-menu{
-		width: 700px !important;
-	}
-	
-	.catebox.cate1, .catebox.cate2, .catebox.cate3, .catebox.cate4{
-		margin-right: 40px;
-	}
-	
-	.catebox.cate7, .catebox.cate9, .catebox.cate10{
-		margin-left: 30px;
-	}
-	
-	.catebox.cate8{
-		margin-left: 50px;
-	}
-	
-	
-	.market-open img{
-  		margin-top: 5px;
-  	}
-  	
-  	.search2{
-  		margin-top: 0px !important;
-  	}
-  	
-  	.nfavorites{
-  			padding: 5px 0px !important;
-  		    padding-top: 10px !important;
-  		    height: 80px !important;
-  	}
-  	
-  	.ntheTop{
-  		height: 40px !important;
-  	}
-  	
-  	
+.catebox.cate1, .catebox.cate2, .catebox.cate3, .catebox.cate4 {
+	margin-right: 40px;
+}
 
+.catebox.cate7, .catebox.cate9, .catebox.cate10 {
+	margin-left: 30px;
+}
+
+.catebox.cate8 {
+	margin-left: 50px;
+}
+
+.market-open img {
+	margin-top: 5px;
+}
+
+.search2 {
+	margin-top: 0px !important;
+}
+
+.nfavorites {
+	padding: 5px 0px !important;
+	padding-top: 10px !important;
+	height: 80px !important;
+}
+
+.ntheTop {
+	height: 40px !important;
+}
+
+.backGoGoGo{
+	float: left;
+    margin-top: 93px;
+    margin-left: 300px;
+}
+
+.backGoGoGo>button{
+	width: 110px;
+    height: 45px;
+    border-radius: 15px;
+    background-color: #fceedb;
+    border: 2px solid #fceedb;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.backGoGoGo>button:hover{
+	background-color: #ecc6b3;
+	color: white;
+}
 </style>
 
 </head>
 <body>
-   <jsp:include page="../common/header.jsp"/>
-   <jsp:include page="../common/sideBar.jsp"/>
+	<jsp:include page="../common/header.jsp" />
+	<jsp:include page="../common/sideBar.jsp" />
 
-   <div class="main-section">
-   <div class="content2">
-   
+<div class="backGoGoGo"><button onclick="goBackBtnClick();">뒤로가기</button></div>
+	<div class="main-section">
+		<div class="content2">
+		
+			<div class="list-content">
+				<div class="list-b">
+					<button class="sell-trac" type="button" onclick="show(this);"
+						id="s" name="show">
+						<span class="sell-trac">판매내역</span>
+					</button>
+					<button class="pur-trac" type="button" onclick="show(this);" id="p"
+						name="show">
+						<span class="pur-trac">구매내역</span>
+					</button>
+				</div>
+				<br>
+				<br>
+			</div>
+
+			<div id="sshow" class="box">
+				<div class="list-area">
 
 
-	
-	<div class="list-content">
-    		<div class="list-b">
-    			<button class="sell-trac"  type="button" onclick="show(this);" id="s" name="show"><span class="sell-trac">판매내역</span></button>
-				<button class="pur-trac" type="button" onclick="show(this);" id="p"name="show"><span class="pur-trac">구매내역</span></button>
-    		</div>
-    		<br><br>
-    	</div>
-      
-	    <div id="sshow" class="box">   
-	      <div class="list-area">
 	               
 	                 
 	               <br>
@@ -201,81 +231,97 @@
                               
                               <div class="modal fade" id="review" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-					            <div class="modal-dialog">
-					             	<div class="modal-content" style="width: 800px; height: 670px; margin-top: 150px; margin-left: -125px;">
-										<div class="modal-header" style="background-color: #fff5ba;">
-											
-											<h5 class="modal-title" id="exampleModalLabel"
-												style="margin-left: 42%; font-size: 30px;">
-												<c:if test="${p.rev_is == 'N'}">
+
+
+								
+
+
+					<br>
+					
+
+								<div class="modal fade" id="review" tabindex="-1"
+									aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+									<div class="modal-dialog">
+										<div class="modal-content"
+											style="width: 800px; height: 670px; margin-top: 150px; margin-left: -125px;">
+											<div class="modal-header" style="background-color: #fff5ba;">
+
+												<h5 class="modal-title" id="exampleModalLabel"
+													style="margin-left: 42%; font-size: 30px;">
+													<c:if test="${p.rev_is == 'N'}">
 												상점 후기 작성
 												</c:if>
-												<c:if test="${p.rev_is != 'N'}">
+													<c:if test="${p.rev_is != 'N'}">
 												상점 후기 수정
 												</c:if>
 												</h5>
-											<button type="button" class="btn-close" data-bs-dismiss="modal"
-												aria-label="Close"></button>
-										</div>
-										<div class="modal-body" style="text-align: center;">
+												<button type="button" class="btn-close"
+													data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											<div class="modal-body" style="text-align: center;">
 
-											<form id="reviewForm">
-								
-												<div class="star-rating" style="margin-top: 25px;">
-													<input type="radio" id="5-stars" name="rating" value="5" /> <label
-														for="5-stars" class="star">&#9733;</label> <input type="radio"
-														id="4-stars" name="rating" value="4" /> <label for="4-stars"
-														class="star">&#9733;</label> <input type="radio" id="3-stars"
-														name="rating" value="3" /> <label for="3-stars" class="star">&#9733;</label>
-													<input type="radio" id="2-stars" name="rating" value="2" /> <label
-														for="2-stars" class="star">&#9733;</label> <input type="radio"
-														id="1-star" name="rating" value="1" /> <label for="1-star"
-														class="star">&#9733;</label>
-												</div>
-												<div class="mb-3" style="margin-top: 50px;">
-													<label for="reviewContent" class="form-label" style="font-size:22px;">후기 내용</label>
-													<textarea name="reviewContent" class="form-control"
-														id="reviewContent" aria-describedby="emailHelp"
-														style="width: 700px; margin: auto; height: 140px; resize: none; font-size: 25px;"></textarea>
-													<div id="emailHelp" class="form-text" style="font-size:20px;">소중한 후기 작성해주세요 ^ㅁ^</div>
-												</div>
-								
-												<input type="hidden" value="${p.sellNo}" name="sellNo" type="number">
-												<input type="hidden" value="${p.rev_is}" name="reviewIs">
-											</form>
-										</div>
-										<div class="modal-footer">
-													<c:if test="${p.rev_is == 'N'}">
-														<button type="button" onclick="reviewInsertUpdate();"
-															class="btn btn-primary" id="updateBtn">작성하기</button>
-													</c:if>	
-													<c:if test="${p.rev_is != 'N'}">
-														<button type="button" onclick="reviewInsertUpdate();"
-															class="btn btn-primary" id="updateBtn">수정하기</button>
-														<button type="button" onclick="reviewDelete();"
-															class="btn btn-primary" id="updateBtn">삭제하기</button>
-													</c:if>
+												<form id="reviewForm">
+
+													<div class="star-rating" style="margin-top: 25px;">
+														<input type="radio" id="5-stars" name="rating" value="5" />
+														<label for="5-stars" class="star">&#9733;</label> <input
+															type="radio" id="4-stars" name="rating" value="4" /> <label
+															for="4-stars" class="star">&#9733;</label> <input
+															type="radio" id="3-stars" name="rating" value="3" /> <label
+															for="3-stars" class="star">&#9733;</label> <input
+															type="radio" id="2-stars" name="rating" value="2" /> <label
+															for="2-stars" class="star">&#9733;</label> <input
+															type="radio" id="1-star" name="rating" value="1" /> <label
+															for="1-star" class="star">&#9733;</label>
+													</div>
+													<div class="mb-3" style="margin-top: 50px;">
+														<label for="reviewContent" class="form-label"
+															style="font-size: 22px;">후기 내용</label>
+														<textarea name="reviewContent" class="form-control"
+															id="reviewContent" aria-describedby="emailHelp"
+															style="width: 700px; margin: auto; height: 140px; resize: none; font-size: 25px;"></textarea>
+														<div id="emailHelp" class="form-text"
+															style="font-size: 20px;">소중한 후기 작성해주세요 ^ㅁ^</div>
+													</div>
+
+													<input type="hidden" value="${p.sellNo}" name="sellNo"
+														type="number"> <input type="hidden"
+														value="${p.rev_is}" name="reviewIs">
+												</form>
+											</div>
+											<div class="modal-footer">
+												<c:if test="${p.rev_is == 'N'}">
+													<button type="button" onclick="reviewInsertUpdate();"
+														class="btn btn-primary" id="updateBtn">작성하기</button>
+												</c:if>
+												<c:if test="${p.rev_is != 'N'}">
+													<button type="button" onclick="reviewInsertUpdate();"
+														class="btn btn-primary" id="updateBtn">수정하기</button>
+													<button type="button" onclick="reviewDelete();"
+														class="btn btn-primary" id="updateBtn">삭제하기</button>
+												</c:if>
+											</div>
 										</div>
 									</div>
-					             </div>
-					          </div>
+								</div>
+							 </a>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 
-                        </c:forEach>
-                     </tbody>
-                  </table>
-               </div>
-           </div>
-      </div>
-   </div>
 
-	
 	<script>
       function sellDetail(sellNo){
          location.href = "${pageContext.request.contextPath}/sell/sellDetail/"+sellNo;
       }
    </script>
-   
-   <script>
+
+	<script>
      function changeStatus(sellNo){
         var sellNum = $('.sellNo').val();
            
@@ -288,8 +334,14 @@
             success : function(result){
                    if(result == 1) {
                       
-                       alert("상태 변경");
-                         location.reload();
+                	   Swal.fire({
+			                icon: 'success',
+			                title: '상태가 변경되었습니다.'                  
+			            });	
+                	   
+                	   setTimeout(function() {
+       	            	  location.reload();
+     	            	}, 1000);
                    }
              },
              error:function(){
@@ -370,6 +422,10 @@
 				}
 			});
 		}
+		
+		function goBackBtnClick(){
+			history.go(-1);
+		};
 	</script>
 
 	<jsp:include page="../common/footer.jsp" />

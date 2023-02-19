@@ -16,6 +16,7 @@ import com.kh.tresure.common.template.Pagination;
 import com.kh.tresure.member.model.dao.MemberDao;
 import com.kh.tresure.member.model.vo.Account;
 import com.kh.tresure.member.model.vo.Member;
+import com.kh.tresure.purchase.model.vo.Purchase;
 import com.kh.tresure.sell.controller.SellController;
 
 @Service
@@ -135,14 +136,17 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.accountNumber(sqlSession, account);
 	}
 	
+
+
 	//관리자페이지 결제관리
 	@Override
-	public List<Account> accountList(int userNo){
+	public List<Purchase> accountList(){
 		
-		return memberDao.accountList(sqlSession, userNo );
+		return memberDao.accountList(sqlSession);
 
 	}
 	
+
 	// 관리페이지의 유저 전체 가져오기
 	@Override
 	public HashMap<Object, Object> selectListAll(HashMap<Object, Object> paramMap, int currentPage){
@@ -166,5 +170,13 @@ public class MemberServiceImpl implements MemberService {
 		
 	}
 	
+
+	@Override
+	public int changeDepoStatus(Purchase p) {
+		return memberDao.changeDepoStatus(sqlSession, p);
+	}
+	
+
+
 	
 }

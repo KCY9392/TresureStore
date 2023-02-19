@@ -28,6 +28,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="USER_NO" property="userNo"></result>
 	<result column="ACCOUNT" property="account"></result>
 	<result column="BANK" property="bank"></result>
+
+	
+	
+</resultMap>
+
+<resultMap type="purchase" id="purchaseResultSet" >
+	<id column="PUR_NO" property="purNo"></id>
+	<result column="USER_NO" property="userNo"></result>
+	<result column="SELL_NO" property="sellNo"></result>
+	<result column="CREATE_DATE" property="createDate"></result>
+	<result column="ORDER_NO" property="orderNo"></result>
+	<result column="PRICE" property="price"></result>
+	<result column="DEPO_STATUS" property="depoStatus"></result>
+	<result column="BANK" property="bank"></result>
+	<result column="ACCOUNT" property="account"></result>
+	<result column="PUR_USER" property="purUser"></result>
+
+
 </resultMap>
 
 <!-- 입력한 정보로 가입한 회원여부 확인 -->
@@ -190,12 +208,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 판매자의 계좌 가져오기 -->
 <select id="selectAccountInfo" parameterType="account" resultType="account" >
 	SELECT DISTINCT
-            ACCOUNT,
-            BANK,
+
+            A.ACCOUNT,
+
+            A.BANK,
             A.USER_NO AS "USER_NO"
 	FROM ACCOUNT A
 	LEFT JOIN SELL S ON (S.USER_NO = A.USER_NO)
-	WHERE ACCOUNT = #{account} 
+	WHERE A.ACCOUNT = #{account} 
 </select>
 
 <!-- 로그인유저의 계좌 가져오기 -->
@@ -207,24 +227,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE A.USER_NO = #{userNo} 
 </select>
 
+
+
+
+
 <!-- 관리자페이지 결제관리 -->
 <!-- 수정중 -->
-<select id="accountList">
-	SELECT A.ACCOUNT,
+<select id="accountList" resultType="purchase">
+	 SELECT 
+     		A.ACCOUNT,
 			A.BANK,
 			S.SELL_TITLE,
 			S.USER_NO,
 			S.SELL_NO,
+			p.PUR_NO,
 			P.CREATE_DATE,
 			P.PRICE,
-			P.USER_NO,
-			P.ORDER_NO
-	FROM ACCOUNT A
-	JOIN PURCHASE P ON(A.USER_NO = P.USER_NO)
-	JOIN SELL S ON(S.SELL_NO = P.SELL_NO)
-	WHERE A.USER_NO = #{userNo}
+			P.USER_NO AS PUR_USER,
+			P.ORDER_NO,
+			p.DEPO_STATUS
+	FROM PURCHASE P
+	LEFT JOIN ACCOUNT A ON(A.USER_NO = P.USER_NO)
+	LEFT JOIN SELL S ON(S.SELL_NO = P.SELL_NO)
+	
 	
 </select>
+<!-- 입급상태 변경 -->
+<update id="changeDepoStatus" parameterType="purchase">
+	UPDATE PURCHASE
+	SET DEPO_STATUS='N'
+	WHERE PUR_NO = #{purNo}
+
+</update>
+
+
 
 <!-- 관리자에서 보이는 유저들 -->
 <select id="selectListAll" resultMap="memberResultSet">

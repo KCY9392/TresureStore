@@ -91,14 +91,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="reviewAvg" resultType="Integer" parameterType="Integer">
 	SELECT
 	NVL(AVG(REV_SCORE),0) AS "RAVG"
-	           	    
 	        FROM MEMBER M
-	        
-            
             JOIN SELL S ON M.USER_NO = S.USER_NO
     		JOIN REVIEW R ON S.SELL_NO = R.SELL_NO
 	        WHERE M.USER_NO=#{userNo}
-	
 	</select>
 	
 	
@@ -135,10 +131,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT S.IMAGE_SRC AS "IMAGE_SRC", 
 			   S.SELL_TITLE AS "SELL_TITLE",
 			   S.PRICE AS "PRICE",
-			   S.UPDATE_DATE AS "CREATE_DATE" 
-	    FROM PURCHASE P
-	    LEFT JOIN SELL S USING(SELL_NO)
-	    LEFT JOIN MEMBER M ON (S.USER_NO = M.USER_NO)
+			   S.UPDATE_DATE AS "CREATE_DATE",
+               S.CRAWL
+	    FROM PURCHASE P 
+	    LEFT JOIN MEMBER M ON (P.USER_NO = M.USER_NO)
+        LEFT JOIN SELL S ON(S.SELL_NO = P.SELL_NO)
 	    WHERE S.SELL_STATUS = 'C' AND M.USER_NO = #{userNo}
 	</select>
 	

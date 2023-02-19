@@ -1,6 +1,6 @@
 package com.kh.tresure.member.model.vo;
 
-import java.util.Date;
+import java.sql.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +13,9 @@ public class Account {
 
 	private int accountId; //계좌 고유 식별번호
 	private int userNo; //유저번호
-	private String account; //계좌번호
-	private String bank; //은행이름
+	private int account; //계좌번호
+
+	
+
 	
 }

@@ -106,11 +106,26 @@
     color: rgb(247, 0, 0);
 }
 
+/* 페이징 css */
 .Btm {
 	background: beige;
     outline: none;
     border: none;
     cursor: pointer;
+}
+
+/* x버튼 css */
+.deleteBtn {
+	position: absolute;
+	width: 20px;
+	height: 15px;
+	font-size: 5pt;
+	outline: none;
+	border: none;
+	background-color: beige;
+	color: black;
+	cursor: pointer;
+	right: 12px;
 }
 
 /* TOP */
