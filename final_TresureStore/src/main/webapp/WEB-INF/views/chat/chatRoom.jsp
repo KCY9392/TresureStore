@@ -192,12 +192,11 @@
 	                                    </c:if>
 	                                    <a href="${sellerUrl }">
                                          <div class="storeNameTextClass" style="margin-bottom:10px;">
-                                         <span class="store-text">상점 <span class="dd">${AllList.get('product').userNo }</span>호 점</span>
+                                         	<span class="store-text">상점 <span class="dd">${AllList.get('product').userNo }</span>호 점</span>
                                          </div>
                                          </a>
-                                      </c:if>
+                                     
                                        
-                                       </c:if>
                                        <c:if test="${loginUser.userNo != AllList.get('product').userNo }">
 	                                    	<c:set var="sellerUrl" value="${pageContext.request.contextPath }/sell/seller/${AllList.get('product').userNo }" />
 	                                    </c:if>
@@ -207,6 +206,7 @@
 	                                         	<span class="store-text">상점 <span class="dd">${AllList.get('product').userNo }</span>호 점</span>
 	                                         </div>
 	                                    </a>
+	                                  </c:if>
                                        
                                        <!-- 로그인한 사람과 판매하는 사람이 같은경우 -->
                                        <c:if test="${AllList.get('product').userNo eq loginUser.userNo}">

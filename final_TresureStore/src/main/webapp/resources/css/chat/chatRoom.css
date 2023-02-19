@@ -50,7 +50,7 @@
 }
 
 .rounded{
-	width: 460px;
+	width: 475px;
     height: 500px;
     margin-top: 30px;
     margin-left: 1.5%;
@@ -67,7 +67,7 @@
 
 .sell_detail .sell_title{
     font-size: 30px;
-    width: 90%;
+    width: 95%;
     font-weight: 600;
     overflow: hidden;
     white-space: normal;
@@ -157,7 +157,7 @@
     margin-left: 10px;
     margin-right: 10px;
     margin-bottom: 15px;
-    width: 445px;
+    width: 470px;
     text-align: center;
 }
 
