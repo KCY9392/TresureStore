@@ -22,6 +22,7 @@ import com.kh.tresure.sell.model.vo.Sell;
 @Controller
 public class HomeController {
 	private int count = 0; 
+	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	public static final String HOME = "redirec:/";
 	private SellService sellService;
 	private KakaoAPI kakao;

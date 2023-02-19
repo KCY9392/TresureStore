@@ -74,10 +74,12 @@ public interface SellService {
    public int finishSellNo();
    
    /**
-    * 게시글 삭제
-    * @param sellNo
-    * @return
-    */
+    * 게시글 삭제 */
    public int sellDelete(Sell s);
 
+  /**
+	 * 로그인 하지 않은 상태에서 상점명 검색시 */
+	public Object searchsellerDetail(int searchSeller);
+
+	public Map<String, Object> sellerDetail(Map<String, Integer> map);
 }

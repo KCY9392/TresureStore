@@ -41,6 +41,7 @@ import oracle.net.aso.s;
 @RequestMapping("/sell")
 public class SellController {
 
+
    private Logger logger = LoggerFactory.getLogger(SellController.class);
    private SellService sellService;
 
@@ -107,14 +108,32 @@ public class SellController {
          mv.setViewName("sell/searchList");
          
       }else { //상점 검색할 경우
-         
-         mv.setViewName("sell/sellerPage");
-         
-        //mv.setViewName("다른사람이 보는 내상점");
-      }
-      
-      return mv;
-   }
+    	  int searchSeller = Integer.valueOf((search.substring(1)));
+    	  Member member = (Member) session.getAttribute("loginUser");
+
+			if(member != null) {
+				Map<String, Integer> map = new HashMap<>();
+				map.put("userNo", member.getUserNo());
+				map.put("searchSeller", searchSeller);
+				mv.addObject("member", sellService.sellerDetail(map));
+			}else {
+				mv.addObject("member", sellService.searchsellerDetail(searchSeller));
+			}
+			
+			mv.setViewName("sell/sellerPage");
+			mv.addObject("sellerUserno",searchSeller);
+			// 판매 리스트
+			mv.addObject("sellList", sellService.sellList(searchSeller));
+			// 리뷰 리스트
+			mv.addObject("reviewList", sellService.reviewList(searchSeller));
+			
+		  //mv.setViewName("다른사람이 보는 내상점");
+			mv.setViewName("sell/searchSellerPage");
+		}
+		
+
+		return mv;
+	}
    
    
    
@@ -160,6 +179,7 @@ public class SellController {
                     }
                  }
               }
+
 
               if(loginUser != null) {
                  

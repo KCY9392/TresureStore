@@ -126,21 +126,27 @@ public class ChatController {
 	      }
 
 	   // @SessionAttributes 쓰기위한 작업
-	      model.addAttribute("chatRoomNo", room.getChatRoomNo() );
 	      
 	      AllList =  chatService.createAndEnterChatRoom(AllList, room, sellUserNo, roomJoin, block, account);
 	      
-	      if(AllList.size() > 0) {
-	         
-	         model.addAttribute("AllList", AllList);
-	         logger.info(">> 채팅방으로 이동");
-	         
-	         return "chat/chatRoom";
-	         
-	      } else {
-	    	  
-			session.setAttribute("alertMsg", "채팅방 입장에 실패하였습니다.");
-			return HomeController.HOME;
+        model.addAttribute("chatRoomNo", room.getChatRoomNo() );
+      
+      logger.info("Integer.valueOf(sellNo) : "+Integer.valueOf(sellNo));
+      
+      
+      String reviewIs = chatService.reviewIs(Integer.valueOf(sellNo));
+      
+      if(AllList.size() > 0) {
+         
+         model.addAttribute("AllList", AllList);
+         
+         model.addAttribute("reviewIs",reviewIs);
+         return "chat/chatRoom";
+         
+      } else {
+         
+         session.setAttribute("alertMsg", "채팅방 입장에 실패하였습니다.");
+			  return HomeController.HOME;
 		}
 	}
 
@@ -273,5 +279,4 @@ public class ChatController {
 
 		return map;
 	}
-
 }

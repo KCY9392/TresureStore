@@ -24,7 +24,8 @@ import com.kh.tresure.sell.model.vo.Sell;
 import com.kh.tresure.sell.model.vo.SellImg;
 
 @Service
-public class SellServiceImpl implements SellService  {
+public class SellServiceImpl implements SellService {
+
 
    
    private SellDao sellDao;
@@ -94,6 +95,7 @@ public class SellServiceImpl implements SellService  {
    @Override
    public int insertSell(Sell s, List<MultipartFile> list, String webPath, String serverFolderPath) {
 
+
       s.setSellTitle(s.getSellTitle());
       s.setSellContent(s.getSellContent());
       s.setPrice(s.getPrice());
@@ -158,6 +160,7 @@ public class SellServiceImpl implements SellService  {
                      e.printStackTrace();
                   }
                }
+
 
             } else { // 이미지 삽입 실패시
                // 강제로 예외 발생시키기.
@@ -287,9 +290,15 @@ public class SellServiceImpl implements SellService  {
    
    @Override
    public int sellDelete(Sell s) {
-      
-      
       return sellDao.deleteSell(sqlSession, s);
    }
+   
+    /**
+    * 로그인 하지 않은 상태에서 상점명 검색시 */
+    @Override
+    public Object searchsellerDetail(int searchSeller) {
+      return sellDao.searchsellerDetail(sqlSession, searchSeller);
+    }
+
    
 }
