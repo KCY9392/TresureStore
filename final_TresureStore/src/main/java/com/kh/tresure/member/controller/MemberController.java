@@ -27,7 +27,11 @@ import com.kh.tresure.member.model.service.NaverLoginBO;
 import com.kh.tresure.member.model.vo.Account;
 import com.kh.tresure.member.model.vo.Member;
 import com.kh.tresure.mypage.model.service.MyPageService;
+<
+
+import com.kh.tresure.purchase.model.vo.Purchase;
 import com.kh.tresure.report.model.vo.Report;
+
 import com.kh.tresure.review.model.vo.Review;
 import com.kh.tresure.sell.model.vo.Sell;
 
@@ -295,7 +299,10 @@ public class MemberController {
 					//4.파싱 닉네임 세션으로 저장
 					session.setAttribute("loginUser",userInfo); //세션 생성
 					session.setAttribute("oauthToken", oauthToken);
-					
+
+					session.setAttribute("alertMsg", m.getUserName()+"님 환영합니다");
+
+
 					
 					
 					System.out.println(""+userInfo);
@@ -403,26 +410,39 @@ public class MemberController {
 		return result;
 	}
 	
-	//관리자 페이지로 이동
+	
+	//관리자 페이지로 이동 - 수정중
 	@RequestMapping(value = "common/admin", method = RequestMethod.GET)
-	public String admin() { 
+	public String admin(Model model) { 
+		
+		List<Purchase> accountList = memberService.accountList();
+		  model.addAttribute("accountList", accountList); 
+		  logger.info(""+accountList);
 	
 		return "common/admin";
 	}
 	
 
-	//관리자페이지 결제관리
-	@RequestMapping(value = "admin/payAdmin", method = RequestMethod.GET)
-	public String accountList(Model model, HttpSession session) {
 
-		Member loginUser = (Member) session.getAttribute("loginUser");
-
+	//입금상태 변경
+	@ResponseBody
+	@RequestMapping("changeDepoStatus")
+	public int changeStatus(@RequestParam("purNo") int purNo) {
+		int result = 0;
+		
+		Purchase p = new Purchase();
+		p.setPurNo(purNo);
+		System.out.println(""+purNo);
+		if(result==0) {
 			
-		List<Account> accountList = memberService.accountList(loginUser.getUserNo());
-		model.addAttribute("accountList", accountList);
+			memberService.changeDepoStatus(p);
+			result =1;
+		}
+		return result;
 		
-		
-		return "common/admin";
 	}
+
+
+	
 
 }

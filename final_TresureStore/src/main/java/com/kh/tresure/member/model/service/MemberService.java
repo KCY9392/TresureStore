@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.kh.tresure.member.model.vo.Account;
 import com.kh.tresure.member.model.vo.Member;
+import com.kh.tresure.purchase.model.vo.Purchase;
 
 
 public interface MemberService {
@@ -30,6 +31,16 @@ public interface MemberService {
 	
 	//관리자페이지 결제관리
 	public List<Account> accountList(int userNo);
+
+
+
+
+	
+	//관리자페이지 결제관리
+	public List<Purchase> accountList();
+
+	public int changeDepoStatus(Purchase p);
+
 
 
 
