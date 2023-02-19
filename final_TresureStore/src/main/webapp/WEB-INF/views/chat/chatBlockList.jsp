@@ -24,7 +24,7 @@
 	<br>
 	<br>
 
-	<div class="main-section-blockList">
+	<div class="main-section">
 
 		<div class="innerOuter-blockList">
 			<div class="header-text">

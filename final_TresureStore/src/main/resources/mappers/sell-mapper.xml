@@ -474,12 +474,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
               WHERE FI_ID = M.USER_NO
                 AND FW_ID = #{fwId}
             )
+            <if test="userNo != null">
           , (
              SELECT COUNT(*)
                FROM FOLLOW
               WHERE FI_ID = #{userNo}
                 AND FW_ID = M.USER_NO
             ) AS IS_FOLLOW
+            </if>
         FROM MEMBER M
        WHERE M.USER_NO = #{sellerNo}
    </select>
