@@ -73,14 +73,18 @@ a {
     border: none;
     font-weight: lighter;
 }
-.accountBankButton{
+.accountBankButton {
 	display: flex;
-	all: unset; 
-		   width:73px;
-		   color:gray;
-		   margin:auto;
-           padding: 4px 4px;
-           cursor: pointer;
+	all: unset;
+	width: 73px;
+	color: gray;
+	margin: auto;
+	padding: 4px 4px;
+	cursor: pointer;
+	border: 2px solid #ebe6e6;
+	border-radius: 12px;
+	padding: 10px;
+	width: 80px;
 }
 /* header end */
 

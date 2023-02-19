@@ -114,7 +114,7 @@ public class SellController {
 			if(member != null) {
 				Map<String, Integer> map = new HashMap<>();
 				map.put("userNo", member.getUserNo());
-				map.put("searchSeller", searchSeller);
+				map.put("sellerNo", searchSeller);
 				mv.addObject("member", sellService.sellerDetail(map));
 			}else {
 				mv.addObject("member", sellService.searchsellerDetail(searchSeller));
