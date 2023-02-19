@@ -188,22 +188,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		)
 	</insert>
   
-	<insert id="insertSellImgList" parameterType="list">
-		INSERT INTO SFILE
-		SELECT SEQ_SFNO.NEXTVAL AS SFILE_NO, C.* FROM
-		(
-			<foreach collection="list" item="img" separator="UNION ALL">
-				SELECT #{img.sellNo} as SELL_NO,
-					   #{img.originName} as ORIGIN_NAME,
-					   #{img.changeName} as CHANGE_NAME,
-					   #{img.upLoadDate} as UPLOAD_DATE,
-					   #{img.filePath} as FILE_PATH,
-					   #{img.fileType} as FILE_TYPE,
-					   #{img.status} as STATUS
-				FROM DUAL
-			</foreach>
-		) C
-	</insert>
+	  <insert id="insertSellImgList" parameterType="list">
+      INSERT INTO SFILE
+      SELECT SEQ_SFNO.NEXTVAL AS SFILE_NO, C.* FROM
+      (
+         <foreach collection="list" item="img" separator="UNION ALL">
+            SELECT #{img.sellNo} as SELL_NO,
+                  #{img.originName} as ORIGIN_NAME,
+                  #{img.changeName} as CHANGE_NAME,
+                  NVL(#{img.upLoadDate}, SYSDATE) as UPLOAD_DATE,
+                  #{img.filePath} as FILE_PATH,
+                  #{img.fileType} as FILE_TYPE,
+                  #{img.status} as STATUS
+            FROM DUAL
+         </foreach>
+      ) C
+   </insert>
 	
 	<select id="getSellNo" parameterType="string" resultType="integer">
 		SELECT SEQ_SNO.NEXTVAL FROM DUAL

@@ -48,7 +48,7 @@ public class SellServiceImpl implements SellService {
    @Override
    public List<Sell> sellListTheBogi(int lastSellNo){
       
-      int lastSNo = lastSellNo + 40;
+      int lastSNo = lastSellNo + 39;
       logger.info("fistSellNo : "+lastSellNo);
       logger.info("lastSellNo : "+lastSNo);
       
