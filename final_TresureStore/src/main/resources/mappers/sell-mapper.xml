@@ -34,17 +34,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    <result column="NEGO_PRICE" property="negoPrice"></result>
    <result column="NEGO_STATUS" property="negoStatus"></result>
 
-   <result column="REPORT_NUM" property="report_Num"></result>
-   <result column="FOLLOWER_NUM" property="follower_Num"></result>
-   <result column="SELL_NUM" property="sell_Num"></result>
-   <result column="FOLLOW_IS" property="follow_Is"></result>
-   <result column="HEART_IS" property="heart_Is"></result>
-   
-   <result column="REV_IS" property="rev_is"></result>
-   
-   <result column="ACCOUNT" property="account"></result>
-   
-   <collection property="imgList" resultMap="sellImgResultSet"/>
+	<result column="REPORT_NUM" property="report_Num"></result>
+	<result column="FOLLOWER_NUM" property="follower_Num"></result>
+	<result column="SELL_NUM" property="sell_Num"></result>
+	<result column="FOLLOW_IS" property="follow_Is"></result>
+	<result column="HEART_IS" property="heart_Is"></result>
+	
+	<result column="REV_IS" property="rev_is"></result>
+	
+	<result column="ACCOUNT" property="account"></result>
+	<result column="BANK" property="bank"></result>
+	
+	<collection property="imgList" resultMap="sellImgResultSet"/>
+
 
 </resultMap>
 
@@ -90,7 +92,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             WHERE S.STATUS = 'Y' 
             AND SELL_STATUS = 'I' 
             AND M.STATUS = 'Y') 
-        where SELL_NO BETWEEN 1 AND 41
+        where ROWNUM BETWEEN 1 AND 40
    </select>
 
    <!-- 상품검색 -->
@@ -119,70 +121,74 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       AND S.SELL_TITLE like '%${keyword}%'
         AND ROWNUM <![CDATA[ <= ]]> 5
         ORDER BY P.CREATE_DATE DESC
-   </select>
-   
-   <!-- 판매글 수정 -->
-   <update id="updateSell" parameterType="sell">
-        UPDATE SELL SET
-           CATEGORY_NO = #{categoryNo},
-           SELL_TITLE = #{sellTitle},
-           SELL_CONTENT = #{sellContent},
-           PRICE = #{price}
-        WHERE SELL_NO = #{sellNo}
-     </update>
-     <!-- 판매글 이미지 수정 -->
-     <update id="updateSellImgList" parameterType="list">
-        UPDATE SFILE SET
-           ORIGIN_NAME = #{originName},
-           CHANGE_NAME = #{changeName},
-        WHERE SFILE_NO=#{sfileNo} AND FILE_TYPE = #{fileType}
-     
-     </update>
-   
-   <!-- 판매수정 이미지 리스트 -->
-   <select id="selectSellUpImgList" parameterType="hashmap" resultType="sellImg">
-      SELECT F.SFILE_NO
-           , F.SELL_NO
-           , F.ORIGIN_NAME
-           , F.CHANGE_NAME
-           , F.UPLOAD_DATE
-           , F.FILE_PATH
-           , F.FILE_TYPE
-           , F.STATUS
-        FROM SELL S
-           , SFILE F
-       WHERE S.SELL_NO = F.SELL_NO
-         AND S.SELL_NO = #{sellNo}
-      ORDER BY F.FILE_TYPE DESC
-             , F.SFILE_NO ASC
-   </select>
-   
-   <select id="cateList" resultMap="cateResultSet">
-      SELECT CATEGORY_NO, CATEGORY_NAME
-   FROM CATEGORY
-   </select>
-   
-   <!-- 상품등록 -->
-   <insert id="insertSell" parameterType="sell" >
-      INSERT INTO SELL(
-         SELL_NO,
-         USER_NO,
-         IMAGE_SRC,
-         CATEGORY_NO,
-         SELL_TITLE,
-         SELL_CONTENT,
-         PRICE
-      ) VALUES (
-         #{sellNo}
-        , #{userNo}
-        , #{imgSrc}
-        , #{categoryNo}
-        , #{sellTitle}
-        , #{sellContent}
-        , #{price}
-      )
-   </insert>
-   <insert id="insertSellImgList" parameterType="list">
+
+	</select>
+	
+	<!-- 판매글 수정 -->
+	<update id="updateSell" parameterType="sell">
+  		UPDATE SELL SET
+	  		CATEGORY_NO = #{categoryNo},
+	  		SELL_TITLE = #{sellTitle},
+	  		SELL_CONTENT = #{sellContent},
+	  		PRICE = #{price}
+  		WHERE SELL_NO = #{sellNo}
+  	</update>
+    
+  	<!-- 판매글 이미지 수정 -->
+  	<update id="updateSellImgList" parameterType="list">
+  		UPDATE SFILE SET
+  			ORIGIN_NAME = #{originName},
+  			CHANGE_NAME = #{changeName},
+  		WHERE SFILE_NO=#{sfileNo} AND FILE_TYPE = #{fileType}
+  	
+  	</update>
+	
+<!-- 판매수정 이미지 리스트 -->
+	<select id="selectSellUpImgList" parameterType="hashmap" resultType="sellImg">
+		SELECT F.SFILE_NO
+		     , F.SELL_NO
+		     , F.ORIGIN_NAME
+		     , F.CHANGE_NAME
+		     , F.UPLOAD_DATE
+		     , F.FILE_PATH
+		     , F.FILE_TYPE
+		     , F.STATUS
+		  FROM SELL S
+		     , SFILE F
+		 WHERE S.SELL_NO = F.SELL_NO
+		  
+		   AND S.SELL_NO = #{sellNo}
+		ORDER BY F.FILE_TYPE ASC
+	</select>
+	
+	<select id="cateList" resultMap="cateResultSet">
+		SELECT CATEGORY_NO, CATEGORY_NAME
+	FROM CATEGORY
+	</select>
+	
+	
+	<!-- 상품등록 -->
+	<insert id="insertSell" parameterType="sell" >
+		INSERT INTO SELL(
+			SELL_NO,
+			USER_NO,
+			IMAGE_SRC,
+			CATEGORY_NO,
+			SELL_TITLE,
+			SELL_CONTENT,
+			PRICE
+		) VALUES (
+			#{sellNo}
+		  , #{userNo}
+		  , #{imgSrc}
+		  , #{categoryNo}
+		  , #{sellTitle}
+		  , #{sellContent}
+		  , #{price}
+		)
+	</insert>
+  
+	  <insert id="insertSellImgList" parameterType="list">
       INSERT INTO SFILE
       SELECT SEQ_SFNO.NEXTVAL AS SFILE_NO, C.* FROM
       (
@@ -190,7 +196,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             SELECT #{img.sellNo} as SELL_NO,
                   #{img.originName} as ORIGIN_NAME,
                   #{img.changeName} as CHANGE_NAME,
-                  NVL(#{img.upLoadDate},SYSDATE) as UPLOAD_DATE,
+                  NVL(#{img.upLoadDate}, SYSDATE) as UPLOAD_DATE,
                   #{img.filePath} as FILE_PATH,
                   #{img.fileType} as FILE_TYPE,
                   #{img.status} as STATUS
@@ -198,66 +204,66 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </foreach>
       ) C
    </insert>
-   
-   <select id="getSellNo" parameterType="string" resultType="integer">
-      SELECT SEQ_SNO.NEXTVAL FROM DUAL
-   </select>
-   
-   <select id="selectSellImgList" parameterType="hashmap" resultType="sellImg">
-      SELECT F.SFILE_NO
-           , F.SELL_NO
-           , F.ORIGIN_NAME
-           , F.CHANGE_NAME
-           , F.UPLOAD_DATE
-           , F.FILE_PATH
-           , F.FILE_TYPE
-           , F.STATUS
-        FROM SELL S
-           , SFILE F
-       WHERE S.SELL_NO = F.SELL_NO
-         AND F.FILE_TYPE = 'D'
-         AND S.SELL_NO = #{sellNo}
-      ORDER BY F.SFILE_NO DESC
-   </select>
-   
-   <!-- 채팅방에 보이는 판매제품정보 --> 
-   <select id="selectSellProduct" parameterType="int" resultMap="sellResultSet">
-      SELECT CR.CHATROOM_NO,
-             S.SELL_NO AS "SELL_NO",
-             S.USER_NO AS "USER_NO",
-             CATEGORY_NAME,
-             SELL_TITLE,
-             SELL_CONTENT,
-             IMAGE_SRC,
-             S.COUNT,
-             PRICE,
-             S.CREATE_DATE AS "CREATE_DATE",
-             HEART_NUM,
-             AVG,
-             PRICE,
-          	 NEGO_PRICE,
-          	 NEGO_STATUS,
-        	 ACCOUNT,
-             S.CRAWL
-      FROM CHAT_ROOM CR
-      LEFT JOIN SELL S ON (S.SELL_NO = CR.SELL_NO)
-      LEFT JOIN CATEGORY C ON (S.CATEGORY_NO = C.CATEGORY_NO)
-      LEFT JOIN NEGO N ON (CR.CHATROOM_NO = N.CHATROOM_NO)
-      LEFT JOIN MEMBER M ON (S.USER_NO = M.USER_NO)
-      LEFT JOIN (SELECT AVG(REV_SCORE) AS "AVG",
-                   S.USER_NO
-             FROM REVIEW R
-             JOIN SELL S ON(R.SELL_NO = S.SELL_NO)
-             GROUP BY S.USER_NO) 
-             PP ON (PP.USER_NO = S.USER_NO)
-      LEFT JOIN ACCOUNT A ON (A.USER_NO = S.USER_NO)
-      WHERE CR.CHATROOM_NO = #{chatRoomNo}
-   </select>
-   
-   
-   <!-- 마이페이지 판매목록  -->
-   <select id="mypageSellList" resultMap="sellResultSet" parameterType="Integer">
-   
+	
+	<select id="getSellNo" parameterType="string" resultType="integer">
+		SELECT SEQ_SNO.NEXTVAL FROM DUAL
+	</select>
+	
+	<select id="selectSellImgList" parameterType="hashmap" resultType="sellImg">
+		SELECT F.SFILE_NO
+		     , F.SELL_NO
+		     , F.ORIGIN_NAME
+		     , F.CHANGE_NAME
+		     , F.UPLOAD_DATE
+		     , F.FILE_PATH
+		     , F.FILE_TYPE
+		     , F.STATUS
+		  FROM SELL S
+		     , SFILE F
+		 WHERE S.SELL_NO = F.SELL_NO
+		   AND F.FILE_TYPE = 'D'
+		   AND S.SELL_NO = #{sellNo}
+		ORDER BY F.SFILE_NO DESC
+	</select>
+	
+	<!-- 채팅방에 보이는 판매제품정보 --> 
+	<select id="selectSellProduct" parameterType="int" resultMap="sellResultSet">
+	   SELECT CR.CHATROOM_NO,
+	          S.SELL_NO AS "SELL_NO",
+	          S.USER_NO AS "USER_NO",
+	          CATEGORY_NAME,
+	          SELL_TITLE,
+	          SELL_CONTENT,
+	          IMAGE_SRC,
+	          S.COUNT,
+	          PRICE,
+	          S.CREATE_DATE AS "CREATE_DATE",
+	          HEART_NUM,
+	          AVG,
+            NEGO_PRICE,
+            NEGO_STATUS,
+            ACCOUNT,
+            BANK,
+            S.CRAWL,
+            S.SELL_STATUS
+	   FROM CHAT_ROOM CR
+	   LEFT JOIN SELL S ON (S.SELL_NO = CR.SELL_NO)
+       LEFT JOIN CATEGORY C ON (S.CATEGORY_NO = C.CATEGORY_NO)
+       LEFT JOIN NEGO N ON (CR.CHATROOM_NO = N.CHATROOM_NO)
+	   LEFT JOIN MEMBER M ON (S.USER_NO = M.USER_NO)
+	   LEFT JOIN (SELECT AVG(REV_SCORE) AS "AVG",
+	          		S.USER_NO
+	   		 FROM REVIEW R
+	   		 JOIN SELL S ON(R.SELL_NO = S.SELL_NO)
+	   		 GROUP BY S.USER_NO) 
+	   		 PP ON (PP.USER_NO = S.USER_NO)
+	   LEFT JOIN ACCOUNT A ON (A.USER_NO = S.USER_NO)
+	   WHERE CR.CHATROOM_NO = #{chatRoomNo}
+	</select>
+	
+	
+	<!-- 마이페이지 판매목록  -->
+	<select id="mypageSellList" resultMap="sellResultSet" parameterType="Integer">   
    SELECT 
            S.SELL_NO, 
             S.CRAWL,
@@ -395,7 +401,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          S.SELL_TITLE AS "SELL_TITLE", 
          S.PRICE AS "PRICE", 
          S.UPDATE_DATE AS "CREATE_DATE", 
-         NVL(r.rev_content,'N') AS "REV_IS"
+         NVL(r.rev_content,'N') AS "REV_IS",
+         S.SELL_STATUS,
+         S.CRAWL
        FROM PURCHASE P
        LEFT JOIN SELL S ON (P.SELL_NO = S.SELL_NO)
        LEFT JOIN MEMBER M ON (P.USER_NO = M.USER_NO)
@@ -498,7 +506,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             WHERE S.STATUS = 'Y' 
             AND SELL_STATUS = 'I' 
             AND M.STATUS = 'Y') 
-        where SELL_NO BETWEEN #{firstSellNo} AND #{lastSellNo}
+        where R BETWEEN #{firstSellNo} AND #{lastSellNo}
    </select>
    
    
@@ -512,7 +520,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             AND M.STATUS = 'Y' 
             AND ROWNUM = 1
             ORDER BY SELL_NO DESC
-
    </select>
    
    <update id="deleteSell" parameterType="sell">
@@ -547,5 +554,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                              )
        WHERE S.SELL_NO = #{sellNo}
    </update>
+   
+   <!-- 로그인 안하고 상점명 검색시 -->
+	<select id="searchsellerDetail" parameterType="int" resultMap="seller">
+		SELECT M.USER_NO
+           , ROUND(SYSDATE - M.CREATE_DATE) AS MARKET_OPEN
+           , (
+              SELECT COUNT(*)
+                FROM SELL
+               WHERE USER_NO = M.USER_NO
+             ) AS SELL_COUNT
+          , (
+             SELECT COUNT(*)
+               FROM FOLLOW
+              WHERE FW_ID = M.USER_NO
+            ) AS FOLLOW_COUNT
+          , (
+             SELECT COUNT(*)
+               FROM REPORT
+              WHERE REPORTED_NO = M.USER_NO
+            ) AS REPORT_COUNT
+          , (
+              SELECT NVL(AVG(REV_SCORE), 0)
+                FROM SELL S
+                   , REVIEW R
+               WHERE S.SELL_NO = R.SELL_NO
+                 AND S.USER_NO = M.USER_NO
+            ) AS REVIEW_AVG
+          , (
+             SELECT COUNT(*)
+               FROM FOLLOW
+              WHERE FI_ID = M.USER_NO
+            )
+        FROM MEMBER M
+       WHERE M.USER_NO = #{searchSeller}
+	</select>
 
 </mapper>

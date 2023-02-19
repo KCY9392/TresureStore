@@ -67,7 +67,21 @@
 		
 		
 		$(document).on("click", ".follow-cancel", (e) => {
-			if (confirm("팔로잉을 취소하시겠습니까?")) {
+			if (
+					Swal.fire({
+						  title: '팔로잉을 취소하시겠습니까?',
+						  showCancelButton: true,
+						  confirmButtonText: '팔로잉 취소'
+						}).then((result) => {
+						  if (result.isConfirmed) {
+							  Swal.fire({
+								  title: '팔로잉이 취소되었습니다.',
+								  showCancelButton: true,
+								  allowOutsideClick : false
+								})
+						  }
+						})
+			) {
 				let li = $(e.target).closest("li");
 				console.log("fwId : ", $(e.target).data("fwid"))
 				$.ajax({
@@ -78,14 +92,26 @@
 					success : function(data) {
 						let count = Number(data.result)
 						if (count == 1) {
-							alert("팔로우가 취소되었습니다.");
+							Swal.fire({
+								title:"팔로우가 취소되었습니다.",
+								icon:"success",
+								showConfirmButton: true,
+								allowOutsideClick : false
+							});
 							$(li).remove();
 						} else {
-							alert("팔로우 취소에 실패하었습니다.");
+							Swal.fire({
+								title:"팔로우 취소 실패.",
+								icon:"error"
+							});
 						}
 					},
 					error : function() {
-						alert("오류가 발생했습니다. 관리자에게 문의해주세요");
+						Swal.fire({
+							title:"오류 발생",
+							text:"관리자에게 문의해주세요",
+							icon:"error"
+						});
 						console.log("오류");
 					}
 				});

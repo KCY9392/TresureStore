@@ -122,9 +122,14 @@ public class MemberDao {
 	}
 
 	//관리자페이지 결제관리
-	public List<Account> accountList(SqlSession sqlSession) {
+	public List<Account> accountList(SqlSession sqlSession, int userNo) {
 
-		return sqlSession.selectList("memberMapper.accountList");
+		return sqlSession.selectList("memberMapper.accountList", userNo);
+	}
+
+	public static Account selectAccountInfo(SqlSession sqlSession, long account) {
+		
+		return null;
 	}
 
 

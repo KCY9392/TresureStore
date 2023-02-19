@@ -31,6 +31,13 @@ public class PurchaseServiceImpl implements PurchaseService {
 	@Override
 	public int purchaseComplete(Purchase purchase) {
 		
-		return purchaseDao.purchaseComplete(sqlSession, purchase);
+		int result1 = purchaseDao.purchaseComplete(sqlSession, purchase);
+		int result2 = 0;
+		
+		if(result1 > 0) {
+			result2 = purchaseDao.purchaseSellStatusC(sqlSession, purchase);
+		}
+		
+		return result1*result2;
 	}
 }

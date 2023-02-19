@@ -40,7 +40,7 @@ import net.nurigo.sdk.message.service.DefaultMessageService;
 @Controller
 @Primary
 public class MemberController {
-	
+
 	private Logger logger = LoggerFactory.getLogger(MemberController.class);
 	private MessageController messageController;
 	private KakaoAPI kakao;
@@ -51,9 +51,11 @@ public class MemberController {
 	private String apiResult = null;
 	
 	// 기본생성자
-	public MemberController() {}
-	
+	public MemberController() {
+	}
+
 	@Autowired
+
 	public MemberController(MessageController messageController, MemberService memberService, KakaoAPI kakao, MyPageService mypageService, NaverLoginBO naverLoginBO){
 		this.messageController = messageController;
 		this.memberService = memberService;
@@ -61,7 +63,6 @@ public class MemberController {
 		this.mypageService=mypageService;
 		this.naverLoginBO=naverLoginBO;
 	}
-	
 	
 	/*
 	 * // 통합로그인 창으로 이동하는 메소드
@@ -73,191 +74,186 @@ public class MemberController {
 	 * 
 	 * return "member/memberLoginForm"; }
 	 */
-	
-	
+
 	// 본인인증 창으로 이동하는 메소드
-	@RequestMapping(value="/loginJoin/identification", method = RequestMethod.GET)
+	@RequestMapping(value = "/loginJoin/identification", method = RequestMethod.GET)
 	public String identificationForm() {
-		
+
 		logger.info(">> 본인인증 폼으로 이동");
-		
+
 		return "member/identificationForm";
 	}
-	
-	
-	// 인증번호 입력창으로 이동하는 메소드 
-	@RequestMapping(value="/loginJoin/authenticationNumber", method = RequestMethod.POST)
-	public String authenticationNumberForm(@RequestParam(value="userName") String userName,	// 사용자이름
-			   							   @RequestParam(value="birth") String birth,		// 생년월일
-			   							   @RequestParam(value="birth2") int birth2,		// 뒷 첫번째 자리(필요는 없음)
-			   							   @RequestParam(value="phone") String phone,		// 핸드폰 번호
-			   							   Model model,
-			   							   Member m,
-			   							   HttpSession session
-			   							   ) {
-		
+
+	// 인증번호 입력창으로 이동하는 메소드
+	@RequestMapping(value = "/loginJoin/authenticationNumber", method = RequestMethod.POST)
+	public String authenticationNumberForm(@RequestParam(value = "userName") String userName, // 사용자이름
+			@RequestParam(value = "birth") String birth, // 생년월일
+			@RequestParam(value = "birth2") int birth2, // 뒷 첫번째 자리(필요는 없음)
+			@RequestParam(value = "phone") String phone, // 핸드폰 번호
+			Model model, Member m, HttpSession session) {
+
 		logger.info(">> 인증번호 입력하기 폼으로 이동");
-		
-		
+
 		int blackUser = memberService.blackConsumer(m, userName, phone);
-		
-		if(blackUser > 0) {
-    		session.setAttribute("alertMsg", "로그인 및 회원가입을 할 수 없는 유저입니다.");
-    		return "redirect:/";
+
+		if (blackUser > 0) {
+			session.setAttribute("alertMsg", "로그인 및 회원가입을 할 수 없는 유저입니다.");
+			return "redirect:/";
 		}
-		
+
 		// 메세지 보내기 실행
-		int randomNum = messageController.sendOne(phone);
+
+		//int randomNum = messageController.sendOne(phone);
 		
 		model.addAttribute("userName", userName);
 		model.addAttribute("birth", birth);
 		model.addAttribute("phone", phone);
-		model.addAttribute("randomNum",randomNum);
+		model.addAttribute("randomNum",123123);
 		
 		return "member/authenticationNumberForm";
 	}
-	
-	
+
 	// 인증번호 입력하고 회원가입 및 로그인하기
-	@RequestMapping(value="/loginJoin/loginStrart", method = RequestMethod.POST)
-	public String loginAndMemberEnroll(Member member,	
-		   							   @RequestParam(value="inputNumber") String inputNumber,	// 사용자가 입력한 인증번호
-		   							   @RequestParam(value="randomNum") String randomNum,		// 생성된 인증번호
-		   							   Model model,
-		   							   HttpSession session) {
-		
-		if(inputNumber.equals(randomNum)) {
+	@RequestMapping(value = "/loginJoin/loginStrart", method = RequestMethod.POST)
+	public String loginAndMemberEnroll(Member member, @RequestParam(value = "inputNumber") String inputNumber, // 사용자가
+																												// 입력한
+																												// 인증번호
+			@RequestParam(value = "randomNum") String randomNum, // 생성된 인증번호
+			Model model, HttpSession session) {
+
+		if (inputNumber.equals(randomNum)) {
 			// 인증번호와 같은경우
 			Member loginUser = memberService.loginAndMemberEnroll(member);
 			session.setAttribute("loginUser", loginUser);
-			session.setAttribute("alertMsg", loginUser.getUserName()+"님 환영합니다");
+			session.setAttribute("alertMsg", loginUser.getUserName() + "님 환영합니다");
 		}
-		
-		return "redirect:/";
-	}
-	
-	
-	// 임의적으로 관리자로 로그인하는 컨트롤러생성(이거 문자가 무제한이아니라서 임의적으로 넣어둔 거 - 삭제예정)
-	@RequestMapping(value="/loginJoin/pp")
-	public String pp(HttpServletRequest request) {
-		
-		Member loginUser = Member.builder().userNo(10).userName("관리자").phone("01012345678").count(0).status("Y").blackListStatus("N").build();
 
-		
+		return "redirect:/";
+	}
+
+	// 임의적으로 관리자로 로그인하는 컨트롤러생성(이거 문자가 무제한이아니라서 임의적으로 넣어둔 거 - 삭제예정)
+	@RequestMapping(value = "/loginJoin/pp")
+	public String pp(HttpServletRequest request) {
+
+		Member loginUser = Member.builder().userNo(10).userName("관리자").phone("01012345678").count(0).status("Y")
+				.blackListStatus("N").build();
+
 		logger.info(">> 관리자로 로그인");
-		
+
 		HttpSession session = request.getSession();
 		session.setAttribute("loginUser", loginUser);
-		session.setAttribute("alertMsg", loginUser.getUserName()+"님 환영합니다");
-		
-		logger.info("loginUser ? "+loginUser);
-		
+		session.setAttribute("alertMsg", loginUser.getUserName() + "님 환영합니다");
+
+		logger.info("loginUser ? " + loginUser);
+
 		return "redirect:/";
 	}
-	
+
 	// 임의적으로 사용자로 로그인하는 컨트롤러생성(이거 문자가 무제한이아니라서 임의적으로 넣어둔 거 - 삭제예정)
-	@RequestMapping(value="/loginJoin/qq")
+	@RequestMapping(value = "/loginJoin/qq")
 	public String qq(HttpServletRequest request) {
-		
-		Member loginUser = Member.builder().userNo(1).userName("사용자").phone("01099887766").count(0).status("Y").blackListStatus("N").build();
-		
+
+		Member loginUser = Member.builder().userNo(1).userName("사용자").phone("01099887766").count(0).status("Y")
+				.blackListStatus("N").build();
+
 		logger.info(">> 사용자로 로그인");
-		
+
 		HttpSession session = request.getSession();
 		session.setAttribute("loginUser", loginUser);
-		session.setAttribute("alertMsg", loginUser.getUserName()+"님 환영합니다");
-		
+		session.setAttribute("alertMsg", loginUser.getUserName() + "님 환영합니다");
+
 		return "redirect:/";
 	}
-	
-	
+
 	// 로그아웃 하는 메소드
-	@RequestMapping(value="/logout")
+	@RequestMapping(value = "/logout")
 	public String memberLogOut(HttpServletRequest request) {
-		
+
 		logger.info(">> 로그아웃");
-		
+
 		HttpSession session = request.getSession();
 		session.removeAttribute("loginUser");
+
 		session.removeAttribute("oauthToken");	
+
 		session.setAttribute("alertMsg", "다음에 또 오세요 ^ㅁ^");
 		return "redirect:/";
 	}
-	
-	
-	
 
 	/**
-	 * kakao 로그인 
+	 * kakao 로그인
+	 * 
 	 * @param code
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value="/loginJoin/kakao")
+	@RequestMapping(value = "/loginJoin/kakao")
 	public String login(@RequestParam("code") String code, HttpSession session) {
-		
-		//받은 code로 access_token 가져오기
-		String access_Token = kakao.getAccessToken(code); 
-		
-		
-	    //access_token으로 user정보 가져오기 (닉네임, 이메일계정)
-	    Member member = kakao.getUserInfo(access_Token);
-	    logger.info("login Controller : " + member.toString());
-	    
-	    //클라이언트의 이메일이 존재할 때(즉, 카카오 로그인 성공)
-	    if (member != null) {
-	    	
-	    	// email과 nickname으로 회원체크, 회원가입/로그인 성공 후 member객체 반환
-	    	member = memberService.loginAndMemberEnroll(member);
-	    	logger.info("member : "+member);
-	    	
-	    	if(member == null) {
-	    		kakao.unlink(access_Token);
-	    		session.setAttribute("alertMsg", "로그인 및 회원가입을 할 수 없는 유저입니다.");
-	    		return "redirect:/";
-	    	}
-	    	
-	    	session.setAttribute("loginUser", member);
-	    	session.setAttribute("access_Token", access_Token);
-	    	session.setAttribute("alertMsg", member.getUserName()+"님 환영합니다");
-	    }
-        
+
+		// 받은 code로 access_token 가져오기
+		String access_Token = kakao.getAccessToken(code);
+
+		// access_token으로 user정보 가져오기 (닉네임, 이메일계정)
+		Member member = kakao.getUserInfo(access_Token);
+		logger.info("login Controller : " + member.toString());
+
+		// 클라이언트의 이메일이 존재할 때(즉, 카카오 로그인 성공)
+		if (member != null) {
+
+			// email과 nickname으로 회원체크, 회원가입/로그인 성공 후 member객체 반환
+			member = memberService.loginAndMemberEnroll(member);
+			logger.info("member : " + member);
+
+			if (member == null) {
+				kakao.unlink(access_Token);
+				session.setAttribute("alertMsg", "로그인 및 회원가입을 할 수 없는 유저입니다.");
+				return "redirect:/";
+			}
+
+			session.setAttribute("loginUser", member);
+			session.setAttribute("access_Token", access_Token);
+			session.setAttribute("alertMsg", member.getUserName() + "님 환영합니다");
+		}
+
 		return "redirect:/";
 	}
-	
+
 	/**
 	 * kakao 이 서비스에서만 로그아웃
+	 * 
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value="/logout/kakao")
-	public String logout(HttpSession session) throws IOException{
-		String access_Token = (String)session.getAttribute("access_Token");
-		 if(access_Token != null && !"".equals(access_Token)){
-	            kakao.kakaoLogout(access_Token);
-	            session.removeAttribute("access_Token");
-	            session.removeAttribute("loginUser");
-	            session.removeAttribute("userId");
-	            session.setAttribute("alertMsg", "다음에 또 오세요 ^ㅁ^");
-	        }else{
-	            System.out.println("access_Token is null");
-	        }
-		 return "redirect:/";
+	@RequestMapping(value = "/logout/kakao")
+	public String logout(HttpSession session) throws IOException {
+		String access_Token = (String) session.getAttribute("access_Token");
+		if (access_Token != null && !"".equals(access_Token)) {
+			kakao.kakaoLogout(access_Token);
+			session.removeAttribute("access_Token");
+			session.removeAttribute("loginUser");
+			session.removeAttribute("userId");
+			session.setAttribute("alertMsg", "다음에 또 오세요 ^ㅁ^");
+		} else {
+			System.out.println("access_Token is null");
+		}
+		return "redirect:/";
 	}
 
 	/**
 	 * kakao 계정과 함께 로그아웃(연결끊기)
+	 * 
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value="/kakaounlink")
+	@RequestMapping(value = "/kakaounlink")
 	public String unlink(HttpSession session) {
-		kakao.unlink((String)session.getAttribute("access_Token"));
+		kakao.unlink((String) session.getAttribute("access_Token"));
 		session.invalidate();
 		session.removeAttribute("loginUser");
 		session.setAttribute("alertMsg", "다음에 또 오세요 ^ㅁ^");
 		return "redirect:/";
 	}
+
 	
 	//로그인 첫 화면 요청 메소드
 			@RequestMapping(value = "/loginJoinForm", method = { RequestMethod.GET, RequestMethod.POST })
@@ -317,13 +313,14 @@ public class MemberController {
 		int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
 
 		memberService.deleteMember(userNo);
-		
-		if((String)session.getAttribute("access_Token") != null) {
-			kakao.unlink((String)session.getAttribute("access_Token"));
+
+		if ((String) session.getAttribute("access_Token") != null) {
+			kakao.unlink((String) session.getAttribute("access_Token"));
 			session.removeAttribute("access_Token");
 			session.removeAttribute("loginUser");
 			session.setAttribute("alertMsg", "감사했습니다 ^_^7");
 		}
+
 		//네이버 회원탈퇴
 				if((OAuth2AccessToken)session.getAttribute("oauthToken") != null) {
 					
@@ -346,10 +343,6 @@ public class MemberController {
 									e.printStackTrace();
 					
 				}
-								
-									
-								
-		      
 				
 			}
 		
@@ -376,7 +369,7 @@ public class MemberController {
 		return result;
 		
 	}
-	
+
 	
 	//계좌 수정
 	@ResponseBody
@@ -393,6 +386,7 @@ public class MemberController {
 		
 	}
 	
+
 		
 	//로그인 유저 계좌 가져오기
 	@ResponseBody
@@ -404,11 +398,9 @@ public class MemberController {
 		int result = memberService.accountNumber(account);
 		
 		if(result > 0) {
-
 			return Integer.parseInt(account.getAccount());
 		}
 		return result;
-		
 	}
 	
 	//관리자 페이지로 이동
@@ -418,18 +410,19 @@ public class MemberController {
 		return "common/admin";
 	}
 	
-	
+
 	//관리자페이지 결제관리
 	@RequestMapping(value = "admin/payAdmin", method = RequestMethod.GET)
 	public String accountList(Model model, HttpSession session) {
+
+		Member loginUser = (Member) session.getAttribute("loginUser");
+
 			
-		List<Account> accountList = memberService.accountList();
+		List<Account> accountList = memberService.accountList(loginUser.getUserNo());
+		model.addAttribute("accountList", accountList);
 		
-		return "/admin";
+		
+		return "common/admin";
 	}
-	
-	
-	
-	
 
 }

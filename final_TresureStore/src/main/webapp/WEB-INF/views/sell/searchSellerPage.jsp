@@ -51,7 +51,6 @@
 					<c:if test="${ reviewAvg == null  || reviewAvg < 3.5 }">
 						<img src="/tresure/resources/images/icon/backGray_grade0.png"
 							height="100%" width="100%" />
-
 					</c:if>
 
 
@@ -92,16 +91,7 @@
 
 					<div class="market-name"
 						style="margin-top: 55px; margin-bottom: 10px;">상점
-						${member.userNo} 호점
-
-
-						<div class="sellHeartNumText">
-							<img src="https://m.bunjang.co.kr/pc-static/resource/0acf058f19649d793382.png"
-							width="24" height="24" alt="상품 몇분전 아이콘"/>
-							<span id="addReport" class="reportBtn">신고하기</span>
-						</div>
-					</div>
-
+						${sellerUserno} 호점</div>
 
 					<div class="info-list">
 						<div class="market-open">
@@ -156,15 +146,6 @@
 									src="/tresure/resources/images/icon/followSubBtn.png"
 									width="100%" height="70%">
 							</button>
-						</c:if>
-
-						<c:if test="${s.sellStatus eq 'C' }">
-							<div class="over-img"></div>
-							<div class="text-c"
-								style="color: white; margin-left: 71px; margin-top: -93px; margin-bottom: 75px;">
-								<h3>판매완료</h3>
-							</div>
-
 						</c:if>
 					</div>
 				</div>
@@ -275,218 +256,94 @@
 	<jsp:include page="../common/footer.jsp" />
 
 	<script>
-	 	$(document).on("click", ".followBtn-sell", (e) => {
-			if ("${loginUser.userNo}" == "${s.userNo}") {
-				$(document).on("click", ".followBtn-sell", (e) => {
-					if ("${loginUser.userNo}" == "${s.userNo}") {
-						Swal.fire({
-			                icon: 'error',
-			                title: '내가 나 자신을 팔로우 할 수는 없습니다.'                  
-			            });
-						return;
-					}
-			}
-	
-			$(e.target).parent().removeClass("followBtn-sell"); // 중복 이벤트 방지를 위해 class를 제거. (class를 제거하면 더 이상 이벤트 발생 안함)
-			let fwId = ${member.userNo};
-			$.ajax({
-				url : '${pageContext.request.contextPath}/follow/addFollow',
-				type : "post",
-				data : {fwId : fwId},
-				dataType : "json",
-				success : function(data) {
-					let result = Number(data.result);
-					if (result == 1) {
-						Swal.fire({
-		 	   		        icon: 'success',
-		 	   		        title: '팔로우 되었습니다.'
-						});
-						
-	 	   		        setTimeout(function() {
-      	            	  location.reload();
-      	            	}, 1000);
-					} else if (result == 2) {
-						if (confirm("이미 팔로우 했습니다.\n팔로우를 취소하시겠습니까?")) {
-							$.ajax({
-								url : '${pageContext.request.contextPath}/follow/delFollow',
-								type : "post",
-								data : {fwId : fwId},
-								dataType : "json",
-								success : function(data) {
-									let count = Number(data.result)
-									if (count == 1) {
-										
-										Swal.fire({
-				 	   		                icon: 'success',
-				 	   		                title: '팔로우 취소되었습니다.'                  
-				 	   		            });
-				 	   	   				
-										setTimeout(function() {
+	$(document).on("click", ".followBtn-sell", (e) => {
+		if ("${loginUser.userNo}" == "${s.userNo}") {
+			Swal.fire({
+                icon: 'error',
+                title: '내가 나 자신을 팔로우 할 수는 없습니다.'                  
+            });
+			return;
+		}
+
+		$(e.target).parent().removeClass("followBtn-sell"); // 중복 이벤트 방지를 위해 class를 제거. (class를 제거하면 더 이상 이벤트 발생 안함)
+		let fwId = ${member.userNo};
+		$.ajax({
+			url : '${pageContext.request.contextPath}/follow/addFollow',
+			type : "post",
+			data : {fwId : fwId},
+			dataType : "json",
+			success : function(data) {
+				let result = Number(data.result);
+				if (result == 1) {
+					$(".followBtm").attr("src", $(".followBtm").attr("src").replace("followAddBtn.png", "followSubBtn.png"));
+					Swal.fire({
+	 	   		        icon: 'success',
+	 	   		        title: '팔로우 되었습니다.'
+					});
+					
+ 	   		        setTimeout(function() {
+  	            	  location.reload();
+  	            	}, 1000);
+				} else if (result == 2) {
+					if (confirm("이미 팔로우 했습니다.\n팔로우를 취소하시겠습니까?")) {
+						$.ajax({
+							url : '${pageContext.request.contextPath}/follow/delFollow',
+							type : "post",
+							data : {fwId : fwId},
+							dataType : "json",
+							success : function(data) {
+								let count = Number(data.result)
+								if (count == 1) {
+									Swal.fire({
+			 	   		                icon: 'success',
+			 	   		                title: '팔로우 취소되었습니다.'                  
+			 	   		            });
+									$(".followBtm").attr("src", $(".followBtm").attr("src").replace("followSubBtn.png", "followAddBtn.png"));
+									setTimeout(function() {
 	                  	            	  location.reload();
 	                  	            	}, 1000);
-										
-										$(".followBtm").attr("src", $(".followBtm").attr("src").replace("followSubBtn.png", "followAddBtn.png"));
-									} else {
-										Swal.fire({
-				 	   		                icon: 'error',
-				 	   		                title: '팔로우 취소 실패되었습니다.'                  
-				 	   		            });
-									}
-								},
-								error : function() {
-									alert("오류!!!");
-									console.log("오류");
+								} else {
+									Swal.fire({
+			 	   		                icon: 'error',
+			 	   		                title: '팔로우 취소 실패되었습니다.'                  
+			 	   		            });
 								}
-							});
-						}
-					} else {
-						alert("오류가 발생!!")
+							},
+							error : function() {
+								alert("오류!!!");
+								console.log("오류");
+							}
+						});
 					}
-					console.log(data);
-				},
-				error : function() {
-					alert("오류가 발생.");
-					console.log("오류");
-				},
-				complete : function () {
-					$(e.target).parent().addClass("followBtn-sell");
+				} else {
+					alert("오류가 발생!!")
 				}
-			})
-	
-		   });
-	 	
-		   //신고버튼 클릭 
-		$('#addReport').on('click', function(){
-				
-			if( !(${loginUser.userNo >= 0}) ){
-				alert("로그인하고 신고해주세요");
-				return;
-			 }
-			 
-	 		Swal.fire({
-	 		  title: '상점신고',
-	 		  input: 'radio',
-	 		  inputOptions: {
-		 			주류_담배 : '주류/담배',
-		 			전문의약품_의료기기 : '전문 의약품/의료기기',
-		 			개인정보거래 : '개인정보 거래',
-		 			음란물_성인용품 : '음란물/성인용품',
-		 			위조상품 : '위조상품',
-		 			총포_도검류 : '총포/도검류',
-		 			게임계정 : '게임 계정',
-		 			동물분양_입양글 : '동물 분양, 입양글',
-		 			기타 : '기타'
-	 		  },
-	 		  customClass: {
-	 			    input: 'inline-flex',
-	 			    inputLabel: 'inline-block'
-	 		  }
-			}).then(function(reportContent) {
-			    if (reportContent.value) {
-			    	Swal.fire('상점신고 완료', reportContent.value+" (으)로 신고하셨습니다.", "success");
-			        reportAdd(reportContent.value);
-			        console.log("Result: " + reportContent.value);
-			    }
-			})
-	 	
-		 };
-	   
-			//신고추가
-		 function reportAdd(value){
+				console.log(data);
+			},
+			error : function() {
+				alert("오류가 발생.");
+				console.log("오류");
+			},
+			complete : function () {
+				$(e.target).parent().addClass("followBtn-sell");
+			}
+		})
 
-			 	const sellUserNo = 	"${AllList.get('product').userNo }";
-			 	const purchaseUserNo = "${AllList.get('purchaseInfo').userNo }";
-			
-				$.ajax({
-					url : "${pageContext.request.contextPath}/report/addReport",
-					data : {reportContent : value,
-							sellUserNo : ${s.userNo}
-	      		},
-					success : function(result){
-						if(result == 1){
-							setTimeout(function() {
-         	            	  location.reload();
-         	            	}, 2000);
-
-						}
-					},
-					error : function(){
-						console.log("통신실패");
-					}
-				});
-	    };
-
-
+	    });
+     </script>
 
 	<script>
-	 	
-		   //신고버튼 클릭 
-		$('#addReport').on('click', function(){
-				
-			if( !(${loginUser.userNo >= 0}) ){
-				alert("로그인하고 신고해주세요");
-				return;
-			 }
-			 
-	 		Swal.fire({
-	 		  title: '상점신고',
-	 		  input: 'radio',
-	 		  inputOptions: {
-		 			주류_담배 : '주류/담배',
-		 			전문의약품_의료기기 : '전문 의약품/의료기기',
-		 			개인정보거래 : '개인정보 거래',
-		 			음란물_성인용품 : '음란물/성인용품',
-		 			위조상품 : '위조상품',
-		 			총포_도검류 : '총포/도검류',
-		 			게임계정 : '게임 계정',
-		 			동물분양_입양글 : '동물 분양, 입양글',
-		 			기타 : '기타'
-	 		  },
-	 		  customClass: {
-	 			    input: 'inline-flex',
-	 			    inputLabel: 'inline-block'
-	 		  }
-			}).then(function(reportContent) {
-			    if (reportContent.value) {
-			    	Swal.fire('상점신고 완료', reportContent.value+" (으)로 신고하셨습니다.", "success");
-			        reportAdd(reportContent.value);
-			        console.log("Result: " + reportContent.value);
-			    }
-			})
-	 	
-		 });
-	   
-			//신고추가
-		 function reportAdd(value){
-
-			 	const sellUserNo = 	"${AllList.get('product').userNo }";
-			 	const purchaseUserNo = "${AllList.get('purchaseInfo').userNo }";
-			
-				$.ajax({
-					url : "${pageContext.request.contextPath}/report/addReport",
-					data : {reportContent : value,
-							sellUserNo : ${member.userNo}
-	      		},
-					success : function(result){
-						if(result == 1){
-							setTimeout(function() {
-         	            	  location.reload();
-         	            	}, 2000);
-
-						}
-					},
-					error : function(){
-						console.log("통신실패");
-					}
-				});
-	    };
+		function sellDetail(sellNo){
+			location.href = "${pageContext.request.contextPath}/sell/sellDetail/"+sellNo;
+		}
 		
-     </script>
-     
-     <script>
-	     function sellDetail(sellNo){
-				location.href = "${pageContext.request.contextPath}/sell/sellDetail/"+sellNo;
+		$(document).ready(function() {
+			var keyword = "${sellerUserno}"; 
+			
+			if(keyword != "") {  //검색어 부분 유지하기
+				$("#search").val( keyword+"호점" );
 			}
+		});
      </script>
 
 </body>

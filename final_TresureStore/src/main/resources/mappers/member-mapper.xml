@@ -180,6 +180,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	SET ACCOUNT = #{account},
 		BANK = #{bank}
 	WHERE USER_NO = #{userNo}
+
 </update> 
 
 
