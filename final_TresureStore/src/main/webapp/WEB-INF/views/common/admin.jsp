@@ -148,8 +148,7 @@ tr>td{
 
 
 	
-		<a href="${pageContext.request.contextPath}/admin/memberAdmin" id="memberAdmin" class="adminBtn" >회원 관리</a>
-		<a href="${pageContext.request.contextPath}/admin/payAdmin" id="payAdmin" class="adminBtn">결제 관리</a>
+		
 	
 
 	
@@ -288,7 +287,9 @@ tr>td{
 	      }
 	  }
 	
+</script>
 
+<script>
 	
 		
 		

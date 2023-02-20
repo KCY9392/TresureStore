@@ -30,6 +30,7 @@ public interface MemberService {
 	public int accountNumber(Account account);
 	
 
+
 	// 관리페이지의 유저 전체 가져오기
 	public HashMap<Object, Object> selectListAll(HashMap<Object, Object> paramMap, int currentPage);
 

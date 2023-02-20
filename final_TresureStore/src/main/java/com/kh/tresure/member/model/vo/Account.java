@@ -15,5 +15,6 @@ public class Account {
 	private int userNo; //유저번호
 	private String account; //계좌번호
 	private String bank; //은행이름
+
 	
 }
