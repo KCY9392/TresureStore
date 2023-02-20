@@ -275,25 +275,25 @@
 	<jsp:include page="../common/footer.jsp" />
 
 	<script>
-	$(document).on("click", ".followBtn-sell", (e) => {
-		if("${loginUser.userNo}" == "") {
-			Swal.fire({
-                icon: 'error',
-                title: '로그인 후 가능합니다.'
-			})
-			setTimeout(function() {
-	            	  location.reload();
-	            	}, 1000);
-			return;
-		} else {
-			if ("${loginUser.userNo}" == "${s.userNo}") {
-		   				Swal.fire({
-			                icon: 'error',
-			                title: '내가 나 자신을 팔로우 할 수는 없습니다.'                  
-			            });
+		$(document).on("click", ".followBtn-sell", (e) => {
+			if("${loginUser.userNo}" == "") {
+				Swal.fire({
+	                icon: 'error',
+	                title: '로그인 후 가능합니다.'
+				})
+				setTimeout(function() {
+		            	  location.reload();
+		            	}, 1000);
 				return;
+			} else {
+				if ("${loginUser.userNo}" == "${s.userNo}") {
+			   				Swal.fire({
+				                icon: 'error',
+				                title: '내가 나 자신을 팔로우 할 수는 없습니다.'                  
+				            });
+					return;
+				}
 			}
-		}
 	
 			$(e.target).parent().removeClass("followBtn-sell"); // 중복 이벤트 방지를 위해 class를 제거. (class를 제거하면 더 이상 이벤트 발생 안함)
 			let fwId = ${member.userNo};
@@ -307,61 +307,42 @@
 					if (result == 1) {
 						Swal.fire({
 		 	   		        icon: 'success',
-		 	   		        title: '팔로우 되었습니다.'
+		 	   		        title: fwId+'호점 팔로우 성공',
+		 	   		        allowOutsideClick : false,
+		 	   		    	showConfirmButton: false,
 						});
 						
 	 	   		        setTimeout(function() {
       	            	  location.reload();
-      	            	}, 1000);
+      	            	}, 1300);
 					} else if (result == 2) {
-						if (confirm("이미 팔로우 했습니다.\n팔로우를 취소하시겠습니까?")) {
-							$.ajax({
-								url : '${pageContext.request.contextPath}/follow/delFollow',
-								type : "post",
-								data : {fwId : fwId},
-								dataType : "json",
-								success : function(data) {
-									let count = Number(data.result)
-									if (count == 1) {
-										
-										Swal.fire({
-				 	   		                icon: 'success',
-				 	   		                title: '팔로우 취소되었습니다.'                  
-				 	   		            });
-				 	   	   				
-										setTimeout(function() {
-	                  	            	  location.reload();
-	                  	            	}, 1000);
-										
-										$(".followBtm").attr("src", $(".followBtm").attr("src").replace("followSubBtn.png", "followAddBtn.png"));
-									} else {
-										Swal.fire({
-				 	   		                icon: 'error',
-				 	   		                title: '팔로우 취소 실패되었습니다.'                  
-				 	   		            });
-									}
-								},
-								error : function() {
-									alert("오류!!!");
-									console.log("오류");
-								}
-							});
-						}
-					} else {
-						alert("오류가 발생!!")
-					}
-					console.log(data);
-				},
-				error : function() {
-					alert("오류가 발생.");
-					console.log("오류");
-				},
-				complete : function () {
-					$(e.target).parent().addClass("followBtn-sell");
+						Swal.fire({
+							icon:'question',
+							text:'이미 팔로우 했습니다. 팔로우를 취소하시겠습니까?',
+							showCancelButton: false,
+							confirmButtonText: '네',
+							allowOutsideClick : true
+						}).then(function(){
+							   follow();
+						})
+				} else {
+					Swal.fire({
+		                icon: 'error',
+		                title: '로그인 후 가능합니다.'
+					})
 				}
-			})
-	
-		   });
+				console.log(data);
+			},
+			error : function() {
+				alert("오류가 발생.");
+				console.log("오류");
+			},
+			complete : function () {
+				$(e.target).parent().addClass("followBtn-sell");
+			}
+		})
+
+	    });
 	 	
 		   //신고버튼 클릭 
 		$('#addReport').on('click', function(){
@@ -424,6 +405,45 @@
 				});
 	    };
 		
+     </script>
+     
+     <script>
+	     function follow(){
+	   	 	let fwId = ${member.userNo};
+	 		$.ajax({
+	 			url : '${pageContext.request.contextPath}/follow/delFollow',
+	 			type : "post",
+	 			data : {fwId : fwId},
+	 			dataType : "json",
+	 			success : function(data) {
+	 				let count = Number(data.result)
+	 				if (count == 1) {
+	 					
+	  	   	   				Swal.fire({
+	  	   		                icon: 'success',
+	  	   		                title: '팔로우 취소되었습니다.',
+	  	   		            	showConfirmButton: false,
+	  	   		           		allowOutsideClick : false,
+	  	   		            });
+	  	   	   				
+	 					$(".followBtm").attr("src", $(".followBtm").attr("src").replace("followSubBtn.png", "followAddBtn.png"));
+	 					setTimeout(function() {
+	   	            	  location.reload();
+	   	            	}, 1300);
+	 				} else {
+	  	   	   				Swal.fire({
+	  	   		                icon: 'error',
+	  	   		                title: '팔로우 취소 실패되었습니다.'                  
+	  	   		            });
+	 				}
+	 			},
+	 			error : function() {
+	 				alert("오류!!!");
+	 				console.log("오류");
+	 			}
+	 		});
+	 		
+	 	}
      </script>
      
      <script>

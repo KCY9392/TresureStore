@@ -355,17 +355,13 @@
 						Swal.fire({
 							icon:'question',
 							text:'이미 팔로우 했습니다. 팔로우를 취소하시겠습니까?',
-							showCancelButton: true,
-							cancelButtonText: '아니요',
+							showCancelButton: false,
 							confirmButtonText: '네',
-							allowOutsideClick : false
+							allowOutsideClick : true
 						}).then(function(){
 							   follow();
-						}, function(dismiss){
-						   if(dismiss == '아니요'){
-						       alert('test');
-						   }
-						});
+						})
+
 				} else {
 					Swal.fire({
 		                icon: 'error',
@@ -571,14 +567,7 @@
                 		   setInterval(function() {
                 			   location.href="${pageContext.request.contextPath}"
                     		 }, 1000);
-       	            	  
-                		 
-	 	   	   				
-                	   
-                         
                    }
-                  
-            
              },
         
              error:function(){
@@ -592,6 +581,8 @@
      };
     	
     </script>
+    
+  
     
 	<script>
 	   //신고버튼 클릭 시

@@ -92,11 +92,11 @@ public class RecentController {
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Integer> deleteProducts(Recent recent) {
-		Map<String, Integer> resultMap = new HashMap<>();
+		Map<String, Integer> result = new HashMap<>();
 		
 		// result를 key로 deleteProduct의 결과값을 대입.
-		resultMap.put("result", recentService.deleteProduct(recent));
-		// resultMap을 JSON 형태로 리턴(출력)
-		return resultMap;
+		result.put("result", recentService.deleteProduct(recent));
+		// result을 JSON 형태로 리턴(출력)
+		return result;
 	}
 }
