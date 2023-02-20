@@ -1,7 +1,6 @@
 package com.kh.tresure.mypage.model.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -102,10 +101,12 @@ public class MyPageServiceImpl implements MyPageService{
 		}
 	
 	
-	
+	/**
+	   * 판매내역 상태변경
+	   */
 	@Override
-	public int changeStatus(HashMap<String, Object> map) {
-		return mypageDao.changeStatus(sqlSession, map);
+	public int changeStatus(int sellNo) {
+		return mypageDao.changeStatus(sqlSession, sellNo);
 	}
 	
 	@Override

@@ -361,6 +361,7 @@
 						}).then(function(){
 							   follow();
 						})
+
 				} else {
 					Swal.fire({
 		                icon: 'error',
@@ -379,6 +380,46 @@
 		})
 
 	    });
+	</script>
+	
+	<script>
+	function follow(){
+		
+		$.ajax({
+			url : '${pageContext.request.contextPath}/follow/delFollow',
+			type : "post",
+			data : {fwId : "${s.userNo}"},
+			dataType : "json",
+			success : function(data) {
+				let count = Number(data.result)
+				if (count == 1) {
+					
+ 	   	   				Swal.fire({
+ 	   		                icon: 'success',
+ 	   		                title: '팔로우 취소되었습니다.',
+ 	   		            	showConfirmButton: false,
+ 	   		           		allowOutsideClick : false,
+ 	   		            });
+ 	   	   				
+					$(".followBtm").attr("src", $(".followBtm").attr("src").replace("followSubBtn.png", "followAddBtn.png"));
+					setTimeout(function() {
+  	            	  location.reload();
+  	            	}, 1300);
+				} else {
+ 	   	   				Swal.fire({
+ 	   		                icon: 'error',
+ 	   		                title: '팔로우 취소 실패되었습니다.'                  
+ 	   		            });
+				}
+			},
+			error : function() {
+				alert("오류!!!");
+				console.log("오류");
+			}
+		});
+		
+	}
+	
 	</script>
 
 	<script>
@@ -541,45 +582,7 @@
     	
     </script>
     
-    <script>
-	function follow(){
-		
-		$.ajax({
-			url : '${pageContext.request.contextPath}/follow/delFollow',
-			type : "post",
-			data : {fwId : "${s.userNo}"},
-			dataType : "json",
-			success : function(data) {
-				let count = Number(data.result)
-				if (count == 1) {
-					
- 	   	   				Swal.fire({
- 	   		                icon: 'success',
- 	   		                title: '팔로우 취소되었습니다.',
- 	   		            	showConfirmButton: false,
- 	   		           		allowOutsideClick : false,
- 	   		            });
- 	   	   				
-					$(".followBtm").attr("src", $(".followBtm").attr("src").replace("followSubBtn.png", "followAddBtn.png"));
-					setTimeout(function() {
-  	            	  location.reload();
-  	            	}, 1300);
-				} else {
- 	   	   				Swal.fire({
- 	   		                icon: 'error',
- 	   		                title: '팔로우 취소 실패되었습니다.'                  
- 	   		            });
-				}
-			},
-			error : function() {
-				alert("오류!!!");
-				console.log("오류");
-			}
-		});
-		
-	}
-	
-	</script>
+  
     
 	<script>
 	   //신고버튼 클릭 시

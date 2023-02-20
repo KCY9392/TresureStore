@@ -1,7 +1,6 @@
 package com.kh.tresure.mypage.model.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
 
 import com.kh.tresure.heart.model.vo.Heart;
@@ -46,8 +45,10 @@ public interface MyPageService{
 	 * 마이페이지 상점후기 목록 */
 	public List<Review> mypageReviewList(int userNo);
 	
-  
-	public int changeStatus(HashMap<String, Object> map);
+  /**
+   * 판매내역 상태변경
+   */
+	public int changeStatus(int sellNo);
 	
 	public List<Sell> mypagetSellList(int userNo);
 

@@ -27,7 +27,11 @@ import com.kh.tresure.member.model.service.NaverLoginBO;
 import com.kh.tresure.member.model.vo.Account;
 import com.kh.tresure.member.model.vo.Member;
 import com.kh.tresure.mypage.model.service.MyPageService;
+
+
+import com.kh.tresure.purchase.model.vo.Purchase;
 import com.kh.tresure.report.model.vo.Report;
+
 import com.kh.tresure.review.model.vo.Review;
 import com.kh.tresure.sell.model.vo.Sell;
 
@@ -126,6 +130,10 @@ public class MemberController {
 			Member loginUser = memberService.loginAndMemberEnroll(member);
 			session.setAttribute("loginUser", loginUser);
 			session.setAttribute("alertMsg", loginUser.getUserName() + "님 환영합니다");
+			
+			String accountInfo =  memberService.userAcountIs(loginUser.getUserNo());
+			session.setAttribute("accountInfo", accountInfo);
+
 		}
 
 		return "redirect:/";
@@ -175,7 +183,8 @@ public class MemberController {
 		session.removeAttribute("loginUser");
 
 		session.removeAttribute("oauthToken");	
-
+		session.removeAttribute("accountInfo");
+		
 		session.setAttribute("alertMsg", "다음에 또 오세요 ^ㅁ^");
 		return "redirect:/";
 	}
@@ -209,7 +218,9 @@ public class MemberController {
 				session.setAttribute("alertMsg", "로그인 및 회원가입을 할 수 없는 유저입니다.");
 				return "redirect:/";
 			}
-
+			String accountInfo =  memberService.userAcountIs(member.getUserNo());
+			session.setAttribute("accountInfo", accountInfo);
+			
 			session.setAttribute("loginUser", member);
 			session.setAttribute("access_Token", access_Token);
 			session.setAttribute("alertMsg", member.getUserName() + "님 환영합니다");
@@ -232,6 +243,7 @@ public class MemberController {
 			session.removeAttribute("access_Token");
 			session.removeAttribute("loginUser");
 			session.removeAttribute("userId");
+			session.removeAttribute("accountInfo");
 			session.setAttribute("alertMsg", "다음에 또 오세요 ^ㅁ^");
 		} else {
 			System.out.println("access_Token is null");
@@ -250,6 +262,7 @@ public class MemberController {
 		kakao.unlink((String) session.getAttribute("access_Token"));
 		session.invalidate();
 		session.removeAttribute("loginUser");
+		session.removeAttribute("accountInfo");
 		session.setAttribute("alertMsg", "다음에 또 오세요 ^ㅁ^");
 		return "redirect:/";
 	}
@@ -296,6 +309,14 @@ public class MemberController {
 					session.setAttribute("loginUser",userInfo); //세션 생성
 					session.setAttribute("oauthToken", oauthToken);
 					
+					String accountInfo =  memberService.userAcountIs(userInfo.getUserNo());
+					session.setAttribute("accountInfo", accountInfo);
+
+
+					session.setAttribute("alertMsg", m.getUserName()+"님 환영합니다");
+
+
+
 					
 					
 					System.out.println(""+userInfo);
@@ -306,55 +327,74 @@ public class MemberController {
 			}
 	
 	
-	// 회원탈퇴
-	@RequestMapping(value = "delete", method = RequestMethod.GET)
-	public String deleteMember(HttpSession session ,Model model) {
-	      
-		int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
+// 회원탈퇴
+			@RequestMapping(value = "delete", method = RequestMethod.GET)
+			public String deleteMember(HttpSession session ,Model model) {
+			      
+				int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
+				
+				
+				logger.info("여기임");
+				
+				memberService.deleteMember(userNo);
 
-		memberService.deleteMember(userNo);
 
-		if ((String) session.getAttribute("access_Token") != null) {
-			kakao.unlink((String) session.getAttribute("access_Token"));
-			session.removeAttribute("access_Token");
-			session.removeAttribute("loginUser");
-			session.setAttribute("alertMsg", "감사했습니다 ^_^7");
-		}
-
-		//네이버 회원탈퇴
-				if((OAuth2AccessToken)session.getAttribute("oauthToken") != null) {
+				if ((String) session.getAttribute("access_Token") != null) {
+					kakao.unlink((String) session.getAttribute("access_Token"));
+					session.removeAttribute("access_Token");
 					
-					OAuth2AccessToken oauthToken = (OAuth2AccessToken) session.getAttribute("oauthToken");
-
 					
-					String apiUrl = "https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id="+NaverLoginBO.CLIENT_ID+"&client_secret="+NaverLoginBO.CLIENT_SECRET+"&access_token="+oauthToken.getAccessToken()+"&service_provider=NAVER";
+				}
+
+				//네이버 회원탈퇴
+						if((OAuth2AccessToken)session.getAttribute("oauthToken") != null) {
 							
-								
 								logger.info("apiUrl====="+apiUrl);
 								try {
 									String res = naverLoginBO.requestToServer(apiUrl);
 									model.addAttribute("res", res); //결과값 찍어주는용
 									
 									session.removeAttribute("oauthToken");
-									session.removeAttribute("loginUser");
-									session.setAttribute("alertMsg", "감사했습니다 ^_^7");
+
 								} catch (IOException e) {
+
+							OAuth2AccessToken oauthToken = (OAuth2AccessToken) session.getAttribute("oauthToken");
+
+							
+							String apiUrl = "https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id="+NaverLoginBO.CLIENT_ID+"&client_secret="+NaverLoginBO.CLIENT_SECRET+"&access_token="+oauthToken.getAccessToken()+"&service_provider=NAVER";
+
 									
-									e.printStackTrace();
-					
-				}
+										
+										logger.info("apiUrl====="+apiUrl);
+										try {
+											String res = naverLoginBO.requestToServer(apiUrl);
+											model.addAttribute("res", res); //결과값 찍어주는용
+											
+											session.removeAttribute("oauthToken");
+											
+											
+										} catch (IOException e) {
+											
+											e.printStackTrace();
+							
+						}
+						
+					}
+          session.removeAttribute("accountInfo");
+					session.setAttribute("alertMsg", "감사했습니다 ^_^7");
+					session.removeAttribute("loginUser");
 				
+		      
+				return "redirect:/";
 			}
-		
-      
-		return "redirect:/";
-	}
 	   
 	
 	//계좌추가
 	@ResponseBody
 	@RequestMapping(value = "member/account", method = RequestMethod.POST)
-	public int userAddAccount (Integer result, Account accountInfo, HttpSession session, String account, int userNo, String bankInfo) {
+	public int userAddAccount (Integer result, Model model, Account accountInfo, HttpSession session, String account, String bankInfo) {		
+		
+		int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
 		
 		accountInfo.setUserNo(userNo);
 		accountInfo.setAccount(account);
@@ -402,6 +442,9 @@ public class MemberController {
 		}
 		return result;
 	}
+
+	
+
 	
 	//관리자 페이지로 이동
 	@RequestMapping(value = "common/admin", method = RequestMethod.GET)
@@ -415,14 +458,7 @@ public class MemberController {
 	@RequestMapping(value = "admin/payAdmin", method = RequestMethod.GET)
 	public String accountList(Model model, HttpSession session) {
 
-		Member loginUser = (Member) session.getAttribute("loginUser");
 
-			
-		List<Account> accountList = memberService.accountList(loginUser.getUserNo());
-		model.addAttribute("accountList", accountList);
-		
-		
-		return "common/admin";
-	}
+	
 
 }

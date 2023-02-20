@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<c:set var="chatRoomNo" value="${AllList.chatRoomNo }" />
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -446,6 +447,15 @@
      //거래하기 버튼 클릭 시
      $('#successDeal').on('click', function(){
      
+    	 if ("${AllList.get('product').userNo}" == userNo) {
+				Swal.fire({
+	                icon: 'error',
+	                title: '본인 상점은 결제 못 해요 !'              
+	            });
+			return;
+		}
+    	 
+    	 
 	     const acc = "${AllList.get('product').account}";
 	     const bank = "${AllList.get('product').bank}";
 	     
@@ -772,7 +782,7 @@
                 	   
                        // Json 생성
                        let wsJson = {
-                           "chatRoomNo": chatRoomNo,
+                           "chatRoomNo": ${chatRoomNo},
                            "userNo": userNo,
                            "chatContent": $(this).val()
                        };
@@ -795,6 +805,10 @@
 //메세지 수신 시, 메세지 출력 -> 사용자 보여지는 view딴
            ws.onmessage = function(e){
         	   let data = JSON.parse(e.data);
+        	   
+        	  	console.log("여기까지 오나?");
+        	  	console.log(data);
+        	  	
         	   
         	   //요소생성
         	   let li = document.createElement("li");
@@ -867,7 +881,7 @@
 		   /* 채팅 보내기 버튼 눌렀을 경우, */
            $("#send").on('click',function(){
         	   $.ajax({
-                   type: "POST",
+                   type: "post",
                    url: "${pageContext.request.contextPath}/chat/chatFile/insert",
                    data: new FormData($("#uploadfileForm")[0]),
                    processData: false,
@@ -935,6 +949,7 @@
      		})
        })
   </script>
+
   <script>
   function reviewInsertUpdate(){
 			$.ajax({
@@ -958,13 +973,7 @@
 			});
 		}
 		
-		//modal창 밖에 클릭 시, 모달창 사라지게하기
-		modalEl.addEventListener("click", e => {
-		    const evTarget = e.target
-		    if(evTarget.classList.contains("modalEl")) {
-		        modalEl.style.display = "none"
-		    }
-		});
+
 	
 		
 		//수정하기 버튼 클릭 시, 등록 후기 데이터 뿌리기
@@ -1008,6 +1017,7 @@
 			});
 		}
 	</script>
+
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"

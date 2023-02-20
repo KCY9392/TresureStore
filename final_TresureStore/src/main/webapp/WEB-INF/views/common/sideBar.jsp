@@ -12,6 +12,7 @@
 <body>
 	<div class="navBar">
 		<!--찜 하트 수-->
+		<a href ="${pageContext.request.contextPath }/member/myPage">
 		<div class="nfavorites">
 			<div class="nfavoritesText">찜한상품</div>
 			<div class="nfavoritesCount">
@@ -26,6 +27,7 @@
 			</div>
 			<!-- favoritesCount -->
 		</div>
+		</a>
 		<!--찜 끝-->
 
 		<!-- 최근 본 상품 시작 -->
