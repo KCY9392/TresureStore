@@ -17,6 +17,4 @@ public class Account {
 	private String bank; //은행이름
 
 	
-
-	
 }

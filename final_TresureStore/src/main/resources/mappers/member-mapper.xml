@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- type은 mybatis-config에서 member 라는 별칭을 정해두었음 -->
 <resultMap type="member" id="memberResultSet">
    	<id column="USER_NO" property="userNo"></id>
+   	<result column="USER_NO_1" property="userNo2"></result>
 	<result column="USER_NAME" property="userName"></result>
 	<result column="PHONE" property="phone"></result>
 	<result column="BIRTH" property="birth"></result>
@@ -18,6 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="HEART_COUNT" property="heartCount"></result>
 	<result column="ACCOUNT" property="account"></result>
 	<result column="BLACKLIST" property="blackListStatus"></result>
+	<result column="REPORT_COUNT" property="reportCount"></result>
 
 </resultMap>
 
@@ -277,6 +279,24 @@ LEFT JOIN (
 </select>
 
 
+
+
+<!-- 관리자에서 보이는 유저들 -->
+<select id="selectListAll" resultMap="memberResultSet">
+SELECT *
+FROM MEMBER M2
+LEFT JOIN (
+        SELECT M.USER_NO,
+               COUNT(REPORTED_NO) AS "REPORT_COUNT"
+        FROM MEMBER M 
+        JOIN REPORT RE ON(RE.REPORTED_NO = M.USER_NO)
+        GROUP BY (REPORTED_NO) ) PP ON(PP.USER_NO = M2.USER_NO)
+</select>
+
+<select id="selectUserCount" resultType="int">
+	SELECT COUNT(*)
+	FROM MEMBER
+</select>
 
 
 

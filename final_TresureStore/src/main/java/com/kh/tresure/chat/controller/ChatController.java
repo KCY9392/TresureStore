@@ -87,6 +87,7 @@ public class ChatController {
 		}
 
 	}
+	
 	 /**
      * 방 생성하기, 방입장하기 - 리팩토링 중
      * @param sellNo
@@ -124,16 +125,20 @@ public class ChatController {
           room.setChatRoomNo(Integer.parseInt(chatRoomNo));
        }
 
-    // @SessionAttributes 쓰기위한 작업
-       model.addAttribute("chatRoomNo", room.getChatRoomNo() );
+
        
        AllList =  chatService.createAndEnterChatRoom(AllList, room, sellUserNo, roomJoin, block, account);
+       
+       // @SessionAttributes 쓰기위한 작업
+       model.addAttribute("chatRoomNo", AllList.get("chatRoomNo") );
        
        if(AllList.size() > 0) {
     	  String reviewIs = chatService.reviewIs(Integer.valueOf(sellNo));
     	  model.addAttribute("reviewIs",reviewIs);
           model.addAttribute("AllList", AllList);
           logger.info(">> 채팅방으로 이동");
+          
+          logger.info(""+AllList.get("chatRoomNo"));
           
           return "chat/chatRoom";
           
@@ -223,7 +228,7 @@ public class ChatController {
 
 	// 채팅첨부파일
 	@ResponseBody
-	@RequestMapping(value = "chat/chatFile/insert", method = RequestMethod.POST)
+	@RequestMapping(value = "chat/chatFile/insert", method = RequestMethod.GET)
 	public Map<String, String> insertFile(MultipartFile uploadfile, @RequestParam(value = "chatRoomNo") int chatRoomNo,
 			ChatFiles chatfiles, HttpSession session) {
 

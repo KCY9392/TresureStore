@@ -13,18 +13,23 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.kh.tresure.member.model.service.MemberService;
 import com.kh.tresure.member.model.vo.Account;
 import com.kh.tresure.member.model.vo.Member;
+
 import com.kh.tresure.purchase.model.vo.Purchase;
+
 
 
 @Controller
 public class AdminController {
+
 
    private MemberService memberService;
    private BCryptPasswordEncoder bcryptPasswordEncoder;
@@ -120,3 +125,4 @@ public class AdminController {
        return newIp;
    }
 }
+

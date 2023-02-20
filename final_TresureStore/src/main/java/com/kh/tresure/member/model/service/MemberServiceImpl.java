@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import com.kh.tresure.chat.model.vo.ChatRoom;
+
 import com.kh.tresure.common.model.dto.PageInfo;
 import com.kh.tresure.common.template.Pagination;
 import com.kh.tresure.member.model.dao.MemberDao;
@@ -31,10 +34,12 @@ public class MemberServiceImpl implements MemberService {
 	public MemberServiceImpl() {}
 	
 	@Autowired
+
 	public MemberServiceImpl(MemberDao memberDao,SqlSession sqlSession,Pagination pagination) {
 		this.memberDao = memberDao;
 		this.sqlSession = sqlSession;
 		this.pagination=pagination;
+
 	}
 	
 	// 로그인 및 회원가입 하는 메소드 구현
@@ -146,6 +151,7 @@ public class MemberServiceImpl implements MemberService {
 
 	}
 	
+
 	 // 관리페이지의 유저 전체 가져오기
 	   @Override
 	   public HashMap<Object, Object> selectListAll(HashMap<Object, Object> paramMap, int currentPage){
@@ -170,6 +176,7 @@ public class MemberServiceImpl implements MemberService {
 	   }
 
 	// 입금상태변경
+
 	@Override
 	public int changeDepoStatus(Purchase p) {
 		return memberDao.changeDepoStatus(sqlSession, p);

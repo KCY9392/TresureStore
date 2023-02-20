@@ -29,14 +29,11 @@ public interface MemberService {
 	//로그인 유저 계좌 가져오기
 	public int accountNumber(Account account);
 	
+
+
 	// 관리페이지의 유저 전체 가져오기
-	   public HashMap<Object, Object> selectListAll(HashMap<Object, Object> paramMap, int currentPage);
+	public HashMap<Object, Object> selectListAll(HashMap<Object, Object> paramMap, int currentPage);
 
-
-
-
-
-	
 	//관리자페이지 결제관리
 	public List<Purchase> accountList();
 

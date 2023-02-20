@@ -409,10 +409,6 @@ public class MemberController {
 		}
 		return result;
 	}
-	
-	
-	
-
 
 	
 
