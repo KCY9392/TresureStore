@@ -140,30 +140,26 @@ public class MemberDao {
 
 		return sqlSession.selectOne("memberMapper.accountNumber", account);
 	}
-	
+
 	// 관리자에서 페이징 한 유저관리
-	   public List<Member> selectListAll(SqlSession sqlSession, HashMap<Object, Object> paramMap) {
-	      
-	      int offset =( ((PageInfo)paramMap.get("pi")).getCurrentPage() -1)*((PageInfo)paramMap.get("pi")).getViewLimit();
-	       int limit = ((PageInfo)paramMap.get("pi")).getViewLimit();
-	       
-	       RowBounds rowBounds = new RowBounds(offset, limit);
-	      
-	      return sqlSession.selectList("memberMapper.selectListAll",  null, rowBounds);
-	   }
+	public List<Member> selectListAll(SqlSession sqlSession, HashMap<Object, Object> paramMap) {
 
+		int offset = (((PageInfo) paramMap.get("pi")).getCurrentPage() - 1)
+				* ((PageInfo) paramMap.get("pi")).getViewLimit();
+		int limit = ((PageInfo) paramMap.get("pi")).getViewLimit();
 
-	   // 유저 전부 몇명인지 세는 것
-	   public int selectUserCount(SqlSession sqlSession) {
+		RowBounds rowBounds = new RowBounds(offset, limit);
 
-	      return sqlSession.selectOne("memberMapper.selectUserCount");
-	   }
+		return sqlSession.selectList("memberMapper.selectListAll", null, rowBounds);
+	}
 
+	// 유저 전부 몇명인지 세는 것
+	public int selectUserCount(SqlSession sqlSession) {
 
-	
+		return sqlSession.selectOne("memberMapper.selectUserCount");
+	}
 
-
-	//관리자페이지 결제관리
+	// 관리자페이지 결제관리
 	public List<Purchase> accountList(SqlSession sqlSession) {
 
 		return sqlSession.selectList("memberMapper.accountList");
@@ -180,16 +176,6 @@ public class MemberDao {
 
 		return sqlSession.update("memberMapper.changeDepoStatus", p);
 
-	}
-
-	// 페이징 처리
-	public int selectUserCount(SqlSession sqlSession) {
-		return sqlSession.selectOne("memberMapper.selectUserCount");
-	}
-
-	// 관리자페이지 - 회원리스트
-	public List<Member> selectListAll(SqlSession sqlSession, HashMap<Object, Object> paramMap) {
-		return sqlSession.selectList("memberMapper.selectListAll", paramMap);
 	}
 
 }

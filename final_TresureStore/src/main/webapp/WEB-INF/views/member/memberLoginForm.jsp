@@ -13,7 +13,7 @@
 	<div class="wrap">
 		<div class="middle-top">
 			<div class="image-area">
-				<img alt="보물지도" src="${pageContext.request.contextPath}/resources/images/common/loginMainImage.png" width="400px"/>
+				<a href="${pageContext.request.contextPath}"><img alt="보물지도" src="${pageContext.request.contextPath}/resources/images/common/loginMainImage.png" width="400px"/></a>
 			</div>
 			
 		</div>
@@ -33,11 +33,9 @@
 			<div class="loginType">
 				<button class="myAuthentication-button" type="button"  onclick="gogoIdentificationForm();" height="60px" width="400px">본인인증 로그인</button>
 				<br><br>
-				<a href="${pageContext.request.contextPath}/loginJoin/pp">관리자로 로그인</a>
-				<a href="${pageContext.request.contextPath}/loginJoin/qq">사용자1로 로그인</a>
 			</div>
 			<div class="loginType">
-				<a class="back" href="${pageContext.request.contextPath}">되돌아가기</a>
+				<a href="${pageContext.request.contextPath}"><img class="back" src="${pageContext.request.contextPath}/resources/images/icon/backbackback.png" width="50px" height="50px"></a>
 			</div>
 			
 		</div>

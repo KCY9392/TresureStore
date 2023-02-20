@@ -55,6 +55,8 @@
 	width: 1000px;
 	text-align: center;
 	right: 25%;
+	margin: auto;
+    padding-left: 60px;
 }
 
 .list-b button {
@@ -128,42 +130,17 @@ tr>td {
 .pagination {
 	list-style-type: none;
 	width: 100%;
-}
-#pagingArea {
-	width: 80%;
-	margin: auto;
+	padding-left: 280px;
 }
 
-.pagination {
-	list-style-type: none;
-	width: 100%;
-}
+
 
 .page-item {
 	border: 1px solid lightgrey;
 	text-align: center;
 	margin-left: 10px;
 	float: left;
-}
-
-.page-link {
-	padding: 15px;
-}
-
-.page-link:active {
-	color: red;
-}
-
-.page-link:hover {
-	color: blue;
-	border: blue;
-}
-
-.page-item {
-	border: 1px solid lightgrey;
-	text-align: center;
-	margin-left: 10px;
-	float: left;
+	color: black;
 }
 
 .page-link {

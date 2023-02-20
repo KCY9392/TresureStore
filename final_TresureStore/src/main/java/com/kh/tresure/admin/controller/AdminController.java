@@ -58,7 +58,7 @@ public class AdminController {
       
       boolean result = ipvalid.IpValidCheck(secretIp);
       
-      if(result == false ) {
+      if(result == true ) {
          
          HashMap<Object, Object> map = memberService.selectListAll(paramMap, currentPage);
          
@@ -74,6 +74,17 @@ public class AdminController {
       
 
    }
+   
+	// 회원 상태 변경 시키기
+	@RequestMapping("admin/delete")
+	@ResponseBody
+	public String userStatusByadmin(@RequestParam("userNo") int userNo) {
+		int result = 0;
+		
+		result = memberService.userStatusByadmin(userNo);
+		
+		return ""+result;
+	}
    
    
  //입금상태 변경
