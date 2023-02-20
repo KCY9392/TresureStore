@@ -313,49 +313,54 @@ public class MemberController {
 			}
 	
 	
-	// 회원탈퇴
-	@RequestMapping(value = "delete", method = RequestMethod.GET)
-	public String deleteMember(HttpSession session ,Model model) {
-	      
-		int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
+			// 회원탈퇴
+			@RequestMapping(value = "delete", method = RequestMethod.GET)
+			public String deleteMember(HttpSession session ,Model model) {
+			      
+				int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
+				
+				
+				logger.info("여기임");
+				
+				memberService.deleteMember(userNo);
 
-		memberService.deleteMember(userNo);
-
-		if ((String) session.getAttribute("access_Token") != null) {
-			kakao.unlink((String) session.getAttribute("access_Token"));
-			session.removeAttribute("access_Token");
-			session.removeAttribute("loginUser");
-			session.setAttribute("alertMsg", "감사했습니다 ^_^7");
-		}
-
-		//네이버 회원탈퇴
-				if((OAuth2AccessToken)session.getAttribute("oauthToken") != null) {
+				if ((String) session.getAttribute("access_Token") != null) {
+					kakao.unlink((String) session.getAttribute("access_Token"));
+					session.removeAttribute("access_Token");
 					
-					OAuth2AccessToken oauthToken = (OAuth2AccessToken) session.getAttribute("oauthToken");
-
-					
-					String apiUrl = "https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id="+NaverLoginBO.CLIENT_ID+"&client_secret="+NaverLoginBO.CLIENT_SECRET+"&access_token="+oauthToken.getAccessToken()+"&service_provider=NAVER";
-							
-								
-								logger.info("apiUrl====="+apiUrl);
-								try {
-									String res = naverLoginBO.requestToServer(apiUrl);
-									model.addAttribute("res", res); //결과값 찍어주는용
-									
-									session.removeAttribute("oauthToken");
-									session.removeAttribute("loginUser");
-									session.setAttribute("alertMsg", "감사했습니다 ^_^7");
-								} catch (IOException e) {
-									
-									e.printStackTrace();
 					
 				}
+
+				//네이버 회원탈퇴
+						if((OAuth2AccessToken)session.getAttribute("oauthToken") != null) {
+							
+							OAuth2AccessToken oauthToken = (OAuth2AccessToken) session.getAttribute("oauthToken");
+
+							
+							String apiUrl = "https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id="+NaverLoginBO.CLIENT_ID+"&client_secret="+NaverLoginBO.CLIENT_SECRET+"&access_token="+oauthToken.getAccessToken()+"&service_provider=NAVER";
+									
+										
+										logger.info("apiUrl====="+apiUrl);
+										try {
+											String res = naverLoginBO.requestToServer(apiUrl);
+											model.addAttribute("res", res); //결과값 찍어주는용
+											
+											session.removeAttribute("oauthToken");
+											
+											
+										} catch (IOException e) {
+											
+											e.printStackTrace();
+							
+						}
+						
+					}
+						session.setAttribute("alertMsg", "감사했습니다 ^_^7");
+						session.removeAttribute("loginUser");
 				
+		      
+				return "redirect:/";
 			}
-		
-      
-		return "redirect:/";
-	}
 	   
 	
 	//계좌추가
