@@ -249,21 +249,20 @@
         <tr>
        
         <td class="review-profile"> 
-           <c:if test="${r.ravg> 4.5}"> 
-                                 <img src="/tresure/resources/images/icon/grade_3.png" height="100%" width="100%"/>
-                              </c:if> 
-                              <c:if test="${ 4 <= r.ravg && r.ravg < 4.5 }"> 
-                                 <img src="/tresure/resources/images/icon/grade2.png" height="100%" width="100%"/> 
-                              </c:if> 
-                              <c:if test="${ 3.5 <= r.ravg && r.ravg < 4 }"> 
-                                 <img src="/tresure/resources/images/icon/grade1.png" height="100%" width="100%"/> 
-                              </c:if>
-                              <c:if test="${ r.ravg== null  ||r.ravg < 3.5 }">
-                                 <img src="/tresure/resources/images/icon/grade0.png" height="100%" width="100%"/>
-                              </c:if>  
+           <c:if test="${r.ravg> 4.5}">
+				<img src="/tresure/resources/images/icon/grade_3.png"height="100%" width="100%" />
+		   </c:if> <c:if test="${ 4 <= r.ravg && r.ravg < 4.5 }">
+				<img src="/tresure/resources/images/icon/grade2.png"height="100%" width="100%" />
+			</c:if> <c:if test="${ 3.5 <= r.ravg && r.ravg < 4 }">
+				<img src="/tresure/resources/images/icon/grade1.png"
+												height="100%" width="100%" />
+										</c:if> <c:if test="${ r.ravg== null  ||r.ravg < 3.5 }">
+											<img src="/tresure/resources/images/icon/grade0.png"
+												height="100%" width="100%" />
+										</c:if>
 
 
-           </td>
+									</td>
         
        
         <td><h3>${r.userNo }호점</h3></td>

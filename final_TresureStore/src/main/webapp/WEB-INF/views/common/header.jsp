@@ -95,8 +95,6 @@
 
 				</div>
 				
-				<a href="${pageContext.request.contextPath}/common/admin" style="float:right; font-size:15px;">관리자 페이지</a> 
-				
 				<div class="sun_wrap">
 					<div class="sun_wrap_div">
 						<a href="#" class="sun_wrap_div_cate" id="sun_wrap_div_cate">

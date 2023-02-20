@@ -303,7 +303,7 @@
 							<div class="purchaseNextReivewGo" style="display:">
 								<p class="purchaseOkText">거래가 완료된 상품입니다</p>
 								
-
+						<c:if test="${AllList.get('purchaseInfo').userNo eq loginUser.userNo }">
 							<c:if test="${reviewIs == 'N'}">
 								<button class="reviewA" data-bs-toggle="modal" data-bs-target="#review" id="write">후기 작성하러가기</button>
 							</c:if>
@@ -377,6 +377,11 @@
 										</div>
 									</div>
 								</div>
+								</c:if>
+								
+								<c:if test="${AllList.get('product').userNo eq loginUser.userNo}">
+							  		<button class="reviewA" onclick="GoMyPage()">구매자가 작성한 후기 보러가기</button>
+							   </c:if>
 							</div>
 						</c:if>
 					</div>
@@ -515,6 +520,9 @@
      });
      
      
+     function GoMyPage(){
+    	 location.href="${pageContext.request.contextPath}/member/myPage";
+     }
      
 
    	 //거래하기 버튼 클릭 후 >> 결제하기 버튼

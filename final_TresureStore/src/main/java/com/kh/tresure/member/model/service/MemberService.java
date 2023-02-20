@@ -26,9 +26,12 @@ public interface MemberService {
 	// 계좌 수정하기
 	public int updateAccount(Account accountInfo);
 
-	
+	//계좌번호 있는지 여부확인
 	public String userAcountIs(int userNo);
 	
+	// 관리자가 유저 상태변경하게 만드는기능
+	public int userStatusByadmin(int userNo);
+
 	
 	//로그인 유저 계좌 가져오기
 	public int accountNumber(Account account);
@@ -41,10 +44,7 @@ public interface MemberService {
 	//관리자페이지 결제관리
 	public List<Purchase> accountList();
 
+	// 입금상태변경
 	public int changeDepoStatus(Purchase p);
-
-
-
-
-
+	
 }
