@@ -228,7 +228,7 @@ public class ChatController {
 
 	// 채팅첨부파일
 	@ResponseBody
-	@RequestMapping(value = "chat/chatFile/insert", method = RequestMethod.GET)
+	@RequestMapping(value = "chat/chatFile/insert", method = RequestMethod.POST)
 	public Map<String, String> insertFile(MultipartFile uploadfile, @RequestParam(value = "chatRoomNo") int chatRoomNo,
 			ChatFiles chatfiles, HttpSession session) {
 
@@ -256,6 +256,8 @@ public class ChatController {
 
 				System.out.println("chat savePath ." + savePath);
 				System.out.println("chat ChangeName 2." + changeName);
+				session.setAttribute("chatRoomNo", chatRoomNo);
+				
 
 				chatfiles.setChatRoomNo(chatRoomNo);
 				chatfiles.setOriginName(uploadfile.getOriginalFilename());

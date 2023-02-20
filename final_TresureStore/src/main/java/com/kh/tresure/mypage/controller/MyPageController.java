@@ -128,6 +128,9 @@ public class MyPageController {
 			mypageService.changeStatus(sellNo);
 			result =1;
 		}
+		
+		
+		
 		return result;
 		
 	}

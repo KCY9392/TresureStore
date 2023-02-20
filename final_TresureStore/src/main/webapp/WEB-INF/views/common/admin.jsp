@@ -253,7 +253,14 @@ tr>td{
                                  <td scope="col">${acc.bank }</td>
                                  <td scope="col">${acc.account }</td>
                                  <td>
-                                 <button class="btn btn-secondary m-2" id="subscriberBtn" onclick="changeDepoStatus(${acc.purNo});">확인</button>
+                                
+                                 <c:if test ="${acc.depoStatus eq 'Y'}">
+                                  <button class="btn btn-secondary m-2" id="subscriberBtn" onclick="changeDepoStatus(${acc.purNo});">확인</button>
+                                 </c:if>
+                                 <c:if test ="${acc.depoStatus eq 'N'}">
+                                  <button class="btn btn-secondary m-2" id="subscriberBtn">입금완료</button>
+                                 </c:if>
+                                 
                                  </td>
                                  <td>
                                  	<input type="hidden" value="${acc.depoStatus }" id="depoStatus">
@@ -294,10 +301,10 @@ tr>td{
 		
 		
 
- if($("#depoStatus").val()=='Y'){
 	 
  function changeDepoStatus(purNo){
 	 
+
 		
     
      $.ajax({
@@ -311,6 +318,10 @@ tr>td{
 		                icon: 'success',
 		                title: '성공적으로 입금이 되었습니다.'                  
 		            });	
+                	
+                	setTimeout(function() {
+                  	  location.reload();
+                	}, 3000);
                 }
 			    
                 
@@ -321,18 +332,14 @@ tr>td{
             }
      });
      
-  }
+  
  
  };
  
 
 
   </script>
-  <script>
-  if($("#depoStatus").val()=='N'){
-  	$("#subscriberBtn").text("입금완료");
-  }
-  </script>
+  
 
 
 </body>

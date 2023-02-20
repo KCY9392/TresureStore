@@ -881,7 +881,7 @@
 		   /* 채팅 보내기 버튼 눌렀을 경우, */
            $("#send").on('click',function(){
         	   $.ajax({
-                   type: "GET",
+                   type: "post",
                    url: "${pageContext.request.contextPath}/chat/chatFile/insert",
                    data: new FormData($("#uploadfileForm")[0]),
                    processData: false,
