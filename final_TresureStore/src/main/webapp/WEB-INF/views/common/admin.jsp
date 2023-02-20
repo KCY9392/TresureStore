@@ -2,17 +2,23 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<c:set var="mList" value="${map.mList }" />
+<c:set var="pi" value="${map.pi }" />
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>adminPage</title>
+
 <!-- Jquery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
 <link rel="stylesheet" href="/tresure/resources/css/font.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 
 <style>
 .adminMain{
@@ -102,6 +108,35 @@ tr>td{
  	padding: 0.5rem;
  	line-height: normal;
 }
+#pagingArea {
+	width: 80%;
+	margin: auto;
+}
+
+.pagination {
+	list-style-type: none;
+	width: 100%;
+}
+
+.page-item {
+	border: 1px solid lightgrey;
+	text-align: center;
+	margin-left: 10px;
+	float: left;
+}
+
+.page-link {
+	padding: 15px;
+}
+
+.page-link:active {
+	color: red;
+}
+
+.page-link:hover {
+	color: blue;
+	border: blue;
+}
 
 
 </style>
@@ -110,6 +145,14 @@ tr>td{
 
 
 	<div class="adminMain">
+
+
+	
+		
+	
+
+	
+
 	  <div class="content2">
 		<div class="adminDiv">
 			<a href="${pageContext.request.contextPath}" class="logo"> 
@@ -130,23 +173,51 @@ tr>td{
 	               <table class="table table-hover list">
 	                  <thead>
 	                     <tr>
-	                     	<th scope="col"></th>
-	                        <th scope="col">상점번호</th>
+	                     	<th scope="col">상점번호</th>
+	                        <th scope="col">신고 당한 횟수</th>
 	                        <th scope="col">회원 상태</th>
-	                        <th scope="col"></th>
-	                        
+	                        <th></th>
 	                     </tr>
 	                  </thead>
+	                  
 	                  <tbody>
-	                     <c:forEach var="black" items="${blackList}">
-	                           <tr onclick="sellDetail(${s.sellNo})">
-	                          	  <td scope="col"></td>
-	                              <td scope="col"> ${black}</td>
-	                              <td scope="col"></td>
-	                              <td><button type="button" class="reviewB" onclick="changeStatus(${s.sellNo});">상태 변경</button></td>
+	                     <c:forEach var="mem" items="${mList}">
+	                           <tr>
+                           	      <td scope="col">${mem.userNo }</td>
+	                              <td scope="col">${mem.reportCount }</td> 
+	                              <td scope="col"><button type="button">상태 변경</button></td>
+	                           </tr>
 	                     </c:forEach>
 	                  </tbody>
 	               </table>
+	               	           <c:set var ="url" value="?currentPage=" />
+	                <!-- 페이지 이동기능 구현 -->
+                <div id="pagingArea">
+                  <ul class="pagination">
+                    <c:choose>
+                      <c:when test="${pi.currentPage eq 1 }">
+                        <li class="page-item disabled"><a class="page-link" href="#">&lt; 이전</a></li>
+                      </c:when>
+                      <c:otherwise>
+                        <li class="page-item"><a class="page-link" href="${url}${pi.currentPage -1 }">&lt; 이전</a></li>
+                        <!-- list.bo?cpage=1 -->
+                      </c:otherwise>
+                    </c:choose>
+
+                    <c:forEach var="item" begin="${pi.startPage }" end="${pi.endPage }">
+                      <li class="page-item"><a class="page-link" href="${url}${item }">${item}</a></li>
+                    </c:forEach>
+
+                    <c:choose>
+                      <c:when test="${pi.currentPage eq pi.maxPage }">
+                        <li class="page-item disabled"><a class="page-link" href="#">다음 &gt;</a></li>
+                      </c:when>
+                      <c:otherwise>
+                        <li class="page-item"><a class="page-link" href="${url}${pi.currentPage +1 }">다음 &gt;</a></li>
+                      </c:otherwise>
+                    </c:choose>
+                  </ul>
+                </div>
 	            </div>
 	         </div>
 	         
@@ -162,8 +233,9 @@ tr>td{
                            <th scope="col" width="10%">주문번호</th>
                            <th scope="col" width="10%">날짜</th>
                            <th scope="col" style="padding-left: 10px;" width="20%">상품명</th>
-                           <th scope="col" width="10%">금액</th>
                            <th scope="col" width="10%">판매상점</th>
+                           <th scope="col" width="10%">구매상점</th>
+                           <th scope="col" width="10%">금액</th>
                            <th scope="col" width="10%">은행</th>
                            <th scope="col" width="10%">계좌 번호</th>
                            <th scope="col" width="10%">확인</th>
@@ -173,18 +245,27 @@ tr>td{
                         <c:forEach var="acc" items="${accountList}">
                               <tr>
                               	 <td scope="col">${acc.orderNo}</td>
-                                 <td scope="col">${acc.creatDate}</td>
+                                 <td scope="col">${acc.createDate}</td>
                                  <td scope="col">${acc.sellTitle }</td>
-                                 <td scope="col">${acc.sellUserNo }호점</td>
+                                 <td scope="col">${acc.userNo }호점</td>
+                                 <td scope="col">${acc.purUser }호점</td>
                                  <td scope="col">${acc.price }원</td>
                                  <td scope="col">${acc.bank }</td>
                                  <td scope="col">${acc.account }</td>
-                                 <c:if test="${acc.status == 'N'}">
-                                    <td><button type="button" class="reviewA" data-bs-toggle="modal" data-bs-target="#review" id="write" >송금하기</button></td>
+                                 <td>
+                                
+                                 <c:if test ="${acc.depoStatus eq 'Y'}">
+                                  <button class="btn btn-secondary m-2" id="subscriberBtn" onclick="changeDepoStatus(${acc.purNo});">확인</button>
                                  </c:if>
-                                 <c:if test="${acc.status == 'Y'}">
-                                    <td><button type="button" class="reviewB" onclick="reviewDetail(${p.sellNo})" data-bs-toggle="modal" data-bs-target="#review" id="write">완료</button></td>
+                                 <c:if test ="${acc.depoStatus eq 'N'}">
+                                  <button class="btn btn-secondary m-2" id="subscriberBtn">입금완료</button>
                                  </c:if>
+                                 
+                                 </td>
+                                 <td>
+                                 	<input type="hidden" value="${acc.depoStatus }" id="depoStatus">
+                                 </td>
+                                 
                               </tr>
                         </c:forEach>
                      </tbody>
@@ -195,6 +276,7 @@ tr>td{
         </div>
 	</div>
 <script>
+
 
 	//버튼 전환
 	function show(element){
@@ -212,28 +294,53 @@ tr>td{
 	      }
 	  }
 	
-	//결제관리 버튼
-	$('#payAdminshow').on('click', function(){
-		$.ajax({
-			 url : "${pageContext.request.contextPath}/admin/payAdmin",
-			 data : {
-				 accountList : accountList
-				 },
-			 type : "post",
-			 success : function (result){
-				 console.log("결제관리");
-			 },
-			 error : function(){
-				 console.log("통신실패");
-			 }
-		 });
-	 });
-		
-		
-	
-
-
 </script>
+
+<script>
+	
+		
+		
+
+	 
+ function changeDepoStatus(purNo){
+	 
+
+		
+    
+     $.ajax({
+        url : '${pageContext.request.contextPath}/changeDepoStatus',
+          type : 'post',
+         data : {purNo :purNo},
+         success : function(result){
+                if(result == 1) {
+                   
+                	Swal.fire({
+		                icon: 'success',
+		                title: '성공적으로 입금이 되었습니다.'                  
+		            });	
+                	
+                	setTimeout(function() {
+                  	  location.reload();
+                	}, 3000);
+                }
+			    
+                
+             
+          },
+          error:function(){
+               console.log("실패");
+            }
+     });
+     
+  
+ 
+ };
+ 
+
+
+  </script>
+  
+
 
 </body>
 </html>
