@@ -107,7 +107,7 @@ public class SellDao {
 
    
    public List<Review> reviewList(SqlSession sqlSession, int userNo) {
-      return sqlSession.selectList("sellMapper.reviewList", userNo);
+      return sqlSession.selectList("reviewMapper.mypageReviewList", userNo);
 
    }
    

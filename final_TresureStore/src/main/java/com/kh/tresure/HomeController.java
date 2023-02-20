@@ -63,6 +63,9 @@ public class HomeController {
 			session.setAttribute("loginUser", member);
 	    	session.setAttribute("access_Token", access_Token);
 	    	
+	    	String accountInfo = memberservice.userAcountIs(member.getUserNo());
+			session.setAttribute("accountInfo", accountInfo);
+	    	
 	    	if(count == 0) {
 	    		session.setAttribute("alertMsg", member.getUserName()+"님 환영합니다");
 	    		count++;
@@ -74,6 +77,9 @@ public class HomeController {
 			
 			session.setAttribute("loginUser", member);
 			session.setAttribute("oauthToken", oauthToken);
+			
+			String accountInfo = memberservice.userAcountIs(member.getUserNo());
+			session.setAttribute("accountInfo", accountInfo);
 			
 			if(count == 0) {
 	    		session.setAttribute("alertMsg", member.getUserName()+"님 환영합니다");

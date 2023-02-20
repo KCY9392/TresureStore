@@ -29,17 +29,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="mypageReviewList" parameterType="int" resultMap="reviewResultSet">
 		  select
-       R.REV_NO,
+       DISTINCT R.REV_NO,
        R.SELL_NO,
        R.USER_NO,
        R.REV_CONTENT,
        R.CREATE_DATE,
        RAVG
     FROM MEMBER M 
-    JOIN SELL S ON M.USER_NO = S.USER_NO
-    JOIN REVIEW R ON S.SELL_NO = R.SELL_NO
-    LEFT JOIN (SELECT AVG(REV_SCORE) AS "RAVG", S.USER_NO FROM REVIEW RE JOIN SELL S ON (RE.USER_NO=S.USER_NO)
-             GROUP BY S.USER_NO) A ON (A.USER_NO=S.USER_NO)
+    LEFT JOIN SELL S ON M.USER_NO = S.USER_NO
+    LEFT JOIN REVIEW R ON S.SELL_NO = R.SELL_NO
+    LEFT JOIN PURCHASE P ON R.USER_NO = P.USER_NO
+    LEFT JOIN (SELECT AVG(REV_SCORE) AS "RAVG", S.USER_NO 
+                    FROM REVIEW RE 
+                    LEFT JOIN PURCHASE P ON(RE.USER_NO=P.USER_NO)
+                    LEFT JOIN SELL S ON (P.SELL_NO=S.SELL_NO)
+             GROUP BY S.USER_NO) A ON (A.USER_NO=P.USER_NO)
     WHERE R.STATUS = 'Y' AND M.USER_NO = #{userNo}
 	</select>
 	

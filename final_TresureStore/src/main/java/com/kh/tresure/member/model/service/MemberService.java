@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.kh.tresure.member.model.vo.Account;
 import com.kh.tresure.member.model.vo.Member;
+import com.kh.tresure.purchase.model.vo.Purchase;
 
 
 public interface MemberService {
@@ -25,13 +26,22 @@ public interface MemberService {
 	// 계좌 수정하기
 	public int updateAccount(Account accountInfo);
 
+	//계좌번호 있는지 여부확인
+	public String userAcountIs(int userNo);
+	
+	// 관리자가 유저 상태변경하게 만드는기능
+	public int userStatusByadmin(int userNo);
+	
 	//로그인 유저 계좌 가져오기
 	public int accountNumber(Account account);
 	
 	//관리자페이지 결제관리
-	public List<Account> accountList(int userNo);
+	public List<Purchase> accountList();
+	
+	// 관리페이지의 유저 전체 가져오기
+	public HashMap<Object, Object> selectListAll(HashMap<Object, Object> paramMap, int currentPage);
 
-
-
-
+	// 입금상태변경
+	public int changeDepoStatus(Purchase p);
+	
 }

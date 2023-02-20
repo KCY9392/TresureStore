@@ -276,25 +276,28 @@
                             </div>
                             <br><br>
 
-                            <!-- 채팅하기 버튼 -->
+                             <!-- 채팅하기 버튼 -->
                             <div class="purchaseGobtnBox">
-                               <c:if test="${s.sellStatus eq 'I' && loginUser.userNo==s.userNo }">
-                               		<c:if test="${s.crawl.equals('N')}">
-                                	<button class="chattingbtn-sellDetail"  onclick="sellUpdateForm(${s.sellNo})">수정하기</button>
+                               <c:if test="${loginUser.userNo==s.userNo }">
+                               		<c:if test="${s.sellStatus eq 'I'}">
+                                		<button class="chattingbtn-sellDetail"  onclick="sellUpdateForm(${s.sellNo})">수정하기</button>
+                                		<button class="chattingbtn-sellDetail" onclick="deleteSellDetail(${s.sellNo});">삭제하기</button>
                                 	</c:if>
-                                	<c:if test="${s.crawl.equals('Y')}">
-                                	<button class="chattingbtn-sellDetail">수정하기</button>
+                                	<c:if test="${s.sellStatus eq 'C'}">
+                                		<button class="chattingbtn-sellDetail" onclick="deleteSellDetail(${s.sellNo});">삭제하기</button>
                                 	</c:if>
-                                	<button class="chattingbtn-sellDetail" onclick="deleteSellDetail(${s.sellNo});">삭제하기</button>
-
                                 </c:if>
-                                <c:if test="${loginUser.userNo!=s.userNo }">
-                                <button class="chattingbtn-sellDetail" id="chatting-start">채 팅 하 기</button>
+                               
+                               <c:if test="${loginUser.userNo!=s.userNo }">
+                               <c:if test="${s.sellStatus eq 'I'}">
+                                	<button class="chattingbtn-sellDetail" id="chatting-start">채 팅 하 기</button>
                                 </c:if>
-                                <c:if test="${s.sellStatus eq 'C' }">
-                                	<button class="sell-comp" id="sell-comp" onclick="deleteSellDetail(${s.sellNo});">삭제하기</button>
+                                <c:if test="${s.sellStatus eq 'C'}">
+                                	<button class="chattingbtn-sellDetail" >거래완료된 상품입니다</button>
                                 </c:if>
+                               </c:if> 
                             </div>
+
 
                             <!-- 상품 설명 텍스트 -->
                             <div class="sellProductDetailInfoBox">

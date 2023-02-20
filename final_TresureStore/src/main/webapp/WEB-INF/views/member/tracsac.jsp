@@ -69,23 +69,24 @@
 	height: 40px !important;
 }
 
-.backGoGoGo{
+
+.backGoGoGo {
 	float: left;
-    margin-top: 93px;
-    margin-left: 300px;
+	margin-top: 93px;
+	margin-left: 300px;
 }
 
-.backGoGoGo>button{
+.backGoGoGo>button {
 	width: 110px;
-    height: 45px;
-    border-radius: 15px;
-    background-color: #fceedb;
-    border: 2px solid #fceedb;
-    font-size: 17px;
-    font-weight: 800;
+	height: 45px;
+	border-radius: 15px;
+	background-color: #fceedb;
+	border: 2px solid #fceedb;
+	font-size: 17px;
+	font-weight: 800;
 }
 
-.backGoGoGo>button:hover{
+.backGoGoGo>button:hover {
 	background-color: #ecc6b3;
 	color: white;
 }
@@ -96,10 +97,13 @@
 	<jsp:include page="../common/header.jsp" />
 	<jsp:include page="../common/sideBar.jsp" />
 
-<div class="backGoGoGo"><button onclick="goBackBtnClick();">뒤로가기</button></div>
+
+	<div class="backGoGoGo">
+		<button onclick="goBackBtnClick();">뒤로가기</button>
+	</div>
 	<div class="main-section">
 		<div class="content2">
-		
+
 			<div class="list-content">
 				<div class="list-b">
 					<button class="sell-trac" type="button" onclick="show(this);"
@@ -111,8 +115,7 @@
 						<span class="pur-trac">구매내역</span>
 					</button>
 				</div>
-				<br>
-				<br>
+				<br> <br>
 			</div>
 
 			<div id="sshow" class="box">
@@ -140,7 +143,10 @@
 
 								<tr onclick="sellDetail(${s.sellNo})">
 									<td scope="col">
-										<div style="display: flex; position: relative;">
+
+										<div style="display: flex; position: relative;"
+											onclick="sellDetail(${s.sellNo})">
+
 											<c:if test="${s.imgSrc != null}">
 												<c:if test="${s.crawl.equals('Y')}">
 													<img src="${s.imgSrc}" width="100%" height="150px;"
@@ -200,38 +206,38 @@
 							<c:forEach var="p" items="${purchaseList}" begin="0"
 								end="${fn:length(purchaseList)}" step="1" varStatus="status">
 
-								<a href="${sellerUrl }">
+
 								<c:if test="${loginUser.userNo != p.userNo }">
-                              		<c:set var="sellerUrl" value="${pageContext.request.contextPath }/sell/seller/${p.userNo }" />
-                         		</c:if>
+									<c:set var="sellerUrl"
+										value="${pageContext.request.contextPath }/sell/seller/${p.userNo }" />
+								</c:if>
 
 
-									<tr>
-
-										<td scope="col">
-											<div style="display: flex; position: relative;">
-												<c:if test="${p.imgSrc != null}">
-													<c:if test="${p.crawl.equals('Y')}">
-														<img src="${p.imgSrc}" width="100%" height="150px;"
-															class="rounded float-start" alt="">
-													</c:if>
-
-													<c:if test="${p.crawl.equals('N')}">
-														<img src="${pageContext.request.contextPath}${p.imgSrc}"
-															width="100%" height="150px;" class="rounded float-start"
-															alt="">
-													</c:if>
-
-													<c:if test="${p.sellStatus eq 'C' }">
-														<div class="over-img">
-															<div style="color: white; flex-grow: 1;">구매완료</div>
-														</div>
-													</c:if>
+								<tr>
+									<td scope="col">
+										<div style="display: flex; position: relative;">
+											<c:if test="${p.imgSrc != null}">
+												<c:if test="${p.crawl.equals('Y')}">
+													<img src="${p.imgSrc}" width="100%" height="150px;"
+														class="rounded float-start" alt="">
 												</c:if>
-											</div>
-										</td>
-								
-								<td scope="col">${p.sellTitle}</td>
+
+												<c:if test="${p.crawl.equals('N')}">
+													<img src="${pageContext.request.contextPath}${p.imgSrc}"
+														width="100%" height="150px;" class="rounded float-start"
+														alt="">
+												</c:if>
+
+												<c:if test="${p.sellStatus eq 'C' }">
+													<div class="over-img">
+														<div style="color: white; flex-grow: 1;">구매완료</div>
+													</div>
+												</c:if>
+											</c:if>
+										</div>
+									</td>
+
+									<td scope="col">${p.sellTitle}</td>
 									<td scope="col">${p.price }원</td>
 									<td scope="col">${p.createDate }</td>
 									<c:if test="${p.rev_is == 'N'}">
@@ -311,7 +317,6 @@
 										</div>
 									</div>
 								</div>
-							 </a>
 							</c:forEach>
 						</tbody>
 					</table>
@@ -319,7 +324,6 @@
 			</div>
 		</div>
 	</div>
-
 
 	<script>
       function sellDetail(sellNo){
@@ -350,83 +354,78 @@
         });
      };
      
-     
-	function reviewInsertUpdate(){
-			$.ajax({
-				url : '${pageContext.request.contextPath}/reviewInsertUpdate',
-				type : 'POST',
-				data : $("#reviewForm").serialize(),
-				success : function(result){
-					if(result == 1){
-						Swal.fire({
-			                icon: 'success',
-			                title: '성공적으로 후기가 등록되었습니다.'                  
-			            });	
-						$('#review').modal('hide')
-					}setTimeout(function() {
-  	            	  location.reload();
-	            	}, 2000);
-				},
-				error : function(xhr, status){
-					alert(xhr + ":" +status);
-				}
-			});
-		}
-		
-		//modal창 밖에 클릭 시, 모달창 사라지게하기
-		modalEl.addEventListener("click", e => {
-		    const evTarget = e.target
-		    if(evTarget.classList.contains("modalEl")) {
-		        modalEl.style.display = "none"
-		    }
-		});
-	
-		
-		//수정하기 버튼 클릭 시, 등록 후기 데이터 뿌리기
-		function reviewDetail(sellNo){
-			$.ajax({
-				url : "${pageContext.request.contextPath}/reviewDetail",
-				dataType : "json",
-				data : {sellNo : sellNo},
-				success : function(data){
-					console.log(data);
-					var r = data;
-					$(":radio[name='rating'][value='" + r.revScore + "']").attr('checked', true);
-					$("#reviewContent").val(r.revContent);
-				},
-				error : function(data){
-					alert("오류");
-				}
-			})	
-		}
+
+   function reviewInsertUpdate(){
+         $.ajax({
+            url : '${pageContext.request.contextPath}/reviewInsertUpdate',
+            type : 'POST',
+            data : $("#reviewForm").serialize(),
+            success : function(result){
+               if(result == 1){
+                  Swal.fire({
+                         icon: 'success',
+                         title: '성공적으로 후기가 등록되었습니다.'                  
+                     });   
+                  $('#review').modal('hide')
+                  setTimeout(function() {
+                 	  location.reload();
+               	}, 1500);
+               }
+            },
+            error : function(xhr, status){
+               alert(xhr + ":" +status);
+            }
+         });
+      }
+      
+    
+      
+      //수정하기 버튼 클릭 시, 등록 후기 데이터 뿌리기
+      function reviewDetail(sellNo){
+         $.ajax({
+            url : "${pageContext.request.contextPath}/reviewDetail",
+            dataType : "json",
+            data : {sellNo : sellNo},
+            success : function(data){
+               console.log(data);
+               var r = data;
+               $(":radio[name='rating'][value='" + r.revScore + "']").attr('checked', true);
+               $("#reviewContent").val(r.revContent);
+            },
+            error : function(data){
+               alert("오류");
+            }
+         })   
+      }
 
 
-		function reviewDelete(){
-			$.ajax({
-				url : "${pageContext.request.contextPath}/reviewDelete",
-				type : 'POST',
-				data : $("#reviewForm").serialize(),
-				success : function(result){
-					if(result == 1){
-						Swal.fire({
-			                icon: 'success',
-			                title: '후기가 삭제되었습니다.'                  
-			            });	
-						$('#review').modal('hide')
-					}setTimeout(function() {
-  	            	  location.reload();
-	            	}, 1500);
-				},
-				error : function(xhr, status){
-					alert(xhr + ":" +status);
-				}
-			});
-		}
-		
-		function goBackBtnClick(){
-			history.go(-1);
-		};
-	</script>
+      function reviewDelete(){
+         $.ajax({
+            url : "${pageContext.request.contextPath}/reviewDelete",
+            type : 'POST',
+            data : $("#reviewForm").serialize(),
+            success : function(result){
+               if(result == 1){
+                  Swal.fire({
+                         icon: 'success',
+                         title: '후기가 삭제되었습니다.'                  
+                     });   
+                  $('#review').modal('hide');
+                  setTimeout(function() {
+                 	  location.reload();
+               	}, 1500);
+               }
+            },
+            error : function(xhr, status){
+               alert(xhr + ":" +status);
+            }
+         });
+      }
+      
+      function goBackBtnClick(){
+         history.go(-1);
+      };
+   </script>
 
 	<jsp:include page="../common/footer.jsp" />
 

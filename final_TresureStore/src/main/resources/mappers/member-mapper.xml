@@ -79,6 +79,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE USER_NO = #{userNo}
 </update>
 
+<!-- 관리자페이지 - 블랙리스트 상태변경 -->
+<update id="userStatusByadmin" parameterType="int">
+	UPDATE MEMBER
+	SET STATUS = 'N', BLACKLIST = 'Y'
+	WHERE USER_NO = #{userNo}
+</update>
+
+
 <!-- 회원탈퇴한 사람인지 확인해보기 -->
 <select id="selectUserState" parameterType="member" resultType="int">
 	SELECT COUNT(*)
@@ -196,6 +204,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE ACCOUNT = #{account} 
 </select>
 
+
+
 <!-- 로그인유저의 계좌 가져오기 -->
 <select id="accountNumber" parameterType="account" resultType="int">
 	SELECT
@@ -213,16 +223,53 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			S.SELL_TITLE,
 			S.USER_NO,
 			S.SELL_NO,
+			P.PUR_NO,
 			P.CREATE_DATE,
 			P.PRICE,
-			P.USER_NO,
-			P.ORDER_NO
-	FROM ACCOUNT A
-	JOIN PURCHASE P ON(A.USER_NO = P.USER_NO)
-	JOIN SELL S ON(S.SELL_NO = P.SELL_NO)
-	WHERE A.USER_NO = #{userNo}
+			P.USER_NO AS PUR_USER,
+			P.ORDER_NO,
+			P.DEPO_STATUS
+	FROM PURCHASE P
+	LEFT JOIN SELL S ON(S.SELL_NO = P.SELL_NO)
+    LEFT JOIN ACCOUNT A ON(A.USER_NO = S.USER_NO)
+	
 	
 </select>
+<!-- 입급상태 변경 -->
+<update id="changeDepoStatus" parameterType="purchase">
+	UPDATE PURCHASE
+	SET DEPO_STATUS='N'
+	WHERE PUR_NO = #{purNo}
+
+</update>
+
+<!-- 관리자에서 보이는 유저들-->
+<select id="selectListAll" resultMap="memberResultSet">
+SELECT *
+FROM MEMBER M2
+LEFT JOIN (
+        SELECT 
+        M.USER_NO,
+        COUNT(REPORTED_NO) AS "REPORT_COUNT"
+        FROM MEMBER M 
+        JOIN REPORT RE ON(RE.REPORTED_NO = M.USER_NO)
+        GROUP BY (REPORTED_NO) ) PP ON(PP.USER_NO = M2.USER_NO)
+ORDER BY REPORT_COUNT DESC NULLS LAST
+</select>
+
+<!-- 회원가입한 회원 수 조회 -->
+<select id="selectUserCount" resultType="int">
+	SELECT COUNT(*)
+	FROM MEMBER
+</select>
+
+<!-- 회원이 등록한 계좌번호 조회 -->
+<select id="userAcountIs" parameterType="int" resultType="String">
+	SELECT ACCOUNT 
+	FROM ACCOUNT 
+	WHERE USER_NO = #{userNo}
+</select>
+
 
 
 </mapper>

@@ -29,6 +29,7 @@ import com.google.gson.GsonBuilder;
 import com.kh.tresure.common.Image;
 import com.kh.tresure.heart.model.vo.Heart;
 import com.kh.tresure.member.model.vo.Member;
+import com.kh.tresure.mypage.model.service.MyPageService;
 import com.kh.tresure.sell.model.service.SellService;
 import com.kh.tresure.sell.model.vo.Category;
 import com.kh.tresure.sell.model.vo.Sell;
@@ -44,6 +45,7 @@ public class SellController {
 
    private Logger logger = LoggerFactory.getLogger(SellController.class);
    private SellService sellService;
+   private MyPageService mypageService;
 
    // 기본생성자
    public SellController() {
@@ -51,8 +53,9 @@ public class SellController {
    }
 
    @Autowired
-   public SellController(SellService sellService) {
+   public SellController(SellService sellService, MyPageService mypageService) {
       this.sellService = sellService;
+      this.mypageService = mypageService;
    }
 
    
@@ -126,6 +129,10 @@ public class SellController {
 			mv.addObject("sellList", sellService.sellList(searchSeller));
 			// 리뷰 리스트
 			mv.addObject("reviewList", sellService.reviewList(searchSeller));
+			
+			int reviewAvg = mypageService.reviewAvg(searchSeller);
+			mv.addObject("reviewAvg",reviewAvg);
+			
 			
 		  //mv.setViewName("다른사람이 보는 내상점");
 			mv.setViewName("sell/searchSellerPage");
@@ -364,7 +371,15 @@ public class SellController {
       Member member = (Member) session.getAttribute("loginUser");
       
       Map <String, Integer> map = new HashMap<>();
-      map.put("userNo", member.getUserNo());
+      
+      // 로그인 했을 때
+      if(member != null) {
+    	  map.put("userNo", member.getUserNo());
+      }
+      
+      int reviewAvg = mypageService.reviewAvg(userNo);
+	  model.addAttribute("reviewAvg",reviewAvg);
+		
       map.put("sellerNo", userNo);
       model.addAttribute("member", sellService.sellerDetail(map));
       // 판매 리스트
