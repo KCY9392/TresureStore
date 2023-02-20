@@ -138,5 +138,10 @@ public class MemberServiceImpl implements MemberService {
 
 	}
 	
+	@Override
+	public String userAcountIs(int userNo) {
+		return memberDao.userAcountIs(sqlSession, userNo);
+	}
+	
 	
 }

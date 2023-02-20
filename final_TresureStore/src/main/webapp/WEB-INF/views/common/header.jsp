@@ -38,10 +38,14 @@
 					<div class="etIgxm">
 					 <!-- 본인인증 방법 로그인 O && 카카오로그인 X && 네이버 로그인 X -->
 						<c:if test="${loginUser.phone != null && access_Token == null && oauthToken==null}">
-
-							<a class="accountBankButton" id="tresureAccount">
-							<img src="https://cdn-icons-png.flaticon.com/512/1424/1424949.png " width="20px;"> <span class="accountText" id="accountModify" >계좌 등록</span></a>
-							
+							<c:if test="${accountInfo == null}">
+								<a class="accountBankButton" id="tresureAccount">
+								<img src="https://cdn-icons-png.flaticon.com/512/1424/1424949.png " width="20px;"> <span class="accountText" id="accountModify" onclick="AddAccount()">계좌 등록</span></a>
+							</c:if>
+							<c:if test="${accountInfo != null}">
+					  			<a class="accountBankButton" id="tresureAccount">
+								<img src="https://cdn-icons-png.flaticon.com/512/1424/1424949.png " width="20px;"> <span class="accountText" id="accountModify" style="margin-left: 5px;" onclick="Accountupdate()">계좌 수정</span></a>
+					  		</c:if>
 							<a href="/tresure/logout" class="items">
 								${loginUser.userName}님 환영합니다^ㅁ^<br> 로그아웃
 							</a>
@@ -49,9 +53,15 @@
 						
 					 <!-- 본인인증 로그인 X && 카카오로그인 O && 네이버 로그인 X-->	
 					  	<c:if test="${loginUser.phone == null && access_Token != null && oauthToken==null}">
-					  		<a class="accountBankButton" id="tresureAccount">
-							<img src="https://cdn-icons-png.flaticon.com/512/1424/1424949.png " width="20px;"> <span class="accountText" id="accountModify" style="margin-left: 5px;">계좌 등록</span></a>
-					  	
+					  		<c:if test="${accountInfo == null}">
+						  		<a class="accountBankButton" id="tresureAccount">
+								<img src="https://cdn-icons-png.flaticon.com/512/1424/1424949.png " width="20px;"> <span class="accountText" id="accountModify" style="margin-left: 5px;" onclick="AddAccount()">계좌 등록</span></a>
+					  		</c:if>
+					  		<c:if test="${accountInfo != null}">
+					  			<a class="accountBankButton" id="tresureAccount">
+								<img src="https://cdn-icons-png.flaticon.com/512/1424/1424949.png " width="20px;"> <span class="accountText" id="accountModify" style="margin-left: 5px;" onclick="Accountupdate()">계좌 수정</span></a>
+					  		</c:if>
+					  		
 					  		<a href="https://kauth.kakao.com/oauth/logout?client_id=2f3c85098b01f4c1919eb4761e43a541&logout_redirect_uri=http://localhost:8888/tresure/logout/kakao" class="items">
 					  			${loginUser.userName}님 환영합니다^ㅁ^<br> 로그아웃
 					  		</a>
@@ -59,8 +69,14 @@
 					    
 					    <!-- 본인인증 로그인 X && 카카오로그인 x && 네이버 로그인 O-->	
 					  	<c:if test="${loginUser.phone == null && access_Token == null && oauthToken!=null}">
-					  		<a class="accountBankButton" id="tresureAccount">
-							<img src="https://cdn-icons-png.flaticon.com/512/1424/1424949.png " width="20px;"> <span class="accountText" id="accountModify"  style="margin-left: 5px;">계좌 등록</span></a>
+						  	<c:if test="${accountInfo == null}">
+						  		<a class="accountBankButton" id="tresureAccount">
+								<img src="https://cdn-icons-png.flaticon.com/512/1424/1424949.png " width="20px;"> <span class="accountText" id="accountModify"  style="margin-left: 5px;" onclick="AddAccount()">계좌 등록</span></a>
+						  	</c:if>
+						  	<c:if test="${accountInfo != null}">
+					  			<a class="accountBankButton" id="tresureAccount">
+								<img src="https://cdn-icons-png.flaticon.com/512/1424/1424949.png " width="20px;"> <span class="accountText" id="accountModify" style="margin-left: 5px;" onclick="Accountupdate()">계좌 수정</span></a>
+					  		</c:if>
 					  	
 					  		<a href="/tresure/logout" class="items">
 					  			${loginUser.userName}님 환영합니다^ㅁ^<br> 로그아웃
@@ -147,6 +163,8 @@
 	
 	<script>
 		
+		let accountInfo = "${accountInfo}";
+	
 		//카테고리 클릭시 해당 카테고리로 이동
 		function Gocategory(categoryCode){
 			location.href = "${pageContext.request.contextPath}/sell/category/"+categoryCode;
@@ -156,7 +174,7 @@
 		let userAccount = "${userAccount}" //로그인유저의 계좌를 가져와서 계좌번호 등록에서 null체크하기
 		
 		 //계좌번호 등록 alert
-		 $('#tresureAccount').on('click', function(){
+		 function AddAccount(){
 			 
 			 var accountNum = /^[0-9]*$/;
 				 
@@ -185,6 +203,7 @@
 					 cancelButtonText: '취소',
 					 confirmButtonText: '등록',
 					 confirmButtonColor: 'gold',
+					 showCloseButton: true,
 			 		 allowOutsideClick : false
 				 }).then(function(bank) {
 					 if(bank.value){
@@ -238,15 +257,18 @@
 							bankInfo : bankInfo,
 							userNo : userNo2},
 					success : function(result){
-						if(result){
+						if(result == 1){
 							console.log(result+"result값");
 							console.log(bankInfo+'은행?');
 							console.log(userNo2+">> 유저번호 조회");
 							console.log(value+">> 계좌번호 조회");
 							
+							console.log('계좌 수정');
 					        $('.accountText').text("계좌 수정");
 					        $('.accountText').removeClass('accountText');
-						} 
+						} else{
+							console.log('계좌실패');
+						}
 					},
 					error : function(){
 						console.log("통신실패");
@@ -254,11 +276,11 @@
 				});
 	    }; 
 	  
-	 }); //계좌등록하기 alert창 끝 !
+	 }; //계좌등록하기 alert창 끝 !
 	    
 	 
 		//계좌번호 수정하기 alert
-	    $('#accountModify').on('click', function(){
+	    function Accountupdate(){
 	    	
 			 var accountNum = /^[0-9]*$/;
 				 
@@ -350,7 +372,7 @@
 						}
 					})
 		    }; 
-		});
+		};
 
 		
 		
