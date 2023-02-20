@@ -152,7 +152,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 회원탈퇴한 유저 상태변경으로 다시 넣기 -->
 <insert id="insertLeaveUser" parameterType="member">
 	<if test="phone != null">
-		INSERT INTO MEMBER (USER_NO, USER_NAME, PHONE, BIRTH, CREATE_DATE, STATU) 
+		INSERT INTO MEMBER (USER_NO, USER_NAME, PHONE, BIRTH, CREATE_DATE, STATUS) 
 		VALUES (#{userNo} ,#{userName}, #{phone}, #{birth}, #{createDate} ,'N')
 	</if>
 	<if test="email != null">
@@ -279,24 +279,6 @@ LEFT JOIN (
 </select>
 
 
-
-
-<!-- 관리자에서 보이는 유저들 -->
-<select id="selectListAll" resultMap="memberResultSet">
-SELECT *
-FROM MEMBER M2
-LEFT JOIN (
-        SELECT M.USER_NO,
-               COUNT(REPORTED_NO) AS "REPORT_COUNT"
-        FROM MEMBER M 
-        JOIN REPORT RE ON(RE.REPORTED_NO = M.USER_NO)
-        GROUP BY (REPORTED_NO) ) PP ON(PP.USER_NO = M2.USER_NO)
-</select>
-
-<select id="selectUserCount" resultType="int">
-	SELECT COUNT(*)
-	FROM MEMBER
-</select>
 
 
 

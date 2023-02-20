@@ -294,7 +294,7 @@ tr>td{
 		
 		
 
- if($("#depoStatus").val()!='N'){
+ if($("#depoStatus").val()=='Y'){
 	 
  function changeDepoStatus(purNo){
 	 

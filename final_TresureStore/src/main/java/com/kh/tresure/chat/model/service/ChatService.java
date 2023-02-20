@@ -59,8 +59,7 @@ public interface ChatService {
    public String reviewIs(int sellNo);
 
 
-   //채팅창에서 거래된 상품의 리뷰등록 여부
-   public String reviewIs(int sellNo);
+   
 
 
 
