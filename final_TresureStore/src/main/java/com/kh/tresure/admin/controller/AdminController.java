@@ -79,10 +79,9 @@ public class AdminController {
  //입금상태 변경
  	@ResponseBody
  	@RequestMapping("changeDepoStatus")
- 	public int changeStatus(@RequestParam("purNo") int purNo) {
+ 	public String changeStatus(@RequestParam("purNo") int purNo, Purchase p) {
  		int result = 0;
- 		
- 		Purchase p = new Purchase();
+
  		p.setPurNo(purNo);
  		System.out.println(""+purNo);
  		if(result==0) {
@@ -90,7 +89,10 @@ public class AdminController {
  			memberService.changeDepoStatus(p);
  			result =1;
  		}
- 		return result;
+ 		
+ 		
+ 		
+ 		return ""+result;
  		
  	}
    
