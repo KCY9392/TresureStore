@@ -29,6 +29,7 @@ import com.kh.tresure.member.model.vo.Member;
 import com.kh.tresure.mypage.model.service.MyPageService;
 import com.kh.tresure.purchase.model.vo.Purchase;
 import com.kh.tresure.report.model.vo.Report;
+
 import com.kh.tresure.review.model.vo.Review;
 import com.kh.tresure.sell.model.vo.Sell;
 
@@ -128,6 +129,18 @@ public class MemberController {
 			Member loginUser = memberService.loginAndMemberEnroll(member);
 			session.setAttribute("loginUser", loginUser);
 			session.setAttribute("alertMsg", loginUser.getUserName() + "님 환영합니다");
+			
+			String accountInfo =  memberService.userAcountIs(loginUser.getUserNo());
+			session.setAttribute("accountInfo", accountInfo);
+
+		}
+
+		return "redirect:/";
+	}
+
+	// 임의적으로 관리자로 로그인하는 컨트롤러생성(이거 문자가 무제한이아니라서 임의적으로 넣어둔 거 - 삭제예정)
+	@RequestMapping(value = "/loginJoin/pp")
+	public String pp(HttpServletRequest request) {
 
 			String accountInfo = memberService.userAcountIs(loginUser.getUserNo());
 			session.setAttribute("accountInfo", accountInfo);
@@ -146,9 +159,9 @@ public class MemberController {
 
 		HttpSession session = request.getSession();
 		session.removeAttribute("loginUser");
-		session.removeAttribute("oauthToken");
+		session.removeAttribute("oauthToken");	
 		session.removeAttribute("accountInfo");
-
+		
 		session.setAttribute("alertMsg", "다음에 또 오세요 ^ㅁ^");
 		return "redirect:/";
 	}
@@ -182,9 +195,9 @@ public class MemberController {
 				session.setAttribute("alertMsg", "로그인 및 회원가입을 할 수 없는 유저입니다.");
 				return "redirect:/";
 			}
-			String accountInfo = memberService.userAcountIs(member.getUserNo());
+			String accountInfo =  memberService.userAcountIs(member.getUserNo());
 			session.setAttribute("accountInfo", accountInfo);
-
+			
 			session.setAttribute("loginUser", member);
 			session.setAttribute("access_Token", access_Token);
 			session.setAttribute("alertMsg", member.getUserName() + "님 환영합니다");
@@ -207,6 +220,7 @@ public class MemberController {
 			session.removeAttribute("access_Token");
 			session.removeAttribute("loginUser");
 			session.removeAttribute("userId");
+			session.removeAttribute("accountInfo");
 			session.setAttribute("alertMsg", "다음에 또 오세요 ^ㅁ^");
 		} else {
 			System.out.println("access_Token is null");
@@ -225,6 +239,7 @@ public class MemberController {
 		kakao.unlink((String) session.getAttribute("access_Token"));
 		session.invalidate();
 		session.removeAttribute("loginUser");
+		session.removeAttribute("accountInfo");
 		session.setAttribute("alertMsg", "다음에 또 오세요 ^ㅁ^");
 		return "redirect:/";
 	}
@@ -248,7 +263,6 @@ public class MemberController {
 		return "member/memberLoginForm";
 	}
 	
-
 	// 네이버 로그인 성공시 callback호출 메소드
 	@RequestMapping(value = "/naverCallback", method = { RequestMethod.GET, RequestMethod.POST })
 	public String callback(Member m, Model model, @RequestParam String code, @RequestParam String state,
@@ -334,6 +348,7 @@ public class MemberController {
 
 		int userNo = ((Member) session.getAttribute("loginUser")).getUserNo();
 
+
 		accountInfo.setUserNo(userNo);
 		accountInfo.setAccount(account);
 		accountInfo.setBank(bankInfo);
@@ -380,6 +395,7 @@ public class MemberController {
 		}
 		return result;
 	}
+
 
 
 }

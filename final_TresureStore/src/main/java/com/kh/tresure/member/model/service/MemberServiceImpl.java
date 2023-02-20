@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import com.kh.tresure.chat.model.vo.ChatRoom;
 
 import com.kh.tresure.common.model.dto.PageInfo;
@@ -27,6 +28,7 @@ public class MemberServiceImpl implements MemberService {
 	private MemberDao memberDao;
 	private SqlSession sqlSession;
 	private Pagination pagination;
+
 
 	// 기본생성자
 	public MemberServiceImpl() {
@@ -145,14 +147,17 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.accountNumber(sqlSession, account);
 	}
 
+	
 
-	// 관리자페이지 결제관리
+
+	//관리자페이지 결제관리
 	@Override
-	public List<Purchase> accountList() {
-
+	public List<Purchase> accountList(){
+		
 		return memberDao.accountList(sqlSession);
 
 	}
+	
 
 	//회원의 계좌정보 가져오기
 	@Override
@@ -188,5 +193,4 @@ public class MemberServiceImpl implements MemberService {
 	public int changeDepoStatus(Purchase p) {
 		return memberDao.changeDepoStatus(sqlSession, p);
 	}
-
 }

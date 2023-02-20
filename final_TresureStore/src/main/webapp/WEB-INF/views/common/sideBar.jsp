@@ -7,10 +7,12 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/tresure/resources/css/common/sideBar.css">
 <title>Insert title here</title>
+
 </head>
 <body>
 	<div class="navBar">
 		<!--찜 하트 수-->
+		<a href ="${pageContext.request.contextPath }/member/myPage">
 		<div class="nfavorites">
 			<div class="nfavoritesText">찜한상품</div>
 			<div class="nfavoritesCount">
@@ -25,6 +27,7 @@
 			</div>
 			<!-- favoritesCount -->
 		</div>
+		</a>
 		<!--찜 끝-->
 
 		<!-- 최근 본 상품 시작 -->
@@ -66,8 +69,9 @@
 				let sideBarUrl = "${pageContext.request.contextPath}/recent/" + (sideBarList ? "update" : "products");
 
 				$.ajax({
-					url : sideBarUrl,
-					data : JSON.stringify(sideBarList),
+				    async : false,
+				    url : sideBarUrl,
+				    data : JSON.stringify(sideBarList),
 					type : "post",
 					dataType : "json",
 					contentType : "application/json",
@@ -87,7 +91,11 @@
 									.append($("<a>", { href : "${pageContext.request.contextPath}/sell/sellDetail/" + elem.sellNo })
 										.append($("<img>", { src : elem.imgSrc }).addClass("nrecentlyImage"))
 									)
-									//.append("<button>").addClass("deleteBtn")
+									.append($("<input>", {type : "hidden", name : "recentNo", value : elem.recentNo}))
+									.append($("<input>", {type : "hidden", name : "sellNo", value : elem.sellNo}))
+									.append($("<input>", {type : "hidden", name : "imgSrc", value : elem.imgSrc}))
+									.append($("<input>", {type : "hidden", name : "crawl", value : elem.crawl}))
+									.append($("<button>", { text : "X", class : "deleteBtn" }))
 								)
 						});
 
@@ -114,7 +122,10 @@
 								.append($("<a>", { href : "${pageContext.request.contextPath}/sell/sellDetail/" + sideBarList[i].sellNo})
 										.append($("<img>", { src : sideBarList[i].imgSrc}).addClass("nrecentlyImage"))
 								)
-								//.append("<button>").addClass("deleteBtn")
+								.append($("<input>", { type : "hidden", name : "sellNo", value : sideBarList[i].sellNo }))
+								.append($("<input>", {type : "hidden", name : "imgSrc", value : sideBarList[i].imgSrc}))
+								.append($("<input>", { type : "hidden", name : "crawl", value : sideBarList[i].crawl }))
+								.append($("<button>", { text : "X", class : "deleteBtn" }))
 							);
 					}
 
@@ -125,16 +136,8 @@
 		// 처음 인덱스
 		let index = 0;
 
-		$(function(){
-			$("#nrecentlyList").children().each((i, elem) => {
-				// console.log(i, ">=", index, "&&", i, "<=", index + 2, "is", i >= index && i <= index + 2);
-				if (i >= index && i <= index + 2) {
-					$(elem).show();
-				} else {
-					$(elem).hide();
-				}
-			});
-			setCount($("#nrecentlyList").children().length);
+		$(function() {
+			setCount();
 		});
 
 		// 이전 버튼
@@ -160,7 +163,7 @@
 				}
 			});
 
-			setCount($("#nrecentlyList").children().length);
+			setCount();
 
 		});
 
@@ -174,22 +177,72 @@
 
 			index += 3;
 
+			setCount();
+
+		});
+
+		$(document).on("click", ".deleteBtn", (e) => {
+
+			let li = $(e.target).closest("li");
+
+			let sellNo = $(li).find(":hidden[name=sellNo]").val();
+
+			<c:choose>
+				<c:when test="${sessionScope.loginUser != null}">
+
+					let recentNo = $(li).find(":hidden[name=recentNo]").val();
+
+					$.ajax({
+						async : false, // 비동기로 하면 삭제 시점과 다시 출력해주는 시점이 겹치거나 빠를 수 있다.
+						url : "${pageContext.request.contextPath}/recent/delete",
+						type : "post",
+						data : { recentNo : recentNo, sellNo : sellNo, userNo : "${sessionScope.loginUser.userNo}" },
+						dataType : "json",
+						success : (data) => {
+							if (Number(data.result) > 0) { // data.result가 0 이상이라면 삭제가 되었다는 의미이므로
+								$(li).remove();
+								setCount($("#nrecentlyList").children().length);
+							}
+						},
+						error : () => {
+							console.log("에러 발생");
+						}
+					});
+				</c:when>
+				<c:otherwise>
+					$(li).remove();
+					sideBarList = [];
+					$("#nrecentlyList").children().each((i, elem) => {
+						sideBarList.push(
+								{
+									sellNo : $(elem).find(":hidden[name=sellNo]").val()
+								  , imgSrc : $(elem).find(".nrecentlyImage").val()
+								  , crawl : $(elem).find(":hidden[name=crawl]").val()
+								  , createDate : $(elem).find(":hidden[name=createDate]").val()
+								}
+						);
+					});
+					console.log("sideBarList 삭제 후 :", sideBarList);
+					setCount();
+					// localStorge에 "products" 키값으로 JSON 형태로 list를 파싱하여 넣는다.
+					localStorage.setItem("products", JSON.stringify(sideBarList));
+				</c:otherwise>
+			</c:choose>
+		});
+
+		function setCount() {
 			$("#nrecentlyList").children().each((i, elem) => {
 				// i 가 index 이상이고, i가 index에 2를 더한 것 이하라면
 				if (i >= index && i <= index + 2) {
 					// 요소를 보여주고
 					$(elem).show();
 				} else {
-					// 아니라면 감춘다.
+					// 아니라면 감추기.
 					$(elem).hide();
 				}
 			});
 
-			setCount($("#nrecentlyList").children().length);
-
-		});
-
-		function setCount(len) {
+			let len = $("#nrecentlyList").children().length;
 			$("#nrecentlyCnt").text(len);
 			$("#currentPage").text((index / 3 + 1) + " / " + (Math.ceil(len / 3)));
 		}

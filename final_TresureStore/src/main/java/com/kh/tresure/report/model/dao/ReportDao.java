@@ -18,26 +18,20 @@ public class ReportDao {
 	}
 
 	//신고 조회
-	public List<Report> reportSearchResult(SqlSession sqlSession, String search) {
+	public List<Report> reportSearchResult(SqlSession sqlSession,HashMap<String, Object> map) {
 	
-		return sqlSession.selectList("reportMapper.reportSearchResult", search);
+		return sqlSession.selectList("reportMapper.reportSearchResult", map);
 	}
 
-	//신고 당한 총 횟수
-	public Integer reportNumber(SqlSession sqlSession, HashMap<String, Object> map) {
-
-		return sqlSession.selectOne("reportMapper.reportNumber", map);
-	}
-
+	// 성공적으로 신고되면 신고당한 사람이 신고 40번 됐는지 확인
 	public int selectReportCount(SqlSession sqlSession, Report report) {
 
 		return sqlSession.selectOne("reportMapper.selectReportCount", report);
 	}
 
-	//신고 조회(계좌번호로 조회)
-	public List<Report> reportAccountResult(SqlSession sqlSession, String account) {
-
-		return sqlSession.selectList("reportMapper.reportAccountResult", account);
+	//신고 카운트
+	public int selectListCount(SqlSession sqlSession, HashMap<String, Object> map) {
+		return sqlSession.selectOne("reportMapper.selectListCount", map);
 	}
 
 	

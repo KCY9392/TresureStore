@@ -2,11 +2,14 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<c:set var="mList" value="${map.mList }" />
+<c:set var="pi" value="${map.pi }" />
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>adminPage</title>
+
 <!-- Jquery -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
@@ -21,6 +24,9 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
 	crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 
 <style>
 .adminMain {
@@ -122,6 +128,35 @@ tr>td {
 .pagination {
 	list-style-type: none;
 	width: 100%;
+}
+#pagingArea {
+	width: 80%;
+	margin: auto;
+}
+
+.pagination {
+	list-style-type: none;
+	width: 100%;
+}
+
+.page-item {
+	border: 1px solid lightgrey;
+	text-align: center;
+	margin-left: 10px;
+	float: left;
+}
+
+.page-link {
+	padding: 15px;
+}
+
+.page-link:active {
+	color: red;
+}
+
+.page-link:hover {
+	color: blue;
+	border: blue;
 }
 
 .page-item {
@@ -293,8 +328,10 @@ tr>td {
 				</div>
 			</div>
 		</div>
+
 	</div>
 	<script>
+
 
 	//버튼 전환
 	function show(element){
@@ -380,6 +417,7 @@ tr>td {
 
 
   </script>
+
 
 
 </body>

@@ -37,9 +37,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<!-- 개별 Recent 객체로 리턴하여 컨트롤러에서 List로 담아서 리턴한다. -->
 		
 		SELECT 
-			R.SELL_NO
+			R.RECENT_NO
+			, R.SELL_NO
 			, R.USER_NO
-			, S.IMAGE_SRC AS imgSrc
+			, S.IMAGE_SRC AS IMG_SRC
 			, S.CRAWL
 			, R.CREATE_DATE
 		FROM RECENT R, SELL S
@@ -49,19 +50,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY CREATE_DATE DESC
 	</select>
 
-	<delete id="deleteProduct" parameterType="recent">
+	<delete id="deleteProducts" parameterType="recent">
+	<!-- 내림차순으로 정렬한 RNUM의 값이 20 초과 인 것들만 RECENT_NO를 받아오므로 IN을 써서 해당되는 RECENT_NO의 데이터를 모두 삭제한다. -->
 		DELETE
 		FROM RECENT
 		WHERE RECENT_NO IN (
 							SELECT RECENT_NO
 							FROM (
-									SELECT ROW_NUMBER() OVER(ORDER BY CREATE_DATE DESC) RNUM
+									SELECT ROW_NUMBER() OVER(ORDER BY CREATE_DATE DESC) RNUM <!-- 실시간 날짜 -->
 										, RECENT_NO
 									FROM RECENT
 									WHERE USER_NO = #{userNo}
 								)
 								WHERE RNUM > 20
 							)
+	</delete>
+	
+	<delete id="deleteProduct" parameterType="recent">
+	<!-- Recent로 넘어온 recentNo, sellNo, userNo를 조건으로 Recent테이블 데이터 삭제 -->
+		DELETE RECENT
+		WHERE RECENT_NO = #{recentNo}
+			AND SELL_NO   = #{sellNo}
+			AND USER_NO   = #{userNo}
 	</delete>
 
 </mapper>

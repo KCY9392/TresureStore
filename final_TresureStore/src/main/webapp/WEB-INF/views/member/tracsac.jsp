@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
@@ -12,63 +12,62 @@
 <link rel="stylesheet" href="/tresure/resources/css/mypage/tracsac.css">
 
 <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+   src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script type="text/javascript" src="/tresure/resources/js/header.js"></script>
 <script type="text/javascript" src="/tresure/resources/js/mypageMain.js"></script>
 
 <link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-	crossorigin="anonymous">
+   href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+   rel="stylesheet"
+   integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+   crossorigin="anonymous">
 <script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-	crossorigin="anonymous"></script>
+   src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+   integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+   crossorigin="anonymous"></script>
 
 <style>
 .sun_wrap_li>ul img {
-	margin-top: 5px !important;
+   margin-top: 5px !important;
 }
 
 .catebox3 {
-	width: 1000px !important;
+   width: 1000px !important;
 }
 
 .inner-menu {
-	width: 700px !important;
+   width: 700px !important;
 }
 
 .catebox.cate1, .catebox.cate2, .catebox.cate3, .catebox.cate4 {
-	margin-right: 40px;
+   margin-right: 40px;
 }
 
 .catebox.cate7, .catebox.cate9, .catebox.cate10 {
-	margin-left: 30px;
+   margin-left: 30px;
 }
 
 .catebox.cate8 {
-	margin-left: 50px;
+   margin-left: 50px;
 }
 
 .market-open img {
-	margin-top: 5px;
+   margin-top: 5px;
 }
 
 .search2 {
-	margin-top: 0px !important;
+   margin-top: 0px !important;
 }
 
 .nfavorites {
-	padding: 5px 0px !important;
-	padding-top: 10px !important;
-	height: 80px !important;
+   padding: 5px 0px !important;
+   padding-top: 10px !important;
+   height: 80px !important;
 }
 
 .ntheTop {
-	height: 40px !important;
+   height: 40px !important;
 }
-
 
 .backGoGoGo {
 	float: left;
@@ -326,16 +325,15 @@
 	</div>
 
 	<script>
+
       function sellDetail(sellNo){
          location.href = "${pageContext.request.contextPath}/sell/sellDetail/"+sellNo;
       }
    </script>
 
-	<script>
+   <script>
      function changeStatus(sellNo){
         var sellNum = $('.sellNo').val();
-           
-        
         
         $.ajax({
            url : '${pageContext.request.contextPath}/changeStatus',
@@ -343,9 +341,13 @@
             data : {sellNo :sellNo},
             success : function(result){
                    if(result == 1) {
-                      
-                       alert("상태 변경");
-                         location.reload();
+                	   Swal.fire({
+                           icon: 'success',
+                           title: '상태가 변경되었습니다.'                  
+                       });   
+                	   setTimeout(function() {
+                     	  location.reload();
+                   	}, 1500);
                    }
              },
              error:function(){
@@ -354,7 +356,6 @@
         });
      };
      
-
    function reviewInsertUpdate(){
          $.ajax({
             url : '${pageContext.request.contextPath}/reviewInsertUpdate',
@@ -378,7 +379,14 @@
          });
       }
       
-    
+
+      //modal창 밖에 클릭 시, 모달창 사라지게하기
+      modalEl.addEventListener("click", e => {
+          const evTarget = e.target
+          if(evTarget.classList.contains("modalEl")) {
+              modalEl.style.display = "none"
+          }
+      });
       
       //수정하기 버튼 클릭 시, 등록 후기 데이터 뿌리기
       function reviewDetail(sellNo){
@@ -427,7 +435,7 @@
       };
    </script>
 
-	<jsp:include page="../common/footer.jsp" />
+   <jsp:include page="../common/footer.jsp" />
 
 
 </body>

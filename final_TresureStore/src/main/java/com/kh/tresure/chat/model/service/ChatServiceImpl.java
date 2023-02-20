@@ -81,7 +81,8 @@ public class ChatServiceImpl implements ChatService {
 
 		HashMap<Object, Object> AllList = new HashMap<>();
 		int chatRoomNo = 0;
-
+		logger.info("내가고른 chatRoomNo1 : " + chatRoomNo);
+		// 판매자와 방만든사람과 같지 않으면 실행
 		if (Integer.parseInt(sellUserNo) != room.getUserNo()) {
 			// 채팅방 존재하는지 검사
 			int result = chatDao.selectChatRoomByObject(sqlSession, room);
@@ -92,18 +93,25 @@ public class ChatServiceImpl implements ChatService {
 			} else {
 				chatRoomNo = chatDao.selectChatRoomNo(sqlSession, room);
 			}
+			
+			logger.info("내가고른 chatRoomNo2 : " + chatRoomNo);
 		} else {
 			chatRoomNo = room.getChatRoomNo();
+			logger.info("내가고른 chatRoomNo1 3 " + chatRoomNo);
 		}
+		
+		logger.info("내가고른 chatRoomNo4 : " + chatRoomNo);
 
 		if (chatRoomNo == 0) {
 			return AllList;
 		}
 
 		room.setChatRoomNo(chatRoomNo);
-		AllList.put("chatRoomNo", chatRoomNo);
+		// 채팅방 번호도 넣어주기
+		
 
-		logger.info("내가고른 chatRoomNo : " + chatRoomNo);
+		logger.info("내가고른 chatRoomNo5 : " + chatRoomNo);
+		AllList.put("chatRoomNo", chatRoomNo);
 
 		roomJoin.setChatRoomNo(room.getChatRoomNo());
 		roomJoin.setUserNo(room.getUserNo());

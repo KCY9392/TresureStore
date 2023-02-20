@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- type은 mybatis-config에서 member 라는 별칭을 정해두었음 -->
 <resultMap type="member" id="memberResultSet">
    	<id column="USER_NO" property="userNo"></id>
+   	<result column="USER_NO_1" property="userNo2"></result>
 	<result column="USER_NAME" property="userName"></result>
 	<result column="PHONE" property="phone"></result>
 	<result column="BIRTH" property="birth"></result>
@@ -18,6 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="HEART_COUNT" property="heartCount"></result>
 	<result column="ACCOUNT" property="account"></result>
 	<result column="BLACKLIST" property="blackListStatus"></result>
+	<result column="REPORT_COUNT" property="reportCount"></result>
 
 </resultMap>
 
@@ -26,6 +28,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="USER_NO" property="userNo"></result>
 	<result column="ACCOUNT" property="account"></result>
 	<result column="BANK" property="bank"></result>
+
+	
+	
+</resultMap>
+
+<resultMap type="purchase" id="purchaseResultSet" >
+	<id column="PUR_NO" property="purNo"></id>
+	<result column="USER_NO" property="userNo"></result>
+	<result column="SELL_NO" property="sellNo"></result>
+	<result column="CREATE_DATE" property="createDate"></result>
+	<result column="ORDER_NO" property="orderNo"></result>
+	<result column="PRICE" property="price"></result>
+	<result column="DEPO_STATUS" property="depoStatus"></result>
+	<result column="BANK" property="bank"></result>
+	<result column="ACCOUNT" property="account"></result>
+	<result column="PUR_USER" property="purUser"></result>
+
+
 </resultMap>
 
 <!-- 입력한 정보로 가입한 회원여부 확인 -->
@@ -140,7 +160,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 회원탈퇴한 유저 상태변경으로 다시 넣기 -->
 <insert id="insertLeaveUser" parameterType="member">
 	<if test="phone != null">
-		INSERT INTO MEMBER (USER_NO, USER_NAME, PHONE, BIRTH, CREATE_DATE, STATU) 
+		INSERT INTO MEMBER (USER_NO, USER_NAME, PHONE, BIRTH, CREATE_DATE, STATUS) 
 		VALUES (#{userNo} ,#{userName}, #{phone}, #{birth}, #{createDate} ,'N')
 	</if>
 	<if test="email != null">
@@ -183,7 +203,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </insert>
 
 <!-- 계좌 수정하기 -->
-<update id="updateAccount" parameterType="int">
+<update id="updateAccount" parameterType="account">
 	UPDATE ACCOUNT
 	SET ACCOUNT = #{account},
 		BANK = #{bank}
@@ -196,12 +216,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 판매자의 계좌 가져오기 -->
 <select id="selectAccountInfo" parameterType="account" resultType="account" >
 	SELECT DISTINCT
-            ACCOUNT,
-            BANK,
+
+            A.ACCOUNT,
+
+            A.BANK,
             A.USER_NO AS "USER_NO"
 	FROM ACCOUNT A
 	LEFT JOIN SELL S ON (S.USER_NO = A.USER_NO)
-	WHERE ACCOUNT = #{account} 
+	WHERE A.ACCOUNT = #{account} 
 </select>
 
 
@@ -215,33 +237,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE A.USER_NO = #{userNo} 
 </select>
 
+
+
+
+
 <!-- 관리자페이지 결제관리 -->
 <!-- 수정중 -->
-<select id="accountList">
-	SELECT A.ACCOUNT,
+<select id="accountList" resultType="purchase">
+	 SELECT 
+     		A.ACCOUNT,
 			A.BANK,
 			S.SELL_TITLE,
 			S.USER_NO,
 			S.SELL_NO,
-			P.PUR_NO,
+			p.PUR_NO,
 			P.CREATE_DATE,
 			P.PRICE,
 			P.USER_NO AS PUR_USER,
 			P.ORDER_NO,
-			P.DEPO_STATUS
+			p.DEPO_STATUS
 	FROM PURCHASE P
 	LEFT JOIN SELL S ON(S.SELL_NO = P.SELL_NO)
     LEFT JOIN ACCOUNT A ON(A.USER_NO = S.USER_NO)
-	
-	
 </select>
+
+
 <!-- 입급상태 변경 -->
 <update id="changeDepoStatus" parameterType="purchase">
 	UPDATE PURCHASE
 	SET DEPO_STATUS='N'
 	WHERE PUR_NO = #{purNo}
-
 </update>
+
 
 <!-- 관리자에서 보이는 유저들-->
 <select id="selectListAll" resultMap="memberResultSet">
@@ -263,13 +290,13 @@ ORDER BY REPORT_COUNT DESC NULLS LAST
 	FROM MEMBER
 </select>
 
+
 <!-- 회원이 등록한 계좌번호 조회 -->
 <select id="userAcountIs" parameterType="int" resultType="String">
 	SELECT ACCOUNT 
 	FROM ACCOUNT 
 	WHERE USER_NO = #{userNo}
 </select>
-
 
 
 </mapper>
