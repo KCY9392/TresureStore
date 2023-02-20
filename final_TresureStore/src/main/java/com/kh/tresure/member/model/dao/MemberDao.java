@@ -152,16 +152,17 @@ public class MemberDao {
 		return sqlSession.selectList("memberMapper.accountList");
 	}
 
+
+	public String userAcountIs(SqlSession sqlSession, int userNo) {
+		return sqlSession.selectOne("memberMapper.userAcountIs", userNo);
+
 	
 	//입금상태 변경
 	public int changeDepoStatus(SqlSession sqlSession, Purchase p) {
 		
 		return sqlSession.update("memberMapper.changeDepoStatus",p);
+
 	}
-
-
-
-	
 
 
 

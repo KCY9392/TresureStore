@@ -152,6 +152,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 
+	@Override
+	public String userAcountIs(int userNo) {
+		return memberDao.userAcountIs(sqlSession, userNo);
+	}
+	
+
+
 	 // 관리페이지의 유저 전체 가져오기
 	   @Override
 	   public HashMap<Object, Object> selectListAll(HashMap<Object, Object> paramMap, int currentPage){

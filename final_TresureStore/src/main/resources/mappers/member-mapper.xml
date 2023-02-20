@@ -195,7 +195,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </insert>
 
 <!-- 계좌 수정하기 -->
-<update id="updateAccount" parameterType="int">
+<update id="updateAccount" parameterType="account">
 	UPDATE ACCOUNT
 	SET ACCOUNT = #{account},
 		BANK = #{bank}
@@ -276,6 +276,12 @@ LEFT JOIN (
 <select id="selectUserCount" resultType="int">
 	SELECT COUNT(*)
 	FROM MEMBER
+</select>
+
+<select id="userAcountIs" parameterType="int" resultType="String">
+	SELECT ACCOUNT 
+	FROM ACCOUNT 
+	WHERE USER_NO = #{userNo}
 </select>
 
 
