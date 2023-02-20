@@ -9,6 +9,7 @@
 		<param-value>
 		/WEB-INF/spring/root-context.xml
 		/WEB-INF/spring/Image-scheduler.xml
+		/WEB-INF/spring/ip-security.xml
 		</param-value>
 	</context-param>
 	

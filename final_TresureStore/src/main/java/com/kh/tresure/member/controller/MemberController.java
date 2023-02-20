@@ -27,7 +27,7 @@ import com.kh.tresure.member.model.service.NaverLoginBO;
 import com.kh.tresure.member.model.vo.Account;
 import com.kh.tresure.member.model.vo.Member;
 import com.kh.tresure.mypage.model.service.MyPageService;
-<
+
 
 import com.kh.tresure.purchase.model.vo.Purchase;
 import com.kh.tresure.report.model.vo.Report;
@@ -411,36 +411,7 @@ public class MemberController {
 	}
 	
 	
-	//관리자 페이지로 이동 - 수정중
-	@RequestMapping(value = "common/admin", method = RequestMethod.GET)
-	public String admin(Model model) { 
-		
-		List<Purchase> accountList = memberService.accountList();
-		  model.addAttribute("accountList", accountList); 
-		  logger.info(""+accountList);
 	
-		return "common/admin";
-	}
-	
-
-
-	//입금상태 변경
-	@ResponseBody
-	@RequestMapping("changeDepoStatus")
-	public int changeStatus(@RequestParam("purNo") int purNo) {
-		int result = 0;
-		
-		Purchase p = new Purchase();
-		p.setPurNo(purNo);
-		System.out.println(""+purNo);
-		if(result==0) {
-			
-			memberService.changeDepoStatus(p);
-			result =1;
-		}
-		return result;
-		
-	}
 
 
 	

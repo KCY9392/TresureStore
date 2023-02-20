@@ -245,8 +245,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			P.ORDER_NO,
 			p.DEPO_STATUS
 	FROM PURCHASE P
-	LEFT JOIN ACCOUNT A ON(A.USER_NO = P.USER_NO)
+	
 	LEFT JOIN SELL S ON(S.SELL_NO = P.SELL_NO)
+    LEFT JOIN ACCOUNT A ON(A.USER_NO = S.USER_NO)
 	
 	
 </select>
@@ -257,6 +258,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE PUR_NO = #{purNo}
 
 </update>
+
+<!-- 관리자에서 보이는 유저들-->
+<select id="selectListAll" resultMap="memberResultSet">
+SELECT *
+FROM MEMBER M2
+LEFT JOIN (
+        SELECT M.USER_NO,
+               COUNT(REPORTED_NO) AS "REPORT_COUNT"
+        FROM MEMBER M 
+        JOIN REPORT RE ON(RE.REPORTED_NO = M.USER_NO)
+        GROUP BY (REPORTED_NO) ) PP ON(PP.USER_NO = M2.USER_NO)
+</select>
+
+<select id="selectUserCount" resultType="int">
+	SELECT COUNT(*)
+	FROM MEMBER
+</select>
+
 
 
 
