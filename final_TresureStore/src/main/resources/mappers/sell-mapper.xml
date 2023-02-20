@@ -223,7 +223,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 WHERE S.SELL_NO = F.SELL_NO
 		   AND F.FILE_TYPE = 'D'
 		   AND S.SELL_NO = #{sellNo}
-		ORDER BY F.SFILE_NO DESC
+		ORDER BY F.SFILE_NO ASC,
+			F.FILE_TYPE DESC
 	</select>
 	
 	<!-- 채팅방에 보이는 판매제품정보 --> 
