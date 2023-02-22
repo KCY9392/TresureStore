@@ -156,6 +156,10 @@ body{
     appearance: none;
     color: transparent;
 }
+
+#communication>option{
+	color: black;
+}
 #communication:hover{
     border-bottom: 2px solid black;
 }

@@ -63,9 +63,9 @@
 		
 		$(submitButton).on('click', function(){
 			
-			if( $(inputNumber).val() != ${randomNum }){
+			if(  $(inputNumber).val() != ${randomNum } ){
 				alert("인증번호가 맞지 않습니다.");
-				$(inputNumber).focus();
+				$(inputNumber).focus(); 
 				return false;
 			}
 			

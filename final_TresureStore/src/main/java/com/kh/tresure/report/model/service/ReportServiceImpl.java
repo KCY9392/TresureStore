@@ -52,7 +52,7 @@ public class ReportServiceImpl implements ReportService {
 		// 성공적으로 신고되면 신고당한 사람이 신고 40번 됐는지 확인
 		if(result > 0) { 
 			int reportCount = reportDao.selectReportCount(sqlSession, report);
-			if(reportCount >= 3) {// 실험중3회로
+			if(reportCount >= 40) {
 				// 40번 넘었으니 블랙리스트로 진행
 				
 				// 우선 이 사람의 객체를 가져와서 저장

@@ -17,7 +17,7 @@
 					<th width="200">팀명</th>
 					<th width="200">사이트</th>
 					<th width="200">관련사이트</th>
-					<th width="200">?</th>
+					<th width="200">오늘 수료날~</th>
 				</tr>
 				<tr>
 					<td>운영시간 : 15시 30분 ~ 21시 50분</td>
@@ -25,7 +25,7 @@
 					<td>중고마켓</td>
 					<td><a
 						href="https://web.joongna.com/?NaPm=ct%3Dlcki670z%7Cci%3Dcheckout%7Ctr%3Dds%7Ctrx%3D%7Chk%3D52e863ddf4a51fdc9e91df6f3daa1f486524beb9">중고나라</a></td>
-					<td>?</td>
+					<td>고생하셨어요 그동안</td>
 				</tr>
 				<tr>
 					<td>저녁시간 : 18시 20분 ~ 19시 00분</td>
@@ -33,7 +33,7 @@
 					<td>플랫폼</td>
 					<td><a
 						href="https://m.bunjang.co.kr/?NaPm=ct%3Dlcki2cce%7Cci%3Dcheckout%7Ctr%3Dds%7Ctrx%3D%7Chk%3Da0d44c5ac06b65e13e940b2c0294e57da87b6d9c">번개장터</a></td>
-					<td>?</td>
+					<td>다들 취뽀 성공하자</td>
 				</tr>
 				<tr>
 					<td>2023년 2월 21일 까지</td>

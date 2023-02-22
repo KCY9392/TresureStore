@@ -309,7 +309,12 @@
                </div>
               
                <div class="thumb" onclick="sellDetail(${h.sellNo})">
-                 <img src="${h.imgSrc}"  width="78px" height="78px" style="margin-top: -15px;"/>
+               <c:if test="${h.crawl == 'Y'}">
+               	<img src="${h.imgSrc}"  width="78px" height="78px" style="margin-top: -15px;"/>
+               </c:if>
+               <c:if test="${h.crawl == 'N'}">
+                 <img src="${pageContext.request.contextPath}${h.imgSrc}"  width="78px" height="78px" style="margin-top: -15px;"/>
+                </c:if>
                </div>
                
                <div class="gdsInfo" onclick="sellDetail(${h.sellNo})">

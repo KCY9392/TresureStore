@@ -98,7 +98,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    <!-- 상품검색 -->
    <select id="sellListsearch" parameterType="String" resultMap="sellResultSet">
       SELECT
-         SELL_NO, CATEGORY_NO, SELL_TITLE, IMAGE_SRC, PRICE, HEART_NUM, CRAWL, S.CREATE_DATE AS "CREATE_DATE"
+         SELL_NO, CATEGORY_NO, SELL_TITLE, IMAGE_SRC, PRICE, 
+         (SELECT COUNT(*) FROM HEART H WHERE H.SELL_NO = S.SELL_NO) AS "HEART_NUM", CRAWL, S.CREATE_DATE AS "CREATE_DATE"
       FROM SELL S
       LEFT JOIN MEMBER M ON(S.USER_NO=M.USER_NO)
       WHERE S.STATUS = 'Y' 
@@ -384,7 +385,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
               S.CREATE_DATE DESC
            </if>
            <if test='howOrder.equals("popular")'>
-              S.HEART_NUM DESC, S.COUNT DESC
+              HEART_NUM DESC, S.COUNT DESC
            </if>
            <if test='howOrder.equals("lowest")'>
               S.PRICE

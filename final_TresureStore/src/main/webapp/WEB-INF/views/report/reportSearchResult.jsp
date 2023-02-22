@@ -143,7 +143,7 @@
 		                </table>
               	 	</c:otherwise>
               </c:choose>
-              <button class="report-search-button" onclick="location.href='${pageContext.request.contextPath}/report/reportSearch'">다시 조회하기</button>
+              <button class="report-search-button" onclick="location.href='${pageContext.request.contextPath}/report/reportSearch'" style="margin-top: 60px;">다시 조회하기</button>
                 
             </div>
           </div>

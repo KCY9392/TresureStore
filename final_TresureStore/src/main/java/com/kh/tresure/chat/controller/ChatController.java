@@ -236,6 +236,7 @@ public class ChatController {
 
 		int result = 0;
 
+		//첨부파일 이미지가 있을 경우,
 		if (!uploadfile.isEmpty()) {
 
 			String webPath = "/resources/images/chat/";
@@ -243,8 +244,9 @@ public class ChatController {
 
 			File file = null;
 
-			// 폴더 생성
+			//첨부파일 이미지의 원본명이 빈 문자열이 아닐경우,
 			if (!uploadfile.getOriginalFilename().equals("")) {
+				
 				String savePath = session.getServletContext().getRealPath("/resources/images/chat/");
 
 				file = new File(savePath);
