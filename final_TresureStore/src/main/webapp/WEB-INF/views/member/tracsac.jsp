@@ -140,7 +140,7 @@
 								end="${fn:length(sellList)}" step="1" varStatus="status">
 
 
-								<tr onclick="sellDetail(${s.sellNo})">
+								<tr>
 									<td scope="col">
 
 										<div style="display: flex; position: relative;"
@@ -166,7 +166,7 @@
 											</c:if>
 										</div>
 									</td>
-									<td scope="col">${s.sellTitle}</td>
+									<td scope="col" onclick="sellDetail(${s.sellNo})">${s.sellTitle}</td>
 									<td scope="col">${s.price }원</td>
 									<td scope="col">${s.heartNum }</td>
 									<td scope="col">${s.createDate }</td>

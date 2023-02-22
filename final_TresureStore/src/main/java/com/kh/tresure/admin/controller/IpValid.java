@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 		@Autowired
 		private BCryptPasswordEncoder bcryptPasswordEncoder;
 		
-		private final String manager = "192.168.35.193";
+		private final String manager = "192.168.120.105";
 		
 		
 		protected boolean IpValidCheck(String secretIp) {

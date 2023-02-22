@@ -30,6 +30,8 @@ public class Heart {
 	
 	private int sysHeartNum;
 	
+	private String crawl;
+	
 	
 	
 	
