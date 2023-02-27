@@ -1,63 +1,36 @@
-<!DOCTYPE html>
-<head>
-
-    <style>
-
-        p, table{
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        }
-
-        /*TresureStore Project*/
-        #title{
-            text-align: center; font-weight: 800; font-size: 50px;
-        }
-
-        /*[보물상점] - 중고물품 거래 웹사이트*/
-        #titleConfig{
-            margin-top: -30px;
-            text-align: center; color: rgb(104, 103, 103);
-            font-size: 23px;
-            font-weight: 800;
-        }
-
-        /*사이트 로고 이미지*/
-        #siteLogo{
-            margin: auto; 
-            border: 2px solid lightgray;
-            border-radius: 40px;
-            padding: 5px;
-            background-color: rgb(255, 252, 232);
-        }
-
-        #text{
-            text-align: center;
-            color: rgb(104, 103, 103);
-            font-size: 25px;
-            font-weight: 800;
-        }
-    </style>
-</head>
-<body>
 
 <br><br>
 
-<p id="title">TresureStore Project</p>
-<p id="titleConfig">[보물상점] - 중고물품 거래 웹사이트 </p>
+<p id="title" style="font-family: system-ui; text-align: center; font-weight: 800; font-size: 50px;">TresureStore Project</p>
+<p id="titleConfig" style="font-family: system-ui;margin-top: -30px;
+            text-align: center; color: rgb(104, 103, 103);
+            font-size: 23px;
+            font-weight: 800;">[보물상점] - 중고물품 거래 웹사이트 </p>
 
 <br>
 
-<div style="text-align: center;"><img id="siteLogo" src="사이트 로고.png"></div>
+<div style="text-align: center;"><img id="siteLogo" style="margin: auto; 
+            border: 2px solid lightgray;
+            border-radius: 40px;
+            padding: 5px;
+            background-color: rgb(255, 252, 232);" src="사이트 로고.png"></div>
 
 <br><br><br>
 
 <div style="text-align: center;">
-    <p id="text"><img src="1.png" width="30px">기획의도</p>
+    <p id="text" style="text-align: center;
+            color: rgb(104, 103, 103);
+            font-size: 25px;
+            font-weight: 800;"><img src="1.png" width="30px">기획의도</p>
     <div style="text-align: center;">
         <img src="기획의도.png" style="border-radius: 30px;">
     </div>
 
     <br><br><br>
-    <p id="text"><img src="2.png" width="30px">업무분담</p>
+    <p id="text" style="text-align: center;
+            color: rgb(104, 103, 103);
+            font-size: 25px;
+            font-weight: 800;"><img src="2.png" width="30px">업무분담</p>
     <div style="text-align: center;">
         <img src="업무분담.png" style="border-radius: 30px;">
     </div>
@@ -91,23 +64,4 @@
         </table>
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-</body>
-</html>
-
-
-
-
-
 
