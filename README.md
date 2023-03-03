@@ -1,42 +1,24 @@
 
-<br><br>
 
-<p id="title" style="font-family: system-ui; text-align: center; font-weight: 800; font-size: 50px;">TresureStore Project</p>
-<p id="titleConfig" style="font-family: system-ui;margin-top: -30px;
-            text-align: center; color: rgb(104, 103, 103);
-            font-size: 23px;
-            font-weight: 800;">[보물상점] - 중고물품 거래 웹사이트 </p>
+# TresureStore Project
+### <img src="https://user-images.githubusercontent.com/113049166/222701255-57c223fd-a368-4b50-9652-4ed673b8bbc9.png"  width="30px" height="30px"> [보물상점] 중고물품 거래 웹사이트
+
+<br>
+<img src="https://user-images.githubusercontent.com/113049166/222695436-f13080cf-3368-4ac3-bd54-d8d846da79db.png">
 
 <br>
 
-<div style="text-align: center;"><img id="siteLogo" style="margin: auto; 
-            border: 2px solid lightgray;
-            border-radius: 40px;
-            padding: 5px;
-            background-color: rgb(255, 252, 232);" src="사이트 로고.png"></div>
+#### <img src="https://user-images.githubusercontent.com/113049166/222699301-ce14e886-186b-4241-91fc-132ba832cbe9.png" width="20px" height="20px"> 프로젝트소개
 
-<br><br><br>
+ <img src="https://user-images.githubusercontent.com/113049166/222696648-d8bdf736-c709-49b7-813b-c4af698b87b2.png" width="80%" height="20%">
 
-<div style="text-align: center;">
-    <p id="text" style="text-align: center;
-            color: rgb(104, 103, 103);
-            font-size: 25px;
-            font-weight: 800;"><img src="1.png" width="30px">기획의도</p>
-    <div style="text-align: center;">
-        <img src="기획의도.png" style="border-radius: 30px;">
-    </div>
+<br>
 
-    <br><br><br>
-    <p id="text" style="text-align: center;
-            color: rgb(104, 103, 103);
-            font-size: 25px;
-            font-weight: 800;"><img src="2.png" width="30px">업무분담</p>
-    <div style="text-align: center;">
-        <img src="업무분담.png" style="border-radius: 30px;">
-    </div>
-    <br><br>
-    <div style="">
-        <table style="margin-left: auto; margin-right: auto; width: 600px; height: 200px;">
+#### <img src="https://user-images.githubusercontent.com/113049166/222700339-680fc1d0-6047-48e2-8f3e-4c55c9916e82.png" width="20px" height="20px"> 업무분담
+
+ <img src="https://user-images.githubusercontent.com/113049166/222700655-f33dfb56-5f10-456e-8dbd-236d120398b9.png" width="80%" height="20%">
+
+<table style="margin-left: auto; margin-right: auto; width: 600px; height: 200px;">
             <tr>
                 <td>이름</td>
                 <td>GitHub</td>
@@ -61,7 +43,11 @@
                 <td>유홍상</td>
                 <td><a href="https://github.com/sang-3">@sang-3</a></td>
             </tr>
-        </table>
-    </div>
-</div>
+  </table>
+  
+  
+    
+
+
+
 
