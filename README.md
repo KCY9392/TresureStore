@@ -148,9 +148,129 @@
 <br>
   
 ## 🌟 주요기능
-#### 
+#### 채팅첨부파일 보내기 기능
 
-  
+<img src="https://user-images.githubusercontent.com/113049166/222718256-1cf90370-c99d-4f9d-b6e3-24cd6e9f16c2.png" width="80%" height="20%">
+
+	/* 채팅 보내기 버튼 눌렀을 경우, */
+           $("#send").on('click',function(){
+        	   $.ajax({
+                   type: "post",
+                   url: "${pageContext.request.contextPath}/chat/chatFile/insert",
+                   data: new FormData($("#uploadfileForm")[0]),
+                   processData: false,
+                   contentType: false,
+                   success: function (rsp) {
+                	   
+                	   let changeName = rsp.changeName;
+                       let originName = rsp.originName;
+                	   
+                       let ext = originName.split('.').pop().toLowerCase();
+                       if ($.inArray(ext, ['jpg', 'jpeg', 'png', 'gif']) != -1) {
+                    	   
+                    	   let wsJson = {
+                    			   "chatContent": "<img src='/tresure/resources/images/chat/"+changeName+"' style='width: 200px'><br>",
+                    			   "chatRoomNo": chatRoomNo,
+                                   "userNo": userNo
+                    	   };
+                    	   //JSON 전송
+                           $("#uploadfile").val("");
+                           ws.send(JSON.stringify(wsJson));
+                           $(".chatImageBeforeSetImage").css('display','none');
+                           $('#View').attr('src', "");
+                           return false;
+                       }
+                	   
+                   },
+                   error : function(data){
+                	 alert("오류");   
+                   }
+                });
+           });
+	   
+
+1. [보내기] 버튼 누를경우, ajax로 input file안의 데이터를 form으로 감싸서 chatFile/insert url로 post방식으로 보냅니다. 
+2. 이미지 데이터를 받은 controller에서 이미지를 저장할 서버저장폴더를 생성,이미지 저장하고
+3. DB에 이미지를 등록시키도록 service단으로 이미지객체를 넘깁니다. 
+4. 이미지의 원본명, 수정명을 map에 담아서 ajax결과값으로 보내주고, 그 결과값인 이미지 정보를 이미지태그로 만들고, Json객체로 감싸서 Websocket에 send합니다.
+5. 그 결과, 채팅창에 이미지가 출력됩니다.
+
+
+#### 최근 본 상품 기능
+<table>
+<tr>
+	<th>
+	  아직 상품 조회 X
+	</th>
+	<th>
+	  상품조회
+	</th>
+	<th>
+	  상품 조회 시,
+	</th>
+</tr>
+<tr>
+	<td width="10%">
+		<img src="https://user-images.githubusercontent.com/113049166/222720430-4e92aa76-e435-4bbe-9f24-fb811c8abb7b.png" width="600" height="200"/>
+	</td>
+	<td width="30%">
+		<img src="https://user-images.githubusercontent.com/113049166/222720807-f550b0b2-3bdf-4fe1-8ffd-7e42a13c6d27.png" width="600" height="200"></td>
+	<td width="10%">
+		<img src="https://user-images.githubusercontent.com/113049166/222720824-7beb0401-97af-4b95-a07e-ad04cdf4266f.png" width="600" height="200"></td>
+</tr>
+</table>
+
+	// localStorage에서 products 키값 가져오기.
+	let sideBarProducts = localStorage.getItem("products");
+
+	// 만약 products가 undefined가 아니라면 list 변수에 JSON.parse(sideBarProducts)를 통해서 JSON Array를 만들고, 그게 아니라면 list 변수를 새로운 배열로 생성한다.
+	let sideBarList = sideBarProducts ? JSON.parse(sideBarProducts) : [];
+
+	<c:choose>
+		<c:when test="${sessionScope.loginUser != null}">
+			let sideBarUrl = "${pageContext.request.contextPath}/recent/" + (sideBarList ? "update" : "products");
+
+			$.ajax({
+				   async : false,
+				   url : sideBarUrl,
+				   data : JSON.stringify(sideBarList),
+				   type : "post",
+				   dataType : "json",
+				   contentType : "application/json",
+				   success : function(data) {
+
+					localStorage.removeItem("products");
+					$("#nrecentlyList").children().remove();
+					$(data).each((i, elem) => {
+						if (elem.crawl == "N") {
+							elem.imgSrc = "${pageContext.request.contextPath}" + elem.imgSrc;
+						}
+						console.log("로그인 된 상태 -> href : ${pageContext.request.contextPath}/sell/sellDetail/" 
+								+ elem.sellNo, ", imgSrc :", elem.imgSrc, ", crawl:", elem.crawl);
+						$("#nrecentlyList").append($("<li>")
+								   .append($("<a>", { href : "${pageContext.request.contextPath}/sell/sellDetail/" + elem.sellNo })
+								   .append($("<img>", { src : elem.imgSrc }).addClass("nrecentlyImage")))
+								   .append($("<input>", {type : "hidden", name : "recentNo", value : elem.recentNo}))
+								   .append($("<input>", {type : "hidden", name : "sellNo", value : elem.sellNo}))
+								   .append($("<input>", {type : "hidden", name : "imgSrc", value : elem.imgSrc}))
+								   .append($("<input>", {type : "hidden", name : "crawl", value : elem.crawl}))
+								   .append($("<button>", { text : "X", class : "deleteBtn" })))
+						});
+						$("#nrecentlyCnt").text(data.length);
+					},
+				   error : function() {
+						console.log("오류 발생");
+					}
+				});
+		</c:when>
+	<c:otherwise>
+
+
+- 로컬스토리지를 이용하여서 상품을 클릭 시, 상품상세페이지로 이동할때 상품정보를 로컬스토리지에 세팅하는 스크립트를 사용하였습니다. 
+1. item변수에 상품객체를 담고, 
+2. 2개이상의 상품을 저장하기위해 다시 list배열에 담아 로컬스토리지 키값에 저장시킵니다.
+3. 이때의 키값을 sidebar.jsp에 전달시키고 이미지를 출력합니다.
+
     
 
 
