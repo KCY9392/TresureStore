@@ -80,6 +80,27 @@
   
 <br>
 
+## 😀 ER-DIAGRAM , USECASE-DIAGRAM
+<table>
+<tr>
+	<th>
+	  ER-DIAGRAM
+	</th>
+	<th>
+	  USECASE-DIAGRAM
+	</th>
+</tr>
+<tr>
+	<td width="50%">
+		<img src="https://user-images.githubusercontent.com/113049166/222722892-fd716e8b-8de9-4f7d-8206-1b8993e2c24e.jpg" width="600" height="200"/>
+	</td>
+	<td width="50%">
+		<img src="https://user-images.githubusercontent.com/113049166/222723157-864adf0f-36a5-4256-b1fa-8153fc27f898.jpg" width="600" height="200"></td>
+</tr>
+</table>
+
+<br>
+
 ## 😆 UI
 <table>
 <tr>
@@ -271,7 +292,10 @@
 2. 2개이상의 상품을 저장하기위해 다시 list배열에 담아 로컬스토리지 키값에 저장시킵니다.
 3. 이때의 키값을 sidebar.jsp에 전달시키고 이미지를 출력합니다.
 
-    
+<br><br>
+
+
+
 
 
 
