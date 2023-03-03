@@ -78,6 +78,77 @@
 - 2023.01.12-2023.01.13 : DB설계
 - 2023.01.19-2023.02.16 : 기능 구현
   
+<br>
+
+## 😆 UI
+<table>
+<tr>
+	<th>
+		메인페이지
+	</th>
+	<th>
+		관리자페이지
+	</th>
+
+</tr>
+<tr>
+	<td width="30%">
+		<img src="https://user-images.githubusercontent.com/113049166/222708107-e9567d1e-0a52-4c72-b546-c8562671d771.png" width="600" height="200"/>
+	</td>
+	<td width="30%">
+		<img src="https://user-images.githubusercontent.com/113049166/222708667-134c4720-c6f2-49bc-92a3-d8940ce9fc5c.png" width="600" height="200"></td>
+
+</tr>
+<tr>
+	<th>
+	    상품등록하기
+	</th>
+	<th>상품상세보기</th>
+</tr>
+<tr>
+	<td>
+	 <img src="https://user-images.githubusercontent.com/113049166/222710526-eaf342a9-0fa7-4706-8e14-3080a583f816.png" width="600" height="200"/>
+	</td>
+	<td>
+	  <img src="https://user-images.githubusercontent.com/113049166/222710611-4ab64840-5f38-48bc-a490-2e95b9918021.png" width="600" height="200"/>
+	</td>
+</tr>
+<tr>
+	<th>채팅방목록
+	</th>
+	<th>
+	    채팅창
+	</th>
+</tr>
+<tr>
+	<td>
+	  <img src="https://user-images.githubusercontent.com/113049166/222710675-2151095c-77f8-4fe6-8dde-3a4151dc3a3a.png" width="600" height="200"/>
+	</td>
+	<td>
+	  <img src="https://user-images.githubusercontent.com/113049166/222710805-367c4898-23d4-4525-b476-68750a696877.png" width="600" height="200"/>
+	</td>
+<tr>
+<tr>
+	<th>내상점
+	</th>
+	<th>
+	    내상점 찜목록
+	</th>
+</tr>
+<tr>
+	<td>
+	   <img src="https://user-images.githubusercontent.com/113049166/222710884-a3f5ab8e-4777-407e-adbb-81c19d62b7de.png" width="600" height="200"/>
+	</td>
+	<td>
+	   <img src="https://user-images.githubusercontent.com/113049166/222711021-ae1ba4b2-4b69-4533-b266-df2b46fd8e6a.png" width="600" height="200"/>
+	</td>
+<tr>
+</table>
+
+<br>
+  
+## 🌟 주요기능
+#### 
 
   
     
