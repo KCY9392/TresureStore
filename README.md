@@ -8,13 +8,13 @@
 
 <br>
 
-#### <img src="https://user-images.githubusercontent.com/113049166/222699301-ce14e886-186b-4241-91fc-132ba832cbe9.png" width="20px" height="20px"> 프로젝트소개
+## <img src="https://user-images.githubusercontent.com/113049166/222699301-ce14e886-186b-4241-91fc-132ba832cbe9.png" width="35px" height="35px"> 프로젝트소개
 
  <img src="https://user-images.githubusercontent.com/113049166/222696648-d8bdf736-c709-49b7-813b-c4af698b87b2.png" width="80%" height="20%">
 
 <br>
 
-#### <img src="https://user-images.githubusercontent.com/113049166/222700339-680fc1d0-6047-48e2-8f3e-4c55c9916e82.png" width="20px" height="20px"> 업무분담
+## <img src="https://user-images.githubusercontent.com/113049166/222700339-680fc1d0-6047-48e2-8f3e-4c55c9916e82.png" width="35px" height="35px"> 업무분담
 
  <img src="https://user-images.githubusercontent.com/113049166/222700655-f33dfb56-5f10-456e-8dbd-236d120398b9.png" width="80%" height="20%">
 
@@ -55,6 +55,8 @@
 	<img src="https://img.shields.io/badge/Oracle-F80000?style=flat&logo=Oracle&logoColor=white" />
 	<img src="https://img.shields.io/badge/Apache Tomcat-F8DC75?style=flat&logo=Apache Tomcat&logoColor=white" />
 </div>
+
+<br>
 
  ## :computer: Tool	
 <div>
