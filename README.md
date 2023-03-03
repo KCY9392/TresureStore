@@ -21,29 +21,25 @@
 <table style="margin-left: auto; margin-right: auto; width: 600px; height: 200px;">
             <tr>
                 <td>이름</td>
-                <td>GitHub</td>
-            </tr>
-            <tr>
                 <td>김채영</td>
-                <td><a href="https://github.com/KCY9392">@KCY9392</a></td>
-            </tr>
-            <tr>
                 <td>정승필</td>
-                <td><a href="https://github.com/Ssspil">@Aox</a></td>
-            </tr>
-            <tr>
                 <td>김혜리</td>
-                <td><a href="https://github.com/hyerikimm">@hyerikimm</a></td>
-            </tr>
-            <tr>
                 <td>윤현희</td>
-                <td><a href="https://github.com/yoonhh">@yoonhh</a></td>
+                <td>유홍상</td>
             </tr>
             <tr>
-                <td>유홍상</td>
+                <td>GitHub</td>
+                <td><a href="https://github.com/KCY9392">@KCY9392</a></td>
+                <td><a href="https://github.com/Ssspil">@Aox</a></td>
+                <td><a href="https://github.com/hyerikimm">@hyerikimm</a></td>
+                <td><a href="https://github.com/yoonhh">@yoonhh</a></td>
                 <td><a href="https://github.com/sang-3">@sang-3</a></td>
             </tr>
   </table>
+  
+  <br>
+  
+  
   
   
     
