@@ -54,15 +54,20 @@
 	<img src="https://img.shields.io/badge/Java-007396?style=flat&logo=Java&logoColor=white" />
 	<img src="https://img.shields.io/badge/Oracle-F80000?style=flat&logo=Oracle&logoColor=white" />
 	<img src="https://img.shields.io/badge/Apache Tomcat-F8DC75?style=flat&logo=Apache Tomcat&logoColor=white" />
+	<img src="https://user-images.githubusercontent.com/113049166/222707121-ef026546-b995-4c35-8cdd-5dcd1e5825d5.svg" />
+	<img src="https://user-images.githubusercontent.com/113049166/222707252-fc23c89e-a4f6-49a0-b550-7b26aa323fad.svg" />
+	<img src="https://user-images.githubusercontent.com/113049166/222707283-1d75770f-1c1d-441d-bccf-2d045850600f.svg" />
+	<img src="https://user-images.githubusercontent.com/113049166/222707320-eada9a30-6441-4f77-aea9-511da0362e0b.svg" />
+
 </div>
 
 <br>
 
  ## :computer: Tool	
 <div>
-   <img src="https://img.shields.io/badge/Eclipse IDE-2C2255?style=flat&logo=Eclipse IDE&logoColor=white" />
-	<img src="https://img.shields.io/badge/Discord-5865F2?style=flat&logo=Discord&logoColor=white" />
-	<img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white" />	
+   <img src="https://img.shields.io/badge/STS-2C2255?style=flat&logo=Spring IDE&logoColor=#6DB33F" />
+   <img src="https://user-images.githubusercontent.com/113049166/222707017-2ccd3220-e336-4d1f-8d7d-17bc07615d48.svg" />
+   <img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white" />	
 </div>
 
 <br>
