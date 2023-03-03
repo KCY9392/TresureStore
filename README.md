@@ -39,8 +39,39 @@
   
   <br>
   
+## :computer: 개발환경
+### :pencil: Front-End
+<div>
+	<img src="https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=HTML5&logoColor=white" />
+	<img src="https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=CSS3&logoColor=white" />
+	<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=JavaScript&logoColor=white" />
+	<img src="https://img.shields.io/badge/jQuery-0769AD?style=flat&logo=jQuery&logoColor=white" />	
+	<img src="https://img.shields.io/badge/Bootstrap-7952B3?style=flat&logo=Bootstrap&logoColor=white" />
+</div>
+
+ ### :pencil: Back-End
+<div>
+	<img src="https://img.shields.io/badge/Java-007396?style=flat&logo=Java&logoColor=white" />
+	<img src="https://img.shields.io/badge/Oracle-F80000?style=flat&logo=Oracle&logoColor=white" />
+	<img src="https://img.shields.io/badge/Apache Tomcat-F8DC75?style=flat&logo=Apache Tomcat&logoColor=white" />
+</div>
+
+ ## :computer: Tool	
+<div>
+   <img src="https://img.shields.io/badge/Eclipse IDE-2C2255?style=flat&logo=Eclipse IDE&logoColor=white" />
+	<img src="https://img.shields.io/badge/Discord-5865F2?style=flat&logo=Discord&logoColor=white" />
+	<img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white" />	
+</div>
+
+<br>
+
+## :book: 프로젝트 작업 기간
+- 2022.12.29-2023.01.04 : 프로젝트 기획 및 요구사항 분석
+- 2023.01.05-2023.01.11 : 화면설계 
+- 2023.01.12-2023.01.13 : DB설계
+- 2023.01.19-2023.02.16 : 기능 구현
   
-  
+
   
     
 
